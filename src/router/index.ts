@@ -6,6 +6,7 @@ import {
   createWebHistory,
 } from 'vue-router';
 import routes from './routes';
+import { LocalStorage } from 'quasar';
 
 /*
  * If not building with SSR mode, you can
@@ -31,6 +32,27 @@ export default defineRouter(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE),
+  });
+
+  // Navigation guard to check for API token
+  Router.beforeEach((to, from, next) => {
+    // Check if navigating to DNS page
+    if (to.path === '/dns') {
+      // Check if API token exists in settings
+      const settings = LocalStorage.getItem<{
+        cloudflareApiToken?: string;
+      }>('dash_settings');
+      const hasApiToken = settings?.cloudflareApiToken && settings.cloudflareApiToken.length > 0;
+
+      if (!hasApiToken) {
+        // Redirect to settings page if no token
+        next('/settings');
+        return;
+      }
+    }
+
+    // Continue with navigation
+    next();
   });
 
   return Router;

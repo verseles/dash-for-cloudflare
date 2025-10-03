@@ -1,8 +1,8 @@
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
-import { defineConfig } from '#q-app/wrappers';
-import { fileURLToPath } from 'node:url';
+import { defineConfig } from '#q-app/wrappers'
+import { fileURLToPath } from 'node:url'
 
 export default defineConfig((ctx) => {
   return {
@@ -44,7 +44,7 @@ export default defineConfig((ctx) => {
         // extendTsConfig (tsConfig) {}
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
@@ -103,7 +103,11 @@ export default defineConfig((ctx) => {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
     framework: {
-      config: {},
+      config: {
+        brand: {
+          primary: '#F48120',
+        },
+      },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -116,7 +120,7 @@ export default defineConfig((ctx) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Notify', 'Dialog', 'Dark', 'LocalStorage'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -231,5 +235,5 @@ export default defineConfig((ctx) => {
        */
       extraScripts: [],
     },
-  };
-});
+  }
+})

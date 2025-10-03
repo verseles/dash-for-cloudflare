@@ -4,17 +4,25 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> Dash for Cloudflare </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-spinner v-if="loadingStore.isLoading" color="white" size="1.5em" />
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item-label header>Menu</q-item-label>
 
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+        <q-item v-for="link in menuList" :key="link.to" clickable :to="link.to" exact>
+          <q-item-section v-if="link.icon" avatar>
+            <q-icon :name="link.icon" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>{{ link.title }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -25,53 +33,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from 'components/EssentialLink.vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'src/composables/useI18n';
+import { useLoadingStore } from 'src/stores/loading';
 
-const linksList: EssentialLinkProps[] = [
+const { t } = useI18n();
+const loadingStore = useLoadingStore();
+
+const menuList = computed(() => [
   {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
+    title: t('menu.dns'),
+    to: '/dns',
+    icon: 'dns',
   },
   {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
+    title: t('menu.settings'),
+    to: '/settings',
+    icon: 'settings',
   },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-];
+]);
 
 const leftDrawerOpen = ref(false);
 

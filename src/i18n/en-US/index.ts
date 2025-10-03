@@ -1,7 +1,80 @@
-// This is just an example,
-// so you can safely delete all default props below
-
 export default {
-  failed: 'Action failed',
-  success: 'Action was successful',
-};
+  menu: {
+    dns: 'DNS Management',
+    settings: 'Settings',
+  },
+  settings: {
+    title: 'Settings',
+    apiToken: 'Cloudflare API Token',
+    apiTokenPlaceholder: 'Enter your API token',
+    apiTokenHelp: 'Token requires Zone.DNS permissions.',
+    apiTokenError: 'The API token must be at least 40 characters long.',
+    apiTokenSaved: 'API Token saved successfully!',
+    themeSaved: 'Theme preference saved!',
+    languageSaved: 'Language preference saved!',
+    tokenRequired: 'Please enter a valid API token first',
+    goToDns: 'Go to DNS Management',
+    appearance: 'Appearance',
+    darkMode: 'Dark Mode',
+    light: 'Light',
+    dark: 'Dark',
+    uiMode: 'UI Mode',
+    uiModeOptions: {
+      auto: 'Auto',
+      ios: 'iOS',
+      md: 'Material Design',
+    },
+    language: 'Language',
+    languageOptions: {
+      en: 'English',
+      ptBR: 'Portuguese (BR)',
+    },
+  },
+  dns: {
+    title: 'DNS Management',
+    zoneSelector: 'Select a Zone',
+    loadingZones: 'Loading zones...',
+    noRecords: 'No DNS records found for this zone.',
+    noRecordsForFilter: 'No records found for this filter.',
+    selectZoneFirst: 'Please select a zone first',
+    filterAll: 'All',
+    save: 'Save',
+    delete: 'Delete',
+    record: {
+      type: 'Type',
+      name: 'Name',
+      content: 'Content',
+      proxied: 'Proxied',
+      ttl: 'TTL',
+    },
+    toasts: {
+      zoneSelected: 'Zone {zoneName} selected.',
+      recordSaved: 'Record {recordName} saved successfully!',
+      recordDeleted: 'Record {recordName} deleted.',
+      errorSaving: 'Error saving record: {error}',
+      errorDeleting: 'Error deleting record: {error}',
+      errorLoadingRecords: 'Error loading records: {error}',
+    },
+    confirmDelete: {
+      title: 'Delete DNS Record',
+      message: 'Are you sure you want to delete the {recordType} record for "{recordName}"? This action cannot be undone.',
+    },
+    editRecord: {
+      title: 'Edit DNS Record',
+      type: 'Record Type',
+      name: 'Name',
+      content: 'Content',
+      ttl: 'TTL',
+      proxied: 'Cloudflare Proxy',
+      proxiedDescription:
+        "Route traffic through Cloudflare's network for enhanced security and performance",
+      priority: 'Priority',
+      namePlaceholder: "subdomain or '@' for root",
+      create: 'Create Record',
+      update: 'Update Record',
+    },
+  },
+  common: {
+    cancel: 'Cancel',
+  },
+}
