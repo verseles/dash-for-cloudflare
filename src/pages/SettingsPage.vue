@@ -82,42 +82,15 @@ const validateToken = (token: string | number | null) => {
   } else {
     tokenError.value = '';
   }
-
-  // Show save confirmation when token is valid
-  if (!tokenError.value && tokenString && tokenString.length >= 40) {
-    $q.notify({
-      message: t('settings.apiTokenSaved'),
-      color: 'positive',
-      position: 'top',
-      timeout: 2000,
-    });
-  }
 };
 
-// Watch for changes and show confirmation
-watch(
-  () => settings.theme,
-  () => {
-    $q.notify({
-      message: t('settings.themeSaved'),
-      color: 'positive',
-      position: 'top',
-      timeout: 1500,
-    });
-  },
-);
-
-watch(
-  () => settings.language,
-  () => {
-    $q.notify({
-      message: t('settings.languageSaved'),
-      color: 'positive',
-      position: 'top',
-      timeout: 1500,
-    });
-  },
-);
+// Watch for changes
+watch(() => settings.theme, () => {
+  // No-op: Just trigger reactivity
+});
+watch(() => settings.language, () => {
+  // No-op: Just trigger reactivity
+});
 
 const navigateToDns = () => {
   if (settings.cloudflareApiToken && settings.cloudflareApiToken.length >= 40) {

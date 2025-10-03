@@ -37,7 +37,7 @@
           <div v-if="supportsProxy" class="col-auto">
             <q-toggle
               :model-value="localProxied"
-              :checked-color="localProxied ? 'orange' : 'grey'"
+              :checked-color="localProxied ? 'primary' : 'grey'"
               :disable="!isEditable || isSaving"
               size="sm"
               @update:model-value="onToggleChange"
