@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <q-list bordered class="q-mx-auto" style="max-width: 600px">
+    <q-list class="q-mx-auto" style="max-width: 600px">
       <q-item-label header>API</q-item-label>
       <q-item>
         <q-item-section>
@@ -30,23 +30,19 @@
         </q-item-section>
       </q-item>
 
-      <q-separator spaced />
-
       <q-item-label header>{{ t('settings.appearance') }}</q-item-label>
       <q-item>
         <q-item-section>
-          <q-select
+          <q-btn-toggle
             v-model="settings.theme"
-            :label="t('settings.darkMode')"
             :options="themeOptions"
-            emit-value
-            map-options
-            stack-label
+            class="full-width q-mb-sm"
+            toggle-color="primary"
+            unelevated
+            spread
           />
         </q-item-section>
       </q-item>
-
-      <q-separator spaced />
 
       <q-item-label header>{{ t('settings.language') }}</q-item-label>
       <q-item>
@@ -57,7 +53,7 @@
             :options="languageOptions"
             emit-value
             map-options
-            stack-label
+            standout
           />
         </q-item-section>
       </q-item>
@@ -136,8 +132,8 @@ const navigateToDns = () => {
 };
 
 const themeOptions = [
-  { value: 'auto', label: t('settings.uiModeOptions.auto') },
   { value: 'light', label: t('settings.light') },
+  { value: 'auto', label: t('settings.uiModeOptions.auto') },
   { value: 'dark', label: t('settings.dark') },
 ];
 

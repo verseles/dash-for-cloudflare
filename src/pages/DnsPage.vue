@@ -100,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import DnsRecordItem from 'src/components/DnsRecordItem.vue';
 import DnsRecordEditModal from 'src/components/DnsRecordEditModal.vue';
@@ -177,7 +177,7 @@ const onZoneChange = () => {
 const handleSave = async (record: DnsRecord | Partial<DnsRecord>) => {
   const isNewRecord = !record.id || record.id === '';
   const operationId = `save-${record.id || 'new'}`;
-  
+
   if (record.id) {
     savingRecordIds.value.add(record.id);
   }
@@ -229,10 +229,10 @@ const handleDelete = (record: DnsRecord) => {
     persistent: true,
   }).onOk(() => {
     const operationId = `delete-${record.id}`;
-    
+
     // Add deleting animation
     deletingRecordIds.value.add(record.id);
-    
+
     // Wait for animation to play, then delete
     void new Promise<void>((resolve) => setTimeout(resolve, 1200)).then(async () => {
       loadingStore.startLoading(operationId);
@@ -292,30 +292,3 @@ const handleAdd = () => {
   });
 };
 </script>
-
-<style scoped>
-.filter-toolbar {
-  --min-height: auto;
-}
-.sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.bg-toolbar {
-  background-color: white;
-}
-.body--dark .bg-toolbar {
-  background-color: #1d1d1d;
-}
-.scroll-container {
-  overflow-x: auto;
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
-}
-
-.scroll-container::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and Opera */
-}
-</style>
