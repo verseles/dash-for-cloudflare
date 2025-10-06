@@ -23,5 +23,7 @@ RUN npm run postinstall
 # Expose the port the app runs on (Quasar dev default port)
 EXPOSE 9000
 
+HEALTHCHECK --interval=30s --timeout=3s CMD nc -zv 0.0.0.0 9000 || exit 1
+
 # The command to run the app (using npx to ensure it runs in foreground)
 CMD ["npm", "run", "dev", "--host", "0.0.0.0", "--port", "9000"]
