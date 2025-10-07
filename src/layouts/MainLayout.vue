@@ -7,16 +7,16 @@
         <q-select v-if="shouldShowZoneSelector" v-model="selectedZoneId" :label="t('dns.zoneSelector')" stack-label
           :placeholder="t('dns.loadingZones')" :options="filteredZoneOptions" option-value="id" option-label="name"
           emit-value map-options :loading="isLoadingZones" :disable="isLoadingZones || !!operationError"
-          class="full-width q-ml-md" borderless dark dense options-dense use-input fill-input hide-selected
+          class="full-width q-ml-md" borderless dense options-dense use-input fill-input hide-selected
           @filter="filterZones">
           <template #no-option>
             <q-item>
-              <q-item-section class="text-grey"> No results </q-item-section>
+              <q-item-section class="text-grey">No results</q-item-section>
             </q-item>
           </template>
         </q-select>
 
-        <q-toolbar-title v-else> Dash for Cloudflare </q-toolbar-title>
+        <q-toolbar-title v-else>Dash for Cloudflare</q-toolbar-title>
 
         <q-spinner v-if="isAnythingLoading" size="md" />
       </q-toolbar>
