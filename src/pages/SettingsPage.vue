@@ -115,3 +115,4 @@ const languageOptions = [
   { value: 'pt-BR', label: t('settings.languageOptions.ptBR') },
 ];
 </script>
+

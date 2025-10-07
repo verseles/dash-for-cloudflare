@@ -6,7 +6,7 @@ export default {
   settings: {
     title: 'Settings',
     apiToken: 'Cloudflare API Token',
-    apiTokenPlaceholder: 'Enter your API token',
+    apiTokenPlaceholder: 'Enter your API token. It is stored only in your device.',
     apiTokenHelp: 'Token requires Zone.DNS permissions.',
     apiTokenError: 'The API token must be at least 40 characters long.',
     apiTokenSaved: 'API Token saved successfully!',
@@ -57,7 +57,8 @@ export default {
     },
     confirmDelete: {
       title: 'Delete DNS Record',
-      message: 'Are you sure you want to delete the {recordType} record for "{recordName}"? This action cannot be undone.',
+      message:
+        'Are you sure you want to delete the {recordType} record for "{recordName}"? This action cannot be undone.',
     },
     editRecord: {
       title: 'Edit DNS Record',
@@ -72,6 +73,19 @@ export default {
       namePlaceholder: "subdomain or '@' for root",
       create: 'Create Record',
       update: 'Update Record',
+    },
+    tabs: {
+      records: 'Records',
+      analytics: 'Analytics',
+      settings: 'Settings',
+    },
+    analytics: {
+      title: 'DNS Analytics',
+      placeholder: 'Analytics content will be implemented here.',
+    },
+    settings: {
+      title: 'DNS Settings',
+      placeholder: 'Settings content will be implemented here.',
     },
   },
   common: {

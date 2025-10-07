@@ -1,17 +1,13 @@
 <template>
-  <q-slide-item @right="(details) => onRight(details, record)">
+  <q-slide-item @right="(details) => onRight(details, record)" class="bg-transparent">
     <template #right>
       <q-icon name="delete" />
     </template>
 
-    <q-item 
-      clickable 
-      @click="onItemClick"
-      :class="{
-        'item-highlight-new': isNewRecord,
-        'item-highlight-delete': isDeleting
-      }"
-    >
+    <q-item clickable @click="onItemClick" :class="{
+      'item-highlight-new': isNewRecord,
+      'item-highlight-delete': isDeleting
+    }" class="q-pa-none">
       <q-item-section>
         <!-- First row: Type, Name, TTL, Toggle -->
         <div class="row items-center q-gutter-x-sm">
@@ -35,19 +31,14 @@
 
           <!-- Toggle (always on right) -->
           <div v-if="supportsProxy" class="col-auto">
-            <q-toggle
-              :model-value="localProxied"
-              :checked-color="localProxied ? 'primary' : 'grey'"
-              :disable="!isEditable || isSaving"
-              size="sm"
-              @update:model-value="onToggleChange"
-              @click.stop
-            />
+            <q-toggle :model-value="localProxied" :checked-color="localProxied ? 'primary' : 'grey'"
+              :disable="!isEditable || isSaving" :checked-icon="mdiCloud" size="xl" @update:model-value="onToggleChange"
+              @click.stop />
           </div>
         </div>
 
         <!-- Second row: Content/Value -->
-        <div class="q-mt-xs">
+        <div>
           <code class="dns-value">{{ record.content }}</code>
         </div>
       </q-item-section>
@@ -58,6 +49,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import type { DnsRecord } from 'src/types';
+import { mdiCloud } from '@quasar/extras/mdi-v7';
 
 const props = defineProps<{
   record: DnsRecord;
@@ -129,7 +121,7 @@ const domainSuffix = computed(() => {
 
 <style scoped>
 .dns-value {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: monospace;
   background-color: rgba(0, 0, 0, 0.05);
   padding: 4px 8px;
   border-radius: 4px;
@@ -163,6 +155,7 @@ const domainSuffix = computed(() => {
   0% {
     background-color: rgba(76, 175, 80, 0.3);
   }
+
   100% {
     background-color: transparent;
   }
@@ -174,9 +167,12 @@ const domainSuffix = computed(() => {
 
 /* Highlight animation for deleting records */
 @keyframes highlight-delete {
-  0%, 100% {
+
+  0%,
+  100% {
     background-color: transparent;
   }
+
   50% {
     background-color: rgba(244, 67, 54, 0.3);
   }
@@ -184,12 +180,5 @@ const domainSuffix = computed(() => {
 
 .item-highlight-delete {
   animation: highlight-delete 0.6s ease-in-out 2;
-}
-
-/* Ensure consistent spacing on mobile */
-@media (max-width: 599px) {
-  .q-item {
-    padding: 12px 16px;
-  }
 }
 </style>
