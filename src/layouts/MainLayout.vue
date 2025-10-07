@@ -4,9 +4,21 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Dash for Cloudflare </q-toolbar-title>
+        <q-select v-if="shouldShowZoneSelector" v-model="selectedZoneId" :label="t('dns.zoneSelector')" stack-label
+          :placeholder="t('dns.loadingZones')" :options="filteredZoneOptions" option-value="id" option-label="name"
+          emit-value map-options :loading="isLoadingZones" :disable="isLoadingZones || !!operationError"
+          class="full-width q-ml-md" borderless dark dense options-dense use-input fill-input hide-selected
+          @filter="filterZones">
+          <template #no-option>
+            <q-item>
+              <q-item-section class="text-grey"> No results </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
 
-        <q-spinner v-if="loadingStore.isLoading" color="white" size="1.5em" />
+        <q-toolbar-title v-else> Dash for Cloudflare </q-toolbar-title>
+
+        <q-spinner v-if="isAnythingLoading" size="md" />
       </q-toolbar>
     </q-header>
 
@@ -33,17 +45,55 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useI18n } from 'src/composables/useI18n';
-import { useLoadingStore } from 'src/stores/loading';
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useI18n } from 'src/composables/useI18n'
+import { useLoadingStore } from 'src/stores/loading'
+import { useZoneStore } from 'src/stores/zoneStore'
+import type { Zone } from 'src/types'
 
-const { t } = useI18n();
-const loadingStore = useLoadingStore();
+const { t } = useI18n()
+const route = useRoute()
+const loadingStore = useLoadingStore()
+const zoneStore = useZoneStore()
+
+const { zones, selectedZoneId, isLoadingZones, operationError } = storeToRefs(zoneStore)
+
+const filteredZoneOptions = ref<Zone[]>(zones.value)
+
+watch(zones, (newZones) => {
+  filteredZoneOptions.value = newZones
+})
+
+const filterZones = (val: string, update: (callback: () => void) => void) => {
+  if (val === '') {
+    update(() => {
+      filteredZoneOptions.value = zones.value
+    })
+    return
+  }
+
+  update(() => {
+    const needle = val.toLowerCase()
+    const filtered = zones.value.filter((zone) => zone.name.toLowerCase().indexOf(needle) > -1)
+    filteredZoneOptions.value = filtered
+
+    // Autoselect if only one result and it's not already the selected one
+    if (filtered.length === 1 && filtered[0] && selectedZoneId.value !== filtered[0].id) {
+      selectedZoneId.value = filtered[0].id
+    }
+  })
+}
+
+const isAnythingLoading = computed(() => loadingStore.isLoading || zoneStore.isLoadingZones)
+
+const shouldShowZoneSelector = computed(() => route.path.startsWith('/dns'))
 
 const menuList = computed(() => [
   {
     title: t('menu.dns'),
-    to: '/dns',
+    to: '/dns/records',
     icon: 'dns',
   },
   {
@@ -51,11 +101,11 @@ const menuList = computed(() => [
     to: '/settings',
     icon: 'settings',
   },
-]);
+])
 
-const leftDrawerOpen = ref(false);
+const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+  leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
