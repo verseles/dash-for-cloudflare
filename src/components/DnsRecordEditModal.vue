@@ -7,7 +7,7 @@
         <q-btn dense flat icon="close" @click="onDialogCancel" />
       </q-bar>
 
-      <q-form @submit="onOKClick">
+      <q-form @submit.prevent="onOKClick">
         <q-card-section class="q-gutter-md">
           <!-- Record Type -->
           <q-select v-model="formData.type" :label="t('dns.editRecord.type')" :options="recordTypes"

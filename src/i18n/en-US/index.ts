@@ -59,8 +59,10 @@ export default {
     toasts: {
       zoneSelected: 'Zone {zoneName} selected.',
       recordSaved: 'Record {recordName} saved successfully!',
+      recordCreated: 'Record {recordName} created successfully!',
       recordDeleted: 'Record {recordName} deleted.',
       errorSaving: 'Error saving record: {error}',
+      errorCreating: 'Error creating record: {error}',
       errorDeleting: 'Error deleting record: {error}',
       errorLoadingRecords: 'Error loading records: {error}',
     },

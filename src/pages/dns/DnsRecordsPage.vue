@@ -130,14 +130,15 @@ async function handleSave(record: DnsRecord) {
         await saveRecord(record)
 
         $q.notify({
-            message: t('dns.record.saved'),
+            message: t('dns.toasts.recordSaved', { recordName: record.name }),
             color: 'positive',
             position: 'top',
             timeout: 2000,
         })
-    } catch {
+    } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : String(e)
         $q.notify({
-            message: t('dns.record.saveError'),
+            message: t('dns.toasts.errorSaving', { error: message }),
             color: 'negative',
             position: 'top',
             timeout: 3000,
@@ -159,14 +160,15 @@ function handleDelete(record: DnsRecord) {
                     await deleteRecord(record)
 
                     $q.notify({
-                        message: t('dns.record.deleted'),
+                        message: t('dns.toasts.recordDeleted', { recordName: record.name }),
                         color: 'positive',
                         position: 'top',
                         timeout: 2000,
                     })
-                } catch {
+                } catch (e: unknown) {
+                    const message = e instanceof Error ? e.message : String(e)
                     $q.notify({
-                        message: t('dns.record.deleteError'),
+                        message: t('dns.toasts.errorDeleting', { error: message }),
                         color: 'negative',
                         position: 'top',
                         timeout: 3000,
@@ -213,7 +215,7 @@ function handleAdd() {
                 await saveRecord(newRecord)
 
                 $q.notify({
-                    message: t('dns.record.created'),
+                    message: t('dns.toasts.recordCreated', { recordName: newRecord.name }),
                     color: 'positive',
                     position: 'top',
                     timeout: 2000,
@@ -223,10 +225,11 @@ function handleAdd() {
                 setTimeout(() => {
                     newRecordIds.value.delete(newRecord.id)
                 }, 2000)
-            } catch {
+            } catch (e: unknown) {
                 newRecordIds.value.delete(newRecord.id)
+                const message = e instanceof Error ? e.message : String(e)
                 $q.notify({
-                    message: t('dns.record.createError'),
+                    message: t('dns.toasts.errorCreating', { error: message }),
                     color: 'negative',
                     position: 'top',
                     timeout: 3000,
