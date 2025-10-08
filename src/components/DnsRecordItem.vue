@@ -9,7 +9,7 @@
       'item-highlight-delete': isDeleting
     }" class="q-py-sm">
       <q-item-section>
-        <!-- First row: Type, Name, TTL, Toggle -->
+        <!-- First row: Type, Name, TTL -->
         <div class="row items-center q-gutter-x-sm">
           <!-- Type chip -->
           <div class="col-auto">
@@ -31,18 +31,17 @@
               {{ t('dns.record.ttl') }}
             </q-tooltip>
           </div>
-
-          <!-- Toggle (always on right) -->
-          <div v-if="supportsProxy" class="col-auto flex items-center">
-            <CloudflareProxyToggle :model-value="localProxied" @update:model-value="onToggleChange"
-              :disable="!isEditable || isSaving" />
-          </div>
         </div>
 
         <!-- Second row: Content/Value -->
         <div>
           <code class="dns-value">{{ record.content }}</code>
         </div>
+      </q-item-section>
+
+      <q-item-section v-if="supportsProxy" side>
+        <CloudflareProxyToggle :model-value="localProxied" @update:model-value="onToggleChange"
+          :disable="!isEditable || isSaving" />
       </q-item-section>
     </q-item>
   </q-slide-item>
