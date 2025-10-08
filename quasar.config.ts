@@ -60,7 +60,19 @@ export default defineConfig((ctx) => {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf(viteConf) {
+        viteConf.optimizeDeps = {
+          ...viteConf.optimizeDeps,
+          include: [
+            ...(viteConf.optimizeDeps?.include || []),
+            'echarts/core',
+            'echarts/charts',
+            'echarts/components',
+            'echarts/renderers',
+            'vue-echarts',
+          ],
+        }
+      },
       // viteVuePluginOptions: {},
 
       vitePlugins: [

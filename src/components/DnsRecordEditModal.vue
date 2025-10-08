@@ -68,13 +68,23 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
   useDialogPluginComponent()
 const { t } = useI18n()
 
-const formData = ref<Partial<DnsRecord>>({
+interface DnsRecordForm {
+  type?: string
+  name?: string
+  content?: string
+  ttl?: number
+  proxied: boolean
+  id?: string
+}
+
+const formData = ref<DnsRecordForm>({
   type: 'A',
   name: '',
   content: '',
   ttl: 1,
   proxied: false,
 })
+
 
 const isExistingRecord = computed(() => !!props.record?.id)
 const supportsProxy = computed(() => {
@@ -111,7 +121,10 @@ watch(
   () => props.record,
   (newRecord) => {
     if (newRecord) {
-      formData.value = { ...newRecord }
+      formData.value = {
+        ...newRecord,
+        proxied: newRecord.proxied ?? false
+      }
     } else {
       formData.value = {
         type: 'A',
@@ -133,6 +146,7 @@ watch(
     }
   },
 )
+
 
 function onOKClick() {
   if (!isFormValid.value) return

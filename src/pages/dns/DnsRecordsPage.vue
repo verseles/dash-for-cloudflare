@@ -46,14 +46,12 @@
             </q-list>
         </div>
 
-        <!-- FAB to add new DNS record -->
-        <q-page-sticky position="bottom-right" :offset="fabPos">
-            <q-fab icon="add" direction="up" color="primary" :disable="!selectedZoneId || isLoadingZones || draggingFab"
-                v-touch-pan.prevent.mouse="moveFab">
-                <q-fab-action @click="handleAdd" color="primary" icon="add" :disable="draggingFab">
-                    <q-tooltip>{{ t('dns.editRecord.create') }}</q-tooltip>
-                </q-fab-action>
-            </q-fab>
+        <!-- Fixed FAB to add new DNS record -->
+        <q-page-sticky position="bottom-right" :offset="[18, 80]">
+            <q-btn fab icon="add" color="primary" :outline="true" :disable="!selectedZoneId || isLoadingZones"
+                @click="handleAdd">
+                <q-tooltip>{{ t('dns.editRecord.create') }}</q-tooltip>
+            </q-btn>
         </q-page-sticky>
     </q-page>
 </template>
@@ -66,12 +64,10 @@ import DnsRecordItem from 'src/components/DnsRecordItem.vue'
 import DnsRecordEditModal from 'src/components/DnsRecordEditModal.vue'
 import { useDnsManagement } from 'src/composables/useDnsManagement'
 import { useI18n } from 'src/composables/useI18n'
-import { useLoadingStore } from 'src/stores/loading'
 import { useZoneStore } from 'src/stores/zoneStore'
 import type { DnsRecord } from 'src/types'
 
 const $q = useQuasar()
-const loadingStore = useLoadingStore()
 const zoneStore = useZoneStore()
 const { selectedZoneId, zones, isLoadingZones } = storeToRefs(zoneStore)
 
@@ -80,7 +76,6 @@ const {
     isLoadingRecords,
     saveRecord,
     deleteRecord,
-    operationError,
 } = useDnsManagement()
 
 const { t } = useI18n()
@@ -89,18 +84,6 @@ const savingRecordIds = ref(new Set<string>())
 const newRecordIds = ref(new Set<string>())
 const deletingRecordIds = ref(new Set<string>())
 const activeFilter = ref('All')
-
-// Draggable FAB state
-const fabPos = ref([18, 18])
-const draggingFab = ref(false)
-
-function moveFab(ev: { isFirst: boolean, isFinal: boolean, delta: { x: number, y: number } }) {
-    draggingFab.value = ev.isFirst !== true && ev.isFinal !== true
-
-    fabPos.value[0] -= ev.delta.x
-    fabPos.value[1] -= ev.delta.y
-}
-
 
 const availableTypes = computed(() => {
     if (!records.value) return []
@@ -138,138 +121,164 @@ watch(selectedZoneId, () => {
     activeFilter.value = 'All'
 })
 
+async function handleSave(record: DnsRecord) {
+    if (!record.id) return
 
-const handleSave = async (record: DnsRecord | Partial<DnsRecord>) => {
-    const isNewRecord = !record.id || record.id === ''
-    const operationId = `save-${record.id || 'new'}`
-
-    if (record.id) {
-        savingRecordIds.value.add(record.id)
-    }
-    loadingStore.startLoading(operationId)
+    savingRecordIds.value.add(record.id)
 
     try {
-        const success = await saveRecord(record)
-        if (success && isNewRecord) {
-            const newRecord = records.value[0]
-            if (newRecord) {
-                newRecordIds.value.add(newRecord.id)
-                setTimeout(() => {
-                    newRecordIds.value.delete(newRecord.id)
-                }, 2500)
-            }
-        } else if (!success) {
-            $q.notify({
-                message: t('dns.toasts.errorSaving', {
-                    error: operationError.value,
-                }),
-                color: 'negative',
-                position: 'top',
-            })
-        }
+        await saveRecord(record)
+
+        $q.notify({
+            message: t('dns.record.saved'),
+            color: 'positive',
+            position: 'top',
+            timeout: 2000,
+        })
+    } catch {
+        $q.notify({
+            message: t('dns.record.saveError'),
+            color: 'negative',
+            position: 'top',
+            timeout: 3000,
+        })
     } finally {
-        if (record.id) {
-            savingRecordIds.value.delete(record.id)
-        }
-        loadingStore.stopLoading(operationId)
+        savingRecordIds.value.delete(record.id)
     }
 }
 
-const handleDelete = (record: DnsRecord) => {
-    $q.dialog({
-        title: t('dns.confirmDelete.title'),
-        message: t('dns.confirmDelete.message', { recordName: record.name, recordType: record.type }),
-        cancel: {
-            flat: true,
-            label: t('common.cancel'),
-        },
-        ok: {
-            label: t('dns.delete'),
-            color: 'negative',
-        },
-        persistent: true,
-    }).onOk(() => {
-        const operationId = `delete-${record.id}`
-        deletingRecordIds.value.add(record.id)
+function handleDelete(record: DnsRecord) {
+    if (!record.id) return
 
-        void new Promise<void>((resolve) => setTimeout(resolve, 1200)).then(async () => {
-            loadingStore.startLoading(operationId)
+    deletingRecordIds.value.add(record.id)
+
+    void Promise.resolve().then(() => {
+        setTimeout(() => {
+            void (async () => {
+                try {
+                    await deleteRecord(record)
+
+                    $q.notify({
+                        message: t('dns.record.deleted'),
+                        color: 'positive',
+                        position: 'top',
+                        timeout: 2000,
+                    })
+                } catch {
+                    $q.notify({
+                        message: t('dns.record.deleteError'),
+                        color: 'negative',
+                        position: 'top',
+                        timeout: 3000,
+                    })
+                } finally {
+                    deletingRecordIds.value.delete(record.id)
+                }
+            })()
+        }, 1200)
+    })
+}
+
+function handleEdit(record: DnsRecord) {
+    $q.dialog({
+        component: DnsRecordEditModal,
+        componentProps: {
+            record: { ...record },
+            zoneName: currentZoneName.value,
+        },
+    }).onOk((formData: DnsRecord) => {
+        void handleSave({ ...formData, id: record.id, zone_id: record.zone_id })
+    })
+}
+
+function handleAdd() {
+    $q.dialog({
+        component: DnsRecordEditModal,
+        componentProps: {
+            zoneName: currentZoneName.value,
+        },
+    }).onOk((formData: DnsRecord) => {
+        void (async () => {
+            if (!selectedZoneId.value) return
+
+            const newRecord: DnsRecord = {
+                ...formData,
+                zone_id: selectedZoneId.value,
+                id: `temp-${Date.now()}`,
+            }
+
+            newRecordIds.value.add(newRecord.id)
 
             try {
-                const success = await deleteRecord(record)
+                await saveRecord(newRecord)
+
                 $q.notify({
-                    message: success
-                        ? t('dns.toasts.recordDeleted', {
-                            recordName: record.name,
-                        })
-                        : t('dns.toasts.errorDeleting', {
-                            error: operationError.value,
-                        }),
-                    color: success ? 'dark' : 'negative',
+                    message: t('dns.record.created'),
+                    color: 'positive',
                     position: 'top',
+                    timeout: 2000,
                 })
-            } finally {
-                deletingRecordIds.value.delete(record.id)
-                loadingStore.stopLoading(operationId)
+
+                // Remove o ID temporário após a animação
+                setTimeout(() => {
+                    newRecordIds.value.delete(newRecord.id)
+                }, 2000)
+            } catch {
+                newRecordIds.value.delete(newRecord.id)
+                $q.notify({
+                    message: t('dns.record.createError'),
+                    color: 'negative',
+                    position: 'top',
+                    timeout: 3000,
+                })
             }
-        })
+        })()
     })
 }
-
-const handleEdit = (record: DnsRecord) => {
-    $q.dialog({
-        component: DnsRecordEditModal,
-        componentProps: {
-            record,
-            zoneName: currentZoneName.value,
-        },
-    }).onOk((updatedRecordData: Partial<DnsRecord>) => {
-        const recordToSave = { ...record, ...updatedRecordData }
-        void handleSave(recordToSave)
-    })
-}
-
-const handleAdd = () => {
-    if (!selectedZoneId.value) {
-        $q.notify({
-            message: t('dns.selectZoneFirst'),
-            color: 'warning',
-            position: 'top',
-        })
-        return
-    }
-
-    $q.dialog({
-        component: DnsRecordEditModal,
-        componentProps: {
-            zoneName: currentZoneName.value,
-        },
-    }).onOk((newRecordData: Partial<DnsRecord>) => {
-        void handleSave(newRecordData)
-    })
-}
-
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .filter-toolbar {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
 
-    // This ensures the toolbar with chips is always visible when scrolling the page content
-    // and stays below the main q-toolbar
-    .scroll {
-        overflow-x: auto;
-        width: 100%;
-    }
+.body--dark .filter-toolbar {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.bg-toolbar {
+    background-color: white;
+}
+
+.body--dark .bg-toolbar {
+    background-color: #1e1e1e;
 }
 
 .sticky-top-inside-page {
     position: sticky;
-    top: 0; // Adjust if your main header has a different height
-    z-index: 1;
+    top: 0;
+    z-index: 100;
 }
 
-// Add padding to the bottom of the page content to avoid being hidden by the sticky tabs
-.dns-content {
-    padding-bottom: 50px; // Height of the tabs bar
+.scroll {
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+.body--dark .scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
 }
 </style>
