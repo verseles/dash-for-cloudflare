@@ -10,11 +10,30 @@
             stack-label
             type="password"
             :placeholder="t('settings.apiTokenPlaceholder')"
-            :hint="t('settings.apiTokenHelp')"
+            :hint="t('settings.apiTokenHint')"
             :error-message="tokenError"
             :error="!!tokenError"
             @update:model-value="validateToken"
           />
+          <div class="q-mt-sm text-caption text-grey-7">
+            {{ t('settings.apiTokenHelp.title') }}
+            <ul class="q-pl-md q-my-xs" style="list-style-position: inside">
+              <li>{{ t('settings.apiTokenHelp.dns') }}</li>
+              <li>{{ t('settings.apiTokenHelp.analytics') }}</li>
+              <li>{{ t('settings.apiTokenHelp.dnsSettings') }}</li>
+            </ul>
+            <div class="q-mt-sm">
+              <a
+                href="https://dash.cloudflare.com/profile/api-tokens"
+                target="_blank"
+                class="row items-center no-wrap"
+                style="text-decoration: none; color: blue"
+              >
+                {{ t('settings.apiTokenHelp.createTokenLink') }}
+                <q-icon name="open_in_new" size="xs" class="q-ml-xs" />
+              </a>
+            </div>
+          </div>
         </q-item-section>
       </q-item>
 
@@ -115,4 +134,3 @@ const languageOptions = [
   { value: 'pt-BR', label: t('settings.languageOptions.ptBR') },
 ];
 </script>
-

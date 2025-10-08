@@ -6,7 +6,7 @@ import {
   createWebHistory,
 } from 'vue-router';
 import routes from './routes';
-import { LocalStorage } from 'quasar';
+import { LocalStorage, Notify } from 'quasar';
 
 /*
  * If not building with SSR mode, you can
@@ -36,15 +36,20 @@ export default defineRouter(function (/* { store, ssrContext } */) {
 
   // Navigation guard to check for API token
   Router.beforeEach((to, from, next) => {
-    // Check if navigating to DNS page
-    if (to.path === '/dns') {
-      // Check if API token exists in settings
+    // Check if navigating to a DNS page
+    if (to.path.startsWith('/dns')) {
       const settings = LocalStorage.getItem<{
         cloudflareApiToken?: string;
       }>('dash_settings');
-      const hasApiToken = settings?.cloudflareApiToken && settings.cloudflareApiToken.length > 0;
+      const hasApiToken = settings?.cloudflareApiToken && settings.cloudflareApiToken.length >= 40;
 
       if (!hasApiToken) {
+        // Using a hardcoded message because i18n is not easily available here
+        Notify.create({
+          message: 'An API token is required to access the DNS section.',
+          color: 'negative',
+          position: 'top',
+        });
         // Redirect to settings page if no token
         next('/settings');
         return;
