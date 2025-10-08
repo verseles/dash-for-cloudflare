@@ -10,70 +10,39 @@
       <q-form @submit="onOKClick">
         <q-card-section class="q-gutter-md">
           <!-- Record Type -->
-          <q-select
-            v-model="formData.type"
-            :label="t('dns.editRecord.type')"
-            :options="recordTypes"
-            :disable="isExistingRecord"
-            outlined
-            dense
-          />
+          <q-select v-model="formData.type" :label="t('dns.editRecord.type')" :options="recordTypes"
+            :disable="isExistingRecord" outlined dense />
 
           <!-- Record Name -->
-          <q-input
-            v-model="formData.name"
-            :label="t('dns.editRecord.name')"
-            :placeholder="t('dns.editRecord.namePlaceholder')"
-            type="text"
-            required
-            outlined
-            dense
-          />
+          <q-input v-model="formData.name" :label="t('dns.editRecord.name')"
+            :placeholder="t('dns.editRecord.namePlaceholder')" type="text" required outlined dense />
 
           <!-- Record Content -->
-          <q-input
-            v-model="formData.content"
-            :label="t('dns.editRecord.content')"
-            :placeholder="getContentPlaceholder"
-            :type="contentRows > 1 ? 'textarea' : 'text'"
-            :rows="contentRows"
-            required
-            outlined
-            dense
-            autogrow
-          />
+          <q-input v-model="formData.content" :label="t('dns.editRecord.content')" :placeholder="getContentPlaceholder"
+            :type="contentRows > 1 ? 'textarea' : 'text'" :rows="contentRows" required outlined dense autogrow />
 
           <!-- TTL -->
-          <q-select
-            v-model="formData.ttl"
-            :label="t('dns.editRecord.ttl')"
-            :options="ttlOptions"
-            emit-value
-            map-options
-            outlined
-            dense
-          />
+          <q-select v-model="formData.ttl" :label="t('dns.editRecord.ttl')" :options="ttlOptions" emit-value map-options
+            outlined dense />
 
           <!-- Proxy Toggle (only for supported types) -->
-          <q-toggle
-            v-if="supportsProxy"
-            v-model="formData.proxied"
-            :label="t('dns.editRecord.proxied')"
-            :color="formData.proxied ? 'orange' : 'grey'"
-          >
-            <q-tooltip>{{ t('dns.editRecord.proxiedDescription') }}</q-tooltip>
-          </q-toggle>
+          <div v-if="supportsProxy" class="row items-center justify-between">
+            <div>
+              {{ t('dns.editRecord.proxied') }}
+              <q-icon name="help_outline" size="xs" color="grey-7" class="q-ml-xs cursor-pointer">
+                <q-tooltip max-width="250px" anchor="top middle" self="bottom middle">
+                  {{ t('dns.editRecord.proxiedDescription') }}
+                </q-tooltip>
+              </q-icon>
+            </div>
+            <CloudflareProxyToggle v-model="formData.proxied" />
+          </div>
         </q-card-section>
 
         <!-- Action Buttons -->
         <q-card-actions align="right" class="q-pa-md">
           <q-btn flat :label="t('common.cancel')" @click="onDialogCancel" />
-          <q-btn
-            type="submit"
-            :label="saveButtonText"
-            color="primary"
-            :disable="!isFormValid"
-          />
+          <q-btn type="submit" :label="saveButtonText" color="primary" :disable="!isFormValid" />
         </q-card-actions>
       </q-form>
     </q-card>
@@ -85,6 +54,7 @@ import { ref, computed, watch } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import type { DnsRecord } from 'src/types'
 import { useI18n } from 'src/composables/useI18n'
+import CloudflareProxyToggle from './CloudflareProxyToggle.vue';
 
 interface Props {
   record?: DnsRecord

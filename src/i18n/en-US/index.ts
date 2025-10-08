@@ -32,6 +32,7 @@ export default {
   },
   dns: {
     title: 'DNS Management',
+    cloudflareProxy: 'Cloudflare Proxy',
     zoneSelector: 'Select a Zone',
     loadingZones: 'Loading zones...',
     noRecords: 'No DNS records found for this zone.',

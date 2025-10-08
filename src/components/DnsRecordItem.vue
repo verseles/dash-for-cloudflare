@@ -7,7 +7,7 @@
     <q-item clickable @click="onItemClick" :class="{
       'item-highlight-new': isNewRecord,
       'item-highlight-delete': isDeleting
-    }" class="q-pa-none">
+    }" class="q-py-sm">
       <q-item-section>
         <!-- First row: Type, Name, TTL, Toggle -->
         <div class="row items-center q-gutter-x-sm">
@@ -27,13 +27,15 @@
           <!-- TTL (always on right) -->
           <div class="col-auto text-caption text-grey">
             {{ record.ttl === 1 ? 'Auto' : record.ttl }}
+            <q-tooltip :offset="[0, 15]" anchor="center left" self="center right">
+              {{ t('dns.record.ttl') }}
+            </q-tooltip>
           </div>
 
           <!-- Toggle (always on right) -->
-          <div v-if="supportsProxy" class="col-auto">
-            <q-toggle :model-value="localProxied" :checked-color="localProxied ? 'primary' : 'grey'"
-              :disable="!isEditable || isSaving" :checked-icon="mdiCloud" size="xl" @update:model-value="onToggleChange"
-              @click.stop />
+          <div v-if="supportsProxy" class="col-auto flex items-center">
+            <CloudflareProxyToggle :model-value="localProxied" @update:model-value="onToggleChange"
+              :disable="!isEditable || isSaving" />
           </div>
         </div>
 
@@ -49,8 +51,10 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import type { DnsRecord } from 'src/types';
-import { mdiCloud } from '@quasar/extras/mdi-v7';
+import CloudflareProxyToggle from './CloudflareProxyToggle.vue';
+import { useI18n } from 'src/composables/useI18n';
 
+const { t } = useI18n();
 const props = defineProps<{
   record: DnsRecord;
   isSaving: boolean;
