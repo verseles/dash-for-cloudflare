@@ -1,5 +1,5 @@
 import { useSettings } from 'src/composables/useSettings'
-import type { DnsRecord, Zone } from 'src/types'
+import type { DnsRecord, Zone, DnsSetting, DnssecDetails } from 'src/types'
 import { useQuasar } from 'quasar'
 
 // Define the structure of the Cloudflare API response
@@ -58,6 +58,35 @@ export function useCloudflareApi() {
     return data.result
   }
 
+  const getDnsSettings = async (zoneId: string): Promise<DnsSetting[]> => {
+    return cfFetch<DnsSetting[]>(`/zones/${zoneId}/settings`)
+  }
+
+  const updateDnsSetting = async (
+    zoneId: string,
+    settingId: string,
+    value: string | boolean | number
+  ): Promise<DnsSetting> => {
+    return cfFetch<DnsSetting>(`/zones/${zoneId}/settings/${settingId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ value }),
+    })
+  }
+
+  const getDnssec = async (zoneId: string): Promise<DnssecDetails> => {
+    return cfFetch<DnssecDetails>(`/zones/${zoneId}/dnssec`)
+  }
+
+  const updateDnssec = async (
+    zoneId: string,
+    data: { multi_signer: boolean }
+  ): Promise<DnssecDetails> => {
+    return cfFetch<DnssecDetails>(`/zones/${zoneId}/dnssec`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    })
+  }
+
   const getZones = async (): Promise<Zone[]> => {
     return cfFetch<Zone[]>('/zones')
   }
@@ -113,5 +142,9 @@ export function useCloudflareApi() {
     createDnsRecord,
     updateDnsRecord,
     deleteDnsRecord,
+    getDnsSettings,
+    updateDnsSetting,
+    getDnssec,
+    updateDnssec,
   }
 }

@@ -1,14 +1,17 @@
 <template>
   <q-page padding>
-    <div class="q-mx-auto" style="max-width: 1024px">
+    <div v-if="isLoading" class="flex flex-center" style="height: 50vh">
+      <q-spinner-dots color="primary" size="40px" />
+    </div>
+    <div v-else class="q-mx-auto" style="max-width: 1024px">
       <!-- Header Section -->
       <div class="q-mb-lg">
         <div class="text-overline text-grey-8">DNS</div>
-        <div class="text-h4 q-mt-xs q-mb-sm">Settings</div>
+        <div class="text-h4 q-mt-xs q-mb-sm">{{ t('dns.settingsPage.title') }}</div>
         <div class="row items-center">
-          <span class="text-body1 text-grey-8 q-mr-sm"> Manage DNS-specific settings for your domain. </span>
+          <span class="text-body1 text-grey-8 q-mr-sm">{{ t('dns.settingsPage.subtitle') }}</span>
           <a href="#" class="text-primary row items-center no-wrap" style="text-decoration: none; font-weight: 500">
-            <span>DNS documentation</span>
+            <span>{{ t('dns.settingsPage.docsLink') }}</span>
             <q-icon name="open_in_new" size="xs" class="q-ml-xs" />
           </a>
         </div>
@@ -16,107 +19,106 @@
 
       <!-- DNSSEC Card -->
       <q-card flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
         <q-card-section class="row items-start justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
-            <div class="text-h6">DNSSEC</div>
+            <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
             <p class="text-body2 text-grey-8 q-mt-sm">
-              DNSSEC uses a cryptographic signature of published DNS records to protect your domain against forged DNS
-              answers.
+              {{ t('dns.settingsPage.dnssecCard.description') }}
             </p>
-            <div
-              class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
-              :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
-            >
+            <div class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
+              :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
               <q-icon name="info_outline" class="q-mr-xs" :color="$q.dark.isActive ? 'grey-5' : 'grey-7'" />
               <span :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'">
-                DNSSEC is pending while we wait for the DS to be added to your registrar. This usually takes ten
-                minutes, but can take up to an hour.
+                {{ t('dns.settingsPage.dnssecCard.pending') }}
               </span>
             </div>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
-            <q-btn flat color="primary" label="Cancel Setup" />
+            <q-btn flat color="primary" :label="t('dns.settingsPage.dnssecCard.cancelBtn')" />
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="left" class="q-pa-md">
-          <q-btn flat dense no-caps color="primary" label="DS Record" icon-right="arrow_forward" />
-          <q-btn flat dense no-caps color="primary" label="Help" icon-right="open_in_new" class="q-ml-md" />
+          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.dnssecCard.dsRecordBtn')"
+            icon-right="arrow_forward" />
+          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.help')" icon-right="open_in_new"
+            class="q-ml-md" />
         </q-card-actions>
       </q-card>
 
       <!-- Multi-signer DNSSEC -->
       <q-card flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
         <q-card-section class="row items-center justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
-            <div class="text-h6">Multi-signer DNSSEC</div>
+            <div class="text-h6">{{ t('dns.settingsPage.multiSigner.title') }}</div>
             <p class="text-body2 text-grey-8 q-mt-sm">
-              Multi-signer DNSSEC allows Cloudflare and your other authoritative DNS providers to serve the same zone
-              and have DNSSEC enabled at the same time.
+              {{ t('dns.settingsPage.multiSigner.description') }}
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right">
-            <q-toggle v-model="multiSignerDnssec" />
+            <q-toggle :model-value="multiSignerDnssec" :disable="isSaving || isLoading"
+              @update:model-value="(val) => updateSetting('multiSignerDnssec', val)" />
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="right" class="q-pa-md">
-          <q-btn flat dense no-caps color="primary" label="Help" icon-right="open_in_new" />
+          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.help')" icon-right="open_in_new" />
         </q-card-actions>
       </q-card>
 
       <!-- Multi-provider DNS -->
       <q-card flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
         <q-card-section class="row items-center justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
-            <div class="text-h6">Multi-provider DNS</div>
+            <div class="text-h6">{{ t('dns.settingsPage.multiProvider.title') }}</div>
             <p class="text-body2 text-grey-8 q-mt-sm">
-              Multi-provider DNS allows domains using a
-              <a href="#" class="text-primary" style="text-decoration: none">full DNS setup</a>
-              to be active on Cloudflare while using another authoritative DNS provider in addition to Cloudflare. Also
-              allows the domain to serve any apex NS records added to its DNS configuration at Cloudflare.
+              <span v-html="t('dns.settingsPage.multiProvider.description')" />
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right">
-            <q-toggle v-model="multiProviderDns" />
+            <q-toggle :model-value="multiProviderDns" :disable="isSaving || isLoading"
+              @update:model-value="(val) => updateSetting('multiProviderDns', val)" />
           </div>
         </q-card-section>
       </q-card>
 
       <!-- CNAME flattening for all CNAME records -->
       <q-card flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
         <q-card-section class="row items-center justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
-            <div class="text-h6">CNAME flattening for all CNAME records</div>
+            <div class="text-h6">{{ t('dns.settingsPage.cnameFlattening.title') }}</div>
             <p class="text-body2 text-grey-8 q-mt-sm">
-              Speed up DNS resolution on CNAMEs by having Cloudflare return the IP address of the final destination in
-              the CNAME chain. Enabling this setting allows you to flatten all CNAMEs within your zone, which is
-              sicon.app. With this setting disabled, any CNAME at the apex is flattened by default and you may choose
-              to individually flatten specific CNAMEs.
+              {{ t('dns.settingsPage.cnameFlattening.description') }}
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right">
-            <q-toggle v-model="cnameFlattening" />
+            <q-toggle :model-value="cnameFlattening" :disable="isSaving || isLoading"
+              @update:model-value="(val) => updateSetting('cnameFlattening', val)" />
           </div>
         </q-card-section>
       </q-card>
 
       <!-- Email Security -->
       <q-card flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
         <q-card-section class="row items-start justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
-            <div class="text-h6">Email Security</div>
+            <div class="text-h6">{{ t('dns.settingsPage.emailSecurity.title') }}</div>
             <p class="text-body2 text-grey-8 q-mt-sm">
-              Protect your domain from email spoofing and phishing by creating the required DNS records.
+              {{ t('dns.settingsPage.emailSecurity.description') }}
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
-            <q-btn color="primary" label="Configure" />
+            <q-btn color="primary" :label="t('dns.settingsPage.emailSecurity.configureBtn')" />
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="right" class="q-pa-md">
-          <q-btn flat dense no-caps color="primary" label="Help" icon-right="open_in_new" />
+          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.help')" icon-right="open_in_new" />
         </q-card-actions>
       </q-card>
     </div>
@@ -124,11 +126,112 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useI18n } from 'src/composables/useI18n'
+import { useQuasar } from 'quasar'
+import { useZoneStore } from 'src/stores/zoneStore'
+import { storeToRefs } from 'pinia'
+import { useCloudflareApi } from 'src/composables/useCloudflareApi'
+import type { DnsSetting } from 'src/types'
+
+type SettingsMap = {
+  [key: string]: DnsSetting | undefined;
+}
+
+const { t } = useI18n()
+const $q = useQuasar()
+const zoneStore = useZoneStore()
+const { selectedZoneId } = storeToRefs(zoneStore)
+const { getDnsSettings, updateDnsSetting, getDnssec, updateDnssec } = useCloudflareApi()
+
+const isLoading = ref(true)
+const isSaving = ref(false)
 
 const multiSignerDnssec = ref(false)
 const multiProviderDns = ref(false)
 const cnameFlattening = ref(false)
+
+const fetchSettings = async () => {
+  if (!selectedZoneId.value) return
+
+  isLoading.value = true
+  try {
+    const [settingsResult, dnssecResult] = await Promise.all([
+      getDnsSettings(selectedZoneId.value),
+      getDnssec(selectedZoneId.value),
+    ])
+
+    const settingsMap: SettingsMap = settingsResult.reduce((acc: SettingsMap, setting: DnsSetting) => {
+      acc[setting.id] = setting
+      return acc
+    }, {})
+
+    cnameFlattening.value = settingsMap.cname_flattening?.value === 'flatten_all'
+    // The multi_provider setting is not officially documented for this endpoint.
+    // We assume it exists and is a boolean. If not found, the toggle will just be off.
+    multiProviderDns.value = !!settingsMap.multi_provider?.value
+    multiSignerDnssec.value = dnssecResult.multi_signer
+  } catch (e: unknown) {
+    const error = e instanceof Error ? e.message : String(e)
+    $q.notify({
+      color: 'negative',
+      message: t('dns.settingsPage.toasts.fetchError', { error }),
+    })
+  } finally {
+    isLoading.value = false
+  }
+}
+
+watch(selectedZoneId, fetchSettings, { immediate: true })
+
+const updateSetting = async (key: 'cnameFlattening' | 'multiProviderDns' | 'multiSignerDnssec', value: boolean) => {
+  if (!selectedZoneId.value) return
+
+  isSaving.value = true
+  const originalValues = {
+    cnameFlattening: cnameFlattening.value,
+    multiProviderDns: multiProviderDns.value,
+    multiSignerDnssec: multiSignerDnssec.value,
+  };
+
+  // Optimistic UI update
+  if (key === 'cnameFlattening') cnameFlattening.value = value
+  if (key === 'multiProviderDns') multiProviderDns.value = value
+  if (key === 'multiSignerDnssec') multiSignerDnssec.value = value
+
+  try {
+    let settingName = ''
+    if (key === 'cnameFlattening') {
+      settingName = t('dns.settingsPage.cnameFlattening.title')
+      const apiValue = value ? 'flatten_all' : 'flatten_at_root'
+      await updateDnsSetting(selectedZoneId.value, 'cname_flattening', apiValue)
+    } else if (key === 'multiProviderDns') {
+      settingName = t('dns.settingsPage.multiProvider.title')
+      await updateDnsSetting(selectedZoneId.value, 'multi_provider', value)
+    } else if (key === 'multiSignerDnssec') {
+      settingName = t('dns.settingsPage.multiSigner.title')
+      await updateDnssec(selectedZoneId.value, { multi_signer: value })
+    }
+
+    $q.notify({
+      color: 'positive',
+      message: t('dns.settingsPage.toasts.updateSuccess', { setting: settingName }),
+    })
+  } catch (e: unknown) {
+    // Revert UI on error
+    cnameFlattening.value = originalValues.cnameFlattening
+    multiProviderDns.value = originalValues.multiProviderDns
+    multiSignerDnssec.value = originalValues.multiSignerDnssec
+
+    const error = e instanceof Error ? e.message : String(e)
+    $q.notify({
+      color: 'negative',
+      message: t('dns.settingsPage.toasts.updateError', { setting: key, error }),
+    })
+  } finally {
+    isSaving.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>

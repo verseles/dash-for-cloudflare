@@ -115,6 +115,41 @@ export default {
       title: 'Configurações de DNS',
       placeholder: 'O conteúdo de Configurações será implementado aqui.',
     },
+    settingsPage: {
+      title: 'Configurações',
+      subtitle: 'Gerencie as configurações específicas de DNS para o seu domínio.',
+      docsLink: 'Documentação de DNS',
+      dnssecCard: {
+        title: 'DNSSEC',
+        description: 'O DNSSEC usa uma assinatura criptográfica dos registros DNS publicados para proteger seu domínio contra respostas DNS falsificadas.',
+        pending: 'O DNSSEC está pendente enquanto aguardamos a adição do registro DS ao seu registrador. Isso geralmente leva dez minutos, mas pode levar até uma hora.',
+        cancelBtn: 'Cancelar Configuração',
+        dsRecordBtn: 'Registro DS'
+      },
+      multiSigner: {
+        title: 'DNSSEC Multi-signer',
+        description: 'O DNSSEC Multi-signer permite que a Cloudflare e seus outros provedores de DNS autoritativos sirvam a mesma zona e tenham o DNSSEC ativado ao mesmo tempo.'
+      },
+      multiProvider: {
+        title: 'DNS Multi-provedor',
+        description: 'O DNS Multi-provedor permite que domínios usando uma configuração de DNS completa estejam ativos na Cloudflare enquanto usam outro provedor de DNS autoritativo além da Cloudflare. Também permite que o domínio sirva quaisquer registros NS de ápice adicionados à sua configuração de DNS na Cloudflare.'
+      },
+      cnameFlattening: {
+        title: 'CNAME flattening para todos os registros CNAME',
+        description: 'Acelere a resolução de DNS em CNAMEs fazendo com que a Cloudflare retorne o endereço IP do destino final na cadeia de CNAME. Habilitar esta configuração permite achatar todos os CNAMEs dentro da sua zona. Com esta configuração desativada, qualquer CNAME no ápice é achatado por padrão e você pode optar por achatar CNAMEs específicos individualmente.'
+      },
+      emailSecurity: {
+        title: 'Segurança de E-mail',
+        description: 'Proteja seu domínio contra falsificação de e-mail e phishing criando os registros DNS necessários.',
+        configureBtn: 'Configurar'
+      },
+      help: 'Ajuda',
+      toasts: {
+        fetchError: 'Falha ao carregar as configurações de DNS: {error}',
+        updateSuccess: 'Configuração "{setting}" atualizada com sucesso.',
+        updateError: 'Falha ao atualizar a configuração "{setting}": {error}'
+      }
+    }
   },
   common: {
     cancel: 'Cancelar',

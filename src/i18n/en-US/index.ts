@@ -115,6 +115,41 @@ export default {
       title: 'DNS Settings',
       placeholder: 'Settings content will be implemented here.',
     },
+    settingsPage: {
+      title: 'Settings',
+      subtitle: 'Manage DNS-specific settings for your domain.',
+      docsLink: 'DNS documentation',
+      dnssecCard: {
+        title: 'DNSSEC',
+        description: 'DNSSEC uses a cryptographic signature of published DNS records to protect your domain against forged DNS answers.',
+        pending: 'DNSSEC is pending while we wait for the DS to be added to your registrar. This usually takes ten minutes, but can take up to an hour.',
+        cancelBtn: 'Cancel Setup',
+        dsRecordBtn: 'DS Record'
+      },
+      multiSigner: {
+        title: 'Multi-signer DNSSEC',
+        description: 'Multi-signer DNSSEC allows Cloudflare and your other authoritative DNS providers to serve the same zone and have DNSSEC enabled at the same time.'
+      },
+      multiProvider: {
+        title: 'Multi-provider DNS',
+        description: 'Multi-provider DNS allows domains using a full DNS setup to be active on Cloudflare while using another authoritative DNS provider in addition to Cloudflare. Also allows the domain to serve any apex NS records added to its DNS configuration at Cloudflare.'
+      },
+      cnameFlattening: {
+        title: 'CNAME flattening for all CNAME records',
+        description: 'Speed up DNS resolution on CNAMEs by having Cloudflare return the IP address of the final destination in the CNAME chain. Enabling this setting allows you to flatten all CNAMEs within your zone. With this setting disabled, any CNAME at the apex is flattened by default and you may choose to individually flatten specific CNAMEs.'
+      },
+      emailSecurity: {
+        title: 'Email Security',
+        description: 'Protect your domain from email spoofing and phishing by creating the required DNS records.',
+        configureBtn: 'Configure'
+      },
+      help: 'Help',
+      toasts: {
+        fetchError: 'Failed to load DNS settings: {error}',
+        updateSuccess: 'Setting "{setting}" updated successfully.',
+        updateError: 'Failed to update setting "{setting}": {error}'
+      }
+    }
   },
   common: {
     cancel: 'Cancel',
