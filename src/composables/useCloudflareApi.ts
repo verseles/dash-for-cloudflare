@@ -20,7 +20,7 @@ export function useCloudflareApi() {
   // Conditionally set the base URL based on the platform
   const baseUrl = $q.platform.is.nativeMobile
     ? apiBaseUrl
-    : `${cors_webproxy}/${apiBaseUrl}`
+    : `${cors_webproxy}/${apiBaseUrl.replace('https://', '')}`
 
   const cfFetch = async <T>(
     endpoint: string,
@@ -93,7 +93,7 @@ export function useCloudflareApi() {
 
   const updateDnssec = async (
     zoneId: string,
-    data: { multi_signer: boolean }
+    data: { dnssec_multi_signer: boolean }
   ): Promise<DnssecDetails> => {
     return cfFetch<DnssecDetails>(`/zones/${zoneId}/dnssec`, {
       method: 'PATCH',

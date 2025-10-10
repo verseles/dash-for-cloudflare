@@ -169,7 +169,7 @@ const fetchSettings = async () => {
 
     cnameFlattening.value = settingsMap.cname_flattening?.value === 'flatten_all'
     multiProviderDns.value = dnsZoneSettingsResult.multi_provider
-    multiSignerDnssec.value = dnssecResult.multi_signer
+    multiSignerDnssec.value = !!dnssecResult.dnssec_multi_signer
   } catch (e: unknown) {
     const error = e instanceof Error ? e.message : String(e)
     $q.notify({
@@ -209,7 +209,7 @@ const updateSetting = async (key: 'cnameFlattening' | 'multiProviderDns' | 'mult
       await updateDnsZoneSettings(selectedZoneId.value, { multi_provider: value })
     } else if (key === 'multiSignerDnssec') {
       settingName = t('dns.settingsPage.multiSigner.title')
-      await updateDnssec(selectedZoneId.value, { multi_signer: value })
+      await updateDnssec(selectedZoneId.value, { dnssec_multi_signer: value })
     }
 
     $q.notify({

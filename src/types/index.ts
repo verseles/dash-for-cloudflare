@@ -26,7 +26,7 @@ export interface DnsSetting {
 
 export interface DnssecDetails {
   status: string;
-  multi_signer: boolean;
+  dnssec_multi_signer?: boolean;
   // Add other properties from the API response as needed
 }
 
