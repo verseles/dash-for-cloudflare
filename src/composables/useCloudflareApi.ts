@@ -93,7 +93,7 @@ export function useCloudflareApi() {
 
   const updateDnssec = async (
     zoneId: string,
-    data: { dnssec_multi_signer: boolean }
+    data: { dnssec_multi_signer?: boolean; status?: string }
   ): Promise<DnssecDetails> => {
     return cfFetch<DnssecDetails>(`/zones/${zoneId}/dnssec`, {
       method: 'PATCH',

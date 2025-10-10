@@ -123,8 +123,33 @@ export default {
         title: 'DNSSEC',
         description: 'DNSSEC uses a cryptographic signature of published DNS records to protect your domain against forged DNS answers.',
         pending: 'DNSSEC is pending while we wait for the DS to be added to your registrar. This usually takes ten minutes, but can take up to an hour.',
+        pendingDeletion: 'Your DNSSEC setup will be disabled as soon as we detect that the DS record has been removed from your registrar.',
+        successMessage: 'Success! {zoneName} is protected with DNSSEC.',
         cancelBtn: 'Cancel Setup',
-        dsRecordBtn: 'DS Record'
+        dsRecordBtn: 'DS Record',
+        cancelConfirmationTitle: 'Cancel DNSSEC Setup',
+        cancelConfirmationMessage: 'Are you sure you want to cancel the DNSSEC setup? This action will disable DNSSEC for your zone.',
+        enableBtn: 'Enable DNSSEC',
+        disableBtn: 'Disable DNSSEC',
+        cancelDeletionBtn: 'Cancel deletion',
+        enableDescription: 'Enable DNSSEC to protect your domain from forged DNS answers.',
+        disableConfirmationTitle: 'Disable DNSSEC',
+        disableConfirmationMessage: 'Are you sure you want to disable DNSSEC? This will leave your zone unprotected against forged DNS answers.',
+        cancelDeletionConfirmationTitle: 'Cancel DNSSEC Deletion',
+        cancelDeletionConfirmationMessage: 'Are you sure you want to cancel the DNSSEC deletion process? Your zone will remain protected.'
+      },
+      dnssecDetailsModal: {
+        title: 'How to enable DNSSEC',
+        description: 'To enable DNSSEC you will need to add this DS record to your registrar. Most registrars will ask for only a few of the fields below. We have common registrars here.',
+        dsRecord: 'DS Record',
+        digest: 'Digest',
+        digestType: 'Digest Type',
+        algorithm: 'Algorithm',
+        publicKey: 'Public Key',
+        keyTag: 'Key Tag',
+        flags: 'Flags',
+        copyToClipboard: 'Click to copy',
+        confirmBtn: 'Confirm'
       },
       multiSigner: {
         title: 'Multi-signer DNSSEC',
@@ -147,12 +172,24 @@ export default {
       toasts: {
         fetchError: 'Failed to load DNS settings: {error}',
         updateSuccess: 'Setting "{setting}" updated successfully.',
-        updateError: 'Failed to update setting "{setting}": {error}'
+        updateError: 'Failed to update setting "{setting}": {error}',
+        dnssecCancelSuccess: 'DNSSEC setup successfully cancelled.',
+        dnssecCancelError: 'Failed to cancel DNSSEC setup: {error}',
+        dnssecEnableSuccess: 'DNSSEC enabled successfully. Please add the DS record to your registrar.',
+        dnssecEnableError: 'Failed to enable DNSSEC: {error}',
+        dnssecDisableSuccess: 'DNSSEC successfully disabled.',
+        dnssecDisableError: 'Failed to disable DNSSEC: {error}',
+        dnssecCancelDeletionSuccess: 'DNSSEC deletion successfully cancelled.',
+        dnssecCancelDeletionError: 'Failed to cancel DNSSEC deletion: {error}',
+        copied: '{field} copied to clipboard.',
+        copyError: 'Failed to copy to clipboard.'
       }
     }
   },
   common: {
     cancel: 'Cancel',
+    confirm: 'Confirm',
+    ok: 'OK',
     workInProgress: 'Sorry, work in progress',
   },
 }

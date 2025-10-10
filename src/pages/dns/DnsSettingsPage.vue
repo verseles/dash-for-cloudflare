@@ -10,15 +10,59 @@
         <div class="text-h4 q-mt-xs q-mb-sm">{{ t('dns.settingsPage.title') }}</div>
         <div class="row items-center">
           <span class="text-body1 text-grey-8 q-mr-sm">{{ t('dns.settingsPage.subtitle') }}</span>
-          <a href="#" class="text-primary row items-center no-wrap" style="text-decoration: none; font-weight: 500">
+          <a
+            href="#"
+            class="text-primary row items-center no-wrap"
+            style="text-decoration: none; font-weight: 500"
+          >
             <span>{{ t('dns.settingsPage.docsLink') }}</span>
             <q-icon name="open_in_new" size="xs" class="q-ml-xs" />
           </a>
         </div>
       </div>
 
-      <!-- DNSSEC Card -->
-      <q-card flat bordered class="q-mb-md">
+      <!-- DNSSEC Card (Active State) -->
+      <q-card v-if="dnssecStatus === 'active'" flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
+        <q-card-section class="row items-start justify-between">
+          <div class="col-xs-12 col-md-9 q-pr-md">
+            <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
+            <div class="q-mt-sm">
+              <div class="row items-center text-positive">
+                <q-icon name="check_circle" class="q-mr-sm" />
+                <span>{{
+                  t('dns.settingsPage.dnssecCard.successMessage', { zoneName: currentZoneName })
+                }}</span>
+              </div>
+              <div class="text-caption q-mt-sm">
+                <strong>DS Record</strong><br />
+                <code>{{ dnssecDetails?.ds }}</code>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
+            <q-btn
+              color="primary"
+              :label="t('dns.settingsPage.dnssecCard.disableBtn')"
+              @click="handleDisableDnssec"
+            />
+          </div>
+        </q-card-section>
+        <q-separator />
+        <q-card-actions align="right" class="q-pa-md">
+          <q-btn
+            flat
+            dense
+            no-caps
+            color="primary"
+            :label="t('dns.settingsPage.help')"
+            icon-right="open_in_new"
+          />
+        </q-card-actions>
+      </q-card>
+
+      <!-- DNSSEC Card (Pending State) -->
+      <q-card v-if="dnssecStatus === 'pending'" flat bordered class="q-mb-md">
         <q-inner-loading :showing="isSaving" />
         <q-card-section class="row items-start justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
@@ -26,25 +70,99 @@
             <p class="text-body2 text-grey-8 q-mt-sm">
               {{ t('dns.settingsPage.dnssecCard.description') }}
             </p>
-            <div class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
-              :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
-              <q-icon name="info_outline" class="q-mr-xs" :color="$q.dark.isActive ? 'grey-5' : 'grey-7'" />
+            <div
+              class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
+              :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+            >
+              <q-icon
+                name="info_outline"
+                class="q-mr-xs"
+                :color="$q.dark.isActive ? 'grey-5' : 'grey-7'"
+              />
               <span :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'">
                 {{ t('dns.settingsPage.dnssecCard.pending') }}
               </span>
             </div>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
-            <q-btn flat color="primary" :label="t('dns.settingsPage.dnssecCard.cancelBtn')" />
+            <q-btn
+              flat
+              color="primary"
+              :label="t('dns.settingsPage.dnssecCard.cancelBtn')"
+              @click="handleCancelDnssecSetup"
+            />
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="left" class="q-pa-md">
-          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.dnssecCard.dsRecordBtn')"
-            icon-right="arrow_forward" />
-          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.help')" icon-right="open_in_new"
-            class="q-ml-md" />
+          <q-btn
+            flat
+            dense
+            no-caps
+            color="primary"
+            :label="t('dns.settingsPage.dnssecCard.dsRecordBtn')"
+            icon-right="arrow_forward"
+          />
+          <q-btn
+            flat
+            dense
+            no-caps
+            color="primary"
+            :label="t('dns.settingsPage.help')"
+            icon-right="open_in_new"
+            class="q-ml-md"
+          />
         </q-card-actions>
+      </q-card>
+
+      <!-- DNSSEC Card (Pending Deletion State) -->
+      <q-card v-if="dnssecStatus === 'pending-disabled'" flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
+        <q-card-section class="row items-start justify-between">
+          <div class="col-xs-12 col-md-9 q-pr-md">
+            <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
+            <div
+              class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
+              :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+            >
+              <q-icon
+                name="info_outline"
+                class="q-mr-xs"
+                :color="$q.dark.isActive ? 'grey-5' : 'grey-7'"
+              />
+              <span :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'">
+                {{ t('dns.settingsPage.dnssecCard.pendingDeletion') }}
+              </span>
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
+            <q-btn
+              color="primary"
+              :label="t('dns.settingsPage.dnssecCard.cancelDeletionBtn')"
+              @click="handleCancelDnssecDeletion"
+            />
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <!-- DNSSEC Card (Disabled State) -->
+      <q-card v-if="dnssecStatus === 'disabled'" flat bordered class="q-mb-md">
+        <q-inner-loading :showing="isSaving" />
+        <q-card-section class="row items-start justify-between">
+          <div class="col-xs-12 col-md-9 q-pr-md">
+            <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
+            <p class="text-body2 text-grey-8 q-mt-sm">
+              {{ t('dns.settingsPage.dnssecCard.enableDescription') }}
+            </p>
+          </div>
+          <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
+            <q-btn
+              color="primary"
+              :label="t('dns.settingsPage.dnssecCard.enableBtn')"
+              @click="handleEnableDnssec"
+            />
+          </div>
+        </q-card-section>
       </q-card>
 
       <!-- Multi-signer DNSSEC -->
@@ -58,13 +176,23 @@
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right">
-            <q-toggle :model-value="multiSignerDnssec" :disable="isSaving || isLoading"
-              @update:model-value="(val) => updateSetting('multiSignerDnssec', val)" />
+            <q-toggle
+              :model-value="multiSignerDnssec"
+              :disable="isSaving || isLoading"
+              @update:model-value="(val) => updateSetting('multiSignerDnssec', val)"
+            />
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="right" class="q-pa-md">
-          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.help')" icon-right="open_in_new" />
+          <q-btn
+            flat
+            dense
+            no-caps
+            color="primary"
+            :label="t('dns.settingsPage.help')"
+            icon-right="open_in_new"
+          />
         </q-card-actions>
       </q-card>
 
@@ -79,8 +207,11 @@
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right">
-            <q-toggle :model-value="multiProviderDns" :disable="isSaving || isLoading"
-              @update:model-value="(val) => updateSetting('multiProviderDns', val)" />
+            <q-toggle
+              :model-value="multiProviderDns"
+              :disable="isSaving || isLoading"
+              @update:model-value="(val) => updateSetting('multiProviderDns', val)"
+            />
           </div>
         </q-card-section>
       </q-card>
@@ -96,8 +227,11 @@
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right">
-            <q-toggle :model-value="cnameFlattening" :disable="isSaving || isLoading"
-              @update:model-value="(val) => updateSetting('cnameFlattening', val)" />
+            <q-toggle
+              :model-value="cnameFlattening"
+              :disable="isSaving || isLoading"
+              @update:model-value="(val) => updateSetting('cnameFlattening', val)"
+            />
           </div>
         </q-card-section>
       </q-card>
@@ -113,12 +247,23 @@
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
-            <q-btn color="primary" :label="t('dns.settingsPage.emailSecurity.configureBtn')" @click="showWorkInProgress" />
+            <q-btn
+              color="primary"
+              :label="t('dns.settingsPage.emailSecurity.configureBtn')"
+              @click="showWorkInProgress"
+            />
           </div>
         </q-card-section>
         <q-separator />
         <q-card-actions align="right" class="q-pa-md">
-          <q-btn flat dense no-caps color="primary" :label="t('dns.settingsPage.help')" icon-right="open_in_new" />
+          <q-btn
+            flat
+            dense
+            no-caps
+            color="primary"
+            :label="t('dns.settingsPage.help')"
+            icon-right="open_in_new"
+          />
         </q-card-actions>
       </q-card>
     </div>
@@ -126,67 +271,98 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useI18n } from 'src/composables/useI18n'
-import { useQuasar } from 'quasar'
-import { useZoneStore } from 'src/stores/zoneStore'
-import { storeToRefs } from 'pinia'
-import { useCloudflareApi } from 'src/composables/useCloudflareApi'
-import type { DnsSetting } from 'src/types'
+import { ref, watch, computed } from 'vue';
+import { useI18n } from 'src/composables/useI18n';
+import { useQuasar } from 'quasar';
+import { useZoneStore } from 'src/stores/zoneStore';
+import { storeToRefs } from 'pinia';
+import { useCloudflareApi } from 'src/composables/useCloudflareApi';
+import type { DnssecDetails, DnsSetting } from 'src/types';
+import DnssecDetailsModal from 'src/components/modals/DnssecDetailsModal.vue';
 
 type SettingsMap = {
   [key: string]: DnsSetting | undefined;
-}
+};
 
-const { t } = useI18n()
-const $q = useQuasar()
-const zoneStore = useZoneStore()
-const { selectedZoneId } = storeToRefs(zoneStore)
-const { getDnsSettings, updateDnsSetting, getDnssec, updateDnssec, getDnsZoneSettings, updateDnsZoneSettings } = useCloudflareApi()
+const { t } = useI18n();
+const $q = useQuasar();
+const zoneStore = useZoneStore();
+const { selectedZoneId, zones } = storeToRefs(zoneStore);
+const {
+  getDnsSettings,
+  updateDnsSetting,
+  getDnssec,
+  updateDnssec,
+  getDnsZoneSettings,
+  updateDnsZoneSettings,
+} = useCloudflareApi();
 
-const isLoading = ref(true)
-const isSaving = ref(false)
+const isLoading = ref(true);
+const isSaving = ref(false);
 
-const multiSignerDnssec = ref(false)
-const multiProviderDns = ref(false)
-const cnameFlattening = ref(false)
+const multiSignerDnssec = ref(false);
+const multiProviderDns = ref(false);
+const cnameFlattening = ref(false);
+const dnssecStatus = ref<string | null>(null);
+const dnssecDetails = ref<DnssecDetails | null>(null);
+
+const currentZoneName = computed(
+  () => zones.value.find((z) => z.id === selectedZoneId.value)?.name || '',
+);
+
+const pollDnssecStatus = () => {
+  setTimeout(() => {
+    void fetchSettings();
+  }, 3000);
+  setTimeout(() => {
+    void fetchSettings();
+  }, 5000);
+};
 
 const fetchSettings = async () => {
-  if (!selectedZoneId.value) return
+  if (!selectedZoneId.value) return;
 
-  isLoading.value = true
+  isLoading.value = true;
   try {
     const [settingsResult, dnssecResult, dnsZoneSettingsResult] = await Promise.all([
       getDnsSettings(selectedZoneId.value),
       getDnssec(selectedZoneId.value),
       getDnsZoneSettings(selectedZoneId.value),
-    ])
+    ]);
 
-    const settingsMap: SettingsMap = settingsResult.reduce((acc: SettingsMap, setting: DnsSetting) => {
-      acc[setting.id] = setting
-      return acc
-    }, {})
+    const settingsMap: SettingsMap = settingsResult.reduce(
+      (acc: SettingsMap, setting: DnsSetting) => {
+        acc[setting.id] = setting;
+        return acc;
+      },
+      {},
+    );
 
-    cnameFlattening.value = settingsMap.cname_flattening?.value === 'flatten_all'
-    multiProviderDns.value = dnsZoneSettingsResult.multi_provider
-    multiSignerDnssec.value = !!dnssecResult.dnssec_multi_signer
+    dnssecDetails.value = dnssecResult;
+    cnameFlattening.value = settingsMap.cname_flattening?.value === 'flatten_all';
+    multiProviderDns.value = dnsZoneSettingsResult.multi_provider;
+    multiSignerDnssec.value = !!dnssecResult.dnssec_multi_signer;
+    dnssecStatus.value = dnssecResult.status;
   } catch (e: unknown) {
-    const error = e instanceof Error ? e.message : String(e)
+    const error = e instanceof Error ? e.message : String(e);
     $q.notify({
       color: 'negative',
       message: t('dns.settingsPage.toasts.fetchError', { error }),
-    })
+    });
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
-watch(selectedZoneId, fetchSettings, { immediate: true })
+watch(selectedZoneId, fetchSettings, { immediate: true });
 
-const updateSetting = async (key: 'cnameFlattening' | 'multiProviderDns' | 'multiSignerDnssec', value: boolean) => {
-  if (!selectedZoneId.value) return
+const updateSetting = async (
+  key: 'cnameFlattening' | 'multiProviderDns' | 'multiSignerDnssec',
+  value: boolean,
+) => {
+  if (!selectedZoneId.value) return;
 
-  isSaving.value = true
+  isSaving.value = true;
   const originalValues = {
     cnameFlattening: cnameFlattening.value,
     multiProviderDns: multiProviderDns.value,
@@ -194,51 +370,173 @@ const updateSetting = async (key: 'cnameFlattening' | 'multiProviderDns' | 'mult
   };
 
   // Optimistic UI update
-  if (key === 'cnameFlattening') cnameFlattening.value = value
-  if (key === 'multiProviderDns') multiProviderDns.value = value
-  if (key === 'multiSignerDnssec') multiSignerDnssec.value = value
+  if (key === 'cnameFlattening') cnameFlattening.value = value;
+  if (key === 'multiProviderDns') multiProviderDns.value = value;
+  if (key === 'multiSignerDnssec') multiSignerDnssec.value = value;
 
   try {
-    let settingName = ''
+    let settingName = '';
     if (key === 'cnameFlattening') {
-      settingName = t('dns.settingsPage.cnameFlattening.title')
-      const apiValue = value ? 'flatten_all' : 'flatten_at_root'
-      await updateDnsSetting(selectedZoneId.value, 'cname_flattening', apiValue)
+      settingName = t('dns.settingsPage.cnameFlattening.title');
+      const apiValue = value ? 'flatten_all' : 'flatten_at_root';
+      await updateDnsSetting(selectedZoneId.value, 'cname_flattening', apiValue);
     } else if (key === 'multiProviderDns') {
-      settingName = t('dns.settingsPage.multiProvider.title')
-      await updateDnsZoneSettings(selectedZoneId.value, { multi_provider: value })
+      settingName = t('dns.settingsPage.multiProvider.title');
+      await updateDnsZoneSettings(selectedZoneId.value, { multi_provider: value });
     } else if (key === 'multiSignerDnssec') {
-      settingName = t('dns.settingsPage.multiSigner.title')
-      await updateDnssec(selectedZoneId.value, { dnssec_multi_signer: value })
+      settingName = t('dns.settingsPage.multiSigner.title');
+      await updateDnssec(selectedZoneId.value, { dnssec_multi_signer: value });
     }
 
     $q.notify({
       color: 'positive',
       message: t('dns.settingsPage.toasts.updateSuccess', { setting: settingName }),
-    })
+    });
   } catch (e: unknown) {
     // Revert UI on error
-    cnameFlattening.value = originalValues.cnameFlattening
-    multiProviderDns.value = originalValues.multiProviderDns
-    multiSignerDnssec.value = originalValues.multiSignerDnssec
+    cnameFlattening.value = originalValues.cnameFlattening;
+    multiProviderDns.value = originalValues.multiProviderDns;
+    multiSignerDnssec.value = originalValues.multiSignerDnssec;
 
-    const error = e instanceof Error ? e.message : String(e)
+    const error = e instanceof Error ? e.message : String(e);
     $q.notify({
       color: 'negative',
       message: t('dns.settingsPage.toasts.updateError', { setting: key, error }),
-    })
+    });
   } finally {
-    isSaving.value = false
+    isSaving.value = false;
   }
-}
+};
+
+const handleEnableDnssec = async () => {
+  if (!selectedZoneId.value) return;
+  isSaving.value = true;
+  try {
+    const details = await updateDnssec(selectedZoneId.value, { status: 'active' });
+    $q.dialog({
+      component: DnssecDetailsModal,
+      componentProps: {
+        dnssecDetails: details,
+      },
+    }).onOk(() => {
+      void (async () => {
+        $q.notify({
+          color: 'positive',
+          message: t('dns.settingsPage.toasts.dnssecEnableSuccess'),
+          timeout: 5000,
+        });
+        await fetchSettings();
+        pollDnssecStatus();
+      })();
+    });
+  } catch (e: unknown) {
+    const error = e instanceof Error ? e.message : String(e);
+    $q.notify({
+      color: 'negative',
+      message: t('dns.settingsPage.toasts.dnssecEnableError', { error }),
+    });
+  } finally {
+    isSaving.value = false;
+  }
+};
+
+const handleCancelDnssecSetup = () => {
+  $q.dialog({
+    title: t('dns.settingsPage.dnssecCard.cancelConfirmationTitle'),
+    message: t('dns.settingsPage.dnssecCard.cancelConfirmationMessage'),
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    void (async () => {
+      if (!selectedZoneId.value) return;
+      isSaving.value = true;
+      try {
+        await updateDnssec(selectedZoneId.value, { status: 'disabled' });
+        $q.notify({ color: 'positive', message: t('dns.settingsPage.toasts.dnssecCancelSuccess') });
+        await fetchSettings();
+        pollDnssecStatus();
+      } catch (e: unknown) {
+        const error = e instanceof Error ? e.message : String(e);
+        $q.notify({
+          color: 'negative',
+          message: t('dns.settingsPage.toasts.dnssecCancelError', { error }),
+        });
+      } finally {
+        isSaving.value = false;
+      }
+    })();
+  });
+};
+
+const handleDisableDnssec = () => {
+  $q.dialog({
+    title: t('dns.settingsPage.dnssecCard.disableConfirmationTitle'),
+    message: t('dns.settingsPage.dnssecCard.disableConfirmationMessage'),
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    void (async () => {
+      if (!selectedZoneId.value) return;
+      isSaving.value = true;
+      try {
+        await updateDnssec(selectedZoneId.value, { status: 'disabled' });
+        $q.notify({
+          color: 'positive',
+          message: t('dns.settingsPage.toasts.dnssecDisableSuccess'),
+        });
+        await fetchSettings();
+        pollDnssecStatus();
+      } catch (e: unknown) {
+        const error = e instanceof Error ? e.message : String(e);
+        $q.notify({
+          color: 'negative',
+          message: t('dns.settingsPage.toasts.dnssecDisableError', { error }),
+        });
+      } finally {
+        isSaving.value = false;
+      }
+    })();
+  });
+};
+
+const handleCancelDnssecDeletion = () => {
+  $q.dialog({
+    title: t('dns.settingsPage.dnssecCard.cancelDeletionConfirmationTitle'),
+    message: t('dns.settingsPage.dnssecCard.cancelDeletionConfirmationMessage'),
+    cancel: true,
+    persistent: true,
+  }).onOk(() => {
+    void (async () => {
+      if (!selectedZoneId.value) return;
+      isSaving.value = true;
+      try {
+        await updateDnssec(selectedZoneId.value, { status: 'active' });
+        $q.notify({
+          color: 'positive',
+          message: t('dns.settingsPage.toasts.dnssecCancelDeletionSuccess'),
+        });
+        await fetchSettings();
+        pollDnssecStatus();
+      } catch (e: unknown) {
+        const error = e instanceof Error ? e.message : String(e);
+        $q.notify({
+          color: 'negative',
+          message: t('dns.settingsPage.toasts.dnssecCancelDeletionError', { error }),
+        });
+      } finally {
+        isSaving.value = false;
+      }
+    })();
+  });
+};
 
 const showWorkInProgress = () => {
   $q.notify({
     message: t('common.workInProgress'),
     color: 'info',
-    position: 'top'
-  })
-}
+    position: 'top',
+  });
+};
 </script>
 
 <style lang="scss" scoped>

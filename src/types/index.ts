@@ -27,7 +27,17 @@ export interface DnsSetting {
 export interface DnssecDetails {
   status: string;
   dnssec_multi_signer?: boolean;
-  // Add other properties from the API response as needed
+  // Properties available when DNSSEC is pending/active
+  algorithm?: string;
+  digest?: string;
+  digest_algorithm?: string;
+  digest_type?: string;
+  ds?: string;
+  flags?: number;
+  key_tag?: number;
+  key_type?: string;
+  modified_on?: string;
+  public_key?: string;
 }
 
 export interface DnsZoneSettings {
