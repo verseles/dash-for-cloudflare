@@ -113,7 +113,7 @@
             </p>
           </div>
           <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
-            <q-btn color="primary" :label="t('dns.settingsPage.emailSecurity.configureBtn')" />
+            <q-btn color="primary" :label="t('dns.settingsPage.emailSecurity.configureBtn')" @click="showWorkInProgress" />
           </div>
         </q-card-section>
         <q-separator />
@@ -231,6 +231,14 @@ const updateSetting = async (key: 'cnameFlattening' | 'multiProviderDns' | 'mult
   } finally {
     isSaving.value = false
   }
+}
+
+const showWorkInProgress = () => {
+  $q.notify({
+    message: t('common.workInProgress'),
+    color: 'info',
+    position: 'top'
+  })
 }
 </script>
 

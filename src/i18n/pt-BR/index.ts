@@ -153,5 +153,6 @@ export default {
   },
   common: {
     cancel: 'Cancelar',
+    workInProgress: 'Desculpe, trabalho em progresso',
   },
 }
