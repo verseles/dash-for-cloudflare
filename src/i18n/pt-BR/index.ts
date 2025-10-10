@@ -153,7 +153,8 @@ export default {
       },
       multiSigner: {
         title: 'Multi-signer DNSSEC',
-        description: 'Multi-signer DNSSEC allows Cloudflare and your other authoritative DNS providers to serve the same zone and have DNSSEC enabled at the same time.'
+        description: 'Multi-signer DNSSEC allows Cloudflare and your other authoritative DNS providers to serve the same zone and have DNSSEC enabled at the same time.',
+        dnssecRequiredWarning: 'Para usar o Multi-Signer DNSSEC nesta zona, o DNSSEC precisa estar ativado, para que a Cloudflare assine a zona.'
       },
       multiProvider: {
         title: 'Multi-provider DNS',
