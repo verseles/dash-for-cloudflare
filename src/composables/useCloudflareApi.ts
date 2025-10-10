@@ -1,5 +1,5 @@
 import { useSettings } from 'src/composables/useSettings'
-import type { DnsRecord, Zone, DnsSetting, DnssecDetails } from 'src/types'
+import type { DnsRecord, Zone, DnsSetting, DnssecDetails, DnsZoneSettings } from 'src/types'
 import { useQuasar } from 'quasar'
 
 // Define the structure of the Cloudflare API response
@@ -70,6 +70,20 @@ export function useCloudflareApi() {
     return cfFetch<DnsSetting>(`/zones/${zoneId}/settings/${settingId}`, {
       method: 'PATCH',
       body: JSON.stringify({ value }),
+    })
+  }
+
+  const getDnsZoneSettings = async (zoneId: string): Promise<DnsZoneSettings> => {
+    return cfFetch<DnsZoneSettings>(`/zones/${zoneId}/dns_settings`)
+  }
+
+  const updateDnsZoneSettings = async (
+    zoneId: string,
+    payload: Partial<DnsZoneSettings>
+  ): Promise<DnsZoneSettings> => {
+    return cfFetch<DnsZoneSettings>(`/zones/${zoneId}/dns_settings`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
     })
   }
 
@@ -146,5 +160,7 @@ export function useCloudflareApi() {
     updateDnsSetting,
     getDnssec,
     updateDnssec,
+    getDnsZoneSettings,
+    updateDnsZoneSettings,
   }
 }

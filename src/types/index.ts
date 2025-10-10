@@ -29,3 +29,8 @@ export interface DnssecDetails {
   multi_signer: boolean;
   // Add other properties from the API response as needed
 }
+
+export interface DnsZoneSettings {
+  multi_provider: boolean;
+  // Add other properties as needed, e.g., soa, ns_ttl, etc.
+}

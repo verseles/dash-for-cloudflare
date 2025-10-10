@@ -142,7 +142,7 @@ const { t } = useI18n()
 const $q = useQuasar()
 const zoneStore = useZoneStore()
 const { selectedZoneId } = storeToRefs(zoneStore)
-const { getDnsSettings, updateDnsSetting, getDnssec, updateDnssec } = useCloudflareApi()
+const { getDnsSettings, updateDnsSetting, getDnssec, updateDnssec, getDnsZoneSettings, updateDnsZoneSettings } = useCloudflareApi()
 
 const isLoading = ref(true)
 const isSaving = ref(false)
@@ -156,9 +156,10 @@ const fetchSettings = async () => {
 
   isLoading.value = true
   try {
-    const [settingsResult, dnssecResult] = await Promise.all([
+    const [settingsResult, dnssecResult, dnsZoneSettingsResult] = await Promise.all([
       getDnsSettings(selectedZoneId.value),
       getDnssec(selectedZoneId.value),
+      getDnsZoneSettings(selectedZoneId.value),
     ])
 
     const settingsMap: SettingsMap = settingsResult.reduce((acc: SettingsMap, setting: DnsSetting) => {
@@ -167,9 +168,7 @@ const fetchSettings = async () => {
     }, {})
 
     cnameFlattening.value = settingsMap.cname_flattening?.value === 'flatten_all'
-    // The multi_provider setting is not officially documented for this endpoint.
-    // We assume it exists and is a boolean. If not found, the toggle will just be off.
-    multiProviderDns.value = !!settingsMap.multi_provider?.value
+    multiProviderDns.value = dnsZoneSettingsResult.multi_provider
     multiSignerDnssec.value = dnssecResult.multi_signer
   } catch (e: unknown) {
     const error = e instanceof Error ? e.message : String(e)
@@ -207,7 +206,7 @@ const updateSetting = async (key: 'cnameFlattening' | 'multiProviderDns' | 'mult
       await updateDnsSetting(selectedZoneId.value, 'cname_flattening', apiValue)
     } else if (key === 'multiProviderDns') {
       settingName = t('dns.settingsPage.multiProvider.title')
-      await updateDnsSetting(selectedZoneId.value, 'multi_provider', value)
+      await updateDnsZoneSettings(selectedZoneId.value, { multi_provider: value })
     } else if (key === 'multiSignerDnssec') {
       settingName = t('dns.settingsPage.multiSigner.title')
       await updateDnssec(selectedZoneId.value, { multi_signer: value })
