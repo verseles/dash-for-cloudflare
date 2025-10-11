@@ -70,59 +70,112 @@
       <!-- DNSSEC Card (Pending State) -->
       <q-card v-if="dnssecStatus === 'pending'" flat bordered class="q-mb-md">
         <q-inner-loading :showing="savingStates.dnssecStatus" />
-        <q-card-section class="row items-start justify-between">
-          <div class="col-xs-12 col-md-9 q-pr-md">
-            <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
-            <p class="text-body2 text-grey-8 q-mt-sm">
-              {{ t('dns.settingsPage.dnssecCard.description') }}
-            </p>
-            <div
-              class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
-              :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
-            >
-              <q-icon
-                name="info_outline"
-                class="q-mr-xs"
-                :color="$q.dark.isActive ? 'grey-5' : 'grey-7'"
-              />
-              <span :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'">
-                {{ t('dns.settingsPage.dnssecCard.pending') }}
-              </span>
+
+        <!-- Special state for Cloudflare Registrar -->
+        <div v-if="isCloudflareRegistrar">
+          <q-card-section class="row items-start justify-between">
+            <div class="col-xs-12 col-md-9 q-pr-md">
+              <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
+              <p class="text-body2 text-grey-8 q-mt-sm">
+                {{ t('dns.settingsPage.dnssecCard.enableDescription') }}
+              </p>
+              <div
+                class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
+                :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+              >
+                <q-icon
+                  name="info_outline"
+                  class="q-mr-xs"
+                  :color="$q.dark.isActive ? 'grey-5' : 'grey-7'"
+                />
+                <span :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'">
+                  {{ t('dns.settingsPage.dnssecCard.pendingWithCfRegistrar') }}
+                </span>
+              </div>
             </div>
-          </div>
-          <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
+            <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
+              <q-btn
+                flat
+                color="primary"
+                :label="t('dns.settingsPage.dnssecCard.cancelBtn')"
+                @click="handleCancelDnssecSetup"
+              />
+            </div>
+          </q-card-section>
+          <q-separator />
+          <q-card-actions align="right" class="q-pa-md">
             <q-btn
               flat
+              dense
+              no-caps
               color="primary"
-              :label="t('dns.settingsPage.dnssecCard.cancelBtn')"
-              @click="handleCancelDnssecSetup"
+              :label="t('dns.settingsPage.help')"
+              icon-right="open_in_new"
+              :href="dnssecHelpLink"
+              target="_blank"
+              rel="noopener noreferrer"
+              type="a"
             />
-          </div>
-        </q-card-section>
-        <q-separator />
-        <q-card-actions align="left" class="q-pa-md">
-          <q-btn
-            flat
-            dense
-            no-caps
-            color="primary"
-            :label="t('dns.settingsPage.dnssecCard.dsRecordBtn')"
-            icon-right="arrow_forward"
-          />
-          <q-btn
-            flat
-            dense
-            no-caps
-            color="primary"
-            :label="t('dns.settingsPage.help')"
-            icon-right="open_in_new"
-            class="q-ml-md"
-            :href="dnssecHelpLink"
-            target="_blank"
-            rel="noopener noreferrer"
-            type="a"
-          />
-        </q-card-actions>
+          </q-card-actions>
+        </div>
+
+        <!-- Default pending state -->
+        <div v-else>
+          <q-card-section class="row items-start justify-between">
+            <div class="col-xs-12 col-md-9 q-pr-md">
+              <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
+              <p class="text-body2 text-grey-8 q-mt-sm">
+                {{ t('dns.settingsPage.dnssecCard.description') }}
+              </p>
+              <div
+                class="row items-center text-caption q-mt-sm q-pa-sm rounded-borders"
+                :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+              >
+                <q-icon
+                  name="info_outline"
+                  class="q-mr-xs"
+                  :color="$q.dark.isActive ? 'grey-5' : 'grey-7'"
+                />
+                <span :class="$q.dark.isActive ? 'text-grey-5' : 'text-grey-7'">
+                  {{ t('dns.settingsPage.dnssecCard.pending') }}
+                </span>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-3 text-md-right q-mt-sm q-mt-md-none">
+              <q-btn
+                flat
+                color="primary"
+                :label="t('dns.settingsPage.dnssecCard.cancelBtn')"
+                @click="handleCancelDnssecSetup"
+              />
+            </div>
+          </q-card-section>
+          <q-separator />
+          <q-card-actions align="left" class="q-pa-md">
+            <q-btn
+              flat
+              dense
+              no-caps
+              color="primary"
+              :label="t('dns.settingsPage.dnssecCard.dsRecordBtn')"
+              icon-right="arrow_forward"
+              @click="showDnssecDetails"
+            />
+            <q-btn
+              flat
+              dense
+              no-caps
+              color="primary"
+              :label="t('dns.settingsPage.help')"
+              icon-right="open_in_new"
+              class="q-ml-md"
+              :href="dnssecHelpLink"
+              target="_blank"
+              rel="noopener noreferrer"
+              type="a"
+            />
+          </q-card-actions>
+        </div>
       </q-card>
 
       <!-- DNSSEC Card (Pending Deletion State) -->
@@ -161,7 +214,10 @@
         <q-card-section class="row items-start justify-between">
           <div class="col-xs-12 col-md-9 q-pr-md">
             <div class="text-h6">{{ t('dns.settingsPage.dnssecCard.title') }}</div>
-            <p class="text-body2 text-grey-8 q-mt-sm">
+            <p v-if="isCloudflareRegistrar" class="text-body2 text-grey-8 q-mt-sm">
+              {{ t('dns.settingsPage.dnssecCard.enableDescriptionCF') }}
+            </p>
+            <p v-else class="text-body2 text-grey-8 q-mt-sm">
               {{ t('dns.settingsPage.dnssecCard.enableDescription') }}
             </p>
           </div>
@@ -339,6 +395,12 @@ const currentZoneName = computed(
   () => zones.value.find((z) => z.id === selectedZoneId.value)?.name || '',
 );
 
+const isCloudflareRegistrar = computed(() => {
+  const zone = zones.value.find((z) => z.id === selectedZoneId.value);
+  return zone?.registrar?.name === 'cloudflare';
+});
+
+
 const dnsDocumentationLink = computed(() => {
   return locale.value === 'pt-BR'
     ? 'https://www.cloudflare.com/pt-br/learning/dns/dns-security/'
@@ -449,27 +511,46 @@ const updateSetting = async (
   }
 };
 
+const showDnssecDetails = () => {
+  if (!dnssecDetails.value) {
+    $q.notify({
+      color: 'negative',
+      message: 'DNSSEC details are not available.',
+    });
+    return;
+  }
+  $q.dialog({
+    component: DnssecDetailsModal,
+    componentProps: {
+      dnssecDetails: dnssecDetails.value,
+    },
+  });
+};
+
 const handleEnableDnssec = async () => {
   if (!selectedZoneId.value) return;
   savingStates.value.dnssecStatus = true;
   try {
     const details = await updateDnssec(selectedZoneId.value, { status: 'active' });
-    $q.dialog({
-      component: DnssecDetailsModal,
-      componentProps: {
-        dnssecDetails: details,
-      },
-    }).onOk(() => {
-      void (async () => {
-        $q.notify({
-          color: 'positive',
-          message: t('dns.settingsPage.toasts.dnssecEnableSuccess'),
-          timeout: 5000,
-        });
-        await fetchSettings();
-        pollDnssecStatus();
-      })();
-    });
+    dnssecDetails.value = details;
+
+    await fetchSettings();
+    pollDnssecStatus();
+
+    if (isCloudflareRegistrar.value) {
+      $q.notify({
+        color: 'positive',
+        message: t('dns.settingsPage.toasts.dnssecEnableSuccessCF'),
+        timeout: 5000,
+      });
+    } else {
+      $q.dialog({
+        component: DnssecDetailsModal,
+        componentProps: {
+          dnssecDetails: details,
+        },
+      });
+    }
   } catch (e: unknown) {
     const error = e instanceof Error ? e.message : String(e);
     $q.notify({

@@ -2,6 +2,10 @@ export interface Zone {
   id: string
   name: string
   status: string
+  registrar?: {
+    id: string
+    name: string
+  }
   // Add other properties as needed
 }
 

@@ -77,6 +77,7 @@ export default {
         updateError: 'Erro ao atualizar {setting}: {error}',
         dnssecEnableSuccess:
           'DNSSEC ativado com sucesso. Por favor, copie o registro DS para seu registrador de domínio.',
+        dnssecEnableSuccessCF: 'O DNSSEC está sendo ativado. Nós adicionaremos automaticamente o registro DS para você.',
         dnssecEnableError: 'Erro ao ativar o DNSSEC: {error}',
         dnssecCancelSuccess: 'Configuração do DNSSEC cancelada com sucesso.',
         dnssecCancelError: 'Erro ao cancelar a configuração do DNSSEC: {error}',
@@ -94,12 +95,14 @@ export default {
         description:
           'Proteja seu domínio com DNSSEC adicionando um registro DS ao seu registrador de domínio.',
         pending: 'O DNSSEC está sendo ativado. Isso pode levar algum tempo.',
+        pendingWithCfRegistrar: 'O DNSSEC está pendente enquanto adicionamos automaticamente o registro DS no seu domínio.',
         cancelBtn: 'Cancelar Configuração',
         dsRecordBtn: 'Ver Registro DS',
         pendingDeletion: 'O DNSSEC está sendo desativado. Isso pode levar algum tempo.',
         cancelDeletionBtn: 'Cancelar Deleção',
         enableDescription:
           'O DNSSEC ajuda a proteger contra respostas DNS falsificadas, adicionando assinaturas criptográficas aos seus registros DNS.',
+        enableDescriptionCF: 'Selecione "Ativar DNSSEC" para habilitar automaticamente o DNSSEC para este domínio nas próximas 24 horas.',
         enableBtn: 'Ativar DNSSEC',
         cancelConfirmationTitle: 'Cancelar Configuração do DNSSEC',
         cancelConfirmationMessage: 'Você tem certeza de que deseja cancelar a configuração do DNSSEC?',

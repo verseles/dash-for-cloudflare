@@ -77,6 +77,7 @@ export default {
         updateError: 'Error updating {setting}: {error}',
         dnssecEnableSuccess:
           'DNSSEC enabled successfully. Please copy the DS record to your registrar.',
+        dnssecEnableSuccessCF: 'DNSSEC is being enabled. We will automatically add the DS record for you.',
         dnssecEnableError: 'Error enabling DNSSEC: {error}',
         dnssecCancelSuccess: 'DNSSEC setup canceled successfully.',
         dnssecCancelError: 'Error canceling DNSSEC setup: {error}',
@@ -93,12 +94,14 @@ export default {
         disableBtn: 'Disable',
         description: 'Secure your domain with DNSSEC by adding a DS record to your registrar.',
         pending: 'DNSSEC is being enabled. This may take some time.',
+        pendingWithCfRegistrar: 'DNSSEC is pending while we automatically add the DS record on your domain.',
         cancelBtn: 'Cancel Setup',
         dsRecordBtn: 'View DS Record',
         pendingDeletion: 'DNSSEC is being disabled. This may take some time.',
         cancelDeletionBtn: 'Cancel Deletion',
         enableDescription:
           'DNSSEC helps protect against forged DNS answers by adding cryptographic signatures to your DNS records.',
+        enableDescriptionCF: "Select 'Enable DNSSEC' to automatically enable DNSSEC for this domain in the next 24 hours.",
         enableBtn: 'Enable DNSSEC',
         cancelConfirmationTitle: 'Cancel DNSSEC Setup',
         cancelConfirmationMessage: 'Are you sure you want to cancel the DNSSEC setup?',
