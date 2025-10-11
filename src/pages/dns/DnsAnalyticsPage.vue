@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <div class="q-mb-lg row justify-between items-center q-gutter-md">
+    <div class="q-mb-lg row justify-between items-center">
       <div class="text-h6">{{ t('dns.analytics.title') }}</div>
       <q-select v-model="timeRange" :options="timeRangeOptions" :label="t('dns.analytics.timeRange.label')" emit-value
         map-options dense outlined style="min-width: 200px" />
@@ -14,14 +14,14 @@
       {{ error }}
     </q-banner>
 
-    <div v-else-if="analyticsData" class="q-gutter-y-md q-gutter-x-md">
+    <div v-else-if="analyticsData">
       <!-- Query Overview Section -->
-      <q-card flat bordered>
+      <q-card flat>
         <q-card-section>
           <div class="text-h6 q-mb-md">{{ t('dns.analytics.queryOverview') }}</div>
 
           <!-- Query Name Badges -->
-          <div class="row q-gutter-sm q-mb-md">
+          <div class="row q-mb-md">
             <div class="row items-center no-wrap cursor-pointer query-badge"
               :class="{ 'query-badge--selected': showTotalQueries }" @click="showTotalQueries = !showTotalQueries">
               <q-badge rounded :style="{ backgroundColor: colors[0] }" class="q-mr-xs" />
@@ -44,7 +44,7 @@
       </q-card>
 
       <!-- Query Statistics Section -->
-      <q-card flat bordered>
+      <q-card flat>
         <q-card-section>
           <div class="text-h6 q-mb-sm">{{ t('dns.analytics.queryStatistics') }}</div>
           <div class="row items-center justify-around text-center">
