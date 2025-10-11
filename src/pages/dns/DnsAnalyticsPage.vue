@@ -22,7 +22,16 @@
 
           <!-- Query Name Badges -->
           <div class="row q-gutter-sm q-mb-md">
-            <div v-for="item in topQueryNames" :key="item.name" class="row items-center no-wrap">
+            <div class="row items-center no-wrap cursor-pointer query-badge"
+              :class="{ 'query-badge--selected': showTotalQueries }" @click="showTotalQueries = !showTotalQueries">
+              <q-badge rounded :style="{ backgroundColor: colors[0] }" class="q-mr-xs" />
+              <div class="text-caption ellipsis">{{ t('dns.analytics.totalQueries') }}</div>
+              <div class="text-caption text-grey q-ml-xs">({{ formatNumber(totalQueries) }})</div>
+            </div>
+            <div v-for="item in topQueryNames" :key="item.name"
+              class="row items-center no-wrap cursor-pointer query-badge"
+              :class="{ 'query-badge--selected': selectedQueryNames.includes(item.name) }"
+              @click="toggleQueryName(item.name)">
               <q-badge rounded :style="{ backgroundColor: item.color }" class="q-mr-xs" />
               <div class="text-caption ellipsis" :title="item.name">{{ item.name }}</div>
               <div class="text-caption text-grey q-ml-xs">({{ formatNumber(item.value) }})</div>
@@ -30,7 +39,7 @@
           </div>
 
           <!-- Time Series Chart -->
-          <DnsAnalyticsChart :data="timeSeriesData" type="line" :height="300" />
+          <DnsAnalyticsChart :data="timeSeriesData" :x-axis-data="timeSeriesLabels" type="line" :height="300" />
         </q-card-section>
       </q-card>
 
@@ -137,6 +146,8 @@ const zoneStore = useZoneStore()
 const { selectedZoneId } = storeToRefs(zoneStore)
 
 const timeRange = ref('24h')
+const selectedQueryNames = ref<string[]>([])
+const showTotalQueries = ref(true)
 
 const timeRangeOptions = computed(() => [
   { label: t('dns.analytics.timeRange.30m'), value: '30m' },
@@ -159,9 +170,20 @@ const topQueryNames = computed<TopQueryName[]>(() => {
     .slice(0, 5).map((item, index) => ({
       name: item.dimensions.queryName as string,
       value: item.count,
-      color: colors[index % colors.length] ?? '#808080'
+      color: colors[(index + 1) % colors.length] ?? '#808080' // Start colors from index 1
     }))
 })
+
+const toggleQueryName = (name: string) => {
+  const index = selectedQueryNames.value.indexOf(name);
+  if (index > -1) {
+    selectedQueryNames.value.splice(index, 1);
+  } else {
+    if (selectedQueryNames.value.length < 5) {
+      selectedQueryNames.value.push(name);
+    }
+  }
+}
 
 const fetchData = () => {
   const until = new Date()
@@ -179,10 +201,16 @@ const fetchData = () => {
   const offset = rangeMap[timeRange.value] ?? (24 * 3600 * 1000)
   since.setTime(until.getTime() - offset)
 
-  void fetchAnalytics(since, until)
+  void fetchAnalytics(since, until, selectedQueryNames.value)
 }
 
-watch([timeRange, selectedZoneId], fetchData, { immediate: true })
+watch([timeRange, selectedZoneId], () => {
+  selectedQueryNames.value = [] // Reset selection on change
+  fetchData()
+}, { immediate: true })
+
+watch([selectedQueryNames, showTotalQueries], fetchData, { deep: true })
+
 
 const totalQueries = computed(() => analyticsData.value?.total[0]?.count || 0)
 
@@ -203,20 +231,59 @@ const avgQueriesPerSecond = computed(() => {
 
 const avgProcessingTime = computed(() => (1.796 + (Math.random() - 0.5) * 0.5).toFixed(3))
 
+const allTimestamps = computed(() => {
+  const timestamps = new Set<string>();
+  (analyticsData.value?.timeSeries || []).forEach(bucket => {
+    if (bucket.dimensions?.ts) timestamps.add(bucket.dimensions.ts);
+  });
+  if (analyticsData.value?.byQueryNameTimeSeries) {
+    Object.values(analyticsData.value.byQueryNameTimeSeries).forEach(series => {
+      series.forEach(bucket => {
+        if (bucket.dimensions?.ts) timestamps.add(bucket.dimensions.ts);
+      });
+    });
+  }
+  return Array.from(timestamps).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+});
+
+const timeSeriesLabels = computed(() => {
+  return allTimestamps.value.map(ts =>
+    new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+  );
+});
+
 const timeSeriesData = computed((): ChartDataItem[] => {
-  const buckets = (analyticsData.value?.timeSeries || [])
-    .filter(bucket => bucket.dimensions?.ts)
-    .slice()
-    .sort((a, b) => new Date(a.dimensions.ts ?? 0).getTime() - new Date(b.dimensions.ts ?? 0).getTime());
+  const series: ChartDataItem[] = [];
+  const timestamps = allTimestamps.value;
 
-  const totalCounts = buckets.map(bucket => bucket.count);
+  const colorMap = new Map(topQueryNames.value.map(item => [item.name, item.color]));
 
-  return [{
-    name: t('dns.analytics.totalQueries'),
-    data: totalCounts,
-    color: colors[0] ?? '#1E88E5'
-  }];
-})
+  if (showTotalQueries.value && analyticsData.value?.timeSeries) {
+    const dataMap = new Map(analyticsData.value.timeSeries.map(b => [b.dimensions.ts, b.count]));
+    series.push({
+      name: t('dns.analytics.totalQueries'),
+      data: timestamps.map(ts => dataMap.get(ts) || 0),
+      color: colors[0]
+    });
+  }
+
+  if (analyticsData.value?.byQueryNameTimeSeries) {
+    selectedQueryNames.value.forEach(name => {
+      const timeSeriesForName = analyticsData.value.byQueryNameTimeSeries?.[name];
+      if (timeSeriesForName) {
+        const dataMap = new Map(timeSeriesForName.map(b => [b.dimensions.ts, b.count]));
+        series.push({
+          name: name,
+          data: timestamps.map(ts => dataMap.get(ts) || 0),
+          color: colorMap.get(name)
+        });
+      }
+    });
+  }
+
+  return series;
+});
+
 
 const createChartData = (key: keyof DnsAnalyticsData, dimension: string): ComputedRef<ChartDataItem[]> => {
   return computed(() => {
@@ -266,5 +333,25 @@ const formatNumber = (num: number): string => {
 
 .body--dark .stat-label {
   color: #bdbdbd;
+}
+
+.query-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  opacity: 0.7;
+}
+
+.query-badge:hover {
+  opacity: 1;
+}
+
+.query-badge--selected {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.body--dark .query-badge--selected {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 </style>

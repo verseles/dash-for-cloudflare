@@ -13,6 +13,15 @@ interface AnalyticsResponse {
   };
 }
 
+interface QueryNameTimeSeriesResponse {
+  viewer: {
+    zones: {
+      timeSeries: DnsAnalyticsData['timeSeries']
+    }[]
+  }
+}
+
+
 export function useDnsAnalytics() {
   const $q = useQuasar();
   const { settings } = useSettings();
@@ -60,7 +69,7 @@ export function useDnsAnalytics() {
   };
 
 
-  const fetchAnalytics = async (since: Date, until: Date) => {
+  const fetchAnalytics = async (since: Date, until: Date, queryNames: string[] = []) => {
     if (!selectedZoneId.value) {
       analyticsData.value = null;
       return;
@@ -71,7 +80,7 @@ export function useDnsAnalytics() {
     loadingStore.startLoading('fetch-dns-analytics');
 
     try {
-      const query = `
+      const mainQuery = `
         query GetDnsAnalytics($zoneTag: string!, $since: DateTime!, $until: DateTime!) {
           viewer {
             zones(filter: {zoneTag: $zoneTag}) {
@@ -80,7 +89,8 @@ export function useDnsAnalytics() {
               }
               timeSeries: dnsAnalyticsAdaptiveGroups(
                 limit: 1000,
-                filter: {datetime_geq: $since, datetime_leq: $until}
+                filter: {datetime_geq: $since, datetime_leq: $until},
+                orderBy: [datetimeFifteenMinutes_ASC]
               ) {
                 count
                 dimensions {
@@ -127,16 +137,55 @@ export function useDnsAnalytics() {
           }
         }
       `;
-      const variables = {
+      const mainVariables = {
         zoneTag: selectedZoneId.value,
         since: since.toISOString(),
         until: until.toISOString()
       };
 
-      const result = await cfGraphQLFetch<AnalyticsResponse>(query, variables);
+      const mainResult = await cfGraphQLFetch<AnalyticsResponse>(mainQuery, mainVariables);
 
-      if (result.viewer.zones.length > 0 && result.viewer.zones[0]) {
-        analyticsData.value = result.viewer.zones[0];
+      const byQueryNameTimeSeries: Record<string, DnsAnalyticsData['timeSeries']> = {};
+
+      if (queryNames.length > 0) {
+        const queryNamePromises = queryNames.map(name => {
+          const queryNameQuery = `
+            query GetDnsAnalyticsForQueryName($zoneTag: string!, $since: DateTime!, $until: DateTime!, $queryName: string!) {
+              viewer {
+                zones(filter: {zoneTag: $zoneTag}) {
+                  timeSeries: dnsAnalyticsAdaptiveGroups(
+                    limit: 1000,
+                    filter: {datetime_geq: $since, datetime_leq: $until, queryName: $queryName},
+                    orderBy: [datetimeFifteenMinutes_ASC]
+                  ) {
+                    count
+                    dimensions {
+                      ts: datetimeFifteenMinutes
+                    }
+                  }
+                }
+              }
+            }
+          `;
+          const queryNameVariables = { ...mainVariables, queryName: name };
+          return cfGraphQLFetch<QueryNameTimeSeriesResponse>(queryNameQuery, queryNameVariables);
+        });
+
+        const results = await Promise.all(queryNamePromises);
+        results.forEach((result, index) => {
+          const name = queryNames[index];
+          if (name && result.viewer.zones[0]) {
+            byQueryNameTimeSeries[name] = result.viewer.zones[0].timeSeries;
+          }
+        });
+      }
+
+
+      if (mainResult.viewer.zones.length > 0 && mainResult.viewer.zones[0]) {
+        analyticsData.value = {
+          ...mainResult.viewer.zones[0],
+          byQueryNameTimeSeries
+        };
       } else {
         analyticsData.value = null;
       }

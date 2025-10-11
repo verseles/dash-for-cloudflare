@@ -34,6 +34,7 @@ interface ChartDataItem {
     name: string
     value?: number
     data?: number[]
+    color?: string
 }
 
 interface Props {
@@ -42,6 +43,7 @@ interface Props {
     height?: number
     title?: string
     horizontal?: boolean
+    xAxisData?: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -88,18 +90,21 @@ const chartOption = computed(() => {
     }
 
     if (props.type === 'line') {
-        const xAxisData = Array.from(
-            { length: props.data[0]?.data?.length || 24 },
-            (_, i) => {
-                const date = new Date()
-                date.setHours(date.getHours() - (props.data[0]?.data?.length || 24) + i)
+        const xAxisLabels = computed(() => {
+            if (props.xAxisData && props.xAxisData.length > 0) {
+                return props.xAxisData;
+            }
+            const length = props.data[0]?.data?.length || 24;
+            return Array.from({ length }, (_, i) => {
+                const date = new Date();
+                date.setHours(date.getHours() - length + i);
                 return date.toLocaleTimeString('en-US', {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false
-                })
-            }
-        )
+                });
+            });
+        });
 
         return {
             ...baseOption,
@@ -113,7 +118,7 @@ const chartOption = computed(() => {
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: xAxisData,
+                data: xAxisLabels.value,
                 axisLine: {
                     lineStyle: { color: gridColor },
                 },
@@ -135,9 +140,7 @@ const chartOption = computed(() => {
                 },
             },
             legend: {
-                data: props.data.map((item) => item.name),
-                textStyle: { color: textColor },
-                top: 0,
+                show: false, // Legend is handled by the parent component
             },
             series: props.data.map((item) => ({
                 name: item.name,
@@ -149,6 +152,10 @@ const chartOption = computed(() => {
                 },
                 lineStyle: {
                     width: 2,
+                    color: item.color,
+                },
+                itemStyle: {
+                    color: item.color,
                 },
             })),
         }

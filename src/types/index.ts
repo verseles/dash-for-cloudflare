@@ -66,4 +66,5 @@ export interface DnsAnalyticsData {
   byDataCenter: AnalyticsGroup[];
   byIpVersion: AnalyticsGroup[];
   byProtocol: AnalyticsGroup[];
+  byQueryNameTimeSeries?: Record<string, AnalyticsGroup[]>;
 }
