@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex column">
+  <q-page class="flex column" style="padding-bottom: 80px">
     <!-- The router-view will render the content of the active tab -->
     <router-view class="col" />
 

@@ -238,6 +238,7 @@ const chartOption = computed(() => {
             yAxis: {
                 type: isHorizontal ? 'category' : 'value',
                 data: isHorizontal ? props.data.map((item) => item.name) : undefined,
+                inverse: isHorizontal,
                 axisLine: {
                     lineStyle: { color: gridColor },
                 },
