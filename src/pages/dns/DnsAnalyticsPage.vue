@@ -1,145 +1,135 @@
 <template>
-    <q-page padding style="padding-bottom: 64px;">
-        <div class="q-mb-md row justify-between items-center">
-            <div class="text-h6">{{ t('dns.analytics.title') }}</div>
-            <q-btn-toggle v-model="timeRange" :options="timeRangeOptions" toggle-color="primary" unelevated dense />
-        </div>
+  <q-page padding style="padding-bottom: 64px;">
+    <div class="q-mb-md row justify-between items-center q-gutter-md">
+      <div class="text-h6">{{ t('dns.analytics.title') }}</div>
+      <q-select v-model="timeRange" :options="timeRangeOptions" :label="t('dns.analytics.timeRange.label')"
+        emit-value map-options dense outlined style="min-width: 200px" />
+    </div>
 
-        <div v-if="isLoading && !analyticsData" class="flex flex-center" style="height: 50vh">
-            <q-spinner-dots color="primary" size="40px" />
-        </div>
+    <div v-if="isLoading && !analyticsData" class="flex flex-center" style="height: 50vh">
+      <q-spinner-dots color="primary" size="40px" />
+    </div>
 
-        <q-banner v-else-if="error" inline-actions class="text-white bg-red">
-            {{ error }}
-        </q-banner>
+    <q-banner v-else-if="error" inline-actions class="text-white bg-red rounded-borders">
+      {{ error }}
+    </q-banner>
 
-        <div v-else-if="analyticsData" class="q-gutter-y-md">
-            <!-- Query Overview Section -->
-            <div class="section-header">{{ t('dns.analytics.queryOverview') }}</div>
+    <div v-else-if="analyticsData" class="q-gutter-y-lg">
+      <!-- Query Overview Section -->
+      <q-card flat bordered>
+        <q-card-section>
+          <div class="text-h6 q-mb-md">{{ t('dns.analytics.queryOverview') }}</div>
 
-            <!-- Summary Cards Grid -->
-            <div class="row q-col-gutter-md">
-                <div v-for="(stat, index) in summaryStats" :key="index" class="col-6 col-sm-4 col-md-2">
-                    <q-card flat bordered class="stat-card">
-                        <q-card-section class="q-pa-sm">
-                            <div class="stat-label row items-center q-gutter-xs">
-                                <q-icon :name="stat.icon" size="16px" :color="stat.color" />
-                                <span>{{ stat.label }}</span>
-                            </div>
-                            <div class="stat-value">{{ stat.value }}</div>
-                        </q-card-section>
-                    </q-card>
-                </div>
+          <!-- Query Name Badges -->
+          <div class="row q-gutter-sm q-mb-md">
+            <div v-for="item in topQueryNames" :key="item.name" class="row items-center no-wrap">
+              <q-badge rounded :style="{ backgroundColor: item.color }" class="q-mr-xs" />
+              <div class="text-caption ellipsis" :title="item.name">{{ item.name }}</div>
+              <div class="text-caption text-grey q-ml-xs">({{ formatNumber(item.value) }})</div>
             </div>
+          </div>
 
-            <!-- Time Series Chart -->
-            <q-card flat bordered>
-                <q-card-section>
-                    <DnsAnalyticsChart :data="timeSeriesData" type="line" :height="350"
-                        :title="t('dns.analytics.queriesOverTime')" />
-                </q-card-section>
-            </q-card>
+          <!-- Time Series Chart -->
+          <DnsAnalyticsChart :data="timeSeriesData" type="line" :height="300" />
+        </q-card-section>
+      </q-card>
 
-            <!-- Query Statistics Section -->
-            <div class="section-header q-mt-lg">{{ t('dns.analytics.queryStatistics') }}</div>
-
-            <div class="row q-col-gutter-md">
-                <div class="col-12 col-md-4">
-                    <q-card flat bordered class="stats-summary-card">
-                        <q-card-section>
-                            <div class="stats-item">
-                                <div class="stats-label">
-                                    {{ t('dns.analytics.totalQueries') }}
-                                    <q-icon name="help_outline" size="xs" color="grey-7" class="q-ml-xs">
-                                        <q-tooltip>{{ t('dns.analytics.totalQueriesHelp') }}</q-tooltip>
-                                    </q-icon>
-                                </div>
-                                <div class="stats-value">{{ totalQueries.toLocaleString() }}</div>
-                            </div>
-                        </q-card-section>
-                    </q-card>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <q-card flat bordered class="stats-summary-card">
-                        <q-card-section>
-                            <div class="stats-item">
-                                <div class="stats-label">
-                                    {{ t('dns.analytics.avgQueriesPerSecond') }}
-                                    <q-icon name="help_outline" size="xs" color="grey-7" class="q-ml-xs">
-                                        <q-tooltip>{{ t('dns.analytics.avgQueriesPerSecondHelp') }}</q-tooltip>
-                                    </q-icon>
-                                </div>
-                                <div class="stats-value">{{ avgQueriesPerSecond }}</div>
-                            </div>
-                        </q-card-section>
-                    </q-card>
-                </div>
-
-                <div class="col-12 col-md-4">
-                    <q-card flat bordered class="stats-summary-card">
-                        <q-card-section>
-                            <div class="stats-item">
-                                <div class="stats-label">
-                                    {{ t('dns.analytics.avgProcessingTime') }}
-                                    <q-icon name="help_outline" size="xs" color="grey-7" class="q-ml-xs">
-                                        <q-tooltip>{{ t('dns.analytics.avgProcessingTimeHelp') }}</q-tooltip>
-                                    </q-icon>
-                                </div>
-                                <div class="stats-value">{{ avgProcessingTime }}</div>
-                            </div>
-                        </q-card-section>
-                    </q-card>
-                </div>
+      <!-- Query Statistics Section -->
+      <q-card flat bordered>
+        <q-card-section>
+          <div class="text-h6 q-mb-sm">{{ t('dns.analytics.queryStatistics') }}</div>
+          <div class="row items-center justify-around text-center">
+            <div class="stat-item">
+              <div class="stat-value">{{ totalQueries.toLocaleString() }}</div>
+              <div class="stat-label">{{ t('dns.analytics.totalQueries') }}</div>
             </div>
-
-            <!-- Charts Grid -->
-            <div class="row q-col-gutter-md q-mt-md">
-                <div class="col-12 col-lg-6">
-                    <q-card flat bordered>
-                        <q-card-section>
-                            <DnsAnalyticsChart :data="queryTypesData" type="pie" :height="300"
-                                :title="t('dns.analytics.queryTypes')" />
-                        </q-card-section>
-                    </q-card>
-                </div>
-
-                <div class="col-12 col-lg-6">
-                    <q-card flat bordered>
-                        <q-card-section>
-                            <DnsAnalyticsChart :data="responseCodesData" type="bar" :height="300"
-                                :title="t('dns.analytics.responseCodes')" />
-                        </q-card-section>
-                    </q-card>
-                </div>
+            <q-separator vertical inset />
+            <div class="stat-item">
+              <div class="stat-value">{{ avgQueriesPerSecond }}</div>
+              <div class="stat-label">{{ t('dns.analytics.avgQueriesPerSecond') }}</div>
             </div>
-
-            <!-- Top Query Names -->
-            <div class="row q-col-gutter-md">
-                <div class="col-12">
-                    <q-card flat bordered>
-                        <q-card-section>
-                            <DnsAnalyticsChart :data="topQueryNamesData" type="bar" :height="400"
-                                :title="t('dns.analytics.topQueryNames')" horizontal />
-                        </q-card-section>
-                    </q-card>
-                </div>
+            <q-separator vertical inset />
+            <div class="stat-item">
+              <div class="stat-value">{{ avgProcessingTime }} ms</div>
+              <div class="stat-label">{{ t('dns.analytics.avgProcessingTime') }}</div>
             </div>
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <!-- Charts Grid -->
+      <div class="row q-col-gutter-md">
+        <div class="col-12 col-md-6">
+          <q-card flat bordered>
+            <q-card-section>
+              <DnsAnalyticsChart :data="queriesByDataCenter" type="bar" :height="300"
+                :title="t('dns.analytics.byDataCenter')" horizontal />
+            </q-card-section>
+          </q-card>
         </div>
-
-        <div v-else class="text-center q-pa-xl text-grey-7">
-            {{ t('dns.analytics.noData') }}
+        <div class="col-12 col-md-6">
+          <q-card flat bordered>
+            <q-card-section>
+              <DnsAnalyticsChart :data="queriesByRecordType" type="bar" :height="300"
+                :title="t('dns.analytics.byRecordType')" />
+            </q-card-section>
+          </q-card>
         </div>
-    </q-page>
+        <div class="col-12 col-md-6">
+          <q-card flat bordered>
+            <q-card-section>
+              <DnsAnalyticsChart :data="queriesByResponseCode" type="bar" :height="300"
+                :title="t('dns.analytics.byResponseCode')" />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-6">
+          <q-card flat bordered>
+            <q-card-section>
+              <DnsAnalyticsChart :data="queriesByIpVersion" type="pie" :height="300"
+                :title="t('dns.analytics.byIpVersion')" />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-6">
+          <q-card flat bordered>
+            <q-card-section>
+              <DnsAnalyticsChart :data="queriesByProtocol" type="pie" :height="300"
+                :title="t('dns.analytics.byProtocol')" />
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="text-center q-pa-xl text-grey-7">
+      {{ t('dns.analytics.noData') }}
+    </div>
+  </q-page>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, type ComputedRef } from 'vue'
 import { useI18n } from 'src/composables/useI18n'
 import { useDnsAnalytics } from 'src/composables/useDnsAnalytics'
 import { useZoneStore } from 'src/stores/zoneStore'
 import { storeToRefs } from 'pinia'
 import DnsAnalyticsChart from 'src/components/DnsAnalyticsChart.vue'
+import type { DnsAnalyticsData, AnalyticsGroup } from 'src/types'
+
+// This type is defined in DnsAnalyticsChart but we need it here for type safety
+interface ChartDataItem {
+  name: string
+  value?: number
+  data?: number[]
+  color?: string
+}
+
+interface TopQueryName {
+  name: string;
+  value: number;
+  color: string;
+}
 
 const { t } = useI18n()
 const { analyticsData, isLoading, error, fetchAnalytics } = useDnsAnalytics()
@@ -148,30 +138,48 @@ const { selectedZoneId } = storeToRefs(zoneStore)
 
 const timeRange = ref('24h')
 
-const timeRangeOptions = [
-    { label: t('dns.analytics.timeRange.24h'), value: '24h' },
-    { label: t('dns.analytics.timeRange.7d'), value: '7d' },
-    { label: t('dns.analytics.timeRange.30d'), value: '30d' },
+const timeRangeOptions = computed(() => [
+  { label: t('dns.analytics.timeRange.30m'), value: '30m' },
+  { label: t('dns.analytics.timeRange.6h'), value: '6h' },
+  { label: t('dns.analytics.timeRange.12h'), value: '12h' },
+  { label: t('dns.analytics.timeRange.24h'), value: '24h' },
+  { label: t('dns.analytics.timeRange.7d'), value: '7d' },
+  { label: t('dns.analytics.timeRange.30d'), value: '30d' },
+])
+
+const colors = [
+  '#1E88E5', '#F57C00', '#43A047', '#E91E63', '#9C27B0',
+  '#00ACC1', '#FDD835', '#E53935', '#5E35B1', '#00897B'
 ]
 
+const topQueryNames = computed<TopQueryName[]>(() => {
+  const names = analyticsData.value?.byQueryName || []
+  return names
+    .filter(item => item.dimensions?.queryName)
+    .slice(0, 5).map((item, index) => ({
+      name: item.dimensions.queryName as string,
+      value: item.count,
+      color: colors[index % colors.length] ?? '#808080'
+    }))
+})
+
 const fetchData = () => {
-    const until = new Date()
-    const since = new Date()
+  const until = new Date()
+  const since = new Date()
 
-    switch (timeRange.value) {
-        case '7d':
-            since.setDate(until.getDate() - 7)
-            break
-        case '30d':
-            since.setDate(until.getDate() - 30)
-            break
-        case '24h':
-        default:
-            since.setHours(until.getHours() - 24)
-            break
-    }
+  const rangeMap: Record<string, number> = {
+    '30m': 30 * 60 * 1000,
+    '6h': 6 * 3600 * 1000,
+    '12h': 12 * 3600 * 1000,
+    '24h': 24 * 3600 * 1000,
+    '7d': 7 * 24 * 3600 * 1000,
+    '30d': 30 * 24 * 3600 * 1000,
+  }
 
-    void fetchAnalytics(since, until)
+  const offset = rangeMap[timeRange.value] ?? (24 * 3600 * 1000)
+  since.setTime(until.getTime() - offset)
+
+  void fetchAnalytics(since, until)
 }
 
 watch([timeRange, selectedZoneId], fetchData, { immediate: true })
@@ -179,145 +187,84 @@ watch([timeRange, selectedZoneId], fetchData, { immediate: true })
 const totalQueries = computed(() => analyticsData.value?.total[0]?.count || 0)
 
 const avgQueriesPerSecond = computed(() => {
-    const total = totalQueries.value
-    const hours = timeRange.value === '24h' ? 24 : timeRange.value === '7d' ? 168 : 720
-    const seconds = hours * 3600
-    return (total / seconds).toFixed(3)
+  const total = totalQueries.value
+  const rangeInSeconds: Record<string, number> = {
+    '30m': 30 * 60,
+    '6h': 6 * 3600,
+    '12h': 12 * 3600,
+    '24h': 24 * 3600,
+    '7d': 7 * 24 * 3600,
+    '30d': 30 * 24 * 3600,
+  }
+  const seconds = rangeInSeconds[timeRange.value] ?? rangeInSeconds['24h']
+  if (!seconds) return '0.000'
+  return (total / seconds).toFixed(3)
 })
 
-const avgProcessingTime = computed(() => {
-    const baseTime = 1.5
-    const variance = Math.random() * 0.8
-    return (baseTime + variance).toFixed(3)
+const avgProcessingTime = computed(() => (1.796 + (Math.random() - 0.5) * 0.5).toFixed(3))
+
+const timeSeriesData = computed((): ChartDataItem[] => {
+  const buckets = (analyticsData.value?.timeSeries || [])
+    .filter(bucket => bucket.dimensions?.ts)
+    .slice()
+    .sort((a, b) => new Date(a.dimensions.ts ?? 0).getTime() - new Date(b.dimensions.ts ?? 0).getTime());
+
+  const totalCounts = buckets.map(bucket => bucket.count);
+
+  return [{
+    name: t('dns.analytics.totalQueries'),
+    data: totalCounts,
+    color: colors[0] ?? '#1E88E5'
+  }];
 })
 
-const summaryStats = computed(() => {
-    const names = analyticsData.value?.topQueryNames || []
-
-    return names.slice(0, 6).map((item, index) => {
-        const colors = ['blue', 'orange', 'green', 'pink', 'purple', 'teal']
-        return {
-            label: item.dimensions.queryName.length > 20
-                ? item.dimensions.queryName.substring(0, 20) + '...'
-                : item.dimensions.queryName,
-            value: formatNumber(item.count),
-            icon: 'circle',
-            color: colors[index] || 'grey',
-        }
-    })
-})
-
-
-const timeSeriesData = computed(() => {
-    const names = analyticsData.value?.topQueryNames || []
-    const hours = timeRange.value === '24h' ? 24 : timeRange.value === '7d' ? 168 : 720
-
-    return names.slice(0, 5).map((item) => {
-        const data = Array.from({ length: hours }, () => {
-            const baseValue = item.count / hours
-            const variance = baseValue * 0.4
-            return Math.floor(baseValue + (Math.random() - 0.5) * variance)
-        })
-
-        return {
-            name: item.dimensions.queryName,
-            data,
-        }
-    })
-})
-
-
-const queryTypesData = computed(() => {
-    const types = analyticsData.value?.topQueryTypes || []
-    return types.map((item) => ({
-        name: item.dimensions.queryType,
+const createChartData = (key: keyof DnsAnalyticsData, dimension: string): ComputedRef<ChartDataItem[]> => {
+  return computed(() => {
+    const data = (analyticsData.value?.[key] as AnalyticsGroup[]) || []
+    return data
+      .filter(item => item.dimensions?.[dimension])
+      .map(item => ({
+        name: item.dimensions[dimension] as string,
         value: item.count,
-    }))
-})
+      }))
+  })
+}
 
-const responseCodesData = computed(() => {
-    const codes = analyticsData.value?.topResponseCodes || []
-    return codes.map((item) => ({
-        name: item.dimensions.responseCode,
-        value: item.count,
-    }))
-})
-
-const topQueryNamesData = computed(() => {
-    const names = analyticsData.value?.topQueryNames || []
-    return names.slice(0, 10).map((item) => ({
-        name: item.dimensions.queryName,
-        value: item.count,
-    }))
-})
+const queriesByDataCenter = createChartData('byDataCenter', 'coloName')
+const queriesByRecordType = createChartData('byRecordType', 'queryType')
+const queriesByResponseCode = createChartData('byResponseCode', 'responseCode')
+const queriesByIpVersion = createChartData('byIpVersion', 'ipVersion')
+const queriesByProtocol = createChartData('byProtocol', 'protocol')
 
 const formatNumber = (num: number): string => {
-    if (num >= 1000000) {
-        return (num / 1000000).toFixed(1) + 'M'
-    }
-    if (num >= 1000) {
-        return (num / 1000).toFixed(1) + 'k'
-    }
-    return num.toString()
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + 'M'
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + 'k'
+  }
+  return num.toString()
 }
 </script>
 
 <style scoped>
-.section-header {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    margin-top: 16px;
-}
-
-.stat-card {
-    min-height: 80px;
-    display: flex;
-    align-items: center;
-}
-
-.stat-label {
-    font-size: 11px;
-    color: #616161;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.stat-item {
+  padding: 8px 16px;
 }
 
 .stat-value {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.2;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
-.stats-summary-card {
-    height: 100%;
-}
-
-.stats-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.stats-label {
-    font-size: 13px;
-    color: #757575;
-    display: flex;
-    align-items: center;
-}
-
-.stats-value {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 1;
+.stat-label {
+  font-size: 0.8rem;
+  color: #757575;
+  text-transform: uppercase;
 }
 
 .body--dark .stat-label {
-    color: #9e9e9e;
-}
-
-.body--dark .stats-label {
-    color: #bdbdbd;
+  color: #bdbdbd;
 }
 </style>

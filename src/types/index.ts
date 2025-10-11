@@ -48,3 +48,22 @@ export interface DnsZoneSettings {
   multi_provider: boolean;
   // Add other properties as needed, e.g., soa, ns_ttl, etc.
 }
+
+// New types for DNS Analytics
+export interface AnalyticsGroup {
+  count: number;
+  dimensions: {
+    [key: string]: string;
+  };
+}
+
+export interface DnsAnalyticsData {
+  total: { count: number }[];
+  timeSeries: AnalyticsGroup[];
+  byQueryName: AnalyticsGroup[];
+  byRecordType: AnalyticsGroup[];
+  byResponseCode: AnalyticsGroup[];
+  byDataCenter: AnalyticsGroup[];
+  byIpVersion: AnalyticsGroup[];
+  byProtocol: AnalyticsGroup[];
+}

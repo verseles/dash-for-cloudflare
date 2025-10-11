@@ -4,12 +4,13 @@ import { storeToRefs } from 'pinia';
 import { useSettings } from 'src/composables/useSettings';
 import { useZoneStore } from 'src/stores/zoneStore';
 import { useLoadingStore } from 'src/stores/loading';
+import type { DnsAnalyticsData } from 'src/types';
 
-interface AnalyticsData {
-  total: { count: number }[];
-  topQueryNames: { count: number; dimensions: { queryName: string } }[];
-  topQueryTypes: { count: number; dimensions: { queryType: string } }[];
-  topResponseCodes: { count: number; dimensions: { responseCode: string } }[];
+// This interface matches the expected structure from the GraphQL query
+interface AnalyticsResponse {
+  viewer: {
+    zones: DnsAnalyticsData[];
+  };
 }
 
 export function useDnsAnalytics() {
@@ -25,7 +26,7 @@ export function useDnsAnalytics() {
     ? apiBaseUrl
     : `${cors_webproxy}/${apiBaseUrl.replace('https://', '')}`;
 
-  const analyticsData = ref<AnalyticsData | null>(null);
+  const analyticsData = ref<DnsAnalyticsData | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
@@ -71,28 +72,55 @@ export function useDnsAnalytics() {
 
     try {
       const query = `
-        query GetDnsAnalytics($zoneTag: string!, $since: Date!, $until: Date!) {
+        query GetDnsAnalytics($zoneTag: string!, $since: DateTime!, $until: DateTime!) {
           viewer {
             zones(filter: {zoneTag: $zoneTag}) {
-              total: dnsAnalyticsAdaptiveGroups(limit: 1, filter: {date_geq: $since, date_leq: $until}) {
+              total: dnsAnalyticsAdaptiveGroups(limit: 1, filter: {datetime_geq: $since, datetime_leq: $until}) {
                 count
               }
-              topQueryNames: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {date_geq: $since, date_leq: $until}, orderBy: [count_DESC]) {
+              timeSeries: dnsAnalyticsAdaptiveGroups(
+                limit: 1000,
+                filter: {datetime_geq: $since, datetime_leq: $until}
+              ) {
+                count
+                dimensions {
+                  ts: datetimeFifteenMinutes
+                }
+              }
+              byQueryName: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {datetime_geq: $since, datetime_leq: $until}, orderBy: [count_DESC]) {
                 count
                 dimensions {
                   queryName
                 }
               }
-              topQueryTypes: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {date_geq: $since, date_leq: $until}, orderBy: [count_DESC]) {
+              byRecordType: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {datetime_geq: $since, datetime_leq: $until}, orderBy: [count_DESC]) {
                 count
                 dimensions {
                   queryType
                 }
               }
-              topResponseCodes: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {date_geq: $since, date_leq: $until}, orderBy: [count_DESC]) {
+              byResponseCode: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {datetime_geq: $since, datetime_leq: $until}, orderBy: [count_DESC]) {
                 count
                 dimensions {
                   responseCode
+                }
+              }
+              byDataCenter: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {datetime_geq: $since, datetime_leq: $until}, orderBy: [count_DESC]) {
+                count
+                dimensions {
+                  coloName
+                }
+              }
+              byIpVersion: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {datetime_geq: $since, datetime_leq: $until}, orderBy: [count_DESC]) {
+                count
+                dimensions {
+                  ipVersion
+                }
+              }
+              byProtocol: dnsAnalyticsAdaptiveGroups(limit: 10, filter: {datetime_geq: $since, datetime_leq: $until}, orderBy: [count_DESC]) {
+                count
+                dimensions {
+                  protocol
                 }
               }
             }
@@ -101,11 +129,12 @@ export function useDnsAnalytics() {
       `;
       const variables = {
         zoneTag: selectedZoneId.value,
-        since: since.toISOString().split('T')[0],
-        until: until.toISOString().split('T')[0]
+        since: since.toISOString(),
+        until: until.toISOString()
       };
 
-      const result = await cfGraphQLFetch<{ viewer: { zones: AnalyticsData[] } }>(query, variables);
+      const result = await cfGraphQLFetch<AnalyticsResponse>(query, variables);
+
       if (result.viewer.zones.length > 0 && result.viewer.zones[0]) {
         analyticsData.value = result.viewer.zones[0];
       } else {
