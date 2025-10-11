@@ -247,10 +247,17 @@ const allTimestamps = computed(() => {
 });
 
 const timeSeriesLabels = computed(() => {
-  return allTimestamps.value.map(ts =>
-    new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
-  );
-});
+  const isShortRange = ['30m', '6h', '12h', '24h'].includes(timeRange.value)
+
+  return allTimestamps.value.map(ts => {
+    const date = new Date(ts)
+    if (isShortRange) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+    } else {
+      return date.toLocaleDateString([], { day: '2-digit', month: '2-digit' })
+    }
+  })
+})
 
 const timeSeriesData = computed((): ChartDataItem[] => {
   const series: ChartDataItem[] = [];
