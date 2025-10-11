@@ -13,8 +13,10 @@ export default {
     loadingZones: 'Loading zones...',
     cloudflareProxy: 'Cloudflare Proxy',
     filterAll: 'All',
+    searchPlaceholder: 'Search records...',
     noRecords: 'No DNS records found for this zone.',
     noRecordsForFilter: 'No records match the current filter.',
+    noRecordsMatch: 'No records match the current criteria.',
     tabs: {
       records: 'Records',
       analytics: 'Analytics',
@@ -73,7 +75,8 @@ export default {
         fetchError: 'Error fetching settings: {error}',
         updateSuccess: '{setting} updated successfully.',
         updateError: 'Error updating {setting}: {error}',
-        dnssecEnableSuccess: 'DNSSEC enabled successfully. Please copy the DS record to your registrar.',
+        dnssecEnableSuccess:
+          'DNSSEC enabled successfully. Please copy the DS record to your registrar.',
         dnssecEnableError: 'Error enabling DNSSEC: {error}',
         dnssecCancelSuccess: 'DNSSEC setup canceled successfully.',
         dnssecCancelError: 'Error canceling DNSSEC setup: {error}',

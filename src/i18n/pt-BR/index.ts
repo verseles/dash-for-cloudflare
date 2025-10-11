@@ -13,8 +13,10 @@ export default {
     loadingZones: 'Carregando zonas...',
     cloudflareProxy: 'Proxy da Cloudflare',
     filterAll: 'Todos',
+    searchPlaceholder: 'Buscar registros...',
     noRecords: 'Nenhum registro DNS encontrado para esta zona.',
     noRecordsForFilter: 'Nenhum registro corresponde ao filtro atual.',
+    noRecordsMatch: 'Nenhum registro corresponde aos critérios atuais.',
     tabs: {
       records: 'Registros',
       analytics: 'Analytics',

@@ -1,18 +1,32 @@
 <template>
     <q-page>
         <!-- Filter chips toolbar -->
-        <q-toolbar v-if="availableTypes.length > 0" class="filter-toolbar sticky-top-inside-page bg-toolbar">
-            <div class="full-width scroll no-wrap q-gutter-x-sm">
-                <q-chip :outline="activeFilter !== 'All'" clickable @click="setFilter('All')"
-                    :color="activeFilter === 'All' ? 'primary' : 'grey-7'"
-                    :text-color="activeFilter === 'All' ? 'white' : undefined">
-                    {{ t('dns.filterAll') }}
-                </q-chip>
-                <q-chip v-for="type in availableTypes" :key="type" clickable :outline="activeFilter !== type"
-                    @click="setFilter(type)" :color="activeFilter === type ? 'primary' : 'grey-7'"
-                    :text-color="activeFilter === type ? 'white' : undefined">
-                    {{ type }}
-                </q-chip>
+        <q-toolbar class="filter-toolbar sticky-top-inside-page bg-toolbar">
+            <div class="row items-center full-width no-wrap q-gutter-x-sm">
+                <!-- Filter Chips -->
+                <div class="scroll no-wrap q-gutter-x-sm col">
+                    <q-chip :outline="activeFilter !== 'All'" clickable @click="setFilter('All')"
+                        :color="activeFilter === 'All' ? 'primary' : 'grey-7'"
+                        :text-color="activeFilter === 'All' ? 'white' : undefined">
+                        {{ t('dns.filterAll') }}
+                    </q-chip>
+                    <q-chip v-for="type in availableTypes" :key="type" clickable :outline="activeFilter !== type"
+                        @click="setFilter(type)" :color="activeFilter === type ? 'primary' : 'grey-7'"
+                        :text-color="activeFilter === 'white' ? 'white' : undefined">
+                        {{ type }}
+                    </q-chip>
+                </div>
+
+                <!-- Search Input / Button -->
+                <div class="q-ml-sm">
+                    <q-input v-if="searchFocused" ref="searchInput" v-model="searchQuery" dense borderless autofocus
+                        :placeholder="t('dns.searchPlaceholder')" clearable @blur="onSearchBlur">
+                        <template #prepend>
+                            <q-icon name="search" />
+                        </template>
+                    </q-input>
+                    <q-btn v-else flat round dense icon="search" @click="focusSearch" />
+                </div>
             </div>
         </q-toolbar>
 
@@ -57,8 +71,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useQuasar } from 'quasar'
+import { computed, ref, watch, nextTick } from 'vue'
+import { useQuasar, QInput } from 'quasar'
 import { storeToRefs } from 'pinia'
 import DnsRecordItem from 'src/components/DnsRecordItem.vue'
 import DnsRecordEditModal from 'src/components/DnsRecordEditModal.vue'
@@ -84,18 +98,41 @@ const savingRecordIds = ref(new Set<string>())
 const newRecordIds = ref(new Set<string>())
 const deletingRecordIds = ref(new Set<string>())
 const activeFilter = ref('All')
+const searchQuery = ref('')
+const searchFocused = ref(false)
+const searchInput = ref<QInput | null>(null)
+
+
+const searchedRecords = computed(() => {
+    if (!searchQuery.value) {
+        return records.value
+    }
+    const lowerCaseQuery = searchQuery.value.toLowerCase()
+    return records.value.filter(
+        (record) =>
+            record.name.toLowerCase().includes(lowerCaseQuery) ||
+            record.content.toLowerCase().includes(lowerCaseQuery)
+    )
+})
 
 const availableTypes = computed(() => {
-    if (!records.value) return []
-    const types = new Set(records.value.map((record) => record.type))
+    const source = searchQuery.value ? searchedRecords.value : records.value
+    if (!source) return []
+    const types = new Set(source.map((record) => record.type))
     return Array.from(types).sort()
+})
+
+watch(availableTypes, (newTypes) => {
+    if (!newTypes.includes(activeFilter.value) && activeFilter.value !== 'All') {
+        activeFilter.value = 'All'
+    }
 })
 
 const filteredRecords = computed(() => {
     if (activeFilter.value === 'All') {
-        return records.value
+        return searchedRecords.value
     }
-    return records.value.filter((record) => record.type === activeFilter.value)
+    return searchedRecords.value.filter((record) => record.type === activeFilter.value)
 })
 
 const noRecordsMessage = computed(() => {
@@ -103,7 +140,7 @@ const noRecordsMessage = computed(() => {
         return t('dns.noRecords')
     }
     if (filteredRecords.value.length === 0) {
-        return t('dns.noRecordsForFilter')
+        return t('dns.noRecordsMatch')
     }
     return ''
 })
@@ -117,8 +154,22 @@ const setFilter = (type: string) => {
     activeFilter.value = type
 }
 
+const focusSearch = async () => {
+    searchFocused.value = true
+    await nextTick()
+    searchInput.value?.focus()
+}
+
+const onSearchBlur = () => {
+    if (!searchQuery.value) {
+        searchFocused.value = false
+    }
+}
+
+
 watch(selectedZoneId, () => {
     activeFilter.value = 'All'
+    searchQuery.value = ''
 })
 
 async function handleSave(record: DnsRecord) {
@@ -243,6 +294,7 @@ function handleAdd() {
 <style scoped>
 .filter-toolbar {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding-right: 16px;
 }
 
 .body--dark .filter-toolbar {
@@ -266,6 +318,7 @@ function handleAdd() {
 .scroll {
     overflow-x: auto;
     scrollbar-width: thin;
+    padding: 8px 0;
 }
 
 .scroll::-webkit-scrollbar {
