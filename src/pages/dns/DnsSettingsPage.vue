@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page padding style="padding-bottom: 64px;">
     <div v-if="isLoading" class="flex flex-center" style="height: 50vh">
       <q-spinner-dots color="primary" size="40px" />
     </div>

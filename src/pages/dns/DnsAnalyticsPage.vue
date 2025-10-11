@@ -1,5 +1,5 @@
 <template>
-    <q-page padding>
+    <q-page padding style="padding-bottom: 64px;">
         <div class="q-mb-md row justify-between items-center">
             <div class="text-h6">{{ t('dns.analytics.title') }}</div>
             <q-btn-toggle v-model="timeRange" :options="timeRangeOptions" toggle-color="primary" unelevated dense />
