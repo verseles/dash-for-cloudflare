@@ -204,10 +204,14 @@ const fetchData = () => {
   void fetchAnalytics(since, until, selectedQueryNames.value)
 }
 
-watch([timeRange, selectedZoneId], () => {
-  selectedQueryNames.value = [] // Reset selection on change
+watch(selectedZoneId, () => {
+  selectedQueryNames.value = [] // Reset selection when zone changes
   fetchData()
 }, { immediate: true })
+
+watch(timeRange, () => {
+  fetchData() // Refetch without resetting selection
+})
 
 watch([selectedQueryNames, showTotalQueries], fetchData, { deep: true })
 
