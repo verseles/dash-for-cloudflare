@@ -263,20 +263,26 @@ const timeSeriesData = computed((): ChartDataItem[] => {
     series.push({
       name: t('dns.analytics.totalQueries'),
       data: timestamps.map(ts => dataMap.get(ts) || 0),
-      color: colors[0]
+      color: colors[0] ?? '#1E88E5'
     });
   }
 
   if (analyticsData.value?.byQueryNameTimeSeries) {
     selectedQueryNames.value.forEach(name => {
-      const timeSeriesForName = analyticsData.value.byQueryNameTimeSeries?.[name];
+      const timeSeriesForName = analyticsData.value!.byQueryNameTimeSeries?.[name];
       if (timeSeriesForName) {
         const dataMap = new Map(timeSeriesForName.map(b => [b.dimensions.ts, b.count]));
-        series.push({
+        const color = colorMap.get(name);
+
+        const seriesItem: ChartDataItem = {
           name: name,
           data: timestamps.map(ts => dataMap.get(ts) || 0),
-          color: colorMap.get(name)
-        });
+        };
+
+        if (color) {
+          seriesItem.color = color;
+        }
+        series.push(seriesItem);
       }
     });
   }
