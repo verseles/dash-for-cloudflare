@@ -224,6 +224,7 @@ watch(
   selectedZoneId,
   () => {
     selectedQueryNames.value = [] // Reset selection when zone changes
+    showTotalQueries.value = true // Also reset to show total queries
     fetchData()
   },
   { immediate: true },
