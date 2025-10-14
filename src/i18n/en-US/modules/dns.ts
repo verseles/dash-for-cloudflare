@@ -53,6 +53,7 @@ export default {
     avgQueriesPerSecond: 'Avg QPS',
     avgProcessingTime: 'Avg Processing Time',
     byDataCenter: 'Queries by Data Center',
+    queriesByLocation: 'Queries by Location',
     byRecordType: 'Queries by Record Type',
     byResponseCode: 'Queries by Response Code',
     byDnsRecord: 'Queries by DNS Record',

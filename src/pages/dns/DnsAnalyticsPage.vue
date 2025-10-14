@@ -79,6 +79,13 @@
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
+              <DnsAnalyticsMapChart :data="mapData" :height="300" :title="t('dns.analytics.queriesByLocation')" />
+            </q-card-section>
+          </q-card>
+        </div>
+        <div class="col-12 col-md-6">
+          <q-card flat>
+            <q-card-section>
               <DnsAnalyticsChart :data="queriesByRecordType" type="bar" :height="300"
                 :title="t('dns.analytics.byRecordType')" />
             </q-card-section>
@@ -124,6 +131,7 @@ import { useDnsAnalytics } from 'src/composables/useDnsAnalytics'
 import { useZoneStore } from 'src/stores/zoneStore'
 import { storeToRefs } from 'pinia'
 import DnsAnalyticsChart from 'src/components/DnsAnalyticsChart.vue'
+import DnsAnalyticsMapChart from 'src/components/DnsAnalyticsMapChart.vue'
 import type { DnsAnalyticsData, AnalyticsGroup } from 'src/types'
 import { useDataCenterStore } from 'src/stores/dataCenterStore'
 
@@ -134,6 +142,12 @@ interface ChartDataItem {
   data?: number[]
   color?: string
 }
+
+interface MapChartDataItem {
+  name: string
+  value: [number, number, number] // lng, lat, query count
+}
+
 
 interface TopQueryName {
   name: string
@@ -339,13 +353,29 @@ const createChartData = (
   })
 }
 
-const queriesByDataCenter = createChartData('byDataCenter', 'coloName', (name) => {
-  return dataCenters.value[name] || name
-})
+const queriesByDataCenter = createChartData('byDataCenter', 'coloName')
 const queriesByRecordType = createChartData('byRecordType', 'queryType')
 const queriesByResponseCode = createChartData('byResponseCode', 'responseCode')
 const queriesByIpVersion = createChartData('byIpVersion', 'ipVersion')
 const queriesByProtocol = createChartData('byProtocol', 'protocol')
+
+const mapData = computed<MapChartDataItem[]>(() => {
+  const data = (analyticsData.value?.byDataCenter as AnalyticsGroup[]) || []
+  return data
+    .map((item) => {
+      const coloName = item.dimensions.coloName as string
+      const dcInfo = dataCenters.value[coloName]
+      if (dcInfo) {
+        return {
+          name: dcInfo.place,
+          value: [dcInfo.lng, dcInfo.lat, item.count] as [number, number, number],
+        }
+      }
+      return null
+    })
+    .filter((item): item is MapChartDataItem => item !== null)
+})
+
 
 const formatNumber = (num: number): string => {
   if (num >= 1000000) {

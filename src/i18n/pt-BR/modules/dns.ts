@@ -53,6 +53,7 @@ export default {
     avgQueriesPerSecond: 'Média de QPS',
     avgProcessingTime: 'Tempo Médio de Processamento',
     byDataCenter: 'Consultas por Data Center',
+    queriesByLocation: 'Consultas por Localização',
     byRecordType: 'Consultas por Tipo de Registro',
     byResponseCode: 'Consultas por Código de Resposta',
     byDnsRecord: 'Consultas por Registro DNS',
