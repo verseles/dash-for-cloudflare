@@ -102,7 +102,7 @@ export function useCloudflareApi() {
   }
 
   const getZones = async (): Promise<Zone[]> => {
-    return cfFetch<Zone[]>('/zones')
+    return cfFetch<Zone[]>('/zones?per_page=100')
   }
 
   const getDnsRecords = async (zoneId: string): Promise<DnsRecord[]> => {
