@@ -1,21 +1,13 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import axios from 'axios'
-import localDataCentersRaw from 'src/assets/cloudflare-iata-full.json?raw'
-import type { DataCenter, DataCenterInfo } from 'src/types'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import axios from 'axios';
+import localDataCentersRaw from 'src/assets/cloudflare-iata-full.json?raw';
+import type { DataCenterInfo } from 'src/types';
 
 export const useDataCenterStore = defineStore('dataCenter', () => {
-  const localDataCenters: Record<string, DataCenterInfo> = (
-    JSON.parse(localDataCentersRaw) as DataCenter[]
-  ).reduce(
-    (acc, dc) => {
-      acc[dc.slug] = { place: dc.place, lat: dc.lat, lng: dc.lng }
-      return acc
-    },
-    {} as Record<string, DataCenterInfo>,
-  )
-
-  const dataCenters = ref<Record<string, DataCenterInfo>>(localDataCenters)
+  const dataCenters = ref<Record<string, DataCenterInfo>>(
+    JSON.parse(localDataCentersRaw) as Record<string, DataCenterInfo>,
+  );
   const isLoading = ref(false)
   const hasFetched = ref(false)
 
@@ -26,17 +18,10 @@ export const useDataCenterStore = defineStore('dataCenter', () => {
 
     isLoading.value = true
     try {
-      const response = await axios.get<DataCenter[]>(
+      const response = await axios.get<Record<string, DataCenterInfo>>(
         'https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json',
-      )
-      const fetchedData: Record<string, DataCenterInfo> = response.data.reduce(
-        (acc, dc) => {
-          acc[dc.slug] = { place: dc.place, lat: dc.lat, lng: dc.lng }
-          return acc
-        },
-        {} as Record<string, DataCenterInfo>,
-      )
-      dataCenters.value = fetchedData
+      );
+      dataCenters.value = response.data;
       hasFetched.value = true
     } catch (error) {
       console.error(

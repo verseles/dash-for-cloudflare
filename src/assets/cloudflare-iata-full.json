@@ -1,2054 +1,2396 @@
-[
-  {
-    "slug": "AAE",
+{
+  "AAE": {
     "place": "Annaba, Algeria",
-    "lat": 36.8982165,
-    "lng": 7.7549272
+    "place_zh": "阿尔及利亚安纳巴",
+    "lat": 36.85596,
+    "lng": 7.79207,
+    "cca2": "DZ"
   },
-  {
-    "slug": "ABJ",
+  "ABJ": {
     "place": "Abidjan, Ivory Coast",
-    "lat": 5.320357,
-    "lng": -4.016107
+    "place_zh": "科特迪瓦阿比让",
+    "lat": 5.292598,
+    "lng": -3.999133,
+    "cca2": "CI"
   },
-  {
-    "slug": "ABQ",
+  "ABQ": {
     "place": "Albuquerque, United States",
-    "lat": 35.0841034,
-    "lng": -106.650985
+    "place_zh": "美国阿尔伯克基",
+    "lat": 35.0844,
+    "lng": -106.6504,
+    "cca2": "US"
   },
-  {
-    "slug": "ACC",
+  "ACC": {
     "place": "Accra, Ghana",
-    "lat": 5.5571096,
-    "lng": -0.2012376
+    "place_zh": "加纳阿克拉",
+    "lat": 5.614818,
+    "lng": -0.205874,
+    "cca2": "GH"
   },
-  {
-    "slug": "ADB",
+  "ADB": {
     "place": "Izmir, Turkey",
-    "lat": 38.23166,
-    "lng": 27.02997
+    "place_zh": "土耳其伊兹密尔",
+    "lat": 38.32377,
+    "lng": 27.14317,
+    "cca2": "TR"
   },
-  {
-    "slug": "ADD",
+  "ADD": {
     "place": "Addis Ababa, Ethiopia",
-    "lat": 9.0358287,
-    "lng": 38.7524127
+    "place_zh": "埃塞俄比亚亚的斯亚贝巴",
+    "lat": 9.00005,
+    "lng": 38.78446,
+    "cca2": "ET"
   },
-  {
-    "slug": "ADL",
+  "ADL": {
     "place": "Adelaide, Australia",
-    "lat": -34.9281805,
-    "lng": 138.5999312
+    "place_zh": "澳大利亚阿德莱德",
+    "lat": -34.9431729,
+    "lng": 138.5335637,
+    "cca2": "AU"
   },
-  {
-    "slug": "AKL",
+  "AKL": {
     "place": "Auckland, New Zealand",
-    "lat": -36.852095,
-    "lng": 174.7631803
+    "place_zh": "新西兰奥克兰",
+    "lat": -37.0080986023,
+    "lng": 174.792007446,
+    "cca2": "NZ"
   },
-  {
-    "slug": "AKX",
+  "AKX": {
     "place": "Aktobe, Kazakhstan",
-    "lat": 50.2836268,
-    "lng": 57.2298651
+    "place_zh": "哈萨克斯坦阿克托别",
+    "lat": 50.286922,
+    "lng": 57.224121,
+    "cca2": "KZ"
   },
-  {
-    "slug": "ALA",
+  "ALA": {
     "place": "Almaty, Kazakhstan",
-    "lat": 43.2363924,
-    "lng": 76.9457275
+    "place_zh": "哈萨克斯坦阿拉木图",
+    "lat": 43.3521003723,
+    "lng": 77.0404968262,
+    "cca2": "KZ"
   },
-  {
-    "slug": "ALG",
+  "ALG": {
     "place": "Algiers, Algeria",
-    "lat": 36.7729333,
-    "lng": 3.0588445
+    "place_zh": "阿尔及利亚阿尔及尔",
+    "lat": 36.6910018921,
+    "lng": 3.2154099941,
+    "cca2": "DZ"
   },
-  {
-    "slug": "AMD",
+  "AMD": {
     "place": "Ahmedabad, India",
-    "lat": 23.0215374,
-    "lng": 72.5800568
+    "place_zh": "印度艾哈迈达巴德",
+    "lat": 23.0225,
+    "lng": 72.5714,
+    "cca2": "IN"
   },
-  {
-    "slug": "AMM",
+  "AMM": {
     "place": "Amman, Jordan",
-    "lat": 31.9515694,
-    "lng": 35.9239625
+    "place_zh": "约旦安曼",
+    "lat": 31.7226009369,
+    "lng": 35.9931983948,
+    "cca2": "JO"
   },
-  {
-    "slug": "AMS",
+  "AMS": {
     "place": "Amsterdam, Netherlands",
-    "lat": 52.3730796,
-    "lng": 4.8924534
+    "place_zh": "荷兰阿姆斯特丹",
+    "lat": 52.3086013794,
+    "lng": 4.7638897896,
+    "cca2": "NL"
   },
-  {
-    "slug": "ANC",
+  "ANC": {
     "place": "Anchorage, United States",
-    "lat": 61.2163129,
-    "lng": -149.894852
+    "place_zh": "美国安克雷奇",
+    "lat": 61.158555,
+    "lng": -149.890208,
+    "cca2": "US"
   },
-  {
-    "slug": "ARI",
+  "ARI": {
     "place": "Arica, Chile",
-    "lat": -18.4785288,
-    "lng": -70.3211394
+    "place_zh": "智利阿里卡",
+    "lat": -18.348611,
+    "lng": -70.338889,
+    "cca2": "CL"
   },
-  {
-    "slug": "ARN",
+  "ARN": {
     "place": "Stockholm, Sweden",
-    "lat": 59.3251172,
-    "lng": 18.0710935
+    "place_zh": "瑞典斯德哥尔摩",
+    "lat": 59.6519012451,
+    "lng": 17.9186000824,
+    "cca2": "SE"
   },
-  {
-    "slug": "ARU",
+  "ARU": {
     "place": "Aracatuba, Brazil",
-    "lat": -21.207992,
-    "lng": -50.4390225
+    "place_zh": "巴西阿拉萨图巴",
+    "lat": -21.1413002014,
+    "lng": -50.4247016907,
+    "cca2": "BR"
   },
-  {
-    "slug": "ASK",
+  "ASK": {
     "place": "Yamoussoukro, Ivory Coast",
-    "lat": 6.8200066,
-    "lng": -5.2776034
+    "place_zh": "科特迪瓦亚穆苏克罗",
+    "lat": 6.842178,
+    "lng": -5.259932,
+    "cca2": "CI"
   },
-  {
-    "slug": "ASU",
+  "ASU": {
     "place": "Asunción, Paraguay",
-    "lat": -25.2800459,
-    "lng": -57.6343814
+    "place_zh": "巴拉圭亚松森",
+    "lat": -25.2399997711,
+    "lng": -57.5200004578,
+    "cca2": "PY"
   },
-  {
-    "slug": "ATH",
+  "ATH": {
     "place": "Athens, Greece",
-    "lat": 37.9755648,
-    "lng": 23.7348324
+    "place_zh": "希腊雅典",
+    "lat": 37.9364013672,
+    "lng": 23.9444999695,
+    "cca2": "GR"
   },
-  {
-    "slug": "ATL",
+  "ATL": {
     "place": "Atlanta, United States",
-    "lat": 33.7544657,
-    "lng": -84.3898151
+    "place_zh": "美国亚特兰大",
+    "lat": 33.6366996765,
+    "lng": -84.4281005859,
+    "cca2": "US"
   },
-  {
-    "slug": "AUS",
+  "AUS": {
     "place": "Austin, United States",
-    "lat": 30.2711286,
-    "lng": -97.7436995
+    "place_zh": "美国奥斯汀",
+    "lat": 30.1975,
+    "lng": -97.6664,
+    "cca2": "US"
   },
-  {
-    "slug": "BAH",
+  "BAH": {
     "place": "Manama, Bahrain",
-    "lat": 26.2235041,
-    "lng": 50.5822436
+    "place_zh": "巴林麦纳麦",
+    "lat": 26.2707996368,
+    "lng": 50.6335983276,
+    "cca2": "BH"
   },
-  {
-    "slug": "BAQ",
+  "BAQ": {
     "place": "Barranquilla, Colombia",
-    "lat": 11.0101922,
-    "lng": -74.8231794
+    "place_zh": "哥伦比亚巴兰基亚",
+    "lat": 10.8896,
+    "lng": -74.7808,
+    "cca2": "CO"
   },
-  {
-    "slug": "BBI",
+  "BBI": {
     "place": "Bhubaneswar, India",
-    "lat": 20.2602964,
-    "lng": 85.8394521
+    "place_zh": "印度布巴内斯瓦尔",
+    "lat": 20.2444,
+    "lng": 85.817802,
+    "cca2": "IN"
   },
-  {
-    "slug": "BCN",
+  "BCN": {
     "place": "Barcelona, Spain",
-    "lat": 41.3825802,
-    "lng": 2.177073
+    "place_zh": "西班牙巴塞罗那",
+    "lat": 41.2971000671,
+    "lng": 2.0784599781,
+    "cca2": "ES"
   },
-  {
-    "slug": "BEG",
+  "BEG": {
     "place": "Belgrade, Serbia",
-    "lat": 44.8178131,
-    "lng": 20.4568974
+    "place_zh": "塞尔维亚贝尔格莱德",
+    "lat": 44.8184013367,
+    "lng": 20.3090991974,
+    "cca2": "RS"
   },
-  {
-    "slug": "BEL",
+  "BEL": {
     "place": "Belém, Brazil",
-    "lat": -1.45056,
-    "lng": -48.4682453
+    "place_zh": "巴西贝伦",
+    "lat": -1.4563,
+    "lng": -48.5013,
+    "cca2": "BR"
   },
-  {
-    "slug": "BEY",
+  "BEY": {
     "place": "Beirut, Lebanon",
-    "lat": 33.8892265,
-    "lng": 35.5025585
+    "place_zh": "黎巴嫩贝鲁特",
+    "lat": 33.8208999634,
+    "lng": 35.4883995056,
+    "cca2": "LB"
   },
-  {
-    "slug": "BGI",
+  "BGI": {
     "place": "Bridgetown, Barbados",
-    "lat": 13.0977832,
-    "lng": -59.6184184
+    "place_zh": "巴巴多斯布里奇敦",
+    "lat": 13.103562,
+    "lng": -59.603226,
+    "cca2": "BB"
   },
-  {
-    "slug": "BGR",
+  "BGR": {
     "place": "Bangor, United States",
-    "lat": 44.8016255,
-    "lng": -68.7713289
+    "place_zh": "美国班戈",
+    "lat": 44.8081,
+    "lng": -68.795,
+    "cca2": "US"
   },
-  {
-    "slug": "BGW",
+  "BGW": {
     "place": "Baghdad, Iraq",
-    "lat": 33.3061701,
-    "lng": 44.3872213
+    "place_zh": "伊拉克巴格达",
+    "lat": 33.2625007629,
+    "lng": 44.2346000671,
+    "cca2": "IQ"
   },
-  {
-    "slug": "BHY",
+  "BHY": {
     "place": "Beihai, China",
-    "lat": 21.6740808,
-    "lng": 109.3729721
+    "place_zh": "中国北海",
+    "lat": 21.5394,
+    "lng": 109.293999,
+    "cca2": "CN"
   },
-  {
-    "slug": "BKK",
+  "BKK": {
     "place": "Bangkok, Thailand",
-    "lat": 13.7524938,
-    "lng": 100.4935089
+    "place_zh": "泰国曼谷",
+    "lat": 13.6810998917,
+    "lng": 100.747001648,
+    "cca2": "TH"
   },
-  {
-    "slug": "BLR",
+  "BLR": {
     "place": "Bangalore, India",
-    "lat": 12.9767936,
-    "lng": 77.590082
+    "place_zh": "印度班加罗尔",
+    "lat": 13.7835719,
+    "lng": 76.6165937,
+    "cca2": "IN"
   },
-  {
-    "slug": "BNA",
+  "BNA": {
     "place": "Nashville, United States",
-    "lat": 36.1622767,
-    "lng": -86.7742984
+    "place_zh": "美国纳什维尔",
+    "lat": 36.1245002747,
+    "lng": -86.6781997681,
+    "cca2": "US"
   },
-  {
-    "slug": "BNE",
+  "BNE": {
     "place": "Brisbane, Australia",
-    "lat": -27.4689623,
-    "lng": 153.0235009
+    "place_zh": "澳大利亚布里斯班",
+    "lat": -27.3841991425,
+    "lng": 153.117004394,
+    "cca2": "AU"
   },
-  {
-    "slug": "BNU",
+  "BNU": {
     "place": "Blumenau, Brazil",
-    "lat": -26.9195567,
-    "lng": -49.0658025
+    "place_zh": "巴西布卢梅瑙",
+    "lat": -26.89245,
+    "lng": -49.07696,
+    "cca2": "BR"
   },
-  {
-    "slug": "BOD",
+  "BOD": {
     "place": "Bordeaux, France",
-    "lat": 44.841225,
-    "lng": -0.5800364
+    "place_zh": "法国波尔多",
+    "lat": 44.82946,
+    "lng": -0.58355,
+    "cca2": "FR"
   },
-  {
-    "slug": "BOG",
+  "BOG": {
     "place": "Bogota, Colombia",
-    "lat": 4.6533815,
-    "lng": -74.0836331
+    "place_zh": "哥伦比亚波哥大",
+    "lat": 4.70159,
+    "lng": -74.1469,
+    "cca2": "CO"
   },
-  {
-    "slug": "BOM",
+  "BOM": {
     "place": "Mumbai, India",
-    "lat": 19.054999,
-    "lng": 72.8692035
+    "place_zh": "印度孟买",
+    "lat": 19.0886993408,
+    "lng": 72.8678970337,
+    "cca2": "IN"
   },
-  {
-    "slug": "BOS",
+  "BOS": {
     "place": "Boston, United States",
-    "lat": 42.3554334,
-    "lng": -71.060511
+    "place_zh": "美国波士顿",
+    "lat": 42.36429977,
+    "lng": -71.00520325,
+    "cca2": "US"
   },
-  {
-    "slug": "BRU",
+  "BRU": {
     "place": "Brussels, Belgium",
-    "lat": 50.8465573,
-    "lng": 4.351697
+    "place_zh": "比利时布鲁塞尔",
+    "lat": 50.9014015198,
+    "lng": 4.4844398499,
+    "cca2": "BE"
   },
-  {
-    "slug": "BSB",
+  "BSB": {
     "place": "Brasilia, Brazil",
-    "lat": -10.3333333,
-    "lng": -53.2
+    "place_zh": "巴西巴西利亚",
+    "lat": -15.79824,
+    "lng": -47.90859,
+    "cca2": "BR"
   },
-  {
-    "slug": "BSR",
+  "BSR": {
     "place": "Basra, Iraq",
-    "lat": 30.4952371,
-    "lng": 47.8090981
+    "place_zh": "伊拉克巴士拉",
+    "lat": 30.5491008759,
+    "lng": 47.6621017456,
+    "cca2": "IQ"
   },
-  {
-    "slug": "BTS",
+  "BTS": {
     "place": "Bratislava, Slovakia",
-    "lat": 48.1516988,
-    "lng": 17.1093063
+    "place_zh": "斯洛伐克布拉迪斯拉发",
+    "lat": 48.1486,
+    "lng": 17.1077,
+    "cca2": "SK"
   },
-  {
-    "slug": "BUD",
+  "BUD": {
     "place": "Budapest, Hungary",
-    "lat": 47.4813896,
-    "lng": 19.1460941
+    "place_zh": "匈牙利布达佩斯",
+    "lat": 47.4369010925,
+    "lng": 19.2555999756,
+    "cca2": "HU"
   },
-  {
-    "slug": "BUF",
+  "BUF": {
     "place": "Buffalo, United States",
-    "lat": 42.8867166,
-    "lng": -78.8783922
+    "place_zh": "美国布法罗",
+    "lat": 42.94049835,
+    "lng": -78.73220062,
+    "cca2": "US"
   },
-  {
-    "slug": "BWN",
+  "BWN": {
     "place": "Bandar Seri Begawan, Brunei",
-    "lat": 4.8895453,
-    "lng": 114.9417574
+    "place_zh": "文莱斯里巴加湾市",
+    "lat": 4.903052,
+    "lng": 114.939819,
+    "cca2": "BN"
   },
-  {
-    "slug": "CAI",
+  "CAI": {
     "place": "Cairo, Egypt",
-    "lat": 30.0443879,
-    "lng": 31.2357257
+    "place_zh": "埃及开罗",
+    "lat": 30.1219005585,
+    "lng": 31.4055995941,
+    "cca2": "EG"
   },
-  {
-    "slug": "CAN",
+  "CAN": {
     "place": "Guangzhou, China",
-    "lat": 23.1301964,
-    "lng": 113.2592945
+    "place_zh": "中国广州",
+    "lat": 23.392401,
+    "lng": 113.299004,
+    "cca2": "CN"
   },
-  {
-    "slug": "CAW",
+  "CAW": {
     "place": "Campos dos Goytacazes, Brazil",
-    "lat": -21.7546,
-    "lng": -41.3242
+    "place_zh": "巴西坎波斯多斯戈伊塔卡泽斯",
+    "lat": -21.698299408,
+    "lng": -41.301700592,
+    "cca2": "BR"
   },
-  {
-    "slug": "CBR",
+  "CBR": {
     "place": "Canberra, Australia",
-    "lat": -35.2975906,
-    "lng": 149.1012676
+    "place_zh": "澳大利亚堪培拉",
+    "lat": -35.3069000244,
+    "lng": 149.1950073242,
+    "cca2": "AU"
   },
-  {
-    "slug": "CCP",
+  "CCP": {
     "place": "Concepción, Chile",
-    "lat": -36.8270698,
-    "lng": -73.0502064
+    "place_zh": "智利康塞普西翁",
+    "lat": -36.8201,
+    "lng": -73.0444,
+    "cca2": "CL"
   },
-  {
-    "slug": "CCU",
+  "CCU": {
     "place": "Kolkata, India",
-    "lat": 22.5726459,
-    "lng": 88.3638953
+    "place_zh": "印度加尔各答",
+    "lat": 22.6476933,
+    "lng": 88.4349249,
+    "cca2": "IN"
   },
-  {
-    "slug": "CDG",
+  "CDG": {
     "place": "Paris, France",
-    "lat": 48.8588897,
-    "lng": 2.320041
+    "place_zh": "法国巴黎",
+    "lat": 49.0127983093,
+    "lng": 2.5499999523,
+    "cca2": "FR"
   },
-  {
-    "slug": "CEB",
+  "CEB": {
     "place": "Cebu, Philippines",
-    "lat": 10.47,
-    "lng": 123.83
+    "place_zh": "菲律宾宿务",
+    "lat": 10.3074998856,
+    "lng": 123.978996277,
+    "cca2": "PH"
   },
-  {
-    "slug": "CFC",
+  "CFC": {
     "place": "Cacador, Brazil",
-    "lat": -26.7737784,
-    "lng": -51.0134844
+    "place_zh": "巴西卡萨多尔",
+    "lat": -26.7762,
+    "lng": -51.0125,
+    "cca2": "BR"
   },
-  {
-    "slug": "CGB",
+  "CGB": {
     "place": "Cuiaba, Brazil",
-    "lat": -15.5986686,
-    "lng": -56.0991301
+    "place_zh": "巴西库亚巴",
+    "lat": -15.59611,
+    "lng": -56.09667,
+    "cca2": "BR"
   },
-  {
-    "slug": "CGD",
+  "CGD": {
     "place": "Changde, China",
-    "lat": 29.034552,
-    "lng": 111.6928724
+    "place_zh": "中国常德",
+    "lat": 28.9189,
+    "lng": 111.639999,
+    "cca2": "CN"
   },
-  {
-    "slug": "CGK",
+  "CGK": {
     "place": "Jakarta, Indonesia",
-    "lat": -6.1754049,
-    "lng": 106.827168
+    "place_zh": "印度尼西亚雅加达",
+    "lat": -6.1275229,
+    "lng": 106.6515118,
+    "cca2": "ID"
   },
-  {
-    "slug": "CGO",
+  "CGO": {
     "place": "Zhengzhou, China",
-    "lat": 34.7472531,
-    "lng": 113.619321
+    "place_zh": "中国郑州",
+    "lat": 34.526497,
+    "lng": 113.849165,
+    "cca2": "CN"
   },
-  {
-    "slug": "CGP",
+  "CGP": {
     "place": "Chittagong, Bangladesh",
-    "lat": 22.333778,
-    "lng": 91.8344348
+    "place_zh": "孟加拉国吉大港",
+    "lat": 22.2495995,
+    "lng": 91.8133011,
+    "cca2": "BD"
   },
-  {
-    "slug": "CGY",
+  "CGY": {
     "place": "Cagayan de Oro, Philippines",
-    "lat": 8.4756417,
-    "lng": 124.6421532
+    "place_zh": "菲律宾卡加延德奥罗",
+    "lat": 8.4156198502,
+    "lng": 124.611000061,
+    "cca2": "PH"
   },
-  {
-    "slug": "CHC",
+  "CHC": {
     "place": "Christchurch, New Zealand",
-    "lat": -43.530955,
-    "lng": 172.6364343
+    "place_zh": "新西兰基督城",
+    "lat": -43.4893989563,
+    "lng": 172.5319976807,
+    "cca2": "NZ"
   },
-  {
-    "slug": "CKG",
+  "CKG": {
     "place": "Chongqing, China",
-    "lat": 30.05518,
-    "lng": 107.8748712
+    "place_zh": "中国重庆",
+    "lat": 29.712254,
+    "lng": 106.651895,
+    "cca2": "CN"
   },
-  {
-    "slug": "CLE",
+  "CLE": {
     "place": "Cleveland, United States",
-    "lat": 41.4996574,
-    "lng": -81.6936772
+    "place_zh": "美国克利夫兰",
+    "lat": 41.50069,
+    "lng": -81.68412,
+    "cca2": "US"
   },
-  {
-    "slug": "CLO",
+  "CLO": {
     "place": "Cali, Colombia",
-    "lat": 3.4108435,
-    "lng": -76.5812127
+    "place_zh": "哥伦比亚卡利",
+    "lat": 3.54322,
+    "lng": -76.3816,
+    "cca2": "CO"
   },
-  {
-    "slug": "CLT",
+  "CLT": {
     "place": "Charlotte, United States",
-    "lat": 35.2272086,
-    "lng": -80.8430827
+    "place_zh": "美国夏洛特",
+    "lat": 35.2140007019,
+    "lng": -80.9430999756,
+    "cca2": "US"
   },
-  {
-    "slug": "CMB",
+  "CMB": {
     "place": "Colombo, Sri Lanka",
-    "lat": 6.9388614,
-    "lng": 79.8542005
+    "place_zh": "斯里兰卡科伦坡",
+    "lat": 7.1807599068,
+    "lng": 79.8841018677,
+    "cca2": "LK"
   },
-  {
-    "slug": "CMH",
+  "CMH": {
     "place": "Columbus, United States",
-    "lat": 39.9622601,
-    "lng": -83.0007065
+    "place_zh": "美国哥伦布",
+    "lat": 39.9980010986,
+    "lng": -82.8918991089,
+    "cca2": "US"
   },
-  {
-    "slug": "CNF",
+  "CNF": {
     "place": "Belo Horizonte, Brazil",
-    "lat": -19.9227318,
-    "lng": -43.9450948
+    "place_zh": "巴西贝洛奥里藏特",
+    "lat": -19.624444,
+    "lng": -43.971944,
+    "cca2": "BR"
   },
-  {
-    "slug": "CNN",
+  "CNN": {
     "place": "Kannur, India",
-    "lat": 11.8763836,
-    "lng": 75.3737973
+    "place_zh": "印度坎努尔",
+    "lat": 11.915858,
+    "lng": 75.55094,
+    "cca2": "IN"
   },
-  {
-    "slug": "CNX",
+  "CNX": {
     "place": "Chiang Mai, Thailand",
-    "lat": 18.7882778,
-    "lng": 98.9858802
+    "place_zh": "泰国清迈",
+    "lat": 18.7667999268,
+    "lng": 98.962600708,
+    "cca2": "TH"
   },
-  {
-    "slug": "COK",
+  "COK": {
     "place": "Kochi, India",
-    "lat": 9.9679032,
-    "lng": 76.2444378
+    "place_zh": "印度科钦",
+    "lat": 9.9312,
+    "lng": 76.2673,
+    "cca2": "IN"
   },
-  {
-    "slug": "COR",
+  "COR": {
     "place": "Córdoba, Argentina",
-    "lat": -31.4166867,
-    "lng": -64.1834193
+    "place_zh": "阿根廷科尔多瓦",
+    "lat": -31.31,
+    "lng": -64.208333,
+    "cca2": "AR"
   },
-  {
-    "slug": "CPH",
+  "CPH": {
     "place": "Copenhagen, Denmark",
-    "lat": 55.6867243,
-    "lng": 12.5700724
+    "place_zh": "丹麦哥本哈根",
+    "lat": 55.6179008484,
+    "lng": 12.6560001373,
+    "cca2": "DK"
   },
-  {
-    "slug": "CPT",
+  "CPT": {
     "place": "Cape Town, South Africa",
-    "lat": -33.9288301,
-    "lng": 18.4172197
+    "place_zh": "南非开普敦",
+    "lat": -33.9648017883,
+    "lng": 18.6016998291,
+    "cca2": "ZA"
   },
-  {
-    "slug": "CRK",
+  "CRK": {
     "place": "Tarlac City, Philippines",
-    "lat": 15.4861218,
-    "lng": 120.5893473
+    "place_zh": "菲律宾塔拉克市",
+    "lat": 15.1859,
+    "lng": 120.5599,
+    "cca2": "PH"
   },
-  {
-    "slug": "CSX",
+  "CSX": {
     "place": "Changsha, China",
-    "lat": 28.1450774,
-    "lng": 113.2384362
+    "place_zh": "中国长沙",
+    "lat": 28.189199,
+    "lng": 113.220001,
+    "cca2": "CN"
   },
-  {
-    "slug": "CTU",
+  "CTU": {
     "place": "Chengdu, China",
-    "lat": 30.659867,
-    "lng": 104.063315
+    "place_zh": "中国成都",
+    "lat": 30.558257,
+    "lng": 103.945966,
+    "cca2": "CN"
   },
-  {
-    "slug": "CWB",
+  "CWB": {
     "place": "Curitiba, Brazil",
-    "lat": -25.4944375,
-    "lng": -49.284271
+    "place_zh": "巴西库里提巴",
+    "lat": -25.5284996033,
+    "lng": -49.1758003235,
+    "cca2": "BR"
   },
-  {
-    "slug": "CZL",
+  "CZL": {
     "place": "Constantine, Algeria",
-    "lat": 36.3641642,
-    "lng": 6.6084281
+    "place_zh": "阿尔及利亚康斯坦丁",
+    "lat": 36.335972,
+    "lng": 6.598562,
+    "cca2": "DZ"
   },
-  {
-    "slug": "CZX",
+  "CZX": {
     "place": "Changzhou, China",
-    "lat": 31.8122623,
-    "lng": 119.9691539
+    "place_zh": "中国常州",
+    "lat": 31.920485,
+    "lng": 119.77546,
+    "cca2": "CN"
   },
-  {
-    "slug": "DAC",
+  "DAC": {
     "place": "Dhaka, Bangladesh",
-    "lat": 23.7643863,
-    "lng": 90.3890144
+    "place_zh": "孟加拉国达卡",
+    "lat": 23.843347,
+    "lng": 90.397783,
+    "cca2": "BD"
   },
-  {
-    "slug": "DAD",
+  "DAD": {
     "place": "Da Nang, Vietnam",
-    "lat": 16.068,
-    "lng": 108.212
+    "place_zh": "越南岘港",
+    "lat": 16.02636,
+    "lng": 108.20869,
+    "cca2": "VN"
   },
-  {
-    "slug": "DAR",
+  "DAR": {
     "place": "Dar es Salaam, Tanzania",
-    "lat": -6.8160837,
-    "lng": 39.2803583
+    "place_zh": "坦桑尼亚达累斯萨拉姆",
+    "lat": -6.8781099319,
+    "lng": 39.2025985718,
+    "cca2": "TZ"
   },
-  {
-    "slug": "DEL",
+  "DEL": {
     "place": "New Delhi, India",
-    "lat": 28.6419258,
-    "lng": 77.2217499
+    "place_zh": "印度新德里",
+    "lat": 28.5664997101,
+    "lng": 77.1031036377,
+    "cca2": "IN"
   },
-  {
-    "slug": "DEN",
+  "DEN": {
     "place": "Denver, United States",
-    "lat": 39.7392364,
-    "lng": -104.984862
+    "place_zh": "美国丹佛",
+    "lat": 39.8616981506,
+    "lng": -104.672996521,
+    "cca2": "US"
   },
-  {
-    "slug": "DFW",
+  "DFW": {
     "place": "Dallas, United States",
-    "lat": 32.7762719,
-    "lng": -96.7968559
+    "place_zh": "美国达拉斯",
+    "lat": 32.8968009949,
+    "lng": -97.0380020142,
+    "cca2": "US"
   },
-  {
-    "slug": "DKR",
+  "DKR": {
     "place": "Dakar, Senegal",
-    "lat": 14.693425,
-    "lng": -17.447938
+    "place_zh": "塞内加尔达喀尔",
+    "lat": 14.7412099,
+    "lng": -17.4889771,
+    "cca2": "SN"
   },
-  {
-    "slug": "DLC",
+  "DLC": {
     "place": "Dalian, China",
-    "lat": 39.740278,
-    "lng": 122.255833
+    "place_zh": "中国大连",
+    "lat": 38.965719,
+    "lng": 121.538477,
+    "cca2": "CN"
   },
-  {
-    "slug": "DME",
+  "DME": {
     "place": "Moscow, Russia",
-    "lat": 55.625578,
-    "lng": 37.6063916
+    "place_zh": "俄罗斯莫斯科",
+    "lat": 55.4087982178,
+    "lng": 37.9062995911,
+    "cca2": "RU"
   },
-  {
-    "slug": "DMM",
+  "DMM": {
     "place": "Dammam, Saudi Arabia",
-    "lat": 26.4367824,
-    "lng": 50.1039991
+    "place_zh": "沙特阿拉伯达曼",
+    "lat": 26.471200943,
+    "lng": 49.7979011536,
+    "cca2": "SA"
   },
-  {
-    "slug": "DOH",
+  "DOH": {
     "place": "Doha, Qatar",
-    "lat": 25.2856329,
-    "lng": 51.5264162
+    "place_zh": "卡塔尔多哈",
+    "lat": 25.2605946,
+    "lng": 51.6137665,
+    "cca2": "QA"
   },
-  {
-    "slug": "DPS",
+  "DPS": {
     "place": "Denpasar, Indonesia",
-    "lat": -8.6524973,
-    "lng": 115.2191175
+    "place_zh": "印度尼西亚登巴萨",
+    "lat": -8.748169899,
+    "lng": 115.1669998169,
+    "cca2": "ID"
   },
-  {
-    "slug": "DTW",
+  "DTW": {
     "place": "Detroit, United States",
-    "lat": 42.3315509,
-    "lng": -83.0466403
+    "place_zh": "美国底特律",
+    "lat": 42.2123985291,
+    "lng": -83.3534011841,
+    "cca2": "US"
   },
-  {
-    "slug": "DUB",
+  "DUB": {
     "place": "Dublin, Ireland",
-    "lat": 53.3493795,
-    "lng": -6.2605593
+    "place_zh": "爱尔兰都柏林",
+    "lat": 53.4212989807,
+    "lng": -6.270070076,
+    "cca2": "IE"
   },
-  {
-    "slug": "DUR",
+  "DUR": {
     "place": "Durban, South Africa",
-    "lat": -29.861825,
-    "lng": 31.009909
+    "place_zh": "南非德班",
+    "lat": -29.6144444444,
+    "lng": 31.1197222222,
+    "cca2": "ZA"
   },
-  {
-    "slug": "DUS",
+  "DUS": {
     "place": "Düsseldorf, Germany",
-    "lat": 51.2254018,
-    "lng": 6.7763137
+    "place_zh": "德国杜塞尔多夫",
+    "lat": 51.2895011902,
+    "lng": 6.7667798996,
+    "cca2": "DE"
   },
-  {
-    "slug": "DXB",
+  "DXB": {
     "place": "Dubai, United Arab Emirates",
-    "lat": 25.0742823,
-    "lng": 55.1885387
+    "place_zh": "阿联酋迪拜",
+    "lat": 25.2527999878,
+    "lng": 55.3643989563,
+    "cca2": "AE"
   },
-  {
-    "slug": "EBB",
+  "EBB": {
     "place": "Kampala, Uganda",
-    "lat": 0.3177137,
-    "lng": 32.5813539
+    "place_zh": "乌干达坎帕拉",
+    "lat": 0.3152,
+    "lng": 32.5816,
+    "cca2": "UG"
   },
-  {
-    "slug": "EBL",
+  "EBL": {
     "place": "Erbil, Iraq",
-    "lat": 36.1911744,
-    "lng": 44.0094145
+    "place_zh": "伊拉克埃尔比勒",
+    "lat": 36.1901,
+    "lng": 43.993,
+    "cca2": "IQ"
   },
-  {
-    "slug": "EDI",
+  "EDI": {
     "place": "Edinburgh, United Kingdom",
-    "lat": 55.9533456,
-    "lng": -3.1883749
+    "place_zh": "英国爱丁堡",
+    "lat": 55.9500007629,
+    "lng": -3.3724999428,
+    "cca2": "GB"
   },
-  {
-    "slug": "EVN",
+  "EVN": {
     "place": "Yerevan, Armenia",
-    "lat": 40.1777112,
-    "lng": 44.5126233
+    "place_zh": "亚美尼亚埃里温",
+    "lat": 40.1473007202,
+    "lng": 44.3959007263,
+    "cca2": "AM"
   },
-  {
-    "slug": "EWR",
+  "EWR": {
     "place": "Newark, United States",
-    "lat": 40.735657,
-    "lng": -74.1723667
+    "place_zh": "美国纽瓦克",
+    "lat": 40.6925010681,
+    "lng": -74.1687011719,
+    "cca2": "US"
   },
-  {
-    "slug": "EZE",
+  "EZE": {
     "place": "Buenos Aires, Argentina",
-    "lat": -34.6095579,
-    "lng": -58.3887904
+    "place_zh": "阿根廷布宜诺斯艾利斯",
+    "lat": -34.8222,
+    "lng": -58.5358,
+    "cca2": "AR"
   },
-  {
-    "slug": "FCO",
+  "FCO": {
     "place": "Rome, Italy",
-    "lat": 41.8933203,
-    "lng": 12.4829321
+    "place_zh": "意大利罗马",
+    "lat": 41.8045005798,
+    "lng": 12.2508001328,
+    "cca2": "IT"
   },
-  {
-    "slug": "FIH",
+  "FIH": {
     "place": "Kinshasa, DR Congo",
-    "lat": -4.3196982,
-    "lng": 15.3424196
+    "place_zh": "刚果民主共和国金沙萨",
+    "lat": -4.3857498169,
+    "lng": 15.4446001053,
+    "cca2": "CD"
   },
-  {
-    "slug": "FLN",
+  "FLN": {
     "place": "Florianopolis, Brazil",
-    "lat": -27.5973002,
-    "lng": -48.5496098
+    "place_zh": "巴西弗洛里亚诺波利斯",
+    "lat": -27.6702785492,
+    "lng": -48.5525016785,
+    "cca2": "BR"
   },
-  {
-    "slug": "FOC",
+  "FOC": {
     "place": "Fuzhou, China",
-    "lat": 26.0774954,
-    "lng": 119.2918215
+    "place_zh": "中国福州",
+    "lat": 25.934669,
+    "lng": 119.66318,
+    "cca2": "CN"
   },
-  {
-    "slug": "FOR",
+  "FOR": {
     "place": "Fortaleza, Brazil",
-    "lat": -3.7304512,
-    "lng": -38.5217989
+    "place_zh": "巴西福塔莱萨",
+    "lat": -3.7762799263,
+    "lng": -38.5326004028,
+    "cca2": "BR"
   },
-  {
-    "slug": "FRA",
+  "FRA": {
     "place": "Frankfurt, Germany",
-    "lat": 50.1106444,
-    "lng": 8.6820917
+    "place_zh": "德国法兰克福",
+    "lat": 50.0264015198,
+    "lng": 8.543129921,
+    "cca2": "DE"
   },
-  {
-    "slug": "FRU",
+  "FRU": {
     "place": "Bishkek, Kyrgyzstan",
-    "lat": 42.8761424,
-    "lng": 74.6036724
+    "place_zh": "吉尔吉斯斯坦比什凯克",
+    "lat": 42.875608,
+    "lng": 74.604613,
+    "cca2": "KG"
   },
-  {
-    "slug": "FSD",
+  "FSD": {
     "place": "Sioux Falls, South Dakota",
-    "lat": 43.5476008,
-    "lng": -96.7293629
+    "place_zh": "南达科他州苏福尔斯",
+    "lat": 43.540819819502,
+    "lng": -96.65511577730963,
+    "cca2": "US"
   },
-  {
-    "slug": "FUK",
+  "FUK": {
     "place": "Fukuoka, Japan",
-    "lat": 33.6251241,
-    "lng": 130.6180016
+    "place_zh": "日本福冈",
+    "lat": 33.5902,
+    "lng": 130.4017,
+    "cca2": "JP"
   },
-  {
-    "slug": "FUO",
+  "FUO": {
     "place": "Foshan, China",
-    "lat": 23.0239788,
-    "lng": 113.1159558
+    "place_zh": "中国佛山",
+    "lat": 23.0825,
+    "lng": 113.070833,
+    "cca2": "CN"
   },
-  {
-    "slug": "GBE",
+  "GBE": {
     "place": "Gaborone, Botswana",
-    "lat": -24.6581357,
-    "lng": 25.9088474
+    "place_zh": "博茨瓦纳哈博罗内",
+    "lat": -24.6282,
+    "lng": 25.9231,
+    "cca2": "BW"
   },
-  {
-    "slug": "GDL",
+  "GDL": {
     "place": "Guadalajara, Mexico",
-    "lat": 20.6720375,
-    "lng": -103.338396
+    "place_zh": "墨西哥瓜达拉哈拉",
+    "lat": 20.5217990875,
+    "lng": -103.3109970093,
+    "cca2": "MX"
   },
-  {
-    "slug": "GEO",
+  "GEO": {
     "place": "Georgetown, Guyana",
-    "lat": 6.8137426,
-    "lng": -58.1624465
+    "place_zh": "圭亚那乔治敦",
+    "lat": 6.825648,
+    "lng": -58.163756,
+    "cca2": "GY"
   },
-  {
-    "slug": "GIG",
+  "GIG": {
     "place": "Rio de Janeiro, Brazil",
-    "lat": -22.9110137,
-    "lng": -43.2093727
+    "place_zh": "巴西里约热内卢",
+    "lat": -22.8099994659,
+    "lng": -43.2505569458,
+    "cca2": "BR"
   },
-  {
-    "slug": "GND",
+  "GND": {
     "place": "St. George's, Grenada",
-    "lat": 12.0535331,
-    "lng": -61.751805
+    "place_zh": "格林纳达圣乔治",
+    "lat": 12.007116,
+    "lng": -61.7882288,
+    "cca2": "GD"
   },
-  {
-    "slug": "GOT",
+  "GOT": {
     "place": "Gothenburg, Sweden",
-    "lat": 57.7072326,
-    "lng": 11.9670171
+    "place_zh": "瑞典哥德堡",
+    "lat": 57.6627998352,
+    "lng": 12.279800415,
+    "cca2": "SE"
   },
-  {
-    "slug": "GRU",
+  "GRU": {
     "place": "São Paulo, Brazil",
-    "lat": -23.5506507,
-    "lng": -46.6333824
+    "place_zh": "巴西圣保罗",
+    "lat": -23.4355564117,
+    "lng": -46.4730567932,
+    "cca2": "BR"
   },
-  {
-    "slug": "GUA",
+  "GUA": {
     "place": "Guatemala City, Guatemala",
-    "lat": 14.6416142,
-    "lng": -90.5132836
+    "place_zh": "危地马拉危地马拉城",
+    "lat": 14.5832996368,
+    "lng": -90.5274963379,
+    "cca2": "GT"
   },
-  {
-    "slug": "GUM",
+  "GUM": {
     "place": "Hagatna, Guam",
-    "lat": 13.4738606,
-    "lng": 144.7520557
+    "place_zh": "关岛哈加特纳",
+    "lat": 13.4834003448,
+    "lng": 144.796005249,
+    "cca2": "GU"
   },
-  {
-    "slug": "GVA",
+  "GVA": {
     "place": "Geneva, Switzerland",
-    "lat": 46.2017559,
-    "lng": 6.1466014
+    "place_zh": "瑞士日内瓦",
+    "lat": 46.2380981445,
+    "lng": 6.1089501381,
+    "cca2": "CH"
   },
-  {
-    "slug": "GYD",
+  "GYD": {
     "place": "Baku, Azerbaijan",
-    "lat": 40.3755885,
-    "lng": 49.8328009
+    "place_zh": "阿塞拜疆巴库",
+    "lat": 40.4674987793,
+    "lng": 50.0466995239,
+    "cca2": "AZ"
   },
-  {
-    "slug": "GYE",
+  "GYE": {
     "place": "Guayaquil, Ecuador",
-    "lat": -2.2895167,
-    "lng": -80.0983887
+    "place_zh": "厄瓜多尔瓜亚基尔",
+    "lat": -2.1894,
+    "lng": -79.8891,
+    "cca2": "EC"
   },
-  {
-    "slug": "GYN",
+  "GYN": {
     "place": "Goiania, Brazil",
-    "lat": -16.680882,
-    "lng": -49.2532691
+    "place_zh": "巴西戈亚尼亚",
+    "lat": -16.69727,
+    "lng": -49.26851,
+    "cca2": "BR"
   },
-  {
-    "slug": "HAK",
+  "HAK": {
     "place": "Chengmai, China",
-    "lat": 19.691111,
-    "lng": 109.986111
+    "place_zh": "中国澄迈",
+    "lat": 19.9349,
+    "lng": 110.459,
+    "cca2": "CN"
   },
-  {
-    "slug": "HAM",
+  "HAM": {
     "place": "Hamburg, Germany",
-    "lat": 53.550341,
-    "lng": 10.000654
+    "place_zh": "德国汉堡",
+    "lat": 53.6304016113,
+    "lng": 9.9882297516,
+    "cca2": "DE"
   },
-  {
-    "slug": "HAN",
+  "HAN": {
     "place": "Hanoi, Vietnam",
-    "lat": 21.0283334,
-    "lng": 105.854041
+    "place_zh": "越南河内",
+    "lat": 21.221200943,
+    "lng": 105.806999206,
+    "cca2": "VN"
   },
-  {
-    "slug": "HBA",
+  "HBA": {
     "place": "Hobart, Australia",
-    "lat": -42.8825088,
-    "lng": 147.3281233
+    "place_zh": "澳大利亚霍巴特",
+    "lat": -42.883209,
+    "lng": 147.331665,
+    "cca2": "AU"
   },
-  {
-    "slug": "HEL",
+  "HEL": {
     "place": "Helsinki, Finland",
-    "lat": 60.1698897,
-    "lng": 24.9384719
+    "place_zh": "芬兰赫尔辛基",
+    "lat": 60.317199707,
+    "lng": 24.963300705,
+    "cca2": "FI"
   },
-  {
-    "slug": "HFA",
+  "HFA": {
     "place": "Haifa, Israel",
-    "lat": 32.8191218,
-    "lng": 34.9983856
+    "place_zh": "以色列海法",
+    "lat": 32.78492,
+    "lng": 34.96069,
+    "cca2": "IL"
   },
-  {
-    "slug": "HFE",
+  "HFE": {
     "place": "Huainan, China",
-    "lat": 32.5866826,
-    "lng": 117.0130019
+    "place_zh": "中国淮南",
+    "lat": 31.98779,
+    "lng": 116.9769,
+    "cca2": "CN"
   },
-  {
-    "slug": "HGH",
+  "HGH": {
     "place": "Shaoxing, China",
-    "lat": 29.9992425,
-    "lng": 120.576854
+    "place_zh": "中国绍兴",
+    "lat": 30.23609,
+    "lng": 120.428865,
+    "cca2": "CN"
   },
-  {
-    "slug": "HKG",
+  "HKG": {
     "place": "Hong Kong",
-    "lat": 22.350627,
-    "lng": 114.1849161
+    "place_zh": "中国香港",
+    "lat": 22.3089008331,
+    "lng": 113.915000916,
+    "cca2": "HK"
   },
-  {
-    "slug": "HNL",
+  "HNL": {
     "place": "Honolulu, United States",
-    "lat": 21.304547,
-    "lng": -157.855676
+    "place_zh": "美国檀香山",
+    "lat": 21.3187007904,
+    "lng": -157.9219970703,
+    "cca2": "US"
   },
-  {
-    "slug": "HRE",
+  "HRE": {
     "place": "Harare, Zimbabwe",
-    "lat": -17.8567035,
-    "lng": 31.0601584
+    "place_zh": "津巴布韦哈拉雷",
+    "lat": -17.9318008423,
+    "lng": 31.0928001404,
+    "cca2": "ZW"
   },
-  {
-    "slug": "HYD",
+  "HYD": {
     "place": "Hyderabad, India",
-    "lat": 17.360589,
-    "lng": 78.4740613
+    "place_zh": "印度海得拉巴",
+    "lat": 17.2313175201,
+    "lng": 78.4298553467,
+    "cca2": "IN"
   },
-  {
-    "slug": "HYN",
+  "HYN": {
     "place": "Taizhou, China",
-    "lat": 28.6581723,
-    "lng": 121.4163876
+    "place_zh": "中国台州",
+    "lat": 28.562201,
+    "lng": 121.429001,
+    "cca2": "CN"
   },
-  {
-    "slug": "IAD",
+  "IAD": {
     "place": "Ashburn, United States",
-    "lat": 39.029784,
-    "lng": -77.4744148
+    "place_zh": "美国阿什本",
+    "lat": 38.94449997,
+    "lng": -77.45580292,
+    "cca2": "US"
   },
-  {
-    "slug": "IAH",
+  "IAH": {
     "place": "Houston, United States",
-    "lat": 29.7589382,
-    "lng": -95.3676974
+    "place_zh": "美国休斯顿",
+    "lat": 29.9843997955,
+    "lng": -95.3414001465,
+    "cca2": "US"
   },
-  {
-    "slug": "ICN",
+  "ICN": {
     "place": "Seoul, South Korea",
-    "lat": 37.5666791,
-    "lng": 126.9782914
+    "place_zh": "韩国首尔",
+    "lat": 37.4691009521,
+    "lng": 126.450996399,
+    "cca2": "KR"
   },
-  {
-    "slug": "IND",
+  "IND": {
     "place": "Indianapolis, United States",
-    "lat": 39.7683331,
-    "lng": -86.1583502
+    "place_zh": "美国印第安纳波利斯",
+    "lat": 39.717300415,
+    "lng": -86.2944030762,
+    "cca2": "US"
   },
-  {
-    "slug": "ISB",
+  "ISB": {
     "place": "Islamabad, Pakistan",
-    "lat": 33.6938118,
-    "lng": 73.0651511
+    "place_zh": "巴基斯坦伊斯兰堡",
+    "lat": 33.6166992188,
+    "lng": 73.0991973877,
+    "cca2": "PK"
   },
-  {
-    "slug": "IST",
+  "IST": {
     "place": "Istanbul, Turkey",
-    "lat": 41.006381,
-    "lng": 28.9758715
+    "place_zh": "土耳其伊斯坦布尔",
+    "lat": 40.9768981934,
+    "lng": 28.8145999908,
+    "cca2": "TR"
   },
-  {
-    "slug": "ISU",
+  "ISU": {
     "place": "Sulaymaniyah, Iraq",
-    "lat": 35.5570501,
-    "lng": 45.4425963
+    "place_zh": "伊拉克苏莱曼尼亚",
+    "lat": 35.5668,
+    "lng": 45.4161,
+    "cca2": "IQ"
   },
-  {
-    "slug": "ITJ",
+  "ITJ": {
     "place": "Itajai, Brazil",
-    "lat": -26.9046787,
-    "lng": -48.6552979
+    "place_zh": "巴西伊塔雅伊",
+    "lat": -27.6116676331,
+    "lng": -48.6727790833,
+    "cca2": "BR"
   },
-  {
-    "slug": "IXC",
+  "IXC": {
     "place": "Chandigarh, India",
-    "lat": 30.7334421,
-    "lng": 76.7797143
+    "place_zh": "印度昌迪加尔",
+    "lat": 30.673500061,
+    "lng": 76.7884979248,
+    "cca2": "IN"
   },
-  {
-    "slug": "JAX",
+  "JAX": {
     "place": "Jacksonville, United States",
-    "lat": 30.3321838,
-    "lng": -81.655651
+    "place_zh": "美国杰克逊维尔",
+    "lat": 30.4941005707,
+    "lng": -81.6878967285,
+    "cca2": "US"
   },
-  {
-    "slug": "JDO",
+  "JDO": {
     "place": "Juazeiro do Norte, Brazil",
-    "lat": -7.2153453,
-    "lng": -39.3153336
+    "place_zh": "巴西北茹阿泽鲁",
+    "lat": -7.2242,
+    "lng": -39.313,
+    "cca2": "BR"
   },
-  {
-    "slug": "JED",
+  "JED": {
     "place": "Jeddah, Saudi Arabia",
-    "lat": 21.5504432,
-    "lng": 39.1742363
+    "place_zh": "沙特阿拉伯吉达",
+    "lat": 21.679599762,
+    "lng": 39.15650177,
+    "cca2": "SA"
   },
-  {
-    "slug": "JHB",
+  "JHB": {
     "place": "Johor Bahru, Malaysia",
-    "lat": 1.4581986,
-    "lng": 103.7649059
+    "place_zh": "马来西亚新山",
+    "lat": 1.635848,
+    "lng": 103.665943,
+    "cca2": "MY"
   },
-  {
-    "slug": "JIB",
+  "JIB": {
     "place": "Djibouti City",
-    "lat": 11.5566501,
-    "lng": 43.1133956
+    "place_zh": "吉布提市",
+    "lat": 11.5473003387,
+    "lng": 43.1595001221,
+    "cca2": "DJ"
   },
-  {
-    "slug": "JNB",
+  "JNB": {
     "place": "Johannesburg, South Africa",
-    "lat": -26.205,
-    "lng": 28.049722
+    "place_zh": "南非约翰内斯堡",
+    "lat": -26.133333,
+    "lng": 28.25,
+    "cca2": "ZA"
   },
-  {
-    "slug": "JOG",
+  "JOG": {
     "place": "Yogyakarta, Indonesia",
-    "lat": -7.9778384,
-    "lng": 110.3672257
+    "place_zh": "印度尼西亚日惹",
+    "lat": -7.7881798744,
+    "lng": 110.4319992065,
+    "cca2": "ID"
   },
-  {
-    "slug": "JOI",
+  "JOI": {
     "place": "Joinville, Brazil",
-    "lat": -26.3044898,
-    "lng": -48.8486726
+    "place_zh": "巴西若因维利",
+    "lat": -26.304408,
+    "lng": -48.846383,
+    "cca2": "BR"
   },
-  {
-    "slug": "JSR",
+  "JSR": {
     "place": "Jashore, Bangladesh",
-    "lat": 23.1665256,
-    "lng": 89.2094419
+    "place_zh": "孟加拉国杰索尔",
+    "lat": 23.1838,
+    "lng": 89.160797,
+    "cca2": "BD"
   },
-  {
-    "slug": "JXG",
+  "JXG": {
     "place": "Jiaxing, China",
-    "lat": 30.7474425,
-    "lng": 120.7510971
+    "place_zh": "中国嘉兴",
+    "lat": null,
+    "lng": null,
+    "cca2": null
   },
-  {
-    "slug": "KBP",
+  "KBP": {
     "place": "Kyiv, Ukraine",
-    "lat": 50.4500336,
-    "lng": 30.5241361
+    "place_zh": "乌克兰基辅",
+    "lat": 50.3450012207,
+    "lng": 30.8946990967,
+    "cca2": "UA"
   },
-  {
-    "slug": "KCH",
+  "KCH": {
     "place": "Kuching, Malaysia",
-    "lat": 1.5597561,
-    "lng": 110.345397
+    "place_zh": "马来西亚古晋",
+    "lat": 1.709727,
+    "lng": 110.353455,
+    "cca2": "MY"
   },
-  {
-    "slug": "KEF",
+  "KEF": {
     "place": "Reykjavík, Iceland",
-    "lat": 64.145981,
-    "lng": -21.9422367
+    "place_zh": "冰岛雷克雅未克",
+    "lat": 63.9850006104,
+    "lng": -22.6056003571,
+    "cca2": "IS"
   },
-  {
-    "slug": "KGL",
+  "KGL": {
     "place": "Kigali, Rwanda",
-    "lat": -1.8859597,
-    "lng": 30.1296751
+    "place_zh": "卢旺达基加利",
+    "lat": -1.9686299563,
+    "lng": 30.1394996643,
+    "cca2": "RW"
   },
-  {
-    "slug": "KHH",
+  "KHH": {
     "place": "Kaohsiung City, Taiwan",
-    "lat": 22.630583,
-    "lng": 120.3438175
+    "place_zh": "中国台湾高雄",
+    "lat": 22.5771007538,
+    "lng": 120.3499984741,
+    "cca2": "TW"
   },
-  {
-    "slug": "KHI",
+  "KHI": {
     "place": "Karachi, Pakistan",
-    "lat": 24.8546842,
-    "lng": 67.0207055
+    "place_zh": "巴基斯坦卡拉奇",
+    "lat": 24.9064998627,
+    "lng": 67.1607971191,
+    "cca2": "PK"
   },
-  {
-    "slug": "KHN",
+  "KHN": {
     "place": "Nanchang, China",
-    "lat": 28.6472124,
-    "lng": 116.0348483
+    "place_zh": "中国南昌",
+    "lat": 28.864815,
+    "lng": 115.90271,
+    "cca2": "CN"
   },
-  {
-    "slug": "KIN",
+  "KIN": {
     "place": "Kingston, Jamaica",
-    "lat": 17.9712148,
-    "lng": -76.7928128
+    "place_zh": "牙买加金斯敦",
+    "lat": 17.9951,
+    "lng": -76.7846,
+    "cca2": "JM"
   },
-  {
-    "slug": "KIV",
+  "KIV": {
     "place": "Chișinău, Moldova",
-    "lat": 47.0245117,
-    "lng": 28.8322923
+    "place_zh": "摩尔多瓦基希讷乌",
+    "lat": 46.9277000427,
+    "lng": 28.9309997559,
+    "cca2": "MD"
   },
-  {
-    "slug": "KIX",
+  "KIX": {
     "place": "Osaka, Japan",
-    "lat": 34.6937569,
-    "lng": 135.5014539
+    "place_zh": "日本大阪",
+    "lat": 34.4272994995,
+    "lng": 135.244003296,
+    "cca2": "JP"
   },
-  {
-    "slug": "KJA",
+  "KJA": {
     "place": "Krasnoyarsk, Russia",
-    "lat": 56.0091173,
-    "lng": 92.872586
+    "place_zh": "俄罗斯克拉斯诺亚尔斯克",
+    "lat": 56.0153,
+    "lng": 92.8932,
+    "cca2": "RU"
   },
-  {
-    "slug": "KMG",
+  "KMG": {
     "place": "Kunming, China",
-    "lat": 25.0363006,
-    "lng": 102.7086139
+    "place_zh": "中国昆明",
+    "lat": 25.110313,
+    "lng": 102.936743,
+    "cca2": "CN"
   },
-  {
-    "slug": "KNU",
+  "KNU": {
     "place": "Kanpur, India",
-    "lat": 26.4609135,
-    "lng": 80.3217588
+    "place_zh": "印度坎普尔",
+    "lat": 26.4499,
+    "lng": 80.3319,
+    "cca2": "IN"
   },
-  {
-    "slug": "KTM",
+  "KTM": {
     "place": "Kathmandu, Nepal",
-    "lat": 27.708317,
-    "lng": 85.3205817
+    "place_zh": "尼泊尔加德满都",
+    "lat": 27.6965999603,
+    "lng": 85.3591003418,
+    "cca2": "NP"
   },
-  {
-    "slug": "KUL",
+  "KUL": {
     "place": "Kuala Lumpur, Malaysia",
-    "lat": 3.1526589,
-    "lng": 101.7022205
+    "place_zh": "马来西亚吉隆坡",
+    "lat": 2.745579958,
+    "lng": 101.709999084,
+    "cca2": "MY"
   },
-  {
-    "slug": "KWE",
+  "KWE": {
     "place": "Guiyang, China",
-    "lat": 26.6499922,
-    "lng": 106.6246178
+    "place_zh": "中国贵阳",
+    "lat": 26.541466,
+    "lng": 106.803331,
+    "cca2": "CN"
   },
-  {
-    "slug": "KWI",
+  "KWI": {
     "place": "Kuwait City, Kuwait",
-    "lat": 29.3796532,
-    "lng": 47.9734174
+    "place_zh": "科威特科威特城",
+    "lat": 29.226600647,
+    "lng": 47.9688987732,
+    "cca2": "KW"
   },
-  {
-    "slug": "LAD",
+  "LAD": {
     "place": "Luanda, Angola",
-    "lat": -8.8272699,
-    "lng": 13.2439512
+    "place_zh": "安哥拉罗安达",
+    "lat": -8.8583698273,
+    "lng": 13.2312002182,
+    "cca2": "AO"
   },
-  {
-    "slug": "LAS",
+  "LAS": {
     "place": "Las Vegas, United States",
-    "lat": 36.1674263,
-    "lng": -115.1484131
+    "place_zh": "美国拉斯维加斯",
+    "lat": 36.08010101,
+    "lng": -115.1520004,
+    "cca2": "US"
   },
-  {
-    "slug": "LAX",
+  "LAX": {
     "place": "Los Angeles, United States",
-    "lat": 34.0536909,
-    "lng": -118.242766
+    "place_zh": "美国洛杉矶",
+    "lat": 33.94250107,
+    "lng": -118.4079971,
+    "cca2": "US"
   },
-  {
-    "slug": "LCA",
+  "LCA": {
     "place": "Nicosia, Cyprus",
-    "lat": 35.1746503,
-    "lng": 33.3638783
+    "place_zh": "塞浦路斯尼科西亚",
+    "lat": 34.8750991821,
+    "lng": 33.6249008179,
+    "cca2": "CY"
   },
-  {
-    "slug": "LED",
+  "LED": {
     "place": "Saint Petersburg, Russia",
-    "lat": 59.9606739,
-    "lng": 30.1586551
+    "place_zh": "俄罗斯圣彼得堡",
+    "lat": 59.8003005981,
+    "lng": 30.2625007629,
+    "cca2": "RU"
   },
-  {
-    "slug": "LHE",
+  "LHE": {
     "place": "Lahore, Pakistan",
-    "lat": 31.5656822,
-    "lng": 74.3141829
+    "place_zh": "巴基斯坦拉合尔",
+    "lat": 31.521601,
+    "lng": 74.403603,
+    "cca2": "PK"
   },
-  {
-    "slug": "LHR",
+  "LHR": {
     "place": "London, United Kingdom",
-    "lat": 51.4893335,
-    "lng": -0.1440551
+    "place_zh": "英国伦敦",
+    "lat": 51.4706001282,
+    "lng": -0.4619410038,
+    "cca2": "GB"
   },
-  {
-    "slug": "LHW",
+  "LHW": {
     "place": "Lanzhou, China",
-    "lat": 36.474436,
-    "lng": 103.733224
+    "place_zh": "中国兰州",
+    "lat": 36.515202,
+    "lng": 103.620003,
+    "cca2": "CN"
   },
-  {
-    "slug": "LIM",
+  "LIM": {
     "place": "Lima, Peru",
-    "lat": -12.0459808,
-    "lng": -77.0305912
+    "place_zh": "秘鲁利马",
+    "lat": -12.021900177,
+    "lng": -77.1143035889,
+    "cca2": "PE"
   },
-  {
-    "slug": "LIS",
+  "LIS": {
     "place": "Lisbon, Portugal",
-    "lat": 38.7077507,
-    "lng": -9.1365919
+    "place_zh": "葡萄牙里斯本",
+    "lat": 38.7812995911,
+    "lng": -9.1359195709,
+    "cca2": "PT"
   },
-  {
-    "slug": "LLK",
+  "LLK": {
     "place": "Astara, Azerbaijan",
-    "lat": 38.5155978,
-    "lng": 48.8283223
+    "place_zh": "阿塞拜疆阿斯塔拉",
+    "lat": 38.7463989258,
+    "lng": 48.8180007935,
+    "cca2": "AZ"
   },
-  {
-    "slug": "LLW",
+  "LLW": {
     "place": "Lilongwe, Malawi",
-    "lat": -13.9875107,
-    "lng": 33.768144
+    "place_zh": "马拉维利隆圭",
+    "lat": -13.980935,
+    "lng": 33.761462,
+    "cca2": "MW"
   },
-  {
-    "slug": "LOCAL",
+  "LOCAL": {
     "place": "LOCAL",
-    "lat": 0.0,
-    "lng": 0.0
+    "place_zh": "本地网络",
+    "lat": null,
+    "lng": null,
+    "cca2": null
   },
-  {
-    "slug": "LOS",
+  "LOS": {
     "place": "Lagos, Nigeria",
-    "lat": 6.4550575,
-    "lng": 3.3941795
+    "place_zh": "尼日利亚拉各斯",
+    "lat": 6.5773701668,
+    "lng": 3.321160078,
+    "cca2": "NG"
   },
-  {
-    "slug": "LPB",
+  "LPB": {
     "place": "La Paz, Bolivia",
-    "lat": -16.4955455,
-    "lng": -68.1336229
+    "place_zh": "玻利维亚拉巴斯",
+    "lat": -16.4897,
+    "lng": -68.1193,
+    "cca2": "BO"
   },
-  {
-    "slug": "LUN",
+  "LUN": {
     "place": "Lusaka, Zambia",
-    "lat": -15.4163395,
-    "lng": 28.2818414
+    "place_zh": "赞比亚卢萨卡",
+    "lat": -15.371446,
+    "lng": 28.317837,
+    "cca2": "ZM"
   },
-  {
-    "slug": "LUX",
+  "LUX": {
     "place": "Luxembourg City, Luxembourg",
-    "lat": 49.5999681,
-    "lng": 6.1342493
+    "place_zh": "卢森堡卢森堡市",
+    "lat": 49.6265983582,
+    "lng": 6.211520195,
+    "cca2": "LU"
   },
-  {
-    "slug": "LYS",
+  "LYS": {
     "place": "Lyon, France",
-    "lat": 45.7578137,
-    "lng": 4.8320114
+    "place_zh": "法国里昂",
+    "lat": 45.7263,
+    "lng": 5.0908,
+    "cca2": "FR"
   },
-  {
-    "slug": "MAA",
+  "MAA": {
     "place": "Chennai, India",
-    "lat": 13.0836939,
-    "lng": 80.270186
+    "place_zh": "印度钦奈",
+    "lat": 12.9900054932,
+    "lng": 80.1692962646,
+    "cca2": "IN"
   },
-  {
-    "slug": "MAD",
+  "MAD": {
     "place": "Madrid, Spain",
-    "lat": 40.4167047,
-    "lng": -3.7035825
+    "place_zh": "西班牙马德里",
+    "lat": 40.4936,
+    "lng": -3.56676,
+    "cca2": "ES"
   },
-  {
-    "slug": "MAN",
+  "MAN": {
     "place": "Manchester, United Kingdom",
-    "lat": 53.4794892,
-    "lng": -2.2451148
+    "place_zh": "英国曼彻斯特",
+    "lat": 53.3536987305,
+    "lng": -2.2749500275,
+    "cca2": "GB"
   },
-  {
-    "slug": "MAO",
+  "MAO": {
     "place": "Manaus, Brazil",
-    "lat": -3.1316333,
-    "lng": -59.9825041
+    "place_zh": "巴西马瑙斯",
+    "lat": -3.11286,
+    "lng": -60.01949,
+    "cca2": "BR"
   },
-  {
-    "slug": "MBA",
+  "MBA": {
     "place": "Mombasa, Kenya",
-    "lat": -4.05052,
-    "lng": 39.667169
+    "place_zh": "肯尼亚蒙巴萨",
+    "lat": -4.0348300934,
+    "lng": 39.5942001343,
+    "cca2": "KE"
   },
-  {
-    "slug": "MCI",
+  "MCI": {
     "place": "Kansas City, United States",
-    "lat": 39.100105,
-    "lng": -94.5781416
+    "place_zh": "美国堪萨斯城",
+    "lat": 39.2975997925,
+    "lng": -94.7138977051,
+    "cca2": "US"
   },
-  {
-    "slug": "MCT",
+  "MCT": {
     "place": "Muscat, Oman",
-    "lat": 23.6123628,
-    "lng": 58.5938134
+    "place_zh": "阿曼马斯喀特",
+    "lat": 23.5932998657,
+    "lng": 58.2844009399,
+    "cca2": "OM"
   },
-  {
-    "slug": "MDE",
+  "MDE": {
     "place": "Medellín, Colombia",
-    "lat": 6.2697325,
-    "lng": -75.6025597
+    "place_zh": "哥伦比亚麦德林",
+    "lat": 6.16454,
+    "lng": -75.4231,
+    "cca2": "CO"
   },
-  {
-    "slug": "MEL",
+  "MEL": {
     "place": "Melbourne, Australia",
-    "lat": -37.8142454,
-    "lng": 144.9631732
+    "place_zh": "澳大利亚墨尔本",
+    "lat": -37.6733016968,
+    "lng": 144.843002319,
+    "cca2": "AU"
   },
-  {
-    "slug": "MEM",
+  "MEM": {
     "place": "Memphis, United States",
-    "lat": 35.1460249,
-    "lng": -90.0517638
+    "place_zh": "美国孟菲斯",
+    "lat": 35.0424003601,
+    "lng": -89.9766998291,
+    "cca2": "US"
   },
-  {
-    "slug": "MEX",
+  "MEX": {
     "place": "Mexico City, Mexico",
-    "lat": 19.3207722,
-    "lng": -99.1514678
+    "place_zh": "墨西哥墨西哥城",
+    "lat": 19.4363002777,
+    "lng": -99.0720977783,
+    "cca2": "MX"
   },
-  {
-    "slug": "MFE",
+  "MFE": {
     "place": "McAllen, United States",
-    "lat": 26.204114,
-    "lng": -98.2300605
+    "place_zh": "美国麦卡伦",
+    "lat": 26.176141,
+    "lng": -98.237965,
+    "cca2": "US"
   },
-  {
-    "slug": "MFM",
+  "MFM": {
     "place": "Macau",
-    "lat": 22.1757605,
-    "lng": 113.5514142
+    "place_zh": "中国澳门",
+    "lat": 22.1495990753,
+    "lng": 113.592002869,
+    "cca2": "MO"
   },
-  {
-    "slug": "MIA",
+  "MIA": {
     "place": "Miami, United States",
-    "lat": 25.7741728,
-    "lng": -80.19362
+    "place_zh": "美国迈阿密",
+    "lat": 25.7931995392,
+    "lng": -80.2906036377,
+    "cca2": "US"
   },
-  {
-    "slug": "MLE",
+  "MLE": {
     "place": "Male, Maldives",
-    "lat": 4.1779879,
-    "lng": 73.5107387
+    "place_zh": "马尔代夫马累",
+    "lat": 4.1748,
+    "lng": 73.50888,
+    "cca2": "MV"
   },
-  {
-    "slug": "MNL",
+  "MNL": {
     "place": "Manila, Philippines",
-    "lat": 14.5904492,
-    "lng": 120.9803621
+    "place_zh": "菲律宾马尼拉",
+    "lat": 14.508600235,
+    "lng": 121.019996643,
+    "cca2": "PH"
   },
-  {
-    "slug": "MPM",
+  "MPM": {
     "place": "Maputo, Mozambique",
-    "lat": -25.966213,
-    "lng": 32.56745
+    "place_zh": "莫桑比克马普托",
+    "lat": -25.9207992554,
+    "lng": 32.5726013184,
+    "cca2": "MZ"
   },
-  {
-    "slug": "MRS",
+  "MRS": {
     "place": "Marseille, France",
-    "lat": 43.2961743,
-    "lng": 5.3699525
+    "place_zh": "法国马赛",
+    "lat": 43.439271922,
+    "lng": 5.2214241028,
+    "cca2": "FR"
   },
-  {
-    "slug": "MRU",
+  "MRU": {
     "place": "Port Louis, Mauritius",
-    "lat": -20.1624522,
-    "lng": 57.5028044
+    "place_zh": "毛里求斯路易港",
+    "lat": -20.4302005768,
+    "lng": 57.6836013794,
+    "cca2": "MU"
   },
-  {
-    "slug": "MSP",
+  "MSP": {
     "place": "Minneapolis, United States",
-    "lat": 44.9772995,
-    "lng": -93.2654692
+    "place_zh": "美国明尼阿波利斯",
+    "lat": 44.8819999695,
+    "lng": -93.2218017578,
+    "cca2": "US"
   },
-  {
-    "slug": "MSQ",
+  "MSQ": {
     "place": "Minsk, Belarus",
-    "lat": 53.9024716,
-    "lng": 27.5618225
+    "place_zh": "白俄罗斯明斯克",
+    "lat": 53.9006,
+    "lng": 27.599,
+    "cca2": "BY"
   },
-  {
-    "slug": "MUC",
+  "MUC": {
     "place": "Munich, Germany",
-    "lat": 48.1371079,
-    "lng": 11.5753822
+    "place_zh": "德国慕尼黑",
+    "lat": 48.3538017273,
+    "lng": 11.7861003876,
+    "cca2": "DE"
   },
-  {
-    "slug": "MXP",
+  "MXP": {
     "place": "Milan, Italy",
-    "lat": 45.4641943,
-    "lng": 9.1896346
+    "place_zh": "意大利米兰",
+    "lat": 45.6305999756,
+    "lng": 8.7281103134,
+    "cca2": "IT"
   },
-  {
-    "slug": "NAG",
+  "NAG": {
     "place": "Nagpur, India",
-    "lat": 21.1498134,
-    "lng": 79.0820556
+    "place_zh": "印度那格浦尔",
+    "lat": 21.1610714,
+    "lng": 79.0024702,
+    "cca2": "IN"
   },
-  {
-    "slug": "NBO",
+  "NBO": {
     "place": "Nairobi, Kenya",
-    "lat": -1.3026148,
-    "lng": 36.828842
+    "place_zh": "肯尼亚内罗毕",
+    "lat": -1.319239974,
+    "lng": 36.9277992249,
+    "cca2": "KE"
   },
-  {
-    "slug": "NJF",
+  "NJF": {
     "place": "Najaf, Iraq",
-    "lat": 32.0010227,
-    "lng": 44.3299926
+    "place_zh": "伊拉克纳杰夫",
+    "lat": 31.989722,
+    "lng": 44.404167,
+    "cca2": "IQ"
   },
-  {
-    "slug": "NNG",
+  "NNG": {
     "place": "Nanning, China",
-    "lat": 22.8193063,
-    "lng": 108.3627211
+    "place_zh": "中国南宁",
+    "lat": 22.608544,
+    "lng": 108.175335,
+    "cca2": "CN"
   },
-  {
-    "slug": "NOU",
+  "NOU": {
     "place": "Noumea, New Caledonia",
-    "lat": -22.2745264,
-    "lng": 166.442419
+    "place_zh": "新喀里多尼亚努美阿",
+    "lat": -22.0146007538,
+    "lng": 166.212997436,
+    "cca2": "NC"
   },
-  {
-    "slug": "NQN",
+  "NQN": {
     "place": "Neuquen, Argentina",
-    "lat": -38.3695057,
-    "lng": -69.832275
+    "place_zh": "阿根廷内乌肯",
+    "lat": -38.9490013123,
+    "lng": -68.1557006836,
+    "cca2": "AR"
   },
-  {
-    "slug": "NQZ",
+  "NQZ": {
     "place": "Astana, Kazakhstan",
-    "lat": 51.1159933,
-    "lng": 71.4677059
+    "place_zh": "哈萨克斯坦阿斯塔纳",
+    "lat": 51.167801,
+    "lng": 71.418893,
+    "cca2": "KZ"
   },
-  {
-    "slug": "NRT",
+  "NRT": {
     "place": "Tokyo, Japan",
-    "lat": 35.6768601,
-    "lng": 139.7638947
+    "place_zh": "日本东京",
+    "lat": 35.7647018433,
+    "lng": 140.386001587,
+    "cca2": "JP"
   },
-  {
-    "slug": "NVT",
+  "NVT": {
     "place": "Timbo, Brazil",
-    "lat": -26.8282737,
-    "lng": -49.270641
+    "place_zh": "巴西廷博",
+    "lat": -26.8251,
+    "lng": -49.2695,
+    "cca2": "BR"
   },
-  {
-    "slug": "OKA",
+  "OKA": {
     "place": "Naha, Japan",
-    "lat": 26.2122345,
-    "lng": 127.6791452
+    "place_zh": "日本那霸",
+    "lat": 26.1958,
+    "lng": 127.646,
+    "cca2": "JP"
   },
-  {
-    "slug": "OKC",
+  "OKC": {
     "place": "Oklahoma City, United States",
-    "lat": 35.4729886,
-    "lng": -97.5170536
+    "place_zh": "美国俄克拉荷马城",
+    "lat": 35.46655,
+    "lng": -97.65373,
+    "cca2": "US"
   },
-  {
-    "slug": "OMA",
+  "OMA": {
     "place": "Omaha, United States",
-    "lat": 41.2587459,
-    "lng": -95.9383758
+    "place_zh": "美国奥马哈",
+    "lat": 41.3031997681,
+    "lng": -95.8940963745,
+    "cca2": "US"
   },
-  {
-    "slug": "ORD",
+  "ORD": {
     "place": "Chicago, United States",
-    "lat": 41.8755616,
-    "lng": -87.6244212
+    "place_zh": "美国芝加哥",
+    "lat": 41.97859955,
+    "lng": -87.90480042,
+    "cca2": "US"
   },
-  {
-    "slug": "ORF",
+  "ORF": {
     "place": "Norfolk, United States",
-    "lat": 36.8493695,
-    "lng": -76.2899539
+    "place_zh": "美国诺福克",
+    "lat": 36.8945999146,
+    "lng": -76.2012023926,
+    "cca2": "US"
   },
-  {
-    "slug": "ORK",
+  "ORK": {
     "place": "Cork, Ireland",
-    "lat": 51.8985136,
-    "lng": -8.4726423
+    "place_zh": "爱尔兰科克",
+    "lat": 51.8413009644,
+    "lng": -8.491109848,
+    "cca2": "IE"
   },
-  {
-    "slug": "ORN",
+  "ORN": {
     "place": "Oran, Algeria",
-    "lat": 35.7044415,
-    "lng": -0.6502981
+    "place_zh": "阿尔及利亚奥兰",
+    "lat": 35.6911,
+    "lng": -0.6416,
+    "cca2": "DZ"
   },
-  {
-    "slug": "OSL",
+  "OSL": {
     "place": "Oslo, Norway",
-    "lat": 59.9133301,
-    "lng": 10.7389701
+    "place_zh": "挪威奥斯陆",
+    "lat": 60.193901062,
+    "lng": 11.100399971,
+    "cca2": "NO"
   },
-  {
-    "slug": "OTP",
+  "OTP": {
     "place": "Bucharest, Romania",
-    "lat": 44.4361414,
-    "lng": 26.1027202
+    "place_zh": "罗马尼亚布加勒斯特",
+    "lat": 44.5722007751,
+    "lng": 26.1021995544,
+    "cca2": "RO"
   },
-  {
-    "slug": "OUA",
+  "OUA": {
     "place": "Ouagadougou, Burkina Faso",
-    "lat": 12.3681873,
-    "lng": -1.5270944
+    "place_zh": "布基纳法索瓦加杜古",
+    "lat": 12.3531999588,
+    "lng": -1.5124200583,
+    "cca2": "BF"
   },
-  {
-    "slug": "PAT",
+  "PAT": {
     "place": "Patna, India",
-    "lat": 25.6093239,
-    "lng": 85.1235252
+    "place_zh": "印度巴特那",
+    "lat": 25.591299057,
+    "lng": 85.0879974365,
+    "cca2": "IN"
   },
-  {
-    "slug": "PBH",
+  "PBH": {
     "place": "Thimphu, Bhutan",
-    "lat": 27.4713546,
-    "lng": 89.6336729
+    "place_zh": "不丹廷布",
+    "lat": 27.4712,
+    "lng": 89.6339,
+    "cca2": "BT"
   },
-  {
-    "slug": "PBM",
+  "PBM": {
     "place": "Paramaribo, Suriname",
-    "lat": 5.8241764,
-    "lng": -55.1662813
+    "place_zh": "苏里南帕拉马里博",
+    "lat": 5.452831,
+    "lng": -55.187783,
+    "cca2": "SR"
   },
-  {
-    "slug": "PDX",
+  "PDX": {
     "place": "Portland, United States",
-    "lat": 45.5202471,
-    "lng": -122.674194
+    "place_zh": "美国波特兰",
+    "lat": 45.58869934,
+    "lng": -122.5979996,
+    "cca2": "US"
   },
-  {
-    "slug": "PER",
+  "PER": {
     "place": "Perth, Australia",
-    "lat": -31.9558967,
-    "lng": 115.8605784
+    "place_zh": "澳大利亚珀斯",
+    "lat": -31.9402999878,
+    "lng": 115.967002869,
+    "cca2": "AU"
   },
-  {
-    "slug": "PHL",
+  "PHL": {
     "place": "Philadelphia, United States",
-    "lat": 39.9527237,
-    "lng": -75.1635262
+    "place_zh": "美国费城",
+    "lat": 39.8718986511,
+    "lng": -75.2410964966,
+    "cca2": "US"
   },
-  {
-    "slug": "PHX",
+  "PHX": {
     "place": "Phoenix, United States",
-    "lat": 33.4484367,
-    "lng": -112.074141
+    "place_zh": "美国菲尼克斯",
+    "lat": 33.434299469,
+    "lng": -112.012001038,
+    "cca2": "US"
   },
-  {
-    "slug": "PIT",
+  "PIT": {
     "place": "Pittsburgh, United States",
-    "lat": 40.4416941,
-    "lng": -79.9900861
+    "place_zh": "美国匹兹堡",
+    "lat": 40.49150085,
+    "lng": -80.23290253,
+    "cca2": "US"
   },
-  {
-    "slug": "PKX",
+  "PKX": {
     "place": "Langfang, China",
-    "lat": 39.5302055,
-    "lng": 116.6926134
+    "place_zh": "中国廊坊",
+    "lat": 39.509945,
+    "lng": 116.41092,
+    "cca2": "CN"
   },
-  {
-    "slug": "PMO",
+  "PMO": {
     "place": "Palermo, Italy",
-    "lat": 38.1112268,
-    "lng": 13.3524434
+    "place_zh": "意大利巴勒莫",
+    "lat": 38.16114,
+    "lng": 13.31546,
+    "cca2": "IT"
   },
-  {
-    "slug": "PMW",
+  "PMW": {
     "place": "Palmas, Brazil",
-    "lat": -10.1837852,
-    "lng": -48.3336423
+    "place_zh": "巴西帕尔马斯",
+    "lat": -10.2915000916,
+    "lng": -48.3569984436,
+    "cca2": "BR"
   },
-  {
-    "slug": "PNH",
+  "PNH": {
     "place": "Phnom Penh, Cambodia",
-    "lat": 11.5730391,
-    "lng": 104.857807
+    "place_zh": "柬埔寨金边",
+    "lat": 11.5466003418,
+    "lng": 104.84400177,
+    "cca2": "KH"
   },
-  {
-    "slug": "POA",
+  "POA": {
     "place": "Porto Alegre, Brazil",
-    "lat": -30.0324999,
-    "lng": -51.2303767
+    "place_zh": "巴西阿雷格里港",
+    "lat": -29.9944000244,
+    "lng": -51.1713981628,
+    "cca2": "BR"
   },
-  {
-    "slug": "POS",
+  "POS": {
     "place": "Port of Spain, Trinidad and Tobago",
-    "lat": 10.6572678,
-    "lng": -61.5180173
+    "place_zh": "特立尼达和多巴哥西班牙港",
+    "lat": 10.5953998566,
+    "lng": -61.3372001648,
+    "cca2": "TT"
   },
-  {
-    "slug": "PPT",
+  "PPT": {
     "place": "Tahiti, French Polynesia",
-    "lat": -17.6873439,
-    "lng": -149.4451681
+    "place_zh": "法属波利尼西亚塔希提",
+    "lat": -17.5536994934,
+    "lng": -149.606994629,
+    "cca2": "PF"
   },
-  {
-    "slug": "PRG",
+  "PRG": {
     "place": "Prague, Czech Republic",
-    "lat": 50.0596288,
-    "lng": 14.4464593
+    "place_zh": "捷克共和国布拉格",
+    "lat": 50.1007995605,
+    "lng": 14.2600002289,
+    "cca2": "CZ"
   },
-  {
-    "slug": "PTY",
+  "PTY": {
     "place": "Panama City, Panama",
-    "lat": 8.9714493,
-    "lng": -79.5341802
+    "place_zh": "巴拿马巴拿马城",
+    "lat": 9.0713596344,
+    "lng": -79.3834991455,
+    "cca2": "PA"
   },
-  {
-    "slug": "QRO",
+  "QRO": {
     "place": "Queretaro, Mexico",
-    "lat": 20.8052225,
-    "lng": -99.8837376
+    "place_zh": "墨西哥克雷塔罗",
+    "lat": 20.6173000336,
+    "lng": -100.185997009,
+    "cca2": "MX"
   },
-  {
-    "slug": "QWJ",
+  "QWJ": {
     "place": "Americana, Brazil",
-    "lat": -22.7392463,
-    "lng": -47.3306032
+    "place_zh": "巴西阿美利卡纳",
+    "lat": -22.738,
+    "lng": -47.334,
+    "cca2": "BR"
   },
-  {
-    "slug": "RAO",
+  "RAO": {
     "place": "Ribeirao Preto, Brazil",
-    "lat": -21.1776315,
-    "lng": -47.8100983
+    "place_zh": "巴西里贝朗普雷图",
+    "lat": -21.1363887787,
+    "lng": -47.7766685486,
+    "cca2": "BR"
   },
-  {
-    "slug": "RDU",
+  "RDU": {
     "place": "Durham, United States",
-    "lat": 35.996653,
-    "lng": -78.9018053
+    "place_zh": "美国达勒姆",
+    "lat": 35.93543,
+    "lng": -78.88075,
+    "cca2": "US"
   },
-  {
-    "slug": "REC",
+  "REC": {
     "place": "Recife, Brazil",
-    "lat": -8.0584933,
-    "lng": -34.8848193
+    "place_zh": "巴西累西腓",
+    "lat": -8.1264896393,
+    "lng": -34.9235992432,
+    "cca2": "BR"
   },
-  {
-    "slug": "RIC",
+  "RIC": {
     "place": "Richmond, United States",
-    "lat": 37.5385087,
-    "lng": -77.43428
+    "place_zh": "美国里士满",
+    "lat": 37.5051994324,
+    "lng": -77.3197021484,
+    "cca2": "US"
   },
-  {
-    "slug": "RIX",
+  "RIX": {
     "place": "Riga, Latvia",
-    "lat": 56.9493977,
-    "lng": 24.1051846
+    "place_zh": "拉脱维亚里加",
+    "lat": 56.9235992432,
+    "lng": 23.9710998535,
+    "cca2": "LV"
   },
-  {
-    "slug": "RUH",
+  "RUH": {
     "place": "Riyadh, Saudi Arabia",
-    "lat": 23.333333,
-    "lng": 45.333333
+    "place_zh": "沙特阿拉伯利雅得",
+    "lat": 24.9575996399,
+    "lng": 46.6987991333,
+    "cca2": "SA"
   },
-  {
-    "slug": "RUN",
+  "RUN": {
     "place": "Réunion, France",
-    "lat": -21.1309332,
-    "lng": 55.5265771
+    "place_zh": "法国留尼汪",
+    "lat": -20.8871002197,
+    "lng": 55.5102996826,
+    "cca2": "RE"
   },
-  {
-    "slug": "SAN",
+  "SAN": {
     "place": "San Diego, United States",
-    "lat": 32.7174202,
-    "lng": -117.162772
+    "place_zh": "美国圣迭戈",
+    "lat": 32.7336006165,
+    "lng": -117.190002441,
+    "cca2": "US"
   },
-  {
-    "slug": "SAP",
+  "SAP": {
     "place": "San Pedro Sula, Honduras",
-    "lat": 15.5053535,
-    "lng": -88.0250839
+    "place_zh": "洪都拉斯圣佩德罗苏拉",
+    "lat": 15.4525995255,
+    "lng": -87.9235992432,
+    "cca2": "HN"
   },
-  {
-    "slug": "SAT",
+  "SAT": {
     "place": "San Antonio, United States",
-    "lat": 29.4246002,
-    "lng": -98.4951405
+    "place_zh": "美国圣安东尼奥",
+    "lat": 29.429461,
+    "lng": -98.487061,
+    "cca2": "US"
   },
-  {
-    "slug": "SCL",
+  "SCL": {
     "place": "Santiago, Chile",
-    "lat": -33.4377756,
-    "lng": -70.6504502
+    "place_zh": "智利圣地亚哥",
+    "lat": -33.3930015564,
+    "lng": -70.7857971191,
+    "cca2": "CL"
   },
-  {
-    "slug": "SDQ",
+  "SDQ": {
     "place": "Santo Domingo, Dominican Republic",
-    "lat": 18.4713858,
-    "lng": -69.8918436
+    "place_zh": "多米尼加共和国圣多明各",
+    "lat": 18.4297008514,
+    "lng": -69.6688995361,
+    "cca2": "DO"
   },
-  {
-    "slug": "SEA",
+  "SEA": {
     "place": "Seattle, United States",
-    "lat": 47.6038321,
-    "lng": -122.330062
+    "place_zh": "美国西雅图",
+    "lat": 47.4490013123,
+    "lng": -122.308998108,
+    "cca2": "US"
   },
-  {
-    "slug": "SFO",
+  "SFO": {
     "place": "San Francisco, United States",
-    "lat": 37.7792588,
-    "lng": -122.4193286
+    "place_zh": "美国旧金山",
+    "lat": 37.6189994812,
+    "lng": -122.375,
+    "cca2": "US"
   },
-  {
-    "slug": "SGN",
+  "SGN": {
     "place": "Ho Chi Minh City, Vietnam",
-    "lat": 10.7755254,
-    "lng": 106.7021047
+    "place_zh": "越南胡志明市",
+    "lat": 10.8187999725,
+    "lng": 106.652000427,
+    "cca2": "VN"
   },
-  {
-    "slug": "SHA",
+  "SHA": {
     "place": "Shanghai, China",
-    "lat": 31.2312707,
-    "lng": 121.4700152
+    "place_zh": "中国上海",
+    "lat": 31.198104,
+    "lng": 121.33426,
+    "cca2": "CN"
   },
-  {
-    "slug": "SIN",
+  "SIN": {
     "place": "Singapore",
-    "lat": 1.357107,
-    "lng": 103.8194992
+    "place_zh": "新加坡",
+    "lat": 1.3501900434,
+    "lng": 103.994003296,
+    "cca2": "SG"
   },
-  {
-    "slug": "SJC",
+  "SJC": {
     "place": "San Jose, United States",
-    "lat": 37.3361663,
-    "lng": -121.890591
+    "place_zh": "美国圣何塞",
+    "lat": 37.3625984192,
+    "lng": -121.929000855,
+    "cca2": "US"
   },
-  {
-    "slug": "SJK",
+  "SJK": {
     "place": "São José dos Campos, Brazil",
-    "lat": -23.1867782,
-    "lng": -45.8854538
+    "place_zh": "巴西圣若泽杜斯坎普斯",
+    "lat": -23.1791,
+    "lng": -45.8872,
+    "cca2": "BR"
   },
-  {
-    "slug": "SJO",
+  "SJO": {
     "place": "San José, Costa Rica",
-    "lat": 9.9327707,
-    "lng": -84.0796144
+    "place_zh": "哥斯达黎加圣何塞",
+    "lat": 9.9938602448,
+    "lng": -84.2088012695,
+    "cca2": "CR"
   },
-  {
-    "slug": "SJP",
+  "SJP": {
     "place": "São José do Rio Preto, Brazil",
-    "lat": -20.8125851,
-    "lng": -49.3804212
+    "place_zh": "巴西圣若泽杜里奥普雷图",
+    "lat": -20.807157,
+    "lng": -49.378994,
+    "cca2": "BR"
   },
-  {
-    "slug": "SJU",
+  "SJU": {
     "place": "San Juan, Puerto Rico",
-    "lat": 18.384239,
-    "lng": -66.05344
+    "place_zh": "波多黎各圣胡安",
+    "lat": 18.411391,
+    "lng": -66.102793,
+    "cca2": "PR"
   },
-  {
-    "slug": "SJW",
+  "SJW": {
     "place": "Shijiazhuang, China",
-    "lat": 38.0429742,
-    "lng": 114.5088385
+    "place_zh": "中国石家庄",
+    "lat": 38.280701,
+    "lng": 114.696999,
+    "cca2": "CN"
   },
-  {
-    "slug": "SKG",
+  "SKG": {
     "place": "Thessaloniki, Greece",
-    "lat": 40.6403167,
-    "lng": 22.9352716
+    "place_zh": "希腊塞萨洛尼基",
+    "lat": 40.5196990967,
+    "lng": 22.9708995819,
+    "cca2": "GR"
   },
-  {
-    "slug": "SKP",
+  "SKP": {
     "place": "Skopje, North Macedonia",
-    "lat": 41.9961816,
-    "lng": 21.4319213
+    "place_zh": "北马其顿斯科普里",
+    "lat": 41.9616012573,
+    "lng": 21.6214008331,
+    "cca2": "MK"
   },
-  {
-    "slug": "SLC",
+  "SLC": {
     "place": "Salt Lake City, United States",
-    "lat": 40.7596198,
-    "lng": -111.886797
+    "place_zh": "美国盐湖城",
+    "lat": 40.7883987427,
+    "lng": -111.977996826,
+    "cca2": "US"
   },
-  {
-    "slug": "SMF",
+  "SMF": {
     "place": "Sacramento, United States",
-    "lat": 38.5810606,
-    "lng": -121.493895
+    "place_zh": "美国萨克拉门托",
+    "lat": 38.695400238,
+    "lng": -121.591003418,
+    "cca2": "US"
   },
-  {
-    "slug": "SOD",
+  "SOD": {
     "place": "Sorocaba, Brazil",
-    "lat": -23.4684836,
-    "lng": -47.4424129
+    "place_zh": "巴西索罗卡巴",
+    "lat": -23.54389,
+    "lng": -46.63445,
+    "cca2": "BR"
   },
-  {
-    "slug": "SOF",
+  "SOF": {
     "place": "Sofia, Bulgaria",
-    "lat": 42.6977028,
-    "lng": 23.3217359
+    "place_zh": "保加利亚索非亚",
+    "lat": 42.6966934204,
+    "lng": 23.4114360809,
+    "cca2": "BG"
   },
-  {
-    "slug": "SSA",
+  "SSA": {
     "place": "Salvador, Brazil",
-    "lat": -12.9822499,
-    "lng": -38.4812772
+    "place_zh": "巴西萨尔瓦多",
+    "lat": -12.9086112976,
+    "lng": -38.3224983215,
+    "cca2": "BR"
   },
-  {
-    "slug": "STI",
+  "STI": {
     "place": "Santiago de los Caballeros, Dominican Republic",
-    "lat": 19.4503932,
-    "lng": -70.6909047
+    "place_zh": "多米尼加共和国圣地亚哥德洛斯卡巴耶罗斯",
+    "lat": 19.4060993195,
+    "lng": -70.6046981812,
+    "cca2": "DO"
   },
-  {
-    "slug": "STL",
+  "STL": {
     "place": "St. Louis, United States",
-    "lat": 38.6280278,
-    "lng": -90.1910154
+    "place_zh": "美国圣路易斯",
+    "lat": 38.7486991882,
+    "lng": -90.3700027466,
+    "cca2": "US"
   },
-  {
-    "slug": "STR",
+  "STR": {
     "place": "Stuttgart, Germany",
-    "lat": 48.7784485,
-    "lng": 9.1800132
+    "place_zh": "德国斯图加特",
+    "lat": 48.783333,
+    "lng": 9.183333,
+    "cca2": "DE"
   },
-  {
-    "slug": "SUV",
+  "SUV": {
     "place": "Suva, Fiji",
-    "lat": -18.1415884,
-    "lng": 178.4421662
+    "place_zh": "斐济苏瓦",
+    "lat": -18.11319,
+    "lng": 178.43859,
+    "cca2": "FJ"
   },
-  {
-    "slug": "SVX",
+  "SVX": {
     "place": "Yekaterinburg, Russia",
-    "lat": 56.8382071,
-    "lng": 60.6007886
+    "place_zh": "俄罗斯叶卡捷琳堡",
+    "lat": 56.743099212646,
+    "lng": 60.802700042725,
+    "cca2": "RU"
   },
-  {
-    "slug": "SYD",
+  "SYD": {
     "place": "Sydney, Australia",
-    "lat": -33.8698439,
-    "lng": 151.2082848
+    "place_zh": "澳大利亚悉尼",
+    "lat": -33.9460983276,
+    "lng": 151.177001953,
+    "cca2": "AU"
   },
-  {
-    "slug": "SZX",
+  "SZX": {
     "place": "Shenzhen, China",
-    "lat": 22.5445741,
-    "lng": 114.0545429
+    "place_zh": "中国深圳",
+    "lat": 22.639299,
+    "lng": 113.810997,
+    "cca2": "CN"
   },
-  {
-    "slug": "TAO",
+  "TAO": {
     "place": "Qingdao, China",
-    "lat": 36.0663249,
-    "lng": 120.3777659
+    "place_zh": "中国青岛",
+    "lat": 36.361953,
+    "lng": 120.088171,
+    "cca2": "CN"
   },
-  {
-    "slug": "TAS",
+  "TAS": {
     "place": "Tashkent, Uzbekistan",
-    "lat": 41.3123363,
-    "lng": 69.2787079
+    "place_zh": "乌兹别克斯坦塔什干",
+    "lat": 41.2579,
+    "lng": 69.281197,
+    "cca2": "UZ"
   },
-  {
-    "slug": "TBS",
+  "TBS": {
     "place": "Tbilisi, Georgia",
-    "lat": 41.6934591,
-    "lng": 44.8014495
+    "place_zh": "格鲁吉亚第比利斯",
+    "lat": 41.6692008972,
+    "lng": 44.95470047,
+    "cca2": "GE"
   },
-  {
-    "slug": "TEN",
+  "TEN": {
     "place": "Tongren, China",
-    "lat": 27.952938,
-    "lng": 108.584018
+    "place_zh": "中国铜仁",
+    "lat": 27.883333,
+    "lng": 109.308889,
+    "cca2": "CN"
   },
-  {
-    "slug": "TGU",
+  "TGU": {
     "place": "Tegucigalpa, Honduras",
-    "lat": 14.1058135,
-    "lng": -87.2047053
+    "place_zh": "洪都拉斯特古西加尔巴",
+    "lat": 14.0608,
+    "lng": -87.2172,
+    "cca2": "HN"
   },
-  {
-    "slug": "TIA",
+  "TIA": {
     "place": "Tirana, Albania",
-    "lat": 41.3281482,
-    "lng": 19.8184435
+    "place_zh": "阿尔巴尼亚地拉那",
+    "lat": 41.4146995544,
+    "lng": 19.7206001282,
+    "cca2": "AL"
   },
-  {
-    "slug": "TLH",
+  "TLH": {
     "place": "Tallahassee, United States",
-    "lat": 30.4380832,
-    "lng": -84.2809332
+    "place_zh": "美国塔拉哈西",
+    "lat": 30.3964996338,
+    "lng": -84.3503036499,
+    "cca2": "US"
   },
-  {
-    "slug": "TLL",
+  "TLL": {
     "place": "Tallinn, Estonia",
-    "lat": 59.4372419,
-    "lng": 24.7572802
+    "place_zh": "爱沙尼亚塔林",
+    "lat": 59.4132995605,
+    "lng": 24.8327999115,
+    "cca2": "EE"
   },
-  {
-    "slug": "TLV",
+  "TLV": {
     "place": "Tel Aviv, Israel",
-    "lat": 32.0852997,
-    "lng": 34.7818064
+    "place_zh": "以色列特拉维夫",
+    "lat": 32.0113983154,
+    "lng": 34.8866996765,
+    "cca2": "IL"
   },
-  {
-    "slug": "TNA",
+  "TNA": {
     "place": "Zibo, China",
-    "lat": 36.8129564,
-    "lng": 118.0488401
+    "place_zh": "中国淄博",
+    "lat": 36.857201,
+    "lng": 117.216003,
+    "cca2": "CN"
   },
-  {
-    "slug": "TNR",
+  "TNR": {
     "place": "Antananarivo, Madagascar",
-    "lat": -18.9100122,
-    "lng": 47.5255809
+    "place_zh": "马达加斯加塔那那利佛",
+    "lat": -18.91368,
+    "lng": 47.53613,
+    "cca2": "MG"
   },
-  {
-    "slug": "TPA",
+  "TPA": {
     "place": "Tampa, United States",
-    "lat": 27.9477595,
-    "lng": -82.458444
+    "place_zh": "美国坦帕",
+    "lat": 27.9755001068,
+    "lng": -82.533203125,
+    "cca2": "US"
   },
-  {
-    "slug": "TPE",
+  "TPE": {
     "place": "Taipei",
-    "lat": 25.0375198,
-    "lng": 121.5636796
+    "place_zh": "中国台北",
+    "lat": 25.0776996613,
+    "lng": 121.233001709,
+    "cca2": "TW"
   },
-  {
-    "slug": "TSN",
+  "TSN": {
     "place": "Tianjin, China",
-    "lat": 39.3032619,
-    "lng": 117.4163641
+    "place_zh": "中国天津",
+    "lat": 39.124401092499994,
+    "lng": 117.346000671,
+    "cca2": "CN"
   },
-  {
-    "slug": "TUN",
+  "TUN": {
     "place": "Tunis, Tunisia",
-    "lat": 33.8439408,
-    "lng": 9.400138
+    "place_zh": "突尼斯突尼斯",
+    "lat": 36.8510017395,
+    "lng": 10.2271995544,
+    "cca2": "TN"
   },
-  {
-    "slug": "TXL",
+  "TXL": {
     "place": "Berlin, Germany",
-    "lat": 52.5173885,
-    "lng": 13.3951309
+    "place_zh": "德国柏林",
+    "lat": 52.5597000122,
+    "lng": 13.2876996994,
+    "cca2": "DE"
   },
-  {
-    "slug": "TYN",
+  "TYN": {
     "place": "Yangquan, China",
-    "lat": 38.0935972,
-    "lng": 113.5265601
+    "place_zh": "中国阳泉",
+    "lat": 37.746899,
+    "lng": 112.627998,
+    "cca2": "CN"
   },
-  {
-    "slug": "UDI",
+  "UDI": {
     "place": "Uberlandia, Brazil",
-    "lat": -18.9188041,
-    "lng": -48.2767837
+    "place_zh": "巴西乌贝兰迪亚",
+    "lat": -18.8836116791,
+    "lng": -48.225276947,
+    "cca2": "BR"
   },
-  {
-    "slug": "UIO",
+  "UIO": {
     "place": "Quito, Ecuador",
-    "lat": -0.2201641,
-    "lng": -78.5123274
+    "place_zh": "厄瓜多尔基多",
+    "lat": -0.1291666667,
+    "lng": -78.3575,
+    "cca2": "EC"
   },
-  {
-    "slug": "ULN",
+  "ULN": {
     "place": "Ulaanbaatar, Mongolia",
-    "lat": 47.9184676,
-    "lng": 106.9177016
+    "place_zh": "蒙古乌兰巴托",
+    "lat": 47.8431015015,
+    "lng": 106.766998291,
+    "cca2": "MN"
   },
-  {
-    "slug": "URT",
+  "URT": {
     "place": "Surat Thani, Thailand",
-    "lat": 9.1404136,
-    "lng": 99.3241347
+    "place_zh": "泰国素叻他尼",
+    "lat": 9.1325998306,
+    "lng": 99.135597229,
+    "cca2": "TH"
   },
-  {
-    "slug": "VCP",
+  "VCP": {
     "place": "Campinas, Brazil",
-    "lat": -22.9056391,
-    "lng": -47.059564
+    "place_zh": "巴西坎皮纳斯",
+    "lat": -22.90662,
+    "lng": -47.08576,
+    "cca2": "BR"
   },
-  {
-    "slug": "VIE",
+  "VIE": {
     "place": "Vienna, Austria",
-    "lat": 48.2083537,
-    "lng": 16.3725042
+    "place_zh": "奥地利维也纳",
+    "lat": 48.1102981567,
+    "lng": 16.5697002411,
+    "cca2": "AT"
   },
-  {
-    "slug": "VIX",
+  "VIX": {
     "place": "Vitoria, Brazil",
-    "lat": -20.3200917,
-    "lng": -40.3376682
+    "place_zh": "巴西维多利亚",
+    "lat": -20.64871,
+    "lng": -41.90857,
+    "cca2": "BR"
   },
-  {
-    "slug": "VNO",
+  "VNO": {
     "place": "Vilnius, Lithuania",
-    "lat": 54.6870458,
-    "lng": 25.2829111
+    "place_zh": "立陶宛维尔纽斯",
+    "lat": 54.6341018677,
+    "lng": 25.2858009338,
+    "cca2": "LT"
   },
-  {
-    "slug": "VTE",
+  "VTE": {
     "place": "Vientiane, Laos",
-    "lat": 17.9640988,
-    "lng": 102.6133707
+    "place_zh": "老挝万象",
+    "lat": 17.9757,
+    "lng": 102.5683,
+    "cca2": "LA"
   },
-  {
-    "slug": "WAW",
+  "WAW": {
     "place": "Warsaw, Poland",
-    "lat": 52.2333742,
-    "lng": 21.0711489
+    "place_zh": "波兰华沙",
+    "lat": 52.1656990051,
+    "lng": 20.9671001434,
+    "cca2": "PL"
   },
-  {
-    "slug": "WDH",
+  "WDH": {
     "place": "Windhoek, Namibia",
-    "lat": -22.5335601,
-    "lng": 17.0454775
+    "place_zh": "纳米比亚温得和克",
+    "lat": -22.565587,
+    "lng": 17.085334,
+    "cca2": "NA"
   },
-  {
-    "slug": "WHU",
+  "WHU": {
     "place": "Wuhu, China",
-    "lat": 31.1800568,
-    "lng": 118.2141777
+    "place_zh": "中国芜湖",
+    "lat": 31.3906,
+    "lng": 118.408997,
+    "cca2": "CN"
   },
-  {
-    "slug": "XAP",
+  "XAP": {
     "place": "Chapeco, Brazil",
-    "lat": -27.0922364,
-    "lng": -52.6166878
+    "place_zh": "巴西沙佩科",
+    "lat": -27.1341991425,
+    "lng": -52.6566009521,
+    "cca2": "BR"
   },
-  {
-    "slug": "XFN",
+  "XFN": {
     "place": "Xiangyang, China",
-    "lat": 32.010998,
-    "lng": 112.1163785
+    "place_zh": "中国襄阳",
+    "lat": 32.152222,
+    "lng": 112.291666,
+    "cca2": "CN"
   },
-  {
-    "slug": "XIY",
+  "XIY": {
     "place": "Baoji, China",
-    "lat": 34.3609713,
-    "lng": 107.2322378
+    "place_zh": "中国宝鸡",
+    "lat": 34.447102,
+    "lng": 108.751999,
+    "cca2": "CN"
   },
-  {
-    "slug": "XNH",
+  "XNH": {
     "place": "Nasiriyah, Iraq",
-    "lat": 31.0439957,
-    "lng": 46.2399386
+    "place_zh": "伊拉克纳西里耶",
+    "lat": 30.9358005524,
+    "lng": 46.0900993347,
+    "cca2": "IQ"
   },
-  {
-    "slug": "XNN",
+  "XNN": {
     "place": "Xining, China",
-    "lat": 36.824463,
-    "lng": 101.440811
+    "place_zh": "中国西宁",
+    "lat": 36.530093,
+    "lng": 102.040062,
+    "cca2": "CN"
   },
-  {
-    "slug": "YHZ",
+  "YHZ": {
     "place": "Halifax, Canada",
-    "lat": 44.648618,
-    "lng": -63.5859487
+    "place_zh": "加拿大哈利法克斯",
+    "lat": 44.64601,
+    "lng": -63.66844,
+    "cca2": "CA"
   },
-  {
-    "slug": "YOW",
+  "YOW": {
     "place": "Ottawa, Canada",
-    "lat": 45.4208777,
-    "lng": -75.6901106
+    "place_zh": "加拿大渥太华",
+    "lat": 45.3224983215,
+    "lng": -75.6691970825,
+    "cca2": "CA"
   },
-  {
-    "slug": "YUL",
+  "YUL": {
     "place": "Montréal, Canada",
-    "lat": 45.5031824,
-    "lng": -73.5698065
+    "place_zh": "加拿大蒙特利尔",
+    "lat": 45.4706001282,
+    "lng": -73.7407989502,
+    "cca2": "CA"
   },
-  {
-    "slug": "YVR",
+  "YVR": {
     "place": "Vancouver, Canada",
-    "lat": 49.2608724,
-    "lng": -123.113952
+    "place_zh": "加拿大温哥华",
+    "lat": 49.193901062,
+    "lng": -123.183998108,
+    "cca2": "CA"
   },
-  {
-    "slug": "YWG",
+  "YWG": {
     "place": "Winnipeg, Canada",
-    "lat": 49.8955367,
-    "lng": -97.1384584
+    "place_zh": "加拿大温尼伯",
+    "lat": 49.9099998474,
+    "lng": -97.2398986816,
+    "cca2": "CA"
   },
-  {
-    "slug": "YXE",
+  "YXE": {
     "place": "Saskatoon, Canada",
-    "lat": 52.131802,
-    "lng": -106.660767
+    "place_zh": "加拿大萨斯卡通",
+    "lat": 52.1707992554,
+    "lng": -106.699996948,
+    "cca2": "CA"
   },
-  {
-    "slug": "YYC",
+  "YYC": {
     "place": "Calgary, Canada",
-    "lat": 51.0456064,
-    "lng": -114.057541
+    "place_zh": "加拿大卡尔加里",
+    "lat": 51.113899231,
+    "lng": -114.019996643,
+    "cca2": "CA"
   },
-  {
-    "slug": "YYZ",
+  "YYZ": {
     "place": "Toronto, Canada",
-    "lat": 43.6534817,
-    "lng": -79.3839347
+    "place_zh": "加拿大多伦多",
+    "lat": 43.6772003174,
+    "lng": -79.6305999756,
+    "cca2": "CA"
   },
-  {
-    "slug": "ZAG",
+  "ZAG": {
     "place": "Zagreb, Croatia",
-    "lat": 45.8130967,
-    "lng": 15.9772795
+    "place_zh": "克罗地亚萨格勒布",
+    "lat": 45.7429008484,
+    "lng": 16.0687999725,
+    "cca2": "HR"
   },
-  {
-    "slug": "ZDM",
+  "ZDM": {
     "place": "Ramallah",
-    "lat": 31.8978012,
-    "lng": 35.1924223
+    "place_zh": "拉马拉",
+    "lat": 32.2719,
+    "lng": 35.0194,
+    "cca2": "PS"
   },
-  {
-    "slug": "ZGN",
+  "ZGN": {
     "place": "Zhongshan, China",
-    "lat": 22.5197073,
-    "lng": 113.3872302
+    "place_zh": "中国中山",
+    "lat": 22.519296,
+    "lng": 113.361307,
+    "cca2": "CN"
   },
-  {
-    "slug": "ZRH",
+  "ZRH": {
     "place": "Zurich, Switzerland",
-    "lat": 47.3744489,
-    "lng": 8.5410422
+    "place_zh": "瑞士苏黎世",
+    "lat": 47.4646987915,
+    "lng": 8.5491695404,
+    "cca2": "CH"
   }
-]
+}

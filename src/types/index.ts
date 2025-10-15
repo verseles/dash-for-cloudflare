@@ -56,14 +56,6 @@ export interface DataCenterInfo {
   lng: number
 }
 
-export interface DataCenter {
-  slug: string
-  place: string
-  lat: number
-  lng: number
-}
-
-
 // New types for DNS Analytics
 export interface AnalyticsGroup {
   count: number
