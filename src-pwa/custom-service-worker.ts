@@ -15,7 +15,7 @@ import {
 } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
 
-self.skipWaiting();
+void self.skipWaiting();
 clientsClaim();
 
 // Use with precache injection
