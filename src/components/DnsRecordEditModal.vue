@@ -69,20 +69,22 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
 const { t } = useI18n()
 
 interface DnsRecordForm {
-  type?: string
-  name?: string
-  content?: string
-  ttl?: number
+  type: string
+  name: string
+  content: string
+  ttl: number
   proxied: boolean
-  id?: string
+  id: string | undefined
 }
 
+// Initialize formData directly from props to avoid lifecycle issues.
 const formData = ref<DnsRecordForm>({
-  type: 'A',
-  name: '',
-  content: '',
-  ttl: 1,
-  proxied: false,
+  type: props.record?.type || 'A',
+  name: props.record?.name || '',
+  content: props.record?.content || '',
+  ttl: props.record?.ttl || 1,
+  proxied: props.record?.proxied ?? false,
+  id: props.record?.id,
 })
 
 
@@ -116,27 +118,6 @@ const saveButtonText = computed(() => {
     ? t('dns.editRecord.update')
     : t('dns.editRecord.create')
 })
-
-watch(
-  () => props.record,
-  (newRecord) => {
-    if (newRecord) {
-      formData.value = {
-        ...newRecord,
-        proxied: newRecord.proxied ?? false
-      }
-    } else {
-      formData.value = {
-        type: 'A',
-        name: '',
-        content: '',
-        ttl: 1,
-        proxied: false,
-      }
-    }
-  },
-  { immediate: true },
-)
 
 watch(
   () => formData.value.type,
