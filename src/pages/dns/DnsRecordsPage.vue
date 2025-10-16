@@ -2,16 +2,17 @@
     <q-page>
         <!-- Filter chips toolbar -->
         <q-toolbar class="filter-toolbar sticky-top-inside-page bg-toolbar">
-            <div class="row items-center full-width no-wrap q-gutter-x-sm">
+            <div class="row items-center full-width no-wrap q-gutter-x-xs">
                 <!-- Filter Chips -->
                 <div class="scroll no-wrap q-gutter-x-sm col">
-                    <q-chip :outline="activeFilter !== 'All'" clickable @click="setFilter('All')"
-                        :color="activeFilter === 'All' ? 'primary' : 'grey-7'"
+                    <q-chip :outline="activeFilter !== 'All'" size="sm" class="q-ma-xs q-pa-sm" clickable
+                        @click="setFilter('All')" :color="activeFilter === 'All' ? 'primary' : 'grey-7'"
                         :text-color="activeFilter === 'All' ? 'white' : undefined">
                         {{ t('dns.filterAll') }}
                     </q-chip>
-                    <q-chip v-for="type in availableTypes" :key="type" clickable :outline="activeFilter !== type"
-                        @click="setFilter(type)" :color="activeFilter === type ? 'primary' : 'grey-7'"
+                    <q-chip v-for="type in availableTypes" :key="type" size="sm" class="q-ma-xs q-pa-sm" clickable
+                        :outline="activeFilter !== type" @click="setFilter(type)"
+                        :color="activeFilter === type ? 'primary' : 'grey-7'"
                         :text-color="activeFilter === 'white' ? 'white' : undefined">
                         {{ type }}
                     </q-chip>
