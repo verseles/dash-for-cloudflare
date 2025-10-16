@@ -71,7 +71,16 @@ export default defineConfig((ctx) => {
             'echarts/renderers',
             'vue-echarts',
           ],
-        }
+        };
+
+        // Explicitly alias vue-i18n to the full bundle to include the compiler
+        viteConf.resolve = {
+          ...viteConf.resolve,
+          alias: {
+            ...viteConf.resolve?.alias,
+            'vue-i18n': 'vue-i18n/dist/vue-i18n.esm-bundler.js',
+          },
+        };
       },
       // viteVuePluginOptions: {},
 
