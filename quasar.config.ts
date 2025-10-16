@@ -60,6 +60,13 @@ export default defineConfig((ctx) => {
       // polyfillModulePreload: true,
       // distDir
 
+      // Add feature flags for vue-i18n
+      rawDefine: {
+        __VUE_I18N_FULL_INSTALL__: 'true',
+        __VUE_I18N_LEGACY_API__: 'false',
+        __INTLIFY_JIT_COMPILATION__: 'true',
+      },
+
       extendViteConf(viteConf) {
         viteConf.optimizeDeps = {
           ...viteConf.optimizeDeps,
@@ -71,16 +78,7 @@ export default defineConfig((ctx) => {
             'echarts/renderers',
             'vue-echarts',
           ],
-        };
-
-        // Explicitly alias vue-i18n to the full bundle to include the compiler
-        viteConf.resolve = {
-          ...viteConf.resolve,
-          alias: {
-            ...viteConf.resolve?.alias,
-            'vue-i18n': 'vue-i18n/dist/vue-i18n.esm-bundler.js',
-          },
-        };
+        }
       },
       // viteVuePluginOptions: {},
 
@@ -93,7 +91,7 @@ export default defineConfig((ctx) => {
 
             // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
             // you need to set `runtimeOnly: false`
-            runtimeOnly: false,
+            // runtimeOnly: false,
 
             ssr: ctx.modeName === 'ssr',
 

@@ -21,7 +21,7 @@ export default {
     update: 'Update',
     type: 'Type',
     name: 'Name',
-    namePlaceholder: '(for root)',
+    namePlaceholder: "{'@'} (for root)",
     content: 'Content',
     ttl: 'TTL',
     proxied: 'Proxy status',

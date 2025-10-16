@@ -21,7 +21,7 @@ export default {
     update: 'Atualizar',
     type: 'Tipo',
     name: 'Nome',
-    namePlaceholder: '(para raiz)',
+    namePlaceholder: "{'@'} (para raiz)",
     content: 'Conteúdo',
     ttl: 'TTL',
     proxied: 'Status do proxy',
