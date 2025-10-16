@@ -4,7 +4,7 @@
       <q-bar>
         <div>{{ t('dns.editRecord.title') }}</div>
         <q-space />
-        <q-btn dense flat icon="close" @click="onDialogCancel" />
+        <q-btn v-close-popup dense flat icon="close" @click="onDialogCancel" />
       </q-bar>
 
       <q-form @submit.prevent="onOKClick">
@@ -54,7 +54,7 @@ import { ref, computed, watch } from 'vue'
 import { useDialogPluginComponent } from 'quasar'
 import type { DnsRecord } from 'src/types'
 import { useI18n } from 'src/composables/useI18n'
-import CloudflareProxyToggle from './CloudflareProxyToggle.vue';
+import CloudflareProxyToggle from './CloudflareProxyToggle.vue'
 
 interface Props {
   record?: DnsRecord
@@ -69,22 +69,20 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
 const { t } = useI18n()
 
 interface DnsRecordForm {
-  type: string
-  name: string
-  content: string
-  ttl: number
+  type?: string
+  name?: string
+  content?: string
+  ttl?: number
   proxied: boolean
-  id: string | undefined
+  id?: string
 }
 
-// Initialize formData directly from props to avoid lifecycle issues.
 const formData = ref<DnsRecordForm>({
-  type: props.record?.type || 'A',
-  name: props.record?.name || '',
-  content: props.record?.content || '',
-  ttl: props.record?.ttl || 1,
-  proxied: props.record?.proxied ?? false,
-  id: props.record?.id,
+  type: 'A',
+  name: '',
+  content: '',
+  ttl: 1,
+  proxied: false,
 })
 
 
@@ -118,6 +116,27 @@ const saveButtonText = computed(() => {
     ? t('dns.editRecord.update')
     : t('dns.editRecord.create')
 })
+
+watch(
+  () => props.record,
+  (newRecord) => {
+    if (newRecord) {
+      formData.value = {
+        ...newRecord,
+        proxied: newRecord.proxied ?? false
+      }
+    } else {
+      formData.value = {
+        type: 'A',
+        name: '',
+        content: '',
+        ttl: 1,
+        proxied: false,
+      }
+    }
+  },
+  { immediate: true },
+)
 
 watch(
   () => formData.value.type,
