@@ -11,6 +11,10 @@ export default {
     dns: 'DNS',
     settings: 'Configurações',
   },
+  pwaUpdate: {
+    newVersionAvailable: 'Uma nova versão está disponível!',
+    updateNow: 'Atualizar Agora',
+  },
   dns,
   settings,
 }

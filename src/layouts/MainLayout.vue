@@ -41,17 +41,20 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <UpdateBanner v-model="updateExists" @update-app="updateApp" />
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'src/composables/useI18n'
 import { useLoadingStore } from 'src/stores/loading'
 import { useZoneStore } from 'src/stores/zoneStore'
 import type { Zone } from 'src/types'
+import UpdateBanner from 'src/components/UpdateBanner.vue'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -108,4 +111,34 @@ const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+// PWA Update Logic
+const updateExists = ref(false)
+const registration = ref<ServiceWorkerRegistration | null>(null)
+
+function onSWUpdated(e: Event) {
+  const reg = (e as CustomEvent).detail
+  if (reg && reg.waiting) {
+    registration.value = reg
+    updateExists.value = true
+  }
+}
+
+function updateApp() {
+  if (registration.value && registration.value.waiting) {
+    registration.value.waiting.postMessage({ type: 'SKIP_WAITING' })
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('swUpdated', onSWUpdated, { once: true })
+  // When the new service worker becomes active, refresh the page
+  navigator.serviceWorker?.addEventListener('controllerchange', () => {
+    window.location.reload()
+  })
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('swUpdated', onSWUpdated)
+})
 </script>

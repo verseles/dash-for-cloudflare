@@ -27,8 +27,13 @@ register(process.env.SERVICE_WORKER_FILE, {
     // console.log('New content is downloading.')
   },
 
-  updated (/* registration */) {
+  updated (registration) {
     // console.log('New content is available; please refresh.')
+    // A new version is available.
+    // Dispatch a custom event to notify the app.
+    document.dispatchEvent(
+      new CustomEvent('swUpdated', { detail: registration })
+    );
   },
 
   offline () {
