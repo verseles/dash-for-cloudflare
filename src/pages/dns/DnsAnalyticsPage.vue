@@ -353,7 +353,11 @@ const createChartData = (
   })
 }
 
-const queriesByDataCenter = createChartData('byDataCenter', 'coloName')
+const queriesByDataCenter = createChartData(
+  'byDataCenter',
+  'coloName',
+  (name) => dataCenters.value[name]?.place || name,
+)
 const queriesByRecordType = createChartData('byRecordType', 'queryType')
 const queriesByResponseCode = createChartData('byResponseCode', 'responseCode')
 const queriesByIpVersion = createChartData('byIpVersion', 'ipVersion')
