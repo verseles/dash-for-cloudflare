@@ -29,7 +29,7 @@
                     <q-btn v-else flat round dense icon="search" @click="focusSearch" />
                 </div>
             </div>
-        </q-toolbar>''
+        </q-toolbar>
 
         <div class="dns-content" :key="selectedZoneId || 'no-zone'" style="padding-bottom: 64px">
             <div v-if="isLoadingRecords">
