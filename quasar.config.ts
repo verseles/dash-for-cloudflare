@@ -187,6 +187,10 @@ export default defineConfig((ctx) => {
       // extendPWACustomSWConf (esbuildConf) {},
       // extendGenerateSWOptions (cfg) {},
       // extendInjectManifestOptions (cfg) {}
+      manifest: {
+        theme_color: '#F48120',
+        background_color: '#ffffff'
+      }
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova
