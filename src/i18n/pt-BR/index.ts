@@ -1,4 +1,5 @@
 import dns from './modules/dns'
+import domains from './modules/domains'
 import settings from './modules/settings'
 
 export default {
@@ -9,6 +10,7 @@ export default {
   },
   menu: {
     dns: 'DNS',
+    domains: 'Domínios',
     settings: 'Configurações',
   },
   pwaUpdate: {
@@ -16,5 +18,6 @@ export default {
     updateNow: 'Atualizar Agora',
   },
   dns,
+  domains,
   settings,
 }
