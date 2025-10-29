@@ -101,7 +101,7 @@ const menuList = computed(() => [
   },
   {
     title: t('menu.domains'),
-    to: '/domains',
+    to: '/domains/list',
     icon: 'language',
   },
   {

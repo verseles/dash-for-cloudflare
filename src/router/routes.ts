@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
         path: 'dns',
         component: () => import('pages/DnsPage.vue'),
         children: [
-          { path: '', redirect: 'dns/records' },
+          { path: '', redirect: 'records' },
           {
             path: 'records',
             component: () => import('pages/dns/DnsRecordsPage.vue'),
@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
         path: 'domains',
         component: () => import('pages/DomainsPage.vue'),
         children: [
-          { path: '', redirect: 'domains/list' },
+          { path: '', redirect: 'list' },
           {
             path: 'list',
             component: () => import('pages/domains/DomainsListPage.vue'),
