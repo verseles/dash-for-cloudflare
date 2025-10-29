@@ -8,6 +8,8 @@ const STORAGE_KEY = 'dash_settings';
 // Default settings
 const defaultSettings = {
   cloudflareApiToken: '',
+  cloudflareAccountId: '',
+  whoApiKey: '',
   theme: 'auto', // 'auto', 'light', 'dark'
   language: 'en-US',
 };

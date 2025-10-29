@@ -29,6 +29,21 @@ const routes: RouteRecordRaw[] = [
         path: 'settings',
         component: () => import('pages/SettingsPage.vue'),
       },
+      {
+        path: 'domains',
+        component: () => import('pages/DomainsPage.vue'),
+        children: [
+          { path: '', redirect: 'domains/list' },
+          {
+            path: 'list',
+            component: () => import('pages/domains/DomainsListPage.vue'),
+          },
+          {
+            path: 'register',
+            component: () => import('pages/domains/DomainsRegisterPage.vue'),
+          },
+        ],
+      },
     ],
   },
 ]
