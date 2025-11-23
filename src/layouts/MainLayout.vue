@@ -4,11 +4,28 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-select v-if="shouldShowZoneSelector" v-model="selectedZoneId" :label="t('dns.zoneSelector')" stack-label
-          :placeholder="t('dns.loadingZones')" :options="filteredZoneOptions" option-value="id" option-label="name"
-          emit-value map-options :loading="isLoadingZones" :disable="isLoadingZones || !!operationError"
-          class="full-width q-ml-md" borderless dense options-dense use-input fill-input hide-selected
-          @filter="filterZones">
+        <q-select
+          v-if="shouldShowZoneSelector"
+          v-model="selectedZoneId"
+          :label="t('dns.zoneSelector')"
+          stack-label
+          :placeholder="t('dns.loadingZones')"
+          :options="filteredZoneOptions"
+          option-value="id"
+          option-label="name"
+          emit-value
+          map-options
+          :loading="isLoadingZones"
+          :disable="isLoadingZones || !!operationError"
+          class="full-width q-ml-md"
+          borderless
+          dense
+          options-dense
+          use-input
+          fill-input
+          hide-selected
+          @filter="filterZones"
+        >
           <template #no-option>
             <q-item>
               <q-item-section class="text-grey">No results</q-item-section>
@@ -47,51 +64,51 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useI18n } from 'src/composables/useI18n'
-import { useLoadingStore } from 'src/stores/loading'
-import { useZoneStore } from 'src/stores/zoneStore'
-import type { Zone } from 'src/types'
-import UpdateBanner from 'src/components/UpdateBanner.vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useI18n } from 'src/composables/useI18n';
+import { useLoadingStore } from 'src/stores/loading';
+import { useZoneStore } from 'src/stores/zoneStore';
+import type { Zone } from 'src/types';
+import UpdateBanner from 'src/components/UpdateBanner.vue';
 
-const { t } = useI18n()
-const route = useRoute()
-const loadingStore = useLoadingStore()
-const zoneStore = useZoneStore()
+const { t } = useI18n();
+const route = useRoute();
+const loadingStore = useLoadingStore();
+const zoneStore = useZoneStore();
 
-const { zones, selectedZoneId, isLoadingZones, operationError } = storeToRefs(zoneStore)
+const { zones, selectedZoneId, isLoadingZones, operationError } = storeToRefs(zoneStore);
 
-const filteredZoneOptions = ref<Zone[]>(zones.value)
+const filteredZoneOptions = ref<Zone[]>(zones.value);
 
 watch(zones, (newZones) => {
-  filteredZoneOptions.value = newZones
-})
+  filteredZoneOptions.value = newZones;
+});
 
 const filterZones = (val: string, update: (callback: () => void) => void) => {
   if (val === '') {
     update(() => {
-      filteredZoneOptions.value = zones.value
-    })
-    return
+      filteredZoneOptions.value = zones.value;
+    });
+    return;
   }
 
   update(() => {
-    const needle = val.toLowerCase()
-    const filtered = zones.value.filter((zone) => zone.name.toLowerCase().indexOf(needle) > -1)
-    filteredZoneOptions.value = filtered
+    const needle = val.toLowerCase();
+    const filtered = zones.value.filter((zone) => zone.name.toLowerCase().indexOf(needle) > -1);
+    filteredZoneOptions.value = filtered;
 
     // Autoselect if only one result and it's not already the selected one
     if (filtered.length === 1 && filtered[0] && selectedZoneId.value !== filtered[0].id) {
-      selectedZoneId.value = filtered[0].id
+      selectedZoneId.value = filtered[0].id;
     }
-  })
-}
+  });
+};
 
-const isAnythingLoading = computed(() => loadingStore.isLoading || zoneStore.isLoadingZones)
+const isAnythingLoading = computed(() => loadingStore.isLoading || zoneStore.isLoadingZones);
 
-const shouldShowZoneSelector = computed(() => route.path.startsWith('/dns'))
+const shouldShowZoneSelector = computed(() => route.path.startsWith('/dns'));
 
 const menuList = computed(() => [
   {
@@ -105,41 +122,41 @@ const menuList = computed(() => [
     to: '/settings',
     icon: 'settings',
   },
-])
+]);
 
-const leftDrawerOpen = ref(false)
+const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+  leftDrawerOpen.value = !leftDrawerOpen.value;
 }
 
 // PWA Update Logic
-const updateExists = ref(false)
-const registration = ref<ServiceWorkerRegistration | null>(null)
+const updateExists = ref(false);
+const registration = ref<ServiceWorkerRegistration | null>(null);
 
 function onSWUpdated(e: Event) {
-  const reg = (e as CustomEvent).detail
+  const reg = (e as CustomEvent).detail;
   if (reg && reg.waiting) {
-    registration.value = reg
-    updateExists.value = true
+    registration.value = reg;
+    updateExists.value = true;
   }
 }
 
 function updateApp() {
   if (registration.value && registration.value.waiting) {
-    registration.value.waiting.postMessage({ type: 'SKIP_WAITING' })
+    registration.value.waiting.postMessage({ type: 'SKIP_WAITING' });
   }
 }
 
 onMounted(() => {
-  document.addEventListener('swUpdated', onSWUpdated, { once: true })
+  document.addEventListener('swUpdated', onSWUpdated, { once: true });
   // When the new service worker becomes active, refresh the page
   navigator.serviceWorker?.addEventListener('controllerchange', () => {
-    window.location.reload()
-  })
-})
+    window.location.reload();
+  });
+});
 
 onBeforeUnmount(() => {
-  document.removeEventListener('swUpdated', onSWUpdated)
-})
+  document.removeEventListener('swUpdated', onSWUpdated);
+});
 </script>

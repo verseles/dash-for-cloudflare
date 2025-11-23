@@ -11,13 +11,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item
-            clickable
-            tag="a"
-            :href="dnsDocLink"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <q-item clickable tag="a" :href="dnsDocLink" target="_blank" rel="noopener noreferrer">
             <q-item-section avatar>
               <q-icon name="description" />
             </q-item-section>
@@ -38,9 +32,7 @@
             </q-item-section>
             <q-item-section>
               <q-item-label>DNSSEC</q-item-label>
-              <q-item-label caption
-                >Domain Name System Security Extensions</q-item-label
-              >
+              <q-item-label caption>Domain Name System Security Extensions</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-btn flat round color="primary" icon="help_outline">

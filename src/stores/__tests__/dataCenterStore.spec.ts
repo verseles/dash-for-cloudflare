@@ -1,70 +1,70 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { setActivePinia, createPinia } from 'pinia'
-import { useDataCenterStore } from '../dataCenterStore'
-import axios from 'axios'
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { setActivePinia, createPinia } from 'pinia';
+import { useDataCenterStore } from '../dataCenterStore';
+import axios from 'axios';
 
 // Mock axios
 vi.mock('axios', () => ({
   default: {
-    get: vi.fn()
-  }
-}))
+    get: vi.fn(),
+  },
+}));
 // eslint-disable-next-line @typescript-eslint/unbound-method
-const mockedAxiosGet = vi.mocked(axios.get)
+const mockedAxiosGet = vi.mocked(axios.get);
 
 describe('dataCenterStore', () => {
   beforeEach(() => {
-    setActivePinia(createPinia())
-    vi.clearAllMocks()
-  })
+    setActivePinia(createPinia());
+    vi.clearAllMocks();
+  });
 
   it('should have initial data from local JSON', () => {
-    const store = useDataCenterStore()
+    const store = useDataCenterStore();
     // Should have some data from local fallback
-    expect(store.dataCenters).toBeDefined()
-    expect(typeof store.dataCenters).toBe('object')
-    expect(store.isLoading).toBe(false)
-  })
+    expect(store.dataCenters).toBeDefined();
+    expect(typeof store.dataCenters).toBe('object');
+    expect(store.isLoading).toBe(false);
+  });
 
   it('should fetch data centers from CDN', async () => {
     const mockData = {
       LAX: { iata: 'LAX', city: 'Los Angeles', country: 'US' },
-      GRU: { iata: 'GRU', city: 'São Paulo', country: 'BR' }
-    }
+      GRU: { iata: 'GRU', city: 'São Paulo', country: 'BR' },
+    };
 
-    mockedAxiosGet.mockResolvedValueOnce({ data: mockData })
+    mockedAxiosGet.mockResolvedValueOnce({ data: mockData });
 
-    const store = useDataCenterStore()
-    await store.fetchDataCenters()
+    const store = useDataCenterStore();
+    await store.fetchDataCenters();
 
     expect(mockedAxiosGet).toHaveBeenCalledWith(
-      'https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json'
-    )
-    expect(store.dataCenters).toEqual(mockData)
-    expect(store.isLoading).toBe(false)
-  })
+      'https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json',
+    );
+    expect(store.dataCenters).toEqual(mockData);
+    expect(store.isLoading).toBe(false);
+  });
 
   it('should not refetch if already fetched', async () => {
-    const mockData = { LAX: { iata: 'LAX', city: 'Los Angeles', country: 'US' } }
-    mockedAxiosGet.mockResolvedValueOnce({ data: mockData })
+    const mockData = { LAX: { iata: 'LAX', city: 'Los Angeles', country: 'US' } };
+    mockedAxiosGet.mockResolvedValueOnce({ data: mockData });
 
-    const store = useDataCenterStore()
-    await store.fetchDataCenters()
-    await store.fetchDataCenters() // Second call
+    const store = useDataCenterStore();
+    await store.fetchDataCenters();
+    await store.fetchDataCenters(); // Second call
 
-    expect(mockedAxiosGet).toHaveBeenCalledTimes(1)
-  })
+    expect(mockedAxiosGet).toHaveBeenCalledTimes(1);
+  });
 
   it('should handle fetch error gracefully', async () => {
-    mockedAxiosGet.mockRejectedValueOnce(new Error('Network error'))
+    mockedAxiosGet.mockRejectedValueOnce(new Error('Network error'));
 
-    const store = useDataCenterStore()
-    const originalData = { ...store.dataCenters }
+    const store = useDataCenterStore();
+    const originalData = { ...store.dataCenters };
 
-    await store.fetchDataCenters()
+    await store.fetchDataCenters();
 
     // Should keep local fallback data on error
-    expect(store.dataCenters).toEqual(originalData)
-    expect(store.isLoading).toBe(false)
-  })
-})
+    expect(store.dataCenters).toEqual(originalData);
+    expect(store.isLoading).toBe(false);
+  });
+});

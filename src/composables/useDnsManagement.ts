@@ -1,77 +1,81 @@
-import { ref, watch, nextTick } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useCloudflareApi } from 'src/composables/useCloudflareApi'
-import { useLoadingStore } from 'src/stores/loading'
-import { useZoneStore } from 'src/stores/zoneStore'
-import type { DnsRecord } from 'src/types'
+import { ref, watch, nextTick } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useCloudflareApi } from 'src/composables/useCloudflareApi';
+import { useLoadingStore } from 'src/stores/loading';
+import { useZoneStore } from 'src/stores/zoneStore';
+import type { DnsRecord } from 'src/types';
 
 export function useDnsManagement() {
-  const { getDnsRecords, createDnsRecord, updateDnsRecord, deleteDnsRecord } = useCloudflareApi()
-  const loadingStore = useLoadingStore()
-  const zoneStore = useZoneStore()
-  const { selectedZoneId } = storeToRefs(zoneStore)
+  const { getDnsRecords, createDnsRecord, updateDnsRecord, deleteDnsRecord } = useCloudflareApi();
+  const loadingStore = useLoadingStore();
+  const zoneStore = useZoneStore();
+  const { selectedZoneId } = storeToRefs(zoneStore);
 
-  const records = ref<DnsRecord[]>([])
-  const isLoadingRecords = ref(false)
-  const operationError = ref<string | null>(null)
+  const records = ref<DnsRecord[]>([]);
+  const isLoadingRecords = ref(false);
+  const operationError = ref<string | null>(null);
 
-  let currentFetchId = 0
+  let currentFetchId = 0;
 
   const fetchRecords = async (zoneId: string) => {
-    if (!zoneId) return
+    if (!zoneId) return;
 
-    const fetchId = ++currentFetchId
+    const fetchId = ++currentFetchId;
 
-    isLoadingRecords.value = true
-    loadingStore.startLoading(`fetch-records-${zoneId}`)
-    operationError.value = null
+    isLoadingRecords.value = true;
+    loadingStore.startLoading(`fetch-records-${zoneId}`);
+    operationError.value = null;
 
-    await nextTick()
+    await nextTick();
     if (currentFetchId === fetchId) {
-      records.value = []
+      records.value = [];
     }
 
     try {
-      const fetchedRecords = await getDnsRecords(zoneId)
+      const fetchedRecords = await getDnsRecords(zoneId);
       if (currentFetchId === fetchId) {
-        records.value = fetchedRecords
+        records.value = fetchedRecords;
       }
     } catch (error: unknown) {
       if (currentFetchId === fetchId) {
         if (error instanceof Error) {
-          operationError.value = `Failed to fetch DNS records: ${error.message}`
+          operationError.value = `Failed to fetch DNS records: ${error.message}`;
         } else {
-          operationError.value = 'An unknown error occurred while fetching DNS records.'
+          operationError.value = 'An unknown error occurred while fetching DNS records.';
         }
-        records.value = []
+        records.value = [];
       }
     } finally {
       if (currentFetchId === fetchId) {
-        isLoadingRecords.value = false
-        loadingStore.stopLoading(`fetch-records-${zoneId}`)
+        isLoadingRecords.value = false;
+        loadingStore.stopLoading(`fetch-records-${zoneId}`);
       }
     }
-  }
+  };
 
-  watch(selectedZoneId, async (newZoneId) => {
-    if (newZoneId) {
-      await fetchRecords(newZoneId)
-    } else {
-      currentFetchId++
-      records.value = []
-      isLoadingRecords.value = false
-    }
-  }, { immediate: true })
+  watch(
+    selectedZoneId,
+    async (newZoneId) => {
+      if (newZoneId) {
+        await fetchRecords(newZoneId);
+      } else {
+        currentFetchId++;
+        records.value = [];
+        isLoadingRecords.value = false;
+      }
+    },
+    { immediate: true },
+  );
 
   const saveRecord = async (record: DnsRecord | Partial<DnsRecord>): Promise<boolean> => {
     if (!selectedZoneId.value) {
-      operationError.value = 'No zone selected'
-      return false
+      operationError.value = 'No zone selected';
+      return false;
     }
 
-    operationError.value = null
+    operationError.value = null;
     try {
-      const isNewRecord = !record.id || record.id === ''
+      const isNewRecord = !record.id || record.id === '';
 
       let savedRecord: DnsRecord;
 
@@ -128,5 +132,5 @@ export function useDnsManagement() {
     operationError,
     saveRecord,
     deleteRecord,
-  }
+  };
 }

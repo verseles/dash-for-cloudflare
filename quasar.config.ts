@@ -78,7 +78,7 @@ export default defineConfig((ctx) => {
             'echarts/renderers',
             'vue-echarts',
           ],
-        }
+        };
       },
       // viteVuePluginOptions: {},
 
@@ -196,8 +196,8 @@ export default defineConfig((ctx) => {
       // extendInjectManifestOptions (cfg) {}
       manifest: {
         theme_color: '#F48120',
-        background_color: '#ffffff'
-      }
+        background_color: '#ffffff',
+      },
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova

@@ -1,6 +1,6 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test';
 
-const isCI = !!process.env.CI
+const isCI = !!process.env.CI;
 
 export default defineConfig({
   testDir: './e2e',
@@ -14,29 +14,29 @@ export default defineConfig({
     baseURL: 'http://localhost:1222',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: { ...devices['Desktop Chrome'] },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      use: { ...devices['Desktop Firefox'] },
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] }
+      use: { ...devices['Desktop Safari'] },
     },
     {
       name: 'mobile-chrome',
-      use: { ...devices['Pixel 5'] }
+      use: { ...devices['Pixel 5'] },
     },
     {
       name: 'mobile-safari',
-      use: { ...devices['iPhone 12'] }
-    }
+      use: { ...devices['iPhone 12'] },
+    },
   ],
   webServer: {
     // In CI, use preview server with pre-built files (faster and more reliable)
@@ -45,6 +45,6 @@ export default defineConfig({
     command: isCI ? 'npx serve -s dist/spa -l 1222' : 'npm run dev',
     port: 1222,
     reuseExistingServer: !isCI,
-    timeout: 120 * 1000
-  }
-})
+    timeout: 120 * 1000,
+  },
+});

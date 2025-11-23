@@ -1,6 +1,14 @@
 <template>
-  <q-toggle :model-value="modelValue" dense :checked-color="modelValue ? 'primary' : 'grey'" :disable="disable"
-    :checked-icon="mdiCloud" size="xl" @update:model-value="(value) => emit('update:modelValue', value)" @click.stop>
+  <q-toggle
+    :model-value="modelValue"
+    dense
+    :checked-color="modelValue ? 'primary' : 'grey'"
+    :disable="disable"
+    :checked-icon="mdiCloud"
+    size="xl"
+    @update:model-value="(value) => emit('update:modelValue', value)"
+    @click.stop
+  >
     <q-tooltip v-if="tooltip" anchor="center left" self="center right">
       {{ t('dns.cloudflareProxy') }}
     </q-tooltip>

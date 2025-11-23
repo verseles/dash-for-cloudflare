@@ -8,13 +8,13 @@ Este documento serve como guia passo a passo para configurar um ambiente de test
 
 > **Última atualização**: 2025-11-23
 >
-> | Fase | Status | Detalhes |
-> |------|--------|----------|
-> | Fase 1: Vitest | ✅ Concluída | Configuração completa com coverage |
-> | Fase 2: Playwright | ✅ Concluída | E2E configurado para 5 browsers |
-> | Fase 3: CI/CD | ✅ Concluída | GitHub Actions com matrix |
+> | Fase                      | Status       | Detalhes                                |
+> | ------------------------- | ------------ | --------------------------------------- |
+> | Fase 1: Vitest            | ✅ Concluída | Configuração completa com coverage      |
+> | Fase 2: Playwright        | ✅ Concluída | E2E configurado para 5 browsers         |
+> | Fase 3: CI/CD             | ✅ Concluída | GitHub Actions com matrix               |
 > | Fase 4: Stores/Components | ✅ Concluída | 29 testes de stores + 18 de componentes |
-> | Fase 5: Page Objects E2E | ✅ Concluída | Page Objects + testes responsivos |
+> | Fase 5: Page Objects E2E  | ✅ Concluída | Page Objects + testes responsivos       |
 >
 > **Total de testes unitários**: 47 passando
 
@@ -23,6 +23,7 @@ Este documento serve como guia passo a passo para configurar um ambiente de test
 ## Modo de Execução Autônoma
 
 > **IMPORTANTE**: Ao executar este plano de forma autônoma:
+>
 > 1. Execute cada etapa sequencialmente
 > 2. Ao concluir uma etapa com sucesso, faça commit das alterações
 > 3. Só então prossiga para a próxima etapa
@@ -36,15 +37,15 @@ Este documento serve como guia passo a passo para configurar um ambiente de test
 
 ## Stack de Testes
 
-| Ferramenta | Propósito | Versão Instalada |
-|------------|-----------|------------------|
-| Vitest | Testes unitários e de componentes | ^3.2.4 |
-| @vue/test-utils | Utilitários para montar componentes Vue | ^2.4.6 |
-| @vitest/coverage-v8 | Cobertura de código (rápido e preciso) | ^3.2.4 |
-| @vitest/ui | Interface visual para testes | ^3.2.4 |
-| happy-dom | Ambiente DOM rápido para testes | ^20.0.10 |
-| Playwright | Testes E2E | ^1.56.1 |
-| @quasar/quasar-app-extension-testing-unit-vitest | Integração Quasar + Vitest | ^1.2.3 |
+| Ferramenta                                       | Propósito                               | Versão Instalada |
+| ------------------------------------------------ | --------------------------------------- | ---------------- |
+| Vitest                                           | Testes unitários e de componentes       | ^3.2.4           |
+| @vue/test-utils                                  | Utilitários para montar componentes Vue | ^2.4.6           |
+| @vitest/coverage-v8                              | Cobertura de código (rápido e preciso)  | ^3.2.4           |
+| @vitest/ui                                       | Interface visual para testes            | ^3.2.4           |
+| happy-dom                                        | Ambiente DOM rápido para testes         | ^20.0.10         |
+| Playwright                                       | Testes E2E                              | ^1.56.1          |
+| @quasar/quasar-app-extension-testing-unit-vitest | Integração Quasar + Vitest              | ^1.2.3           |
 
 ---
 
@@ -249,20 +250,29 @@ npm install -D @vitest/coverage-v8 @vitest/ui happy-dom --legacy-peer-deps
    - Problema: `TypeError: localStorage.getItem is not a function` em testes de stores
    - Causa: @vue/devtools-kit tenta acessar localStorage mas happy-dom não fornece mock completo
    - Solução: Adicionar mock de localStorage no setup-file.ts ANTES de `installQuasarPlugin()`
+
    ```typescript
    const localStorageMock = (() => {
-     let store: Record<string, string> = {}
+     let store: Record<string, string> = {};
      return {
        getItem: vi.fn((key: string) => store[key] || null),
-       setItem: vi.fn((key: string, value: string) => { store[key] = value }),
-       removeItem: vi.fn((key: string) => { delete store[key] }),
-       clear: vi.fn(() => { store = {} }),
+       setItem: vi.fn((key: string, value: string) => {
+         store[key] = value;
+       }),
+       removeItem: vi.fn((key: string) => {
+         delete store[key];
+       }),
+       clear: vi.fn(() => {
+         store = {};
+       }),
        key: vi.fn((index: number) => Object.keys(store)[index] || null),
-       get length() { return Object.keys(store).length }
-     }
-   })()
-   Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true })
-   Object.defineProperty(global, 'localStorage', { value: localStorageMock, writable: true })
+       get length() {
+         return Object.keys(store).length;
+       },
+     };
+   })();
+   Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true });
+   Object.defineProperty(global, 'localStorage', { value: localStorageMock, writable: true });
    ```
 
 7. **ESLint e vi.importActual**
@@ -292,12 +302,14 @@ npm run test:e2e:debug     # Modo debug
 ### Thresholds de Cobertura
 
 Configuração atual (inicial):
+
 - Statements: 1%
 - Branches: 30%
 - Functions: 30%
 - Lines: 1%
 
 Meta futura:
+
 - Statements: 60-80%
 - Branches: 60-75%
 - Functions: 60-80%

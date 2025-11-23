@@ -16,11 +16,10 @@ interface AnalyticsResponse {
 interface QueryNameTimeSeriesResponse {
   viewer: {
     zones: {
-      timeSeries: DnsAnalyticsData['timeSeries']
-    }[]
-  }
+      timeSeries: DnsAnalyticsData['timeSeries'];
+    }[];
+  };
 }
-
 
 export function useDnsAnalytics() {
   const $q = useQuasar();
@@ -39,7 +38,10 @@ export function useDnsAnalytics() {
   const isLoading = ref(false);
   const error = ref<string | null>(null);
 
-  const cfGraphQLFetch = async <T>(query: string, variables: Record<string, unknown> = {}): Promise<T> => {
+  const cfGraphQLFetch = async <T>(
+    query: string,
+    variables: Record<string, unknown> = {},
+  ): Promise<T> => {
     if (!settings.cloudflareApiToken) {
       throw new Error('Cloudflare API token is not set.');
     }
@@ -57,7 +59,8 @@ export function useDnsAnalytics() {
 
     if (!response.ok) {
       const errorMessage =
-        (responseBody.errors && responseBody.errors[0]?.message) || `HTTP error! status: ${response.status}`;
+        (responseBody.errors && responseBody.errors[0]?.message) ||
+        `HTTP error! status: ${response.status}`;
       throw new Error(errorMessage);
     }
 
@@ -67,7 +70,6 @@ export function useDnsAnalytics() {
 
     return responseBody.data;
   };
-
 
   const fetchAnalytics = async (since: Date, until: Date, queryNames: string[] = []) => {
     if (!selectedZoneId.value) {
@@ -140,7 +142,7 @@ export function useDnsAnalytics() {
       const mainVariables = {
         zoneTag: selectedZoneId.value,
         since: since.toISOString(),
-        until: until.toISOString()
+        until: until.toISOString(),
       };
 
       const mainResult = await cfGraphQLFetch<AnalyticsResponse>(mainQuery, mainVariables);
@@ -148,7 +150,7 @@ export function useDnsAnalytics() {
       const byQueryNameTimeSeries: Record<string, DnsAnalyticsData['timeSeries']> = {};
 
       if (queryNames.length > 0) {
-        const queryNamePromises = queryNames.map(name => {
+        const queryNamePromises = queryNames.map((name) => {
           const queryNameQuery = `
             query GetDnsAnalyticsForQueryName($zoneTag: string!, $since: DateTime!, $until: DateTime!, $queryName: string!) {
               viewer {
@@ -180,11 +182,10 @@ export function useDnsAnalytics() {
         });
       }
 
-
       if (mainResult.viewer.zones.length > 0 && mainResult.viewer.zones[0]) {
         analyticsData.value = {
           ...mainResult.viewer.zones[0],
-          byQueryNameTimeSeries
+          byQueryNameTimeSeries,
         };
       } else {
         analyticsData.value = null;

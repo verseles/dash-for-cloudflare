@@ -26,4 +26,4 @@ export default {
     en: 'Inglês',
     ptBR: 'Português (Brasil)',
   },
-}
+};

@@ -1,33 +1,41 @@
 // test/vitest/setup-file.ts
-import { vi } from 'vitest'
-import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-vitest'
-import { Notify } from 'quasar'
+import { vi } from 'vitest';
+import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-vitest';
+import { Notify } from 'quasar';
 
 // Mock para localStorage (necessário para @vue/devtools-kit)
 const localStorageMock = (() => {
-  let store: Record<string, string> = {}
+  let store: Record<string, string> = {};
   return {
     getItem: vi.fn((key: string) => store[key] || null),
-    setItem: vi.fn((key: string, value: string) => { store[key] = value }),
-    removeItem: vi.fn((key: string) => { delete store[key] }),
-    clear: vi.fn(() => { store = {} }),
+    setItem: vi.fn((key: string, value: string) => {
+      store[key] = value;
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key];
+    }),
+    clear: vi.fn(() => {
+      store = {};
+    }),
     key: vi.fn((index: number) => Object.keys(store)[index] || null),
-    get length() { return Object.keys(store).length }
-  }
-})()
+    get length() {
+      return Object.keys(store).length;
+    },
+  };
+})();
 
 Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
-  writable: true
-})
+  writable: true,
+});
 
 Object.defineProperty(global, 'localStorage', {
   value: localStorageMock,
-  writable: true
-})
+  writable: true,
+});
 
 // Instala o plugin do Quasar para os testes com plugins comuns
-installQuasarPlugin({ plugins: { Notify } })
+installQuasarPlugin({ plugins: { Notify } });
 
 // Mock para APIs do navegador nao disponiveis em happy-dom
 Object.defineProperty(window, 'matchMedia', {
@@ -40,20 +48,20 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: vi.fn(),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn()
-  }))
-})
+    dispatchEvent: vi.fn(),
+  })),
+});
 
 // Mock para ResizeObserver
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
-  disconnect: vi.fn()
-}))
+  disconnect: vi.fn(),
+}));
 
 // Mock para IntersectionObserver
 global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   observe: vi.fn(),
   unobserve: vi.fn(),
-  disconnect: vi.fn()
-}))
+  disconnect: vi.fn(),
+}));

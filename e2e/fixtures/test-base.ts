@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test'
+import { test as base } from '@playwright/test';
 
 export const test = base.extend<{
   // Add custom fixtures here as needed
@@ -11,6 +11,6 @@ export const test = base.extend<{
   //   await page.click('[data-testid="submit"]')
   //   await use(page)
   // }
-})
+});
 
-export { expect } from '@playwright/test'
+export { expect } from '@playwright/test';

@@ -6,20 +6,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { use, registerMap } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { EffectScatterChart } from 'echarts/charts'
+import { computed } from 'vue';
+import { use, registerMap } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { EffectScatterChart } from 'echarts/charts';
 import {
   TitleComponent,
   TooltipComponent,
   LegendComponent,
   GeoComponent,
   VisualMapComponent,
-} from 'echarts/components'
-import VChart from 'vue-echarts'
-import { useQuasar } from 'quasar'
-import worldMapRaw from 'src/assets/world.json?raw'
+} from 'echarts/components';
+import VChart from 'vue-echarts';
+import { useQuasar } from 'quasar';
+import worldMapRaw from 'src/assets/world.json?raw';
 
 // Register ECharts components and maps
 use([
@@ -30,37 +30,37 @@ use([
   LegendComponent,
   GeoComponent,
   VisualMapComponent,
-])
+]);
 
-const worldMap = JSON.parse(worldMapRaw)
-registerMap('world', worldMap as unknown as Parameters<typeof registerMap>[1])
+const worldMap = JSON.parse(worldMapRaw);
+registerMap('world', worldMap as unknown as Parameters<typeof registerMap>[1]);
 
 interface MapChartDataItem {
-  name: string
-  value: [number, number, number] // lng, lat, query count
+  name: string;
+  value: [number, number, number]; // lng, lat, query count
 }
 
 interface Props {
-  data: MapChartDataItem[]
-  height?: number
-  title?: string
+  data: MapChartDataItem[];
+  height?: number;
+  title?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   height: 300,
   title: '',
-})
+});
 
-const $q = useQuasar()
-const isDark = computed(() => $q.dark.isActive)
+const $q = useQuasar();
+const isDark = computed(() => $q.dark.isActive);
 
 const chartOption = computed(() => {
-  const textColor = isDark.value ? '#E0E0E0' : '#424242'
-  const backgroundColor = 'transparent'
-  const mapColor = isDark.value ? '#333' : '#f2f2f2'
-  const mapBorderColor = isDark.value ? '#555' : '#ccc'
+  const textColor = isDark.value ? '#E0E0E0' : '#424242';
+  const backgroundColor = 'transparent';
+  const mapColor = isDark.value ? '#333' : '#f2f2f2';
+  const mapBorderColor = isDark.value ? '#555' : '#ccc';
 
-  const maxVal = Math.max(...props.data.map((item) => item.value[2]))
+  const maxVal = Math.max(...props.data.map((item) => item.value[2]));
 
   return {
     backgroundColor,
@@ -75,8 +75,8 @@ const chartOption = computed(() => {
         color: textColor,
       },
       formatter: (params: { data: MapChartDataItem }) => {
-        const data = params.data
-        return `${data.name}<br/>Queries: ${data.value[2].toLocaleString()}`
+        const data = params.data;
+        return `${data.name}<br/>Queries: ${data.value[2].toLocaleString()}`;
       },
     },
     geo: {
@@ -124,8 +124,8 @@ const chartOption = computed(() => {
         },
       },
     ],
-  }
-})
+  };
+});
 </script>
 
 <style scoped>
