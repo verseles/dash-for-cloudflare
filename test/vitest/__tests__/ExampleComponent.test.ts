@@ -16,9 +16,11 @@ describe('example Component', () => {
         ],
       },
     });
-    expect(wrapper.vm.clickCount).toBe(0);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((wrapper.vm as any).clickCount).toBe(0);
     wrapper.find('.q-item').trigger('click');
-    expect(wrapper.vm.clickCount).toBe(1);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect((wrapper.vm as any).clickCount).toBe(1);
   });
 
   it('should mount component without todos', () => {

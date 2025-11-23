@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
 import { defineComponent, h, nextTick } from 'vue'
 import { useI18n } from '../useI18n'

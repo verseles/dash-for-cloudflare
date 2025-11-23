@@ -32,4 +32,9 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+
+# Test coverage and reports
 coverage/
+playwright-report/
+test-results/
+screenshots/
