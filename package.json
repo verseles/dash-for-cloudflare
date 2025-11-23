@@ -10,10 +10,11 @@
     "lint": "eslint -c ./eslint.config.js \"./src*/**/*.{ts,js,cjs,mjs,vue}\" --fix",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev --host 0.0.0.0",
+    "dev": "quasar dev --host 0.0.0.0 --port 1222",
     "build": "quasar build",
     "build-pwa": "quasar build --mode pwa",
-    "postinstall": "quasar prepare"
+    "postinstall": "quasar prepare",
+    "icon": "icongenie generate --icon src/assets/icon.png --quality 12 --svg-color F48120 && icongenie generate --icon src/assets/orange-cloud.png --quality 12 --filter splashscreen --svg-color F48120"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
@@ -31,6 +32,7 @@
     "@eslint/js": "^9.14.0",
     "@intlify/unplugin-vue-i18n": "^4.0.0",
     "@quasar/app-vite": "^2.1.0",
+    "@quasar/icongenie": "^4.0.0",
     "@types/node": "^20.5.9",
     "@vue/eslint-config-prettier": "^10.1.0",
     "@vue/eslint-config-typescript": "^14.4.0",
