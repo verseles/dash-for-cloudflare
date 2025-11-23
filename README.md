@@ -91,8 +91,8 @@ This project has a comprehensive testing setup with **Vitest** for unit/componen
 
 ### Quick Commands
 
-*   `npm test` - Run unit tests in watch mode
-*   `npm run test:unit` - Run unit tests once
+*   `npm test` - Run unit tests once
+*   `npm run test:watch` - Run unit tests in watch mode
 *   `npm run test:unit:coverage` - Run tests with coverage report
 *   `npm run test:e2e` - Run E2E tests (all browsers)
 *   `npm run test:e2e:chromium` - Run E2E tests (Chromium only)

@@ -272,6 +272,10 @@ npm install -D @vitest/coverage-v8 @vitest/ui happy-dom --legacy-peer-deps
 ### Comandos Úteis
 
 ```bash
+# Atalhos principais
+npm test                   # Executa testes unitários uma vez
+npm run test:watch         # Watch mode (desenvolvimento)
+
 # Testes unitários
 npm run test:unit          # Executa uma vez
 npm run test:unit:watch    # Watch mode
