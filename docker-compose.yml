@@ -1,0 +1,44 @@
+services:
+  # Development server with hot reload
+  dev:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "1222:1222"
+    volumes:
+      - .:/srv/app
+      - /srv/app/node_modules
+    environment:
+      - NODE_ENV=development
+
+  # Run E2E tests
+  e2e:
+    build:
+      context: .
+      target: e2e
+    environment:
+      - CI=true
+    volumes:
+      - ./playwright-report:/srv/app/playwright-report
+      - ./test-results:/srv/app/test-results
+
+  # Run E2E tests for specific browser
+  e2e-chromium:
+    build:
+      context: .
+      target: e2e
+    environment:
+      - CI=true
+    command: ["npm", "run", "test:e2e:chromium"]
+    volumes:
+      - ./playwright-report:/srv/app/playwright-report
+      - ./test-results:/srv/app/test-results
+
+  # Production server
+  production:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8080:80"
