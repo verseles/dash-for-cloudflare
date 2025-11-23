@@ -37,17 +37,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item>
-        <q-item-section>
-          <q-input
-            v-model="settings.cloudflareAccountId"
-            :label="t('settings.accountId')"
-            stack-label
-            :placeholder="t('settings.accountIdPlaceholder')"
-            :hint="t('settings.accountIdHint')"
-          />
-        </q-item-section>
-      </q-item>
+
 
       <q-item v-if="settings.cloudflareApiToken && settings.cloudflareApiToken.length >= 40">
         <q-item-section>
