@@ -1,0 +1,2 @@
+- When create new strings, update i18n files properly
+- In src/assets, there is some big files, only read it when needed
