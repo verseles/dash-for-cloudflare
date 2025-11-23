@@ -70,8 +70,10 @@ export default {
       fetchError: 'Erro ao buscar configurações: {error}',
       updateSuccess: '{setting} atualizado com sucesso.',
       updateError: 'Erro ao atualizar {setting}: {error}',
-      dnssecEnableSuccess: 'DNSSEC ativado com sucesso. Por favor, copie o registro DS para seu registrador de domínio.',
-      dnssecEnableSuccessCF: 'O DNSSEC está sendo ativado. Nós adicionaremos automaticamente o registro DS para você.',
+      dnssecEnableSuccess:
+        'DNSSEC ativado com sucesso. Por favor, copie o registro DS para seu registrador de domínio.',
+      dnssecEnableSuccessCF:
+        'O DNSSEC está sendo ativado. Nós adicionaremos automaticamente o registro DS para você.',
       dnssecEnableError: 'Erro ao ativar o DNSSEC: {error}',
       dnssecCancelSuccess: 'Configuração do DNSSEC cancelada com sucesso.',
       dnssecCancelError: 'Erro ao cancelar a configuração do DNSSEC: {error}',
@@ -86,26 +88,34 @@ export default {
       title: 'DNSSEC',
       successMessage: 'O DNSSEC está ativo para {zoneName}.',
       disableBtn: 'Desativar',
-      description: 'Proteja seu domínio com DNSSEC adicionando um registro DS ao seu registrador de domínio.',
+      description:
+        'Proteja seu domínio com DNSSEC adicionando um registro DS ao seu registrador de domínio.',
       pending: 'O DNSSEC está sendo ativado. Isso pode levar algum tempo.',
-      pendingWithCfRegistrar: 'O DNSSEC está pendente enquanto adicionamos automaticamente o registro DS no seu domínio.',
+      pendingWithCfRegistrar:
+        'O DNSSEC está pendente enquanto adicionamos automaticamente o registro DS no seu domínio.',
       cancelBtn: 'Cancelar Configuração',
       dsRecordBtn: 'Ver Registro DS',
       pendingDeletion: 'O DNSSEC está sendo desativado. Isso pode levar algum tempo.',
       cancelDeletionBtn: 'Cancelar Deleção',
-      enableDescription: 'O DNSSEC ajuda a proteger contra respostas DNS falsificadas, adicionando assinaturas criptográficas aos seus registros DNS.',
-      enableDescriptionCF: 'Selecione "Ativar DNSSEC" para habilitar automaticamente o DNSSEC para este domínio nas próximas 24 horas.',
+      enableDescription:
+        'O DNSSEC ajuda a proteger contra respostas DNS falsificadas, adicionando assinaturas criptográficas aos seus registros DNS.',
+      enableDescriptionCF:
+        'Selecione "Ativar DNSSEC" para habilitar automaticamente o DNSSEC para este domínio nas próximas 24 horas.',
       enableBtn: 'Ativar DNSSEC',
       cancelConfirmationTitle: 'Cancelar Configuração do DNSSEC',
-      cancelConfirmationMessage: 'Você tem certeza de que deseja cancelar a configuração do DNSSEC?',
+      cancelConfirmationMessage:
+        'Você tem certeza de que deseja cancelar a configuração do DNSSEC?',
       disableConfirmationTitle: 'Desativar DNSSEC',
-      disableConfirmationMessage: 'Você tem certeza de que deseja desativar o DNSSEC? Isso removerá o registro DS e as assinaturas.',
+      disableConfirmationMessage:
+        'Você tem certeza de que deseja desativar o DNSSEC? Isso removerá o registro DS e as assinaturas.',
       cancelDeletionConfirmationTitle: 'Cancelar Deleção do DNSSEC',
-      cancelDeletionConfirmationMessage: 'Você tem certeza de que deseja cancelar a deleção do DNSSEC?',
+      cancelDeletionConfirmationMessage:
+        'Você tem certeza de que deseja cancelar a deleção do DNSSEC?',
     },
     dnssecDetailsModal: {
       title: 'Detalhes do DNSSEC',
-      description: 'Para completar a configuração do DNSSEC, adicione este registro DS ao seu registrador de domínio. Nota: A propagação do DNSSEC pode levar até 24 horas.',
+      description:
+        'Para completar a configuração do DNSSEC, adicione este registro DS ao seu registrador de domínio. Nota: A propagação do DNSSEC pode levar até 24 horas.',
       dsRecord: 'Registro DS',
       digest: 'Digest',
       digestType: 'Tipo de Digest',
@@ -117,20 +127,24 @@ export default {
     },
     multiSigner: {
       title: 'DNSSEC Multi-assinante',
-      description: 'Ative se você estiver usando outro provedor de DNS além da Cloudflare. Isso permite que múltiplos provedores de DNS assinem sua zona.',
+      description:
+        'Ative se você estiver usando outro provedor de DNS além da Cloudflare. Isso permite que múltiplos provedores de DNS assinem sua zona.',
     },
     multiProvider: {
       title: 'DNS Multi-provedor',
-      description: 'Ative se você usar outros provedores de DNS para esta zona. Isso relaxará certas verificações para permitir que a zona opere corretamente.',
+      description:
+        'Ative se você usar outros provedores de DNS para esta zona. Isso relaxará certas verificações para permitir que a zona opere corretamente.',
     },
     cnameFlattening: {
       title: 'Achatamento de CNAME',
-      description: 'Escolha como resolver registros CNAME. "Achatar todos os CNAMEs" é recomendado para a maioria das configurações.',
+      description:
+        'Escolha como resolver registros CNAME. "Achatar todos os CNAMEs" é recomendado para a maioria das configurações.',
     },
     emailSecurity: {
       title: 'Segurança de E-mail',
-      description: 'Proteja seu domínio contra ataques de phishing e spoofing configurando DMARC, SPF e DKIM.',
+      description:
+        'Proteja seu domínio contra ataques de phishing e spoofing configurando DMARC, SPF e DKIM.',
       configureBtn: 'Configurar',
     },
   },
-}
+};

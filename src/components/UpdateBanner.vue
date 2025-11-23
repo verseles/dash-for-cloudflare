@@ -3,7 +3,7 @@
     v-if="isVisible"
     inline-actions
     class="bg-primary text-white q-ma-md"
-    style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 8px;"
+    style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 8px"
   >
     {{ t('pwaUpdate.newVersionAvailable') }}
     <template #action>
@@ -14,31 +14,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useI18n } from 'src/composables/useI18n'
+import { ref, watch } from 'vue';
+import { useI18n } from 'src/composables/useI18n';
 
 const props = defineProps<{
-  modelValue: boolean
-}>()
+  modelValue: boolean;
+}>();
 
-const emit = defineEmits(['update:modelValue', 'update-app'])
+const emit = defineEmits(['update:modelValue', 'update-app']);
 
-const { t } = useI18n()
+const { t } = useI18n();
 
-const isVisible = ref(props.modelValue)
+const isVisible = ref(props.modelValue);
 
-watch(() => props.modelValue, (val) => {
-  isVisible.value = val
-})
+watch(
+  () => props.modelValue,
+  (val) => {
+    isVisible.value = val;
+  },
+);
 
 watch(isVisible, (val) => {
   if (val !== props.modelValue) {
-    emit('update:modelValue', val)
+    emit('update:modelValue', val);
   }
-})
+});
 
 function handleUpdate() {
-  emit('update-app')
-  isVisible.value = false
+  emit('update-app');
+  isVisible.value = false;
 }
 </script>

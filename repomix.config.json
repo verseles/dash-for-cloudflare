@@ -32,11 +32,7 @@
   "ignore": {
     "useGitignore": true,
     "useDefaultPatterns": true,
-    "customPatterns": [
-      "repomix-output.xml",
-      "public/",
-      "src/assets"
-    ]
+    "customPatterns": ["repomix-output.xml", "public/", "src/assets"]
   },
   "security": {
     "enableSecurityCheck": true

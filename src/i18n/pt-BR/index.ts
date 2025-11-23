@@ -1,5 +1,5 @@
-import dns from './modules/dns'
-import settings from './modules/settings'
+import dns from './modules/dns';
+import settings from './modules/settings';
 
 export default {
   common: {
@@ -17,4 +17,4 @@ export default {
   },
   dns,
   settings,
-}
+};

@@ -4,10 +4,15 @@
       <q-icon name="delete" />
     </template>
 
-    <q-item clickable @click="onItemClick" :class="{
-      'item-highlight-new': isNewRecord,
-      'item-highlight-delete': isDeleting
-    }" class="q-py-sm">
+    <q-item
+      clickable
+      @click="onItemClick"
+      :class="{
+        'item-highlight-new': isNewRecord,
+        'item-highlight-delete': isDeleting,
+      }"
+      class="q-py-sm"
+    >
       <q-item-section>
         <!-- First row: Type, Name, TTL -->
         <div class="row items-center q-gutter-x-sm">
@@ -40,8 +45,11 @@
       </q-item-section>
 
       <q-item-section v-if="supportsProxy" side>
-        <CloudflareProxyToggle :model-value="localProxied" @update:model-value="onToggleChange"
-          :disable="!isEditable || isSaving" />
+        <CloudflareProxyToggle
+          :model-value="localProxied"
+          @update:model-value="onToggleChange"
+          :disable="!isEditable || isSaving"
+        />
       </q-item-section>
     </q-item>
   </q-slide-item>
@@ -72,7 +80,7 @@ watch(
   () => props.record.proxied,
   (newValue) => {
     localProxied.value = newValue;
-  }
+  },
 );
 
 const onToggleChange = (value: boolean) => {
@@ -170,7 +178,6 @@ const domainSuffix = computed(() => {
 
 /* Highlight animation for deleting records */
 @keyframes highlight-delete {
-
   0%,
   100% {
     background-color: transparent;

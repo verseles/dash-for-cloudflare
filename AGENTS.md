@@ -1,2 +1,3 @@
 - When create new strings, update i18n files properly
 - In src/assets, there is some big files, only read it when needed
+- After every tasks run unit and e2e tests, but for e2e tests, use npm run docker:e2e:chromium

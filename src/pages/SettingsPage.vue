@@ -37,8 +37,6 @@
         </q-item-section>
       </q-item>
 
-
-
       <q-item v-if="settings.cloudflareApiToken && settings.cloudflareApiToken.length >= 40">
         <q-item-section>
           <q-btn
@@ -106,12 +104,18 @@ const validateToken = (token: string | number | null) => {
 };
 
 // Watch for changes
-watch(() => settings.theme, () => {
-  // No-op: Just trigger reactivity
-});
-watch(() => settings.language, () => {
-  // No-op: Just trigger reactivity
-});
+watch(
+  () => settings.theme,
+  () => {
+    // No-op: Just trigger reactivity
+  },
+);
+watch(
+  () => settings.language,
+  () => {
+    // No-op: Just trigger reactivity
+  },
+);
 
 const navigateToDns = () => {
   if (settings.cloudflareApiToken && settings.cloudflareApiToken.length >= 40) {

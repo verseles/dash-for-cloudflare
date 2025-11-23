@@ -70,8 +70,10 @@ export default {
       fetchError: 'Error fetching settings: {error}',
       updateSuccess: '{setting} updated successfully.',
       updateError: 'Error updating {setting}: {error}',
-      dnssecEnableSuccess: 'DNSSEC enabled successfully. Please copy the DS record to your registrar.',
-      dnssecEnableSuccessCF: 'DNSSEC is being enabled. We will automatically add the DS record for you.',
+      dnssecEnableSuccess:
+        'DNSSEC enabled successfully. Please copy the DS record to your registrar.',
+      dnssecEnableSuccessCF:
+        'DNSSEC is being enabled. We will automatically add the DS record for you.',
       dnssecEnableError: 'Error enabling DNSSEC: {error}',
       dnssecCancelSuccess: 'DNSSEC setup canceled successfully.',
       dnssecCancelError: 'Error canceling DNSSEC setup: {error}',
@@ -88,24 +90,29 @@ export default {
       disableBtn: 'Disable',
       description: 'Secure your domain with DNSSEC by adding a DS record to your registrar.',
       pending: 'DNSSEC is being enabled. This may take some time.',
-      pendingWithCfRegistrar: 'DNSSEC is pending while we automatically add the DS record on your domain.',
+      pendingWithCfRegistrar:
+        'DNSSEC is pending while we automatically add the DS record on your domain.',
       cancelBtn: 'Cancel Setup',
       dsRecordBtn: 'View DS Record',
       pendingDeletion: 'DNSSEC is being disabled. This may take some time.',
       cancelDeletionBtn: 'Cancel Deletion',
-      enableDescription: 'DNSSEC helps protect against forged DNS answers by adding cryptographic signatures to your DNS records.',
-      enableDescriptionCF: 'Select "Enable DNSSEC" to automatically enable DNSSEC for this domain in the next 24 hours.',
+      enableDescription:
+        'DNSSEC helps protect against forged DNS answers by adding cryptographic signatures to your DNS records.',
+      enableDescriptionCF:
+        'Select "Enable DNSSEC" to automatically enable DNSSEC for this domain in the next 24 hours.',
       enableBtn: 'Enable DNSSEC',
       cancelConfirmationTitle: 'Cancel DNSSEC Setup',
       cancelConfirmationMessage: 'Are you sure you want to cancel the DNSSEC setup?',
       disableConfirmationTitle: 'Disable DNSSEC',
-      disableConfirmationMessage: 'Are you sure you want to disable DNSSEC? This will remove the DS record and signatures.',
+      disableConfirmationMessage:
+        'Are you sure you want to disable DNSSEC? This will remove the DS record and signatures.',
       cancelDeletionConfirmationTitle: 'Cancel DNSSEC Deletion',
       cancelDeletionConfirmationMessage: 'Are you sure you want to cancel the deletion of DNSSEC?',
     },
     dnssecDetailsModal: {
       title: 'DNSSEC Details',
-      description: 'To complete DNSSEC setup, add this DS record to your domain registrar. Note: DNSSEC propagation may take up to 24 hours.',
+      description:
+        'To complete DNSSEC setup, add this DS record to your domain registrar. Note: DNSSEC propagation may take up to 24 hours.',
       dsRecord: 'DS Record',
       digest: 'Digest',
       digestType: 'Digest Type',
@@ -117,20 +124,24 @@ export default {
     },
     multiSigner: {
       title: 'Multi-signer DNSSEC',
-      description: 'Enable if you are using another DNS provider in addition to Cloudflare. This allows multiple DNS providers to sign your zone.',
+      description:
+        'Enable if you are using another DNS provider in addition to Cloudflare. This allows multiple DNS providers to sign your zone.',
     },
     multiProvider: {
       title: 'Multi-provider DNS',
-      description: 'Enable if you use other DNS providers for this zone. This will relax certain checks to allow the zone to operate correctly.',
+      description:
+        'Enable if you use other DNS providers for this zone. This will relax certain checks to allow the zone to operate correctly.',
     },
     cnameFlattening: {
       title: 'CNAME Flattening',
-      description: 'Choose how to resolve CNAME records. "Flatten all CNAMEs" is recommended for most setups.',
+      description:
+        'Choose how to resolve CNAME records. "Flatten all CNAMEs" is recommended for most setups.',
     },
     emailSecurity: {
       title: 'Email Security',
-      description: 'Protect your domain from phishing and spoofing attacks by configuring DMARC, SPF, and DKIM.',
+      description:
+        'Protect your domain from phishing and spoofing attacks by configuring DMARC, SPF, and DKIM.',
       configureBtn: 'Configure',
     },
   },
-}
+};

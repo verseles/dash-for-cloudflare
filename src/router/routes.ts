@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -29,9 +29,8 @@ const routes: RouteRecordRaw[] = [
         path: 'settings',
         component: () => import('pages/SettingsPage.vue'),
       },
-
     ],
   },
-]
+];
 
-export default routes
+export default routes;

@@ -2,8 +2,16 @@
   <q-page padding>
     <div class="q-mb-lg row justify-between items-center">
       <div class="text-h6">{{ t('dns.analytics.title') }}</div>
-      <q-select v-model="timeRange" :options="timeRangeOptions" :label="t('dns.analytics.timeRange.label')" emit-value
-        map-options dense outlined style="min-width: 200px" />
+      <q-select
+        v-model="timeRange"
+        :options="timeRangeOptions"
+        :label="t('dns.analytics.timeRange.label')"
+        emit-value
+        map-options
+        dense
+        outlined
+        style="min-width: 200px"
+      />
     </div>
 
     <div v-if="isLoading && !analyticsData" class="flex flex-center" style="height: 50vh">
@@ -22,16 +30,22 @@
 
           <!-- Query Name Badges -->
           <div class="row q-mb-md">
-            <div class="row items-center no-wrap cursor-pointer query-badge"
-              :class="{ 'query-badge--selected': showTotalQueries }" @click="showTotalQueries = !showTotalQueries">
+            <div
+              class="row items-center no-wrap cursor-pointer query-badge"
+              :class="{ 'query-badge--selected': showTotalQueries }"
+              @click="showTotalQueries = !showTotalQueries"
+            >
               <q-badge rounded :style="{ backgroundColor: colors[0] }" class="q-mr-xs" />
               <div class="text-caption ellipsis">{{ t('dns.analytics.totalQueries') }}</div>
               <div class="text-caption text-grey q-ml-xs">({{ formatNumber(totalQueries) }})</div>
             </div>
-            <div v-for="item in topQueryNames" :key="item.name"
+            <div
+              v-for="item in topQueryNames"
+              :key="item.name"
               class="row items-center no-wrap cursor-pointer query-badge"
               :class="{ 'query-badge--selected': selectedQueryNames.includes(item.name) }"
-              @click="toggleQueryName(item.name)">
+              @click="toggleQueryName(item.name)"
+            >
               <q-badge rounded :style="{ backgroundColor: item.color }" class="q-mr-xs" />
               <div class="text-caption ellipsis" :title="item.name">{{ item.name }}</div>
               <div class="text-caption text-grey q-ml-xs">({{ formatNumber(item.value) }})</div>
@@ -39,7 +53,12 @@
           </div>
 
           <!-- Time Series Chart -->
-          <DnsAnalyticsChart :data="timeSeriesData" :x-axis-data="timeSeriesLabels" type="line" :height="300" />
+          <DnsAnalyticsChart
+            :data="timeSeriesData"
+            :x-axis-data="timeSeriesLabels"
+            type="line"
+            :height="300"
+          />
         </q-card-section>
       </q-card>
 
@@ -71,47 +90,72 @@
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
-              <DnsAnalyticsChart :data="queriesByDataCenter" type="bar" :height="300"
-                :title="t('dns.analytics.byDataCenter')" horizontal />
+              <DnsAnalyticsChart
+                :data="queriesByDataCenter"
+                type="bar"
+                :height="300"
+                :title="t('dns.analytics.byDataCenter')"
+                horizontal
+              />
             </q-card-section>
           </q-card>
         </div>
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
-              <DnsAnalyticsMapChart :data="mapData" :height="300" :title="t('dns.analytics.queriesByLocation')" />
+              <DnsAnalyticsMapChart
+                :data="mapData"
+                :height="300"
+                :title="t('dns.analytics.queriesByLocation')"
+              />
             </q-card-section>
           </q-card>
         </div>
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
-              <DnsAnalyticsChart :data="queriesByRecordType" type="bar" :height="300"
-                :title="t('dns.analytics.byRecordType')" />
+              <DnsAnalyticsChart
+                :data="queriesByRecordType"
+                type="bar"
+                :height="300"
+                :title="t('dns.analytics.byRecordType')"
+              />
             </q-card-section>
           </q-card>
         </div>
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
-              <DnsAnalyticsChart :data="queriesByResponseCode" type="bar" :height="300"
-                :title="t('dns.analytics.byResponseCode')" />
+              <DnsAnalyticsChart
+                :data="queriesByResponseCode"
+                type="bar"
+                :height="300"
+                :title="t('dns.analytics.byResponseCode')"
+              />
             </q-card-section>
           </q-card>
         </div>
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
-              <DnsAnalyticsChart :data="queriesByIpVersion" type="pie" :height="300"
-                :title="t('dns.analytics.byIpVersion')" />
+              <DnsAnalyticsChart
+                :data="queriesByIpVersion"
+                type="pie"
+                :height="300"
+                :title="t('dns.analytics.byIpVersion')"
+              />
             </q-card-section>
           </q-card>
         </div>
         <div class="col-12 col-md-6">
           <q-card flat>
             <q-card-section>
-              <DnsAnalyticsChart :data="queriesByProtocol" type="pie" :height="300"
-                :title="t('dns.analytics.byProtocol')" />
+              <DnsAnalyticsChart
+                :data="queriesByProtocol"
+                type="pie"
+                :height="300"
+                :title="t('dns.analytics.byProtocol')"
+              />
             </q-card-section>
           </q-card>
         </div>
@@ -125,50 +169,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, type ComputedRef } from 'vue'
-import { useI18n } from 'src/composables/useI18n'
-import { useDnsAnalytics } from 'src/composables/useDnsAnalytics'
-import { useZoneStore } from 'src/stores/zoneStore'
-import { storeToRefs } from 'pinia'
-import DnsAnalyticsChart from 'src/components/DnsAnalyticsChart.vue'
-import DnsAnalyticsMapChart from 'src/components/DnsAnalyticsMapChart.vue'
-import type { DnsAnalyticsData, AnalyticsGroup } from 'src/types'
-import { useDataCenterStore } from 'src/stores/dataCenterStore'
+import { ref, watch, computed, onMounted, type ComputedRef } from 'vue';
+import { useI18n } from 'src/composables/useI18n';
+import { useDnsAnalytics } from 'src/composables/useDnsAnalytics';
+import { useZoneStore } from 'src/stores/zoneStore';
+import { storeToRefs } from 'pinia';
+import DnsAnalyticsChart from 'src/components/DnsAnalyticsChart.vue';
+import DnsAnalyticsMapChart from 'src/components/DnsAnalyticsMapChart.vue';
+import type { DnsAnalyticsData, AnalyticsGroup } from 'src/types';
+import { useDataCenterStore } from 'src/stores/dataCenterStore';
 
 // This type is defined in DnsAnalyticsChart but we need it here for type safety
 interface ChartDataItem {
-  name: string
-  value?: number
-  data?: number[]
-  color?: string
+  name: string;
+  value?: number;
+  data?: number[];
+  color?: string;
 }
 
 interface MapChartDataItem {
-  name: string
-  value: [number, number, number] // lng, lat, query count
+  name: string;
+  value: [number, number, number]; // lng, lat, query count
 }
-
 
 interface TopQueryName {
-  name: string
-  value: number
-  color: string
+  name: string;
+  value: number;
+  color: string;
 }
 
-const { t } = useI18n()
-const { analyticsData, isLoading, error, fetchAnalytics } = useDnsAnalytics()
-const zoneStore = useZoneStore()
-const { selectedZoneId } = storeToRefs(zoneStore)
-const dataCenterStore = useDataCenterStore()
-const { dataCenters } = storeToRefs(dataCenterStore)
+const { t } = useI18n();
+const { analyticsData, isLoading, error, fetchAnalytics } = useDnsAnalytics();
+const zoneStore = useZoneStore();
+const { selectedZoneId } = storeToRefs(zoneStore);
+const dataCenterStore = useDataCenterStore();
+const { dataCenters } = storeToRefs(dataCenterStore);
 
 onMounted(() => {
-  void dataCenterStore.fetchDataCenters()
-})
+  void dataCenterStore.fetchDataCenters();
+});
 
-const timeRange = ref('24h')
-const selectedQueryNames = ref<string[]>([])
-const showTotalQueries = ref(true)
+const timeRange = ref('24h');
+const selectedQueryNames = ref<string[]>([]);
+const showTotalQueries = ref(true);
 
 const timeRangeOptions = computed(() => [
   { label: t('dns.analytics.timeRange.30m'), value: '30m' },
@@ -177,7 +220,7 @@ const timeRangeOptions = computed(() => [
   { label: t('dns.analytics.timeRange.24h'), value: '24h' },
   { label: t('dns.analytics.timeRange.7d'), value: '7d' },
   { label: t('dns.analytics.timeRange.30d'), value: '30d' },
-])
+]);
 
 const colors = [
   '#1E88E5',
@@ -190,10 +233,10 @@ const colors = [
   '#E53935',
   '#5E35B1',
   '#00897B',
-]
+];
 
 const topQueryNames = computed<TopQueryName[]>(() => {
-  const names = analyticsData.value?.byQueryName || []
+  const names = analyticsData.value?.byQueryName || [];
   return names
     .filter((item) => item.dimensions?.queryName)
     .slice(0, 5)
@@ -201,23 +244,23 @@ const topQueryNames = computed<TopQueryName[]>(() => {
       name: item.dimensions.queryName as string,
       value: item.count,
       color: colors[(index + 1) % colors.length] ?? '#808080', // Start colors from index 1
-    }))
-})
+    }));
+});
 
 const toggleQueryName = (name: string) => {
-  const index = selectedQueryNames.value.indexOf(name)
+  const index = selectedQueryNames.value.indexOf(name);
   if (index > -1) {
-    selectedQueryNames.value.splice(index, 1)
+    selectedQueryNames.value.splice(index, 1);
   } else {
     if (selectedQueryNames.value.length < 5) {
-      selectedQueryNames.value.push(name)
+      selectedQueryNames.value.push(name);
     }
   }
-}
+};
 
 const fetchData = () => {
-  const until = new Date()
-  const since = new Date()
+  const until = new Date();
+  const since = new Date();
 
   const rangeMap: Record<string, number> = {
     '30m': 30 * 60 * 1000,
@@ -226,34 +269,34 @@ const fetchData = () => {
     '24h': 24 * 3600 * 1000,
     '7d': 7 * 24 * 3600 * 1000,
     '30d': 30 * 24 * 3600 * 1000,
-  }
+  };
 
-  const offset = rangeMap[timeRange.value] ?? 24 * 3600 * 1000
-  since.setTime(until.getTime() - offset)
+  const offset = rangeMap[timeRange.value] ?? 24 * 3600 * 1000;
+  since.setTime(until.getTime() - offset);
 
-  void fetchAnalytics(since, until, selectedQueryNames.value)
-}
+  void fetchAnalytics(since, until, selectedQueryNames.value);
+};
 
 watch(
   selectedZoneId,
   () => {
-    selectedQueryNames.value = [] // Reset selection when zone changes
-    showTotalQueries.value = true // Also reset to show total queries
-    fetchData()
+    selectedQueryNames.value = []; // Reset selection when zone changes
+    showTotalQueries.value = true; // Also reset to show total queries
+    fetchData();
   },
   { immediate: true },
-)
+);
 
 watch(timeRange, () => {
-  fetchData() // Refetch without resetting selection
-})
+  fetchData(); // Refetch without resetting selection
+});
 
-watch([selectedQueryNames, showTotalQueries], fetchData, { deep: true })
+watch([selectedQueryNames, showTotalQueries], fetchData, { deep: true });
 
-const totalQueries = computed(() => analyticsData.value?.total[0]?.count || 0)
+const totalQueries = computed(() => analyticsData.value?.total[0]?.count || 0);
 
 const avgQueriesPerSecond = computed(() => {
-  const total = totalQueries.value
+  const total = totalQueries.value;
   const rangeInSeconds: Record<string, number> = {
     '30m': 30 * 60,
     '6h': 6 * 3600,
@@ -261,79 +304,79 @@ const avgQueriesPerSecond = computed(() => {
     '24h': 24 * 3600,
     '7d': 7 * 24 * 3600,
     '30d': 30 * 24 * 3600,
-  }
-  const seconds = rangeInSeconds[timeRange.value] ?? rangeInSeconds['24h']
-  if (!seconds) return '0.000'
-  return (total / seconds).toFixed(3)
-})
+  };
+  const seconds = rangeInSeconds[timeRange.value] ?? rangeInSeconds['24h'];
+  if (!seconds) return '0.000';
+  return (total / seconds).toFixed(3);
+});
 
-const avgProcessingTime = computed(() => (1.796 + (Math.random() - 0.5) * 0.5).toFixed(3))
+const avgProcessingTime = computed(() => (1.796 + (Math.random() - 0.5) * 0.5).toFixed(3));
 
 const allTimestamps = computed(() => {
-  const timestamps = new Set<string>()
-    ; (analyticsData.value?.timeSeries || []).forEach((bucket) => {
-      if (bucket.dimensions?.ts) timestamps.add(bucket.dimensions.ts)
-    })
+  const timestamps = new Set<string>();
+  (analyticsData.value?.timeSeries || []).forEach((bucket) => {
+    if (bucket.dimensions?.ts) timestamps.add(bucket.dimensions.ts);
+  });
   if (analyticsData.value?.byQueryNameTimeSeries) {
     Object.values(analyticsData.value.byQueryNameTimeSeries).forEach((series) => {
       series.forEach((bucket) => {
-        if (bucket.dimensions?.ts) timestamps.add(bucket.dimensions.ts)
-      })
-    })
+        if (bucket.dimensions?.ts) timestamps.add(bucket.dimensions.ts);
+      });
+    });
   }
-  return Array.from(timestamps).sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-})
+  return Array.from(timestamps).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+});
 
 const timeSeriesLabels = computed(() => {
-  const isShortRange = ['30m', '6h', '12h', '24h'].includes(timeRange.value)
+  const isShortRange = ['30m', '6h', '12h', '24h'].includes(timeRange.value);
 
   return allTimestamps.value.map((ts) => {
-    const date = new Date(ts)
+    const date = new Date(ts);
     if (isShortRange) {
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
     } else {
-      return date.toLocaleDateString([], { day: '2-digit', month: '2-digit' })
+      return date.toLocaleDateString([], { day: '2-digit', month: '2-digit' });
     }
-  })
-})
+  });
+});
 
 const timeSeriesData = computed((): ChartDataItem[] => {
-  const series: ChartDataItem[] = []
-  const timestamps = allTimestamps.value
+  const series: ChartDataItem[] = [];
+  const timestamps = allTimestamps.value;
 
-  const colorMap = new Map(topQueryNames.value.map((item) => [item.name, item.color]))
+  const colorMap = new Map(topQueryNames.value.map((item) => [item.name, item.color]));
 
   if (showTotalQueries.value && analyticsData.value?.timeSeries) {
-    const dataMap = new Map(analyticsData.value.timeSeries.map((b) => [b.dimensions.ts, b.count]))
+    const dataMap = new Map(analyticsData.value.timeSeries.map((b) => [b.dimensions.ts, b.count]));
     series.push({
       name: t('dns.analytics.totalQueries'),
       data: timestamps.map((ts) => dataMap.get(ts) || 0),
       color: colors[0] ?? '#1E88E5',
-    })
+    });
   }
 
   if (analyticsData.value?.byQueryNameTimeSeries) {
     selectedQueryNames.value.forEach((name) => {
-      const timeSeriesForName = analyticsData.value!.byQueryNameTimeSeries?.[name]
+      const timeSeriesForName = analyticsData.value!.byQueryNameTimeSeries?.[name];
       if (timeSeriesForName) {
-        const dataMap = new Map(timeSeriesForName.map((b) => [b.dimensions.ts, b.count]))
-        const color = colorMap.get(name)
+        const dataMap = new Map(timeSeriesForName.map((b) => [b.dimensions.ts, b.count]));
+        const color = colorMap.get(name);
 
         const seriesItem: ChartDataItem = {
           name: name,
           data: timestamps.map((ts) => dataMap.get(ts) || 0),
-        }
+        };
 
         if (color) {
-          seriesItem.color = color
+          seriesItem.color = color;
         }
-        series.push(seriesItem)
+        series.push(seriesItem);
       }
-    })
+    });
   }
 
-  return series
-})
+  return series;
+});
 
 const createChartData = (
   key: keyof DnsAnalyticsData,
@@ -341,7 +384,7 @@ const createChartData = (
   nameFormatter?: (name: string) => string,
 ): ComputedRef<ChartDataItem[]> => {
   return computed(() => {
-    const data = (analyticsData.value?.[key] as AnalyticsGroup[]) || []
+    const data = (analyticsData.value?.[key] as AnalyticsGroup[]) || [];
     return data
       .filter((item) => item.dimensions?.[dimension])
       .map((item) => ({
@@ -349,47 +392,46 @@ const createChartData = (
           ? nameFormatter(item.dimensions[dimension] as string)
           : (item.dimensions[dimension] as string),
         value: item.count,
-      }))
-  })
-}
+      }));
+  });
+};
 
 const queriesByDataCenter = createChartData(
   'byDataCenter',
   'coloName',
   (name) => dataCenters.value[name]?.place || name,
-)
-const queriesByRecordType = createChartData('byRecordType', 'queryType')
-const queriesByResponseCode = createChartData('byResponseCode', 'responseCode')
-const queriesByIpVersion = createChartData('byIpVersion', 'ipVersion')
-const queriesByProtocol = createChartData('byProtocol', 'protocol')
+);
+const queriesByRecordType = createChartData('byRecordType', 'queryType');
+const queriesByResponseCode = createChartData('byResponseCode', 'responseCode');
+const queriesByIpVersion = createChartData('byIpVersion', 'ipVersion');
+const queriesByProtocol = createChartData('byProtocol', 'protocol');
 
 const mapData = computed<MapChartDataItem[]>(() => {
-  const data = (analyticsData.value?.byDataCenter as AnalyticsGroup[]) || []
+  const data = (analyticsData.value?.byDataCenter as AnalyticsGroup[]) || [];
   return data
     .map((item) => {
-      const coloName = item.dimensions.coloName as string
-      const dcInfo = dataCenters.value[coloName]
+      const coloName = item.dimensions.coloName as string;
+      const dcInfo = dataCenters.value[coloName];
       if (dcInfo) {
         return {
           name: dcInfo.place,
           value: [dcInfo.lng, dcInfo.lat, item.count] as [number, number, number],
-        }
+        };
       }
-      return null
+      return null;
     })
-    .filter((item): item is MapChartDataItem => item !== null)
-})
-
+    .filter((item): item is MapChartDataItem => item !== null);
+});
 
 const formatNumber = (num: number): string => {
   if (num >= 1000000) {
-    return (num / 1000000).toFixed(1) + 'M'
+    return (num / 1000000).toFixed(1) + 'M';
   }
   if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'k'
+    return (num / 1000).toFixed(1) + 'k';
   }
-  return num.toString()
-}
+  return num.toString();
+};
 </script>
 
 <style scoped>

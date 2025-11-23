@@ -10,20 +10,49 @@
       <q-form @submit.prevent="onOKClick">
         <q-card-section class="q-gutter-md">
           <!-- Record Type -->
-          <q-select v-model="formData.type" :label="t('dns.editRecord.type')" :options="recordTypes"
-            :disable="isExistingRecord" outlined dense />
+          <q-select
+            v-model="formData.type"
+            :label="t('dns.editRecord.type')"
+            :options="recordTypes"
+            :disable="isExistingRecord"
+            outlined
+            dense
+          />
 
           <!-- Record Name -->
-          <q-input v-model="formData.name" :label="t('dns.editRecord.name')"
-            :placeholder="t('dns.editRecord.namePlaceholder')" type="text" required outlined dense />
+          <q-input
+            v-model="formData.name"
+            :label="t('dns.editRecord.name')"
+            :placeholder="t('dns.editRecord.namePlaceholder')"
+            type="text"
+            required
+            outlined
+            dense
+          />
 
           <!-- Record Content -->
-          <q-input v-model="formData.content" :label="t('dns.editRecord.content')" :placeholder="getContentPlaceholder"
-            :type="contentRows > 1 ? 'textarea' : 'text'" :rows="contentRows" required outlined dense autogrow />
+          <q-input
+            v-model="formData.content"
+            :label="t('dns.editRecord.content')"
+            :placeholder="getContentPlaceholder"
+            :type="contentRows > 1 ? 'textarea' : 'text'"
+            :rows="contentRows"
+            required
+            outlined
+            dense
+            autogrow
+          />
 
           <!-- TTL -->
-          <q-select v-model="formData.ttl" :label="t('dns.editRecord.ttl')" :options="ttlOptions" emit-value map-options
-            outlined dense />
+          <q-select
+            v-model="formData.ttl"
+            :label="t('dns.editRecord.ttl')"
+            :options="ttlOptions"
+            emit-value
+            map-options
+            outlined
+            dense
+          />
 
           <!-- Proxy Toggle (only for supported types) -->
           <div v-if="supportsProxy" class="row items-center justify-between">
@@ -50,31 +79,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { useDialogPluginComponent } from 'quasar'
-import type { DnsRecord } from 'src/types'
-import { useI18n } from 'src/composables/useI18n'
-import CloudflareProxyToggle from './CloudflareProxyToggle.vue'
+import { ref, computed, watch } from 'vue';
+import { useDialogPluginComponent } from 'quasar';
+import type { DnsRecord } from 'src/types';
+import { useI18n } from 'src/composables/useI18n';
+import CloudflareProxyToggle from './CloudflareProxyToggle.vue';
 
 interface Props {
-  record?: DnsRecord
-  zoneName?: string
+  record?: DnsRecord;
+  zoneName?: string;
 }
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-defineEmits([...useDialogPluginComponent.emits])
+defineEmits([...useDialogPluginComponent.emits]);
 
-const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
-  useDialogPluginComponent()
-const { t } = useI18n()
+const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent();
+const { t } = useI18n();
 
 interface DnsRecordForm {
-  type?: string
-  name?: string
-  content?: string
-  ttl?: number
-  proxied: boolean
-  id?: string
+  type?: string;
+  name?: string;
+  content?: string;
+  ttl?: number;
+  proxied: boolean;
+  id?: string;
 }
 
 const formData = ref<DnsRecordForm>({
@@ -83,17 +111,16 @@ const formData = ref<DnsRecordForm>({
   content: '',
   ttl: 1,
   proxied: false,
-})
+});
 
-
-const isExistingRecord = computed(() => !!props.record?.id)
+const isExistingRecord = computed(() => !!props.record?.id);
 const supportsProxy = computed(() => {
-  return ['A', 'AAAA', 'CNAME'].includes(formData.value.type || '')
-})
-const contentRows = computed(() => (formData.value.type === 'TXT' ? 3 : 1))
+  return ['A', 'AAAA', 'CNAME'].includes(formData.value.type || '');
+});
+const contentRows = computed(() => (formData.value.type === 'TXT' ? 3 : 1));
 
 const getContentPlaceholder = computed(() => {
-  const type = formData.value.type
+  const type = formData.value.type;
   const placeholders: Record<string, string> = {
     A: '192.168.1.1',
     AAAA: '2001:db8::1',
@@ -103,19 +130,17 @@ const getContentPlaceholder = computed(() => {
     SRV: '10 5 443 target.example.com',
     NS: 'ns1.example.com',
     PTR: 'example.com',
-  }
-  return placeholders[type || 'A'] || ''
-})
+  };
+  return placeholders[type || 'A'] || '';
+});
 
 const isFormValid = computed(() => {
-  return !!(formData.value.name && formData.value.content)
-})
+  return !!(formData.value.name && formData.value.content);
+});
 
 const saveButtonText = computed(() => {
-  return isExistingRecord.value
-    ? t('dns.editRecord.update')
-    : t('dns.editRecord.create')
-})
+  return isExistingRecord.value ? t('dns.editRecord.update') : t('dns.editRecord.create');
+});
 
 watch(
   () => props.record,
@@ -123,8 +148,8 @@ watch(
     if (newRecord) {
       formData.value = {
         ...newRecord,
-        proxied: newRecord.proxied ?? false
-      }
+        proxied: newRecord.proxied ?? false,
+      };
     } else {
       formData.value = {
         type: 'A',
@@ -132,37 +157,27 @@ watch(
         content: '',
         ttl: 1,
         proxied: false,
-      }
+      };
     }
   },
   { immediate: true },
-)
+);
 
 watch(
   () => formData.value.type,
   (newType) => {
     if (!['A', 'AAAA', 'CNAME'].includes(newType || '')) {
-      formData.value.proxied = false
+      formData.value.proxied = false;
     }
   },
-)
-
+);
 
 function onOKClick() {
-  if (!isFormValid.value) return
-  onDialogOK(formData.value)
+  if (!isFormValid.value) return;
+  onDialogOK(formData.value);
 }
 
-const recordTypes = [
-  'A',
-  'AAAA',
-  'CNAME',
-  'TXT',
-  'MX',
-  'SRV',
-  'NS',
-  'PTR',
-]
+const recordTypes = ['A', 'AAAA', 'CNAME', 'TXT', 'MX', 'SRV', 'NS', 'PTR'];
 const ttlOptions = [
   { label: 'Auto', value: 1 },
   { label: '2 minutes', value: 120 },
@@ -175,7 +190,7 @@ const ttlOptions = [
   { label: '5 hours', value: 18000 },
   { label: '12 hours', value: 43200 },
   { label: '1 day', value: 86400 },
-]
+];
 </script>
 
 <style scoped>
