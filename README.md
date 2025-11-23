@@ -85,6 +85,29 @@ In the project directory, you can run:
 *   `quasar build -m pwa` or `npm run build-pwa`
     Builds the app as a Progressive Web App.
 
+## 🧪 Testing
+
+This project has a comprehensive testing setup with **Vitest** for unit/component tests and **Playwright** for E2E tests.
+
+### Quick Commands
+
+*   `npm test` - Run unit tests in watch mode
+*   `npm run test:unit` - Run unit tests once
+*   `npm run test:unit:coverage` - Run tests with coverage report
+*   `npm run test:e2e` - Run E2E tests (all browsers)
+*   `npm run test:e2e:chromium` - Run E2E tests (Chromium only)
+
+### Test Structure
+
+```
+├── src/**/__tests__/     # Unit tests (co-located with source)
+├── e2e/                  # E2E tests with Playwright
+│   ├── *.spec.ts         # Test files
+│   └── page-objects/     # Page Object Models
+└── test/vitest/          # Additional Vitest tests
+```
+
+For detailed testing documentation, see [TESTING.md](./TESTING.md).
 
 ## 🤝 Contributing
 
