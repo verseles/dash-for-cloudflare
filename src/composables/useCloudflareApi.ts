@@ -1,5 +1,5 @@
 import { useSettings } from 'src/composables/useSettings'
-import type { DnsRecord, Zone, DnsSetting, DnssecDetails, DnsZoneSettings, Domain } from 'src/types'
+import type { DnsRecord, Zone, DnsSetting, DnssecDetails, DnsZoneSettings } from 'src/types'
 import { useQuasar } from 'quasar'
 
 // Define the structure of the Cloudflare API response
@@ -105,12 +105,7 @@ export function useCloudflareApi() {
     return cfFetch<Zone[]>('/zones?per_page=100')
   }
 
-  const getDomains = async (): Promise<Domain[]> => {
-    if (!settings.cloudflareAccountId) {
-      throw new Error('Cloudflare Account ID is not set.')
-    }
-    return cfFetch<Domain[]>(`/accounts/${settings.cloudflareAccountId}/registrar/domains`)
-  }
+
 
   const getDnsRecords = async (zoneId: string): Promise<DnsRecord[]> => {
     return cfFetch<DnsRecord[]>(`/zones/${zoneId}/dns_records`)
@@ -159,7 +154,7 @@ export function useCloudflareApi() {
 
   return {
     getZones,
-    getDomains,
+
     getDnsRecords,
     createDnsRecord,
     updateDnsRecord,

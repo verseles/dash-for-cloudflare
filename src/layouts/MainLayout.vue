@@ -99,11 +99,7 @@ const menuList = computed(() => [
     to: '/dns/records',
     icon: 'dns',
   },
-  {
-    title: t('menu.domains'),
-    to: '/domains/list',
-    icon: 'language',
-  },
+
   {
     title: t('menu.settings'),
     to: '/settings',
