@@ -27,7 +27,9 @@ const mockRecord = {
   name: 'example.com',
   content: '192.168.1.1',
   ttl: 3600,
-  proxied: false
+  proxied: false,
+  zone_id: 'zone-1',
+  zone_name: 'example.com'
 }
 
 describe('DnsRecordItem', () => {
