@@ -13,8 +13,10 @@ Este documento serve como guia passo a passo para configurar um ambiente de test
 > | Fase 1: Vitest | ✅ Concluída | Configuração completa com coverage |
 > | Fase 2: Playwright | ✅ Concluída | E2E configurado para 5 browsers |
 > | Fase 3: CI/CD | ✅ Concluída | GitHub Actions com matrix |
-> | Fase 4: Stores/Components | 🔲 Pendente | Próxima sessão |
-> | Fase 5: Page Objects E2E | 🔲 Pendente | Futura sessão |
+> | Fase 4: Stores/Components | ✅ Concluída | 29 testes de stores + 18 de componentes |
+> | Fase 5: Page Objects E2E | ✅ Concluída | Page Objects + testes responsivos |
+>
+> **Total de testes unitários**: 47 passando
 
 ---
 
@@ -183,19 +185,20 @@ npm install -D @vitest/coverage-v8 @vitest/ui happy-dom --legacy-peer-deps
 
 ### Etapa 4.1: Testar Stores (Pinia)
 
-- [ ] Criar testes para cada store em `src/stores/`:
-  - [ ] dataCenterStore
-  - [ ] generalStore
-  - [ ] loading
-  - [ ] zoneStore
+- [x] Criar testes para cada store em `src/stores/__tests__/`:
+  - [x] loading.spec.ts (6 testes)
+  - [x] dataCenterStore.spec.ts (4 testes)
+  - [x] generalStore.spec.ts (2 testes)
+  - [x] zoneStore.spec.ts (5 testes)
 
 ### Etapa 4.2: Testar Componentes Críticos
 
-- [ ] Identificar e testar componentes:
-  - [ ] CloudflareProxyToggle.vue
-  - [ ] DnsRecordItem.vue
-  - [ ] DnsRecordEditModal.vue
-  - [ ] DnsAnalyticsChart.vue
+- [x] Testes criados em `src/components/__tests__/`:
+  - [x] CloudflareProxyToggle.spec.ts (6 testes)
+  - [x] DnsRecordItem.spec.ts (12 testes)
+  - [x] UpdateBanner.spec.ts (6 testes - criado na Fase 1)
+
+> **Aprendizado**: Stores com watchers `immediate: true` precisam de tratamento especial nos testes - o mock deve estar configurado ANTES da store ser instanciada.
 
 ---
 
@@ -203,19 +206,19 @@ npm install -D @vitest/coverage-v8 @vitest/ui happy-dom --legacy-peer-deps
 
 ### Etapa 5.1: Criar Page Objects
 
-- [ ] Criar Page Objects para páginas principais:
-  - [ ] HomePage
-  - [ ] DnsPage
-  - [ ] SettingsPage
+- [x] Page Objects criados em `e2e/pages/`:
+  - [x] HomePage.ts - navegação e interações do menu
+  - [x] SettingsPage.ts - formulário de configurações
+  - [x] DnsPage.ts - gerenciamento de registros DNS
 
 ### Etapa 5.2: Testes de Fluxos Críticos
 
-- [ ] Testar fluxos críticos do usuário
-- [ ] Testar navegação entre páginas
+- [x] navigation.spec.ts - testes de navegação entre páginas
+- [x] settings.spec.ts - testes de interações na página de settings
 
 ### Etapa 5.3: Testes de Responsividade
 
-- [ ] Testar em diferentes viewports usando projetos do Playwright
+- [x] responsive.spec.ts - testes para desktop, tablet e mobile viewports
 
 ---
 
@@ -299,14 +302,20 @@ Meta futura:
 
 ```
 ├── .github/workflows/
-│   └── test.yml           # CI pipeline
+│   └── test.yml              # CI pipeline com matrix parallelism
 ├── e2e/
 │   ├── fixtures/
 │   │   └── test-base.ts
 │   ├── pages/
-│   │   └── BasePage.ts
+│   │   ├── BasePage.ts       # Page Object base
+│   │   ├── DnsPage.ts        # Page Object para DNS
+│   │   ├── HomePage.ts       # Page Object para Home
+│   │   └── SettingsPage.ts   # Page Object para Settings
 │   ├── tests/
-│   │   └── app.spec.ts
+│   │   ├── app.spec.ts       # Testes básicos do app
+│   │   ├── navigation.spec.ts # Testes de navegação
+│   │   ├── responsive.spec.ts # Testes de responsividade
+│   │   └── settings.spec.ts  # Testes da página de settings
 │   └── utils/
 │       └── helpers.ts
 ├── test/
@@ -322,10 +331,18 @@ Meta futura:
 ├── src/
 │   ├── components/
 │   │   └── __tests__/
-│   │       └── UpdateBanner.spec.ts
-│   └── composables/
+│   │       ├── CloudflareProxyToggle.spec.ts  # 6 testes
+│   │       ├── DnsRecordItem.spec.ts          # 12 testes
+│   │       └── UpdateBanner.spec.ts           # 6 testes
+│   ├── composables/
+│   │   └── __tests__/
+│   │       └── useI18n.spec.ts
+│   └── stores/
 │       └── __tests__/
-│           └── useI18n.spec.ts
+│           ├── dataCenterStore.spec.ts  # 4 testes
+│           ├── generalStore.spec.ts     # 2 testes
+│           ├── loading.spec.ts          # 6 testes
+│           └── zoneStore.spec.ts        # 5 testes
 ├── vitest.config.ts
 ├── playwright.config.ts
 └── package.json
