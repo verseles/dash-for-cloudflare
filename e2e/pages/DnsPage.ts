@@ -15,7 +15,7 @@ export class DnsPage extends BasePage {
     this.searchInput = page.locator('input[type="search"], input[placeholder*="search" i]')
   }
 
-  async navigate(): Promise<void> {
+  override async navigate(): Promise<void> {
     await super.navigate('/dns')
   }
 

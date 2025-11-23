@@ -3,6 +3,29 @@ import { vi } from 'vitest'
 import { installQuasarPlugin } from '@quasar/quasar-app-extension-testing-unit-vitest'
 import { Notify } from 'quasar'
 
+// Mock para localStorage (necessário para @vue/devtools-kit)
+const localStorageMock = (() => {
+  let store: Record<string, string> = {}
+  return {
+    getItem: vi.fn((key: string) => store[key] || null),
+    setItem: vi.fn((key: string, value: string) => { store[key] = value }),
+    removeItem: vi.fn((key: string) => { delete store[key] }),
+    clear: vi.fn(() => { store = {} }),
+    key: vi.fn((index: number) => Object.keys(store)[index] || null),
+    get length() { return Object.keys(store).length }
+  }
+})()
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+  writable: true
+})
+
+Object.defineProperty(global, 'localStorage', {
+  value: localStorageMock,
+  writable: true
+})
+
 // Instala o plugin do Quasar para os testes com plugins comuns
 installQuasarPlugin({ plugins: { Notify } })
 

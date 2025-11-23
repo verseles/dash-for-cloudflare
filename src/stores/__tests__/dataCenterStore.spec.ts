@@ -4,8 +4,13 @@ import { useDataCenterStore } from '../dataCenterStore'
 import axios from 'axios'
 
 // Mock axios
-vi.mock('axios')
-const mockedAxios = vi.mocked(axios)
+vi.mock('axios', () => ({
+  default: {
+    get: vi.fn()
+  }
+}))
+// eslint-disable-next-line @typescript-eslint/unbound-method
+const mockedAxiosGet = vi.mocked(axios.get)
 
 describe('dataCenterStore', () => {
   beforeEach(() => {
@@ -27,12 +32,12 @@ describe('dataCenterStore', () => {
       GRU: { iata: 'GRU', city: 'São Paulo', country: 'BR' }
     }
 
-    mockedAxios.get.mockResolvedValueOnce({ data: mockData })
+    mockedAxiosGet.mockResolvedValueOnce({ data: mockData })
 
     const store = useDataCenterStore()
     await store.fetchDataCenters()
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
+    expect(mockedAxiosGet).toHaveBeenCalledWith(
       'https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json'
     )
     expect(store.dataCenters).toEqual(mockData)
@@ -41,17 +46,17 @@ describe('dataCenterStore', () => {
 
   it('should not refetch if already fetched', async () => {
     const mockData = { LAX: { iata: 'LAX', city: 'Los Angeles', country: 'US' } }
-    mockedAxios.get.mockResolvedValueOnce({ data: mockData })
+    mockedAxiosGet.mockResolvedValueOnce({ data: mockData })
 
     const store = useDataCenterStore()
     await store.fetchDataCenters()
     await store.fetchDataCenters() // Second call
 
-    expect(mockedAxios.get).toHaveBeenCalledTimes(1)
+    expect(mockedAxiosGet).toHaveBeenCalledTimes(1)
   })
 
   it('should handle fetch error gracefully', async () => {
-    mockedAxios.get.mockRejectedValueOnce(new Error('Network error'))
+    mockedAxiosGet.mockRejectedValueOnce(new Error('Network error'))
 
     const store = useDataCenterStore()
     const originalData = { ...store.dataCenters }

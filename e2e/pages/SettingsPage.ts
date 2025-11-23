@@ -13,7 +13,7 @@ export class SettingsPage extends BasePage {
     this.saveButton = page.getByRole('button', { name: /save/i })
   }
 
-  async navigate(): Promise<void> {
+  override async navigate(): Promise<void> {
     await super.navigate('/settings')
   }
 

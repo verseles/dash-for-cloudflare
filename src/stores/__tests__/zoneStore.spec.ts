@@ -4,8 +4,9 @@ import { nextTick } from 'vue'
 
 // Mock LocalStorage
 const mockLocalStorage = new Map<string, unknown>()
-vi.mock('quasar', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('quasar')>()
+vi.mock('quasar', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const actual = await vi.importActual<typeof import('quasar')>('quasar')
   return {
     ...actual,
     LocalStorage: {

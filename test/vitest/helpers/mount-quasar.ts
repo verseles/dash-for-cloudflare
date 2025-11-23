@@ -34,8 +34,8 @@ export function mountQuasar(
   }
 
   return mount(component, {
-    props: options.props,
-    slots: options.slots,
+    ...(options.props && { props: options.props }),
+    ...(options.slots && { slots: options.slots }),
     global: {
       plugins,
       ...options.global

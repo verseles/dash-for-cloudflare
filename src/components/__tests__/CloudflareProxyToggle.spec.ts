@@ -19,7 +19,7 @@ const messages = {
 }
 
 describe('CloudflareProxyToggle', () => {
-  const mountComponent = (props = { modelValue: false }) => {
+  const mountComponent = (props: { modelValue: boolean; disable?: boolean; tooltip?: boolean } = { modelValue: false }) => {
     const i18n = createI18n({
       legacy: false,
       locale: 'en-US',

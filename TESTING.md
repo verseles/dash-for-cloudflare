@@ -245,6 +245,30 @@ npm install -D @vitest/coverage-v8 @vitest/ui happy-dom --legacy-peer-deps
 5. **playwright.config.ts workers**
    - Não use `undefined` para workers, use um número ou omita a propriedade
 
+6. **localStorage mock para @vue/devtools-kit**
+   - Problema: `TypeError: localStorage.getItem is not a function` em testes de stores
+   - Causa: @vue/devtools-kit tenta acessar localStorage mas happy-dom não fornece mock completo
+   - Solução: Adicionar mock de localStorage no setup-file.ts ANTES de `installQuasarPlugin()`
+   ```typescript
+   const localStorageMock = (() => {
+     let store: Record<string, string> = {}
+     return {
+       getItem: vi.fn((key: string) => store[key] || null),
+       setItem: vi.fn((key: string, value: string) => { store[key] = value }),
+       removeItem: vi.fn((key: string) => { delete store[key] }),
+       clear: vi.fn(() => { store = {} }),
+       key: vi.fn((index: number) => Object.keys(store)[index] || null),
+       get length() { return Object.keys(store).length }
+     }
+   })()
+   Object.defineProperty(window, 'localStorage', { value: localStorageMock, writable: true })
+   Object.defineProperty(global, 'localStorage', { value: localStorageMock, writable: true })
+   ```
+
+7. **ESLint e vi.importActual**
+   - O padrão `vi.importActual<typeof import('module')>` gera erro `@typescript-eslint/consistent-type-imports`
+   - Solução: Adicionar `// eslint-disable-next-line @typescript-eslint/consistent-type-imports` antes da linha
+
 ### Comandos Úteis
 
 ```bash

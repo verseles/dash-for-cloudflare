@@ -4,8 +4,9 @@ import { useGeneralStore } from '../generalStore'
 
 // Mock useQuasar
 const mockNotify = vi.fn()
-vi.mock('quasar', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('quasar')>()
+vi.mock('quasar', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const actual = await vi.importActual<typeof import('quasar')>('quasar')
   return {
     ...actual,
     useQuasar: () => ({
