@@ -1,12 +1,14 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const isCI = !!process.env.CI
+
 export default defineConfig({
   testDir: './e2e',
   testMatch: '**/*.spec.ts',
   fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : 4,
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 1 : 4,
   reporter: [['html', { outputFolder: 'playwright-report' }], ['list']],
   use: {
     baseURL: 'http://localhost:1222',
@@ -37,9 +39,12 @@ export default defineConfig({
     }
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:1222',
-    reuseExistingServer: !process.env.CI,
+    // In CI, use preview server with pre-built files (faster and more reliable)
+    // Locally, use dev server for hot reload
+    // Quasar builds to dist/spa/, so we serve from there in CI
+    command: isCI ? 'npx serve -s dist/spa -l 1222' : 'npm run dev',
+    port: 1222,
+    reuseExistingServer: !isCI,
     timeout: 120 * 1000
   }
 })
