@@ -4,7 +4,7 @@
 # =============================================================================
 # Stage 1: Base with Node.js and Playwright browsers
 # =============================================================================
-FROM mcr.microsoft.com/playwright:v1.52.0-noble AS base
+FROM mcr.microsoft.com/playwright:v1.56.1-noble AS base
 
 WORKDIR /srv/app
 
