@@ -14,13 +14,13 @@ RUN npm install -g npm@latest @quasar/cli @quasar/icongenie
 # Copy package files first for better cache
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies without running postinstall scripts
+RUN npm ci --ignore-scripts
 
 # Copy source code
 COPY . .
 
-# Run quasar prepare
+# Run quasar prepare after all files are copied
 RUN npm run postinstall
 
 # =============================================================================
