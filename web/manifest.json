@@ -1,13 +1,14 @@
 {
-    "name": "cf",
-    "short_name": "cf",
+    "name": "Dash for Cloudflare",
+    "short_name": "CF Dash",
+    "description": "Dash for Cloudflare - DNS management, analytics, and settings",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "Dash for Cloudflare - DNS management app",
-    "orientation": "portrait-primary",
+    "background_color": "#FFFFFF",
+    "theme_color": "#F38020",
+    "orientation": "any",
     "prefer_related_applications": false,
+    "categories": ["utilities", "productivity"],
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -30,6 +31,29 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "DNS Records",
+            "short_name": "Records",
+            "description": "Manage DNS records",
+            "url": "/#/dns/records",
+            "icons": [{"src": "icons/Icon-192.png", "sizes": "192x192"}]
+        },
+        {
+            "name": "Analytics",
+            "short_name": "Analytics",
+            "description": "View DNS analytics",
+            "url": "/#/dns/analytics",
+            "icons": [{"src": "icons/Icon-192.png", "sizes": "192x192"}]
+        },
+        {
+            "name": "Settings",
+            "short_name": "Settings",
+            "description": "App settings",
+            "url": "/#/settings",
+            "icons": [{"src": "icons/Icon-192.png", "sizes": "192x192"}]
         }
     ]
 }
