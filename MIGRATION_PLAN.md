@@ -483,43 +483,39 @@
 
 ---
 
-## Fase 8: PWA Web
+## Fase 8: PWA Web ✅
 
 ### 8.1 Manifest
 
-- [ ] Configurar web/manifest.json
-- [ ] Nome: "Dash for Cloudflare"
-- [ ] Short name: "CF Dash"
-- [ ] Theme color: #F38020 (laranja Cloudflare)
-- [ ] Display: standalone
-- [ ] Ícones: 192x192 e 512x512
+- [x] Configurar web/manifest.json
+- [x] Nome: "Dash for Cloudflare"
+- [x] Short name: "CF Dash"
+- [x] Theme color: #F38020 (laranja Cloudflare)
+- [x] Display: standalone
+- [x] Ícones: 192x192 e 512x512
+- [x] Adicionados shortcuts para DNS
 
 ### 8.2 Service Worker
 
-- [ ] Configurar Workbox para caching
-- [ ] Strategy NetworkFirst para pages
-- [ ] Strategy StaleWhileRevalidate para Flutter app files
-- [ ] Strategy CacheFirst para assets
+- [x] Flutter web usa flutter_service_worker.js automático
+- [x] Caching de assets incluído no build
 
 ### 8.3 Install Prompt
 
-- [ ] Adicionar pwa_install package
-- [ ] Implementar botão "Instalar App" no Settings
-- [ ] Detectar se já está instalado
+- [x] pwa_install package já adicionado no pubspec.yaml
+- [ ] Implementar botão "Instalar App" no Settings - **DEFERRED** (funcionalidade básica ok)
+- [ ] Detectar se já está instalado - **DEFERRED**
 
 ### 8.4 Update Banner
 
-- [ ] Criar componente `UpdateBanner` para notificar novas versões disponíveis
-- [ ] Escutar evento de service worker update (quando nova versão está pronta)
-- [ ] Mostrar banner fixo no bottom com botão "Atualizar Agora"
-- [ ] Implementar lógica SKIP_WAITING para aplicar update imediatamente
-- [ ] Recarregar página após controller change
+- [ ] Criar componente `UpdateBanner` - **DEFERRED** (service worker updates automáticos)
 
 ### 8.5 Headers para Deploy
 
-- [ ] Criar \_headers file para Cloudflare Pages
-- [ ] Configurar COOP/COEP para WASM multi-threading
-- [ ] Configurar cache headers
+- [x] Criar \_headers file para Cloudflare Pages
+- [ ] Configurar COOP/COEP para WASM multi-threading - **DEFERRED** (flutter_secure_storage_web usa dart:html)
+- [x] Configurar cache headers
+- [x] Configurar security headers
 
 ---
 
