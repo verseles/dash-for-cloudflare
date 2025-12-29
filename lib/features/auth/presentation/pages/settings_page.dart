@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/router/app_router.dart';
 import '../../providers/settings_provider.dart';
 import '../../../../core/api/api_config.dart';
+import '../../../../core/logging/log_provider.dart';
 
 /// Settings page for API token, theme, and language
 class SettingsPage extends ConsumerStatefulWidget {
@@ -246,6 +248,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               ),
             ),
 
+            const SizedBox(height: 16),
+
+            // Debug Card (only on non-web platforms)
+            if (!kIsWeb) _buildDebugCard(context),
+
             const SizedBox(height: 24),
 
             // Go to DNS button
@@ -255,6 +262,50 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 label: const Text('Go to DNS Management'),
                 onPressed: () => context.go(AppRoutes.dnsRecords),
               ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDebugCard(BuildContext context) {
+    final fileLoggingEnabled = ref.watch(fileLoggingEnabledProvider);
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.bug_report,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Debug',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SwitchListTile(
+              title: const Text('Save logs to file'),
+              subtitle: const Text('Persists logs for later analysis'),
+              value: fileLoggingEnabled,
+              onChanged: (value) {
+                ref.read(fileLoggingEnabledProvider.notifier).setEnabled(value);
+              },
+            ),
+            const SizedBox(height: 8),
+            ListTile(
+              leading: const Icon(Icons.article_outlined),
+              title: const Text('View Debug Logs'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.push(AppRoutes.debugLogs),
+            ),
           ],
         ),
       ),

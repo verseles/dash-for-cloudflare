@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:dio/dio.dart';
 
+import '../../logging/log_service.dart';
+
 /// Interceptor that retries failed requests with exponential backoff.
 /// Handles rate limiting (429) and server errors (5xx).
 class RetryInterceptor extends Interceptor {
@@ -26,6 +28,12 @@ class RetryInterceptor extends Interceptor {
 
     if (shouldRetry && retryCount < maxRetries) {
       final delay = _calculateDelay(retryCount, statusCode, err.response);
+
+      log.warning(
+        'Retrying ${err.requestOptions.method} ${err.requestOptions.path}',
+        details: 'Attempt ${retryCount + 1}/$maxRetries after ${delay}ms (status: $statusCode)',
+      );
+
       await Future.delayed(Duration(milliseconds: delay));
 
       try {
@@ -33,9 +41,17 @@ class RetryInterceptor extends Interceptor {
         options.extra['retryCount'] = retryCount + 1;
 
         final response = await dio.fetch(options);
+        log.info(
+          'Retry successful for ${options.method} ${options.path}',
+          details: 'After ${retryCount + 1} attempts',
+        );
         handler.resolve(response);
         return;
       } catch (e) {
+        log.error(
+          'Retry failed for ${err.requestOptions.method} ${err.requestOptions.path}',
+          error: e,
+        );
         // Let it fall through to handler.next
       }
     }

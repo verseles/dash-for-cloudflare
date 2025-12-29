@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/app_settings.dart';
 import '../../../core/api/api_config.dart';
+import '../../../core/logging/log_service.dart';
 
 part 'settings_provider.g.dart';
 
@@ -45,37 +46,56 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   Future<AppSettings> _loadSettings() async {
-    // Load token from secure storage
-    final token = await _secureStorage.read(key: _tokenKey);
+    log.stateChange('SettingsNotifier', 'Loading settings...');
 
-    // Load other settings from shared preferences
-    final themeModeStr = _prefs?.getString(_themeModeKey) ?? 'system';
-    final locale = _prefs?.getString(_localeKey) ?? 'en';
-    final selectedZoneId = _prefs?.getString(_selectedZoneIdKey);
+    try {
+      // Load token from secure storage
+      final token = await _secureStorage.read(key: _tokenKey);
 
-    final themeMode = switch (themeModeStr) {
-      'light' => ThemeMode.light,
-      'dark' => ThemeMode.dark,
-      _ => ThemeMode.system,
-    };
+      // Load other settings from shared preferences
+      final themeModeStr = _prefs?.getString(_themeModeKey) ?? 'system';
+      final locale = _prefs?.getString(_localeKey) ?? 'en';
+      final selectedZoneId = _prefs?.getString(_selectedZoneIdKey);
 
-    return AppSettings(
-      cloudflareApiToken: token,
-      themeMode: themeMode,
-      locale: locale,
-      selectedZoneId: selectedZoneId,
-    );
+      final themeMode = switch (themeModeStr) {
+        'light' => ThemeMode.light,
+        'dark' => ThemeMode.dark,
+        _ => ThemeMode.system,
+      };
+
+      log.stateChange(
+        'SettingsNotifier',
+        'Settings loaded: hasToken=${token != null && token.isNotEmpty}, theme=$themeModeStr, locale=$locale',
+      );
+
+      return AppSettings(
+        cloudflareApiToken: token,
+        themeMode: themeMode,
+        locale: locale,
+        selectedZoneId: selectedZoneId,
+      );
+    } catch (e, stack) {
+      log.error('SettingsNotifier: Failed to load settings', error: e, stackTrace: stack);
+      rethrow;
+    }
   }
 
   /// Save API token to secure storage
   Future<void> setApiToken(String? token) async {
-    if (token == null || token.isEmpty) {
-      await _secureStorage.delete(key: _tokenKey);
-    } else {
-      await _secureStorage.write(key: _tokenKey, value: token);
-    }
+    try {
+      if (token == null || token.isEmpty) {
+        await _secureStorage.delete(key: _tokenKey);
+        log.stateChange('SettingsNotifier', 'API token cleared');
+      } else {
+        await _secureStorage.write(key: _tokenKey, value: token);
+        log.stateChange('SettingsNotifier', 'API token updated (length: ${token.length})');
+      }
 
-    state = AsyncData(state.value!.copyWith(cloudflareApiToken: token));
+      state = AsyncData(state.value!.copyWith(cloudflareApiToken: token));
+    } catch (e, stack) {
+      log.error('SettingsNotifier: Failed to save API token', error: e, stackTrace: stack);
+      rethrow;
+    }
   }
 
   /// Validate token format

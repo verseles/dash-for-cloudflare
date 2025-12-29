@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../domain/models/dns_settings.dart';
 import './zone_provider.dart';
 import '../../../core/providers/api_providers.dart';
+import '../../../core/logging/log_service.dart';
 
 part 'dns_settings_provider.g.dart';
 
@@ -62,24 +63,33 @@ class DnsSettingsNotifier extends _$DnsSettingsNotifier {
   }
 
   Future<DnsZoneSettingsState> _fetchSettings(String zoneId) async {
-    final api = ref.read(cloudflareApiProvider);
+    log.stateChange('DnsSettingsNotifier', 'Fetching settings for zone $zoneId');
 
-    // Fetch all settings in parallel
-    final results = await Future.wait([
-      api.getDnssec(zoneId),
-      api.getDnsZoneSettings(zoneId),
-      api.getSettings(zoneId),
-    ]);
+    try {
+      final api = ref.read(cloudflareApiProvider);
 
-    final dnssecResponse = results[0] as dynamic;
-    final dnsSettingsResponse = results[1] as dynamic;
-    final zoneSettingsResponse = results[2] as dynamic;
+      // Fetch all settings in parallel
+      final results = await Future.wait([
+        api.getDnssec(zoneId),
+        api.getDnsZoneSettings(zoneId),
+        api.getSettings(zoneId),
+      ]);
 
-    return DnsZoneSettingsState(
-      dnssec: dnssecResponse.result,
-      dnsSettings: dnsSettingsResponse.result,
-      zoneSettings: zoneSettingsResponse.result ?? [],
-    );
+      final dnssecResponse = results[0] as dynamic;
+      final dnsSettingsResponse = results[1] as dynamic;
+      final zoneSettingsResponse = results[2] as dynamic;
+
+      log.stateChange('DnsSettingsNotifier', 'Settings fetched, DNSSEC status: ${dnssecResponse.result?.status}');
+
+      return DnsZoneSettingsState(
+        dnssec: dnssecResponse.result,
+        dnsSettings: dnsSettingsResponse.result,
+        zoneSettings: zoneSettingsResponse.result ?? [],
+      );
+    } catch (e, stack) {
+      log.error('DnsSettingsNotifier: Failed to fetch settings', error: e, stackTrace: stack);
+      rethrow;
+    }
   }
 
   /// Refresh all settings
@@ -103,6 +113,7 @@ class DnsSettingsNotifier extends _$DnsSettingsNotifier {
 
     try {
       final api = ref.read(cloudflareApiProvider);
+      log.stateChange('DnsSettingsNotifier', 'Toggling DNSSEC: ${enable ? 'enable' : 'disable'}');
       await api.updateDnssec(zoneId, {
         'status': enable ? 'active' : 'disabled',
       });
@@ -112,7 +123,8 @@ class DnsSettingsNotifier extends _$DnsSettingsNotifier {
       await refresh();
       await Future.delayed(const Duration(seconds: 2));
       await refresh();
-    } catch (e) {
+    } catch (e, stack) {
+      log.error('DnsSettingsNotifier: Failed to toggle DNSSEC', error: e, stackTrace: stack);
       state = AsyncData(
         currentState.copyWith(isLoading: false, error: e.toString()),
       );
@@ -131,9 +143,11 @@ class DnsSettingsNotifier extends _$DnsSettingsNotifier {
 
     try {
       final api = ref.read(cloudflareApiProvider);
+      log.stateChange('DnsSettingsNotifier', 'Toggling multi-signer DNSSEC: $enable');
       await api.updateDnssec(zoneId, {'dnssec_multi_signer': enable});
       await refresh();
-    } catch (e) {
+    } catch (e, stack) {
+      log.error('DnsSettingsNotifier: Failed to toggle multi-signer DNSSEC', error: e, stackTrace: stack);
       state = AsyncData(
         currentState.copyWith(isLoading: false, error: e.toString()),
       );
@@ -152,9 +166,11 @@ class DnsSettingsNotifier extends _$DnsSettingsNotifier {
 
     try {
       final api = ref.read(cloudflareApiProvider);
+      log.stateChange('DnsSettingsNotifier', 'Toggling multi-provider DNS: $enable');
       await api.updateDnsZoneSettings(zoneId, {'multi_provider': enable});
       await refresh();
-    } catch (e) {
+    } catch (e, stack) {
+      log.error('DnsSettingsNotifier: Failed to toggle multi-provider DNS', error: e, stackTrace: stack);
       state = AsyncData(
         currentState.copyWith(isLoading: false, error: e.toString()),
       );
@@ -173,9 +189,11 @@ class DnsSettingsNotifier extends _$DnsSettingsNotifier {
 
     try {
       final api = ref.read(cloudflareApiProvider);
+      log.stateChange('DnsSettingsNotifier', 'Setting CNAME flattening: $value');
       await api.updateSetting(zoneId, 'cname_flattening', {'value': value});
       await refresh();
-    } catch (e) {
+    } catch (e, stack) {
+      log.error('DnsSettingsNotifier: Failed to toggle CNAME flattening', error: e, stackTrace: stack);
       state = AsyncData(
         currentState.copyWith(isLoading: false, error: e.toString()),
       );

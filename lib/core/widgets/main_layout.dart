@@ -73,6 +73,14 @@ class MainLayout extends ConsumerWidget {
               context.go(AppRoutes.settings);
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.bug_report),
+            title: const Text('Debug Logs'),
+            onTap: () {
+              Navigator.pop(context);
+              context.push(AppRoutes.debugLogs);
+            },
+          ),
         ],
       ),
     );

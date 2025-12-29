@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../domain/models/analytics.dart';
 import '../../dns/providers/zone_provider.dart';
 import '../../../core/providers/api_providers.dart';
+import '../../../core/logging/log_service.dart';
 
 part 'analytics_provider.g.dart';
 
@@ -77,6 +78,7 @@ class AnalyticsNotifier extends _$AnalyticsNotifier {
 
     final currentState = state;
     state = currentState.copyWith(isLoading: true, error: null);
+    log.stateChange('AnalyticsNotifier', 'Fetching analytics for ${currentState.timeRange.label}');
 
     try {
       final graphql = ref.read(cloudflareGraphQLProvider);
@@ -90,8 +92,14 @@ class AnalyticsNotifier extends _$AnalyticsNotifier {
         queryNames: currentState.selectedQueryNames.toList(),
       );
 
+      log.stateChange('AnalyticsNotifier', 'Analytics fetched: ${data?.total ?? 0} total queries');
       state = currentState.copyWith(data: data, isLoading: false);
-    } catch (e) {
+    } catch (e, stack) {
+      log.error(
+        'AnalyticsNotifier: Failed to fetch analytics',
+        error: e,
+        stackTrace: stack,
+      );
       state = currentState.copyWith(isLoading: false, error: e.toString());
     }
   }

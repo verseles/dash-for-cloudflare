@@ -10,6 +10,7 @@ import '../../features/dns/presentation/pages/dns_records_page.dart';
 import '../../features/dns/presentation/pages/dns_analytics_page.dart';
 import '../../features/dns/presentation/pages/dns_settings_page.dart';
 import '../widgets/main_layout.dart';
+import '../logging/presentation/debug_logs_page.dart';
 
 part 'app_router.g.dart';
 
@@ -20,6 +21,7 @@ class AppRoutes {
   static const String dnsRecords = '/dns/records';
   static const String dnsAnalytics = '/dns/analytics';
   static const String dnsSettings = '/dns/settings';
+  static const String debugLogs = '/debug-logs';
 }
 
 /// Navigation shell key for preserving state
@@ -55,6 +57,12 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.settings,
         builder: (context, state) => const SettingsPage(),
+      ),
+
+      // Debug logs page (outside shell)
+      GoRoute(
+        path: AppRoutes.debugLogs,
+        builder: (context, state) => const DebugLogsPage(),
       ),
 
       // Main shell with layout

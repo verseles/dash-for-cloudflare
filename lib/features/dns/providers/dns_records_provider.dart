@@ -4,6 +4,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../domain/models/dns_record.dart';
 import './zone_provider.dart';
 import '../../../core/providers/api_providers.dart';
+import '../../../core/logging/log_service.dart';
+import '../../../core/logging/log_level.dart';
 
 part 'dns_records_provider.g.dart';
 
@@ -85,24 +87,32 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
 
   Future<DnsRecordsState> _fetchRecords(String zoneId) async {
     final fetchId = ++_currentFetchId;
-    final api = ref.read(cloudflareApiProvider);
+    log.stateChange('DnsRecordsNotifier', 'Fetching records for zone $zoneId');
 
-    final response = await api.getDnsRecords(zoneId);
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getDnsRecords(zoneId);
 
-    // Race condition prevention
-    if (_currentFetchId != fetchId) {
-      throw Exception('Stale request');
-    }
+      // Race condition prevention
+      if (_currentFetchId != fetchId) {
+        log.info('DnsRecordsNotifier: Stale request discarded', category: LogCategory.state);
+        throw Exception('Stale request');
+      }
 
-    if (!response.success || response.result == null) {
-      throw Exception(
-        response.errors.isNotEmpty
+      if (!response.success || response.result == null) {
+        final error = response.errors.isNotEmpty
             ? response.errors.first.message
-            : 'Failed to fetch DNS records',
-      );
-    }
+            : 'Failed to fetch DNS records';
+        log.error('DnsRecordsNotifier: Failed to fetch records', details: error);
+        throw Exception(error);
+      }
 
-    return DnsRecordsState(records: response.result!);
+      log.stateChange('DnsRecordsNotifier', 'Fetched ${response.result!.length} records');
+      return DnsRecordsState(records: response.result!);
+    } catch (e, stack) {
+      log.error('DnsRecordsNotifier: Exception', error: e, stackTrace: stack);
+      rethrow;
+    }
   }
 
   /// Refresh records
@@ -181,7 +191,13 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
       }
 
       return savedRecord;
-    } catch (e) {
+    } catch (e, stack) {
+      log.error(
+        'DnsRecordsNotifier: Failed to ${isNew ? 'create' : 'update'} record',
+        details: 'Record: ${record.name} (${record.type})',
+        error: e,
+        stackTrace: stack,
+      );
       // Remove from saving
       state = AsyncData(
         currentState.copyWith(
@@ -231,7 +247,13 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
       );
 
       return true;
-    } catch (e) {
+    } catch (e, stack) {
+      log.error(
+        'DnsRecordsNotifier: Failed to delete record',
+        details: 'Record ID: $recordId',
+        error: e,
+        stackTrace: stack,
+      );
       // Remove from deleting
       state = AsyncData(
         currentState.copyWith(
@@ -261,7 +283,14 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
     try {
       final api = ref.read(cloudflareApiProvider);
       await api.patchDnsRecord(zoneId, recordId, {'proxied': proxied});
-    } catch (e) {
+      log.stateChange('DnsRecordsNotifier', 'Proxy ${proxied ? 'enabled' : 'disabled'} for ${record.name}');
+    } catch (e, stack) {
+      log.error(
+        'DnsRecordsNotifier: Failed to update proxy',
+        details: 'Record: ${record.name}, proxied: $proxied',
+        error: e,
+        stackTrace: stack,
+      );
       // Rollback
       state = AsyncData(
         currentState.copyWith(

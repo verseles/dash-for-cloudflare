@@ -5,6 +5,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../domain/models/zone.dart';
 import '../../auth/providers/settings_provider.dart';
 import '../../../core/providers/api_providers.dart';
+import '../../../core/logging/log_service.dart';
+import '../../../core/logging/log_level.dart';
 
 part 'zone_provider.g.dart';
 
@@ -16,6 +18,7 @@ class ZonesNotifier extends _$ZonesNotifier {
     // Only fetch if we have a valid token
     final hasToken = ref.watch(hasValidTokenProvider);
     if (!hasToken) {
+      log.info('ZonesNotifier: No valid token, returning empty list', category: LogCategory.state);
       return [];
     }
 
@@ -23,22 +26,31 @@ class ZonesNotifier extends _$ZonesNotifier {
   }
 
   Future<List<Zone>> _fetchZones() async {
-    final api = ref.read(cloudflareApiProvider);
-    final response = await api.getZones();
+    log.stateChange('ZonesNotifier', 'Fetching zones...');
 
-    if (!response.success || response.result == null) {
-      throw Exception(
-        response.errors.isNotEmpty
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getZones();
+
+      if (!response.success || response.result == null) {
+        final error = response.errors.isNotEmpty
             ? response.errors.first.message
-            : 'Failed to fetch zones',
-      );
-    }
+            : 'Failed to fetch zones';
+        log.error('Failed to fetch zones', details: error);
+        throw Exception(error);
+      }
 
-    return response.result!;
+      log.stateChange('ZonesNotifier', 'Fetched ${response.result!.length} zones');
+      return response.result!;
+    } catch (e, stack) {
+      log.error('ZonesNotifier: Exception fetching zones', error: e, stackTrace: stack);
+      rethrow;
+    }
   }
 
   /// Refresh zones list
   Future<void> refresh() async {
+    log.stateChange('ZonesNotifier', 'Refreshing zones');
     state = const AsyncLoading();
     state = await AsyncValue.guard(_fetchZones);
   }

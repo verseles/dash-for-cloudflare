@@ -354,6 +354,58 @@ lib/l10n/
 
 ---
 
+## ADR-021: Sistema de Logging Híbrido (In-App + Arquivo)
+
+**Status**: Aceito
+**Data**: 2025-12-29
+
+**Contexto**: Debug de problemas no app requer visibilidade de logs tanto em tempo real quanto histórico. No Android, acessar logcat é inconveniente. Compartilhar logs para análise precisa ser fácil.
+
+**Decisão**: Implementar sistema de logging híbrido com:
+
+1. **LogService Singleton**: Centraliza todos os logs com níveis (debug, info, api, warning, error)
+2. **Aba Debug Logs**: Visualização em tempo real no Drawer
+3. **Filtros por tempo**: 1m, 5m, 15m, 30m, All
+4. **Filtros por categoria**: All, API, Errors, State, Debug
+5. **Botão Copy**: Copia logs filtrados para clipboard
+6. **Arquivo opcional**: Toggle nas Settings para persistir em arquivo
+
+**Estrutura**:
+```
+lib/core/logging/
+├── log_entry.dart          # Modelo de entrada
+├── log_level.dart          # Níveis e categorias
+├── log_service.dart        # Serviço singleton
+├── log_provider.dart       # Providers Riverpod
+└── presentation/
+    └── debug_logs_page.dart
+```
+
+**Integração**:
+- Interceptors Dio logam requests/responses automaticamente
+- Providers logam state changes e erros
+- main.dart captura FlutterError e async errors
+- Global `log` helper para uso fácil: `log.error('msg', error: e)`
+
+**Formato de Export**:
+```
+=== Debug Logs (last 5 min) ===
+Session: 2025-12-29T19:00:00
+Platform: android
+Exported: 2025-12-29T19:05:00
+Total entries: 42
+
+[19:00:01.123] [API] GET /zones
+  → 200 OK (145ms)
+```
+
+**Consequência**:
+- Debug mais fácil em todas as plataformas
+- Logs podem ser copiados e compartilhados para análise
+- Arquivo opcional não impacta performance quando desativado
+
+---
+
 ## Comandos Úteis
 
 ```bash
@@ -390,4 +442,4 @@ flutter build apk --release
 
 ---
 
-_Última atualização: 2025-12-29_
+_Última atualização: 2025-12-29 (ADR-021 adicionado)_

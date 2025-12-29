@@ -6,6 +6,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 
 import '../../features/analytics/domain/models/analytics.dart';
+import '../logging/log_service.dart';
+import '../logging/log_level.dart';
 
 part 'data_centers_provider.g.dart';
 
@@ -36,8 +38,11 @@ class DataCentersNotifier extends _$DataCentersNotifier {
       final jsonString = await rootBundle.loadString(
         'assets/data/cloudflare-iata-full.json',
       );
-      return _parseDataCenters(jsonString);
-    } catch (e) {
+      final data = _parseDataCenters(jsonString);
+      log.info('DataCentersNotifier: Loaded ${data.length} data centers from asset', category: LogCategory.state);
+      return data;
+    } catch (e, stack) {
+      log.error('DataCentersNotifier: Failed to load from asset', error: e, stackTrace: stack);
       return {};
     }
   }
@@ -47,13 +52,16 @@ class DataCentersNotifier extends _$DataCentersNotifier {
 
     try {
       final dio = Dio();
+      log.info('DataCentersNotifier: Fetching from CDN...', category: LogCategory.state);
       final response = await dio.get<String>(_cdnUrl);
 
       if (response.data != null) {
         final updatedData = _parseDataCenters(response.data!);
+        log.info('DataCentersNotifier: Updated with ${updatedData.length} data centers from CDN', category: LogCategory.state);
         state = AsyncData(updatedData);
       }
     } catch (e) {
+      log.warning('DataCentersNotifier: Failed to fetch from CDN (using local fallback)', details: e.toString());
       // Silently fail - we have local data as fallback
     }
   }

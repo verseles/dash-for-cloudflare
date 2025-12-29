@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../../logging/log_service.dart';
+
 /// Interceptor that adds Bearer token authorization to all requests.
 class AuthInterceptor extends Interceptor {
   AuthInterceptor({required this.getToken});
@@ -13,6 +15,14 @@ class AuthInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $token';
     }
     options.headers['Content-Type'] = 'application/json';
+
+    // Log the request
+    log.apiRequest(
+      options.method,
+      options.path,
+      headers: {'hasAuth': token.isNotEmpty.toString()},
+    );
+
     handler.next(options);
   }
 }

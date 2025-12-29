@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../../features/analytics/domain/models/analytics.dart';
+import '../../logging/log_service.dart';
 
 /// GraphQL client for Cloudflare Analytics API.
 class CloudflareGraphQL {
@@ -178,25 +179,43 @@ class CloudflareGraphQL {
     String query,
     Map<String, dynamic> variables,
   ) async {
+    final startTime = DateTime.now();
+
     try {
+      log.apiRequest('POST', '/graphql', headers: variables);
+
       final response = await _dio.post<Map<String, dynamic>>(
         '/graphql',
         data: {'query': query, 'variables': variables},
       );
 
-      if (response.data == null) return null;
+      final durationMs = DateTime.now().difference(startTime).inMilliseconds;
+
+      if (response.data == null) {
+        log.warning('GraphQL returned null response', details: '${durationMs}ms');
+        return null;
+      }
 
       final errors = response.data!['errors'] as List?;
       if (errors != null && errors.isNotEmpty) {
-        throw Exception(errors[0]['message'] ?? 'GraphQL error');
+        final errorMsg = errors[0]['message'] ?? 'GraphQL error';
+        log.error('GraphQL error', details: '$errorMsg (${durationMs}ms)');
+        throw Exception(errorMsg);
       }
 
+      log.apiResponse('POST', '/graphql', 200, durationMs: durationMs);
       return response.data!['data'] as T?;
     } on DioException catch (e) {
+      final durationMs = DateTime.now().difference(startTime).inMilliseconds;
       final errorMessage =
           e.response?.data?['errors']?[0]?['message'] ??
           e.message ??
           'GraphQL request failed';
+      log.error(
+        'GraphQL request failed',
+        details: '$errorMessage (${durationMs}ms)',
+        error: e,
+      );
       throw Exception(errorMessage);
     }
   }

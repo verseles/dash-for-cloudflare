@@ -42,6 +42,9 @@ dependencies:
   window_manager: ^0.4.3
   tray_manager: ^0.2.3
 
+  # Utilities
+  path_provider: ^2.1.5
+
   # Icons
   cupertino_icons: ^1.0.8
 
