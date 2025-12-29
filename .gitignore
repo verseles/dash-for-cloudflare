@@ -41,6 +41,7 @@ app.*.map.json
 /android/app/release
 *.jks
 *.keystore
+key.properties
 
 # iOS/macOS
 **/ios/Pods/
