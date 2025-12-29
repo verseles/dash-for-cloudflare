@@ -18,7 +18,7 @@ dependencies:
 
   # HTTP Client
   dio: ^5.8.0
-  retrofit: ^4.4.2
+  retrofit: 4.6.0  # Pinned - newer versions have Parser.DartMappable which is incompatible with retrofit_generator 9.7.0
 
   # Routing
   go_router: ^14.8.1
@@ -57,7 +57,7 @@ dev_dependencies:
   freezed: ^3.1.0
   json_serializable: ^6.9.4
   riverpod_generator: ^2.6.5
-  retrofit_generator: ^9.1.9
+  retrofit_generator: ^9.7.0
 
   # Testing
   mocktail: ^1.0.4
