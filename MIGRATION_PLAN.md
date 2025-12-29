@@ -165,7 +165,7 @@
 
 ### 3.3 REST API Client (Retrofit)
 - [ ] Criar interface `CloudflareApi` com anotações Retrofit
-- [ ] Implementar endpoint GET /zones
+- [ ] Implementar endpoint GET /zones com `per_page=100` (padrão da API é 20)
 - [ ] Implementar endpoints CRUD /zones/{zoneId}/dns_records
 - [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/dnssec
 - [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/settings
@@ -231,7 +231,9 @@
 
 ### 4.7 Data Centers Provider
 - [ ] Criar `DataCentersNotifier`
-- [ ] Carregar cloudflare-iata-full.json do assets
+- [ ] Carregar cloudflare-iata-full.json do assets como fallback imediato
+- [ ] Buscar versão atualizada do CDN em background (`https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json`)
+- [ ] Implementar flag `hasFetched` para evitar refetch em cada mount
 - [ ] Mapear IATA codes para lat/lng
 
 ---
@@ -247,13 +249,16 @@
 - [ ] Configurar GoRouter com rotas
 - [ ] Implementar ShellRoute para MainLayout
 - [ ] Implementar StatefulShellRoute para DNS tabs
-- [ ] Implementar redirect guard (token válido para /dns/*)
-- [ ] Configurar initial location como /settings
+- [ ] Implementar redirect guard condicional:
+  - Sem token salvo → redireciona para `/settings`
+  - Com token salvo → redireciona `/` para `/dns/records`
+- [ ] Bloquear acesso a `/dns/*` sem token válido
 
 ### 5.3 MainLayout
 - [ ] Criar Scaffold com AppBar
 - [ ] Implementar Drawer com menu de navegação
 - [ ] Implementar ZoneSelector no AppBar (autocomplete)
+- [ ] Auto-selecionar zona quando filtro retornar apenas 1 resultado
 - [ ] Mostrar loading indicator global
 - [ ] Condicional: mostrar ZoneSelector apenas em rotas /dns/*
 
@@ -278,6 +283,9 @@
 - [ ] Implementar scroll horizontal nos chips
 - [ ] Criar campo de busca expansível
 - [ ] Implementar lista de DnsRecordItem
+- [ ] Manter Sets de IDs por estado: saving, new, deleting
+- [ ] Implementar delay de ~1200ms antes de executar delete (permite ver animação)
+- [ ] Limpar newRecordIds após 2000ms da animação
 - [ ] Implementar skeleton loaders (5 itens)
 - [ ] Implementar empty state com mensagem
 - [ ] Criar FAB para adicionar registro
@@ -313,6 +321,7 @@
 ### 5.10 DnsAnalyticsPage
 - [ ] Implementar TimeRangeSelector (30m, 6h, 12h, 24h, 7d, 30d)
 - [ ] Card de Overview com badges clicáveis (Total + Top 5 query names)
+- [ ] Limitar seleção de query names a máximo 5 simultâneos
 - [ ] Gráfico de linha (time series)
 - [ ] Suporte a múltiplas séries (quando query names selecionados)
 - [ ] Painel de estatísticas (Total, Avg QPS, Avg Processing Time)
@@ -348,6 +357,7 @@
 - [ ] Toggle Multi-signer DNSSEC
 - [ ] Toggle Multi-provider DNS
 - [ ] Toggle CNAME Flattening
+- [ ] Card Email Security (placeholder, botão mostra toast "Work in Progress")
 - [ ] Dialogs de confirmação para ações destrutivas
 
 ### 5.14 DnssecDetailsDialog
@@ -371,14 +381,16 @@
 - [ ] Criar app_pt.arb (português brasileiro)
 
 ### 6.2 Strings por Módulo
-- [ ] Strings comuns: ok, cancel, save, delete, error, loading
+- [ ] Strings comuns: ok, cancel, save, delete, error, loading, workInProgress
 - [ ] Strings de menu: dns, settings
 - [ ] Strings de tabs: records, analytics, settings
-- [ ] Strings de DNS: zoneSelector, noRecords, editRecord, deleteConfirm
+- [ ] Strings de DNS: zoneSelector, noRecords, noRecordsMatch, editRecord, deleteConfirm
 - [ ] Strings de Analytics: timeRanges, chartTitles, noData
 - [ ] Strings de Settings: apiToken, theme, language, permissions
 - [ ] Strings de DNSSEC: estados, ações, avisos
-- [ ] Strings de toasts: recordSaved, recordDeleted, error messages
+- [ ] Strings de Email Security: title, description, configureBtn
+- [ ] Strings de PWA Update: newVersionAvailable, updateNow
+- [ ] Strings de toasts: recordSaved, recordDeleted, copied, copyError, error messages
 
 ### 6.3 Formatação
 - [ ] Configurar formatação de números (intl)
@@ -436,7 +448,14 @@
 - [ ] Implementar botão "Instalar App" no Settings
 - [ ] Detectar se já está instalado
 
-### 8.4 Headers para Deploy
+### 8.4 Update Banner
+- [ ] Criar componente `UpdateBanner` para notificar novas versões disponíveis
+- [ ] Escutar evento de service worker update (quando nova versão está pronta)
+- [ ] Mostrar banner fixo no bottom com botão "Atualizar Agora"
+- [ ] Implementar lógica SKIP_WAITING para aplicar update imediatamente
+- [ ] Recarregar página após controller change
+
+### 8.5 Headers para Deploy
 - [ ] Criar _headers file para Cloudflare Pages
 - [ ] Configurar COOP/COEP para WASM multi-threading
 - [ ] Configurar cache headers
@@ -587,4 +606,4 @@
 
 ---
 
-*Última atualização: 2024-12-29*
+*Última atualização: 2025-12-29*
