@@ -584,6 +584,232 @@
 
 ---
 
+## Detalhes de Implementação
+
+### Race Condition Prevention
+
+Implementar contador incremental em todos os fetches assíncronos para evitar respostas obsoletas:
+
+```dart
+// Em DnsRecordsNotifier
+int _currentFetchId = 0;
+
+Future<void> fetchRecords(String zoneId) async {
+  final fetchId = ++_currentFetchId;
+  state = AsyncLoading();
+  
+  try {
+    final records = await _api.getDnsRecords(zoneId);
+    // Só aplica se ainda for a request mais recente
+    if (_currentFetchId == fetchId) {
+      state = AsyncData(records);
+    }
+  } catch (e) {
+    if (_currentFetchId == fetchId) {
+      state = AsyncError(e, StackTrace.current);
+    }
+  }
+}
+```
+
+### Zone Auto-Seleção
+
+| Situação | Comportamento |
+|----------|---------------|
+| Zona salva não existe mais na API | Selecionar primeira zona da lista |
+| Filtro de busca retorna 1 resultado | Auto-selecionar essa zona |
+| Nenhuma zona salva | Selecionar primeira zona |
+
+### Cloudflare Registrar Detection
+
+Verificar `zone.registrar?.name == 'cloudflare'` para:
+- **É CF Registrar**: Mostrar mensagem "DS record será adicionado automaticamente", sem modal de cópia
+- **Não é CF Registrar**: Mostrar modal com DS record para copiar manualmente ao registrador
+
+### DNSSEC Polling
+
+Após qualquer mudança de status DNSSEC, fazer polling duplo:
+```dart
+await updateDnssec(...);
+await Future.delayed(Duration(seconds: 3));
+await fetchSettings();
+await Future.delayed(Duration(seconds: 2));
+await fetchSettings();
+```
+
+### Filter Behaviors
+
+1. **Reset on zone change**: Ao trocar zona, resetar `activeFilter = 'All'` e `searchQuery = ''`
+2. **Auto-adjust filter**: Se tipo selecionado não existe nos registros filtrados, voltar para 'All'
+
+---
+
+## Constantes
+
+### Record Types
+
+```dart
+const recordTypes = ['A', 'AAAA', 'CNAME', 'TXT', 'MX', 'SRV', 'NS', 'PTR'];
+```
+
+### TTL Options
+
+```dart
+const ttlOptions = [
+  (label: 'Auto', value: 1),
+  (label: '2 minutes', value: 120),
+  (label: '5 minutes', value: 300),
+  (label: '10 minutes', value: 600),
+  (label: '15 minutes', value: 900),
+  (label: '30 minutes', value: 1800),
+  (label: '1 hour', value: 3600),
+  (label: '2 hours', value: 7200),
+  (label: '5 hours', value: 18000),
+  (label: '12 hours', value: 43200),
+  (label: '1 day', value: 86400),
+];
+```
+
+### Content Placeholders
+
+```dart
+const contentPlaceholders = {
+  'A': '192.168.1.1',
+  'AAAA': '2001:db8::1',
+  'CNAME': 'example.com',
+  'TXT': '"v=spf1 include:_spf.google.com ~all"',
+  'MX': 'mail.example.com',
+  'SRV': '10 5 443 target.example.com',
+  'NS': 'ns1.example.com',
+  'PTR': 'example.com',
+};
+```
+
+### Analytics Colors
+
+```dart
+const analyticsColors = [
+  Color(0xFF1E88E5), // Blue
+  Color(0xFFF57C00), // Orange
+  Color(0xFF43A047), // Green
+  Color(0xFFE91E63), // Pink
+  Color(0xFF9C27B0), // Purple
+  Color(0xFF00ACC1), // Cyan
+  Color(0xFFFDD835), // Yellow
+  Color(0xFFE53935), // Red
+  Color(0xFF5E35B1), // Deep Purple
+  Color(0xFF00897B), // Teal
+];
+```
+
+---
+
+## Models Completos
+
+### Zone (com registrar)
+
+```dart
+@freezed
+class Zone with _$Zone {
+  const factory Zone({
+    required String id,
+    required String name,
+    required String status,
+    ZoneRegistrar? registrar,
+  }) = _Zone;
+
+  factory Zone.fromJson(Map<String, dynamic> json) => _$ZoneFromJson(json);
+}
+
+@freezed
+class ZoneRegistrar with _$ZoneRegistrar {
+  const factory ZoneRegistrar({
+    required String id,
+    required String name,
+  }) = _ZoneRegistrar;
+
+  factory ZoneRegistrar.fromJson(Map<String, dynamic> json) => _$ZoneRegistrarFromJson(json);
+}
+```
+
+### DnssecDetails (campos completos)
+
+```dart
+@freezed
+class DnssecDetails with _$DnssecDetails {
+  const factory DnssecDetails({
+    required String status,
+    @JsonKey(name: 'dnssec_multi_signer') bool? dnssecMultiSigner,
+    String? algorithm,
+    String? digest,
+    @JsonKey(name: 'digest_algorithm') String? digestAlgorithm,
+    @JsonKey(name: 'digest_type') String? digestType,
+    String? ds,
+    int? flags,
+    @JsonKey(name: 'key_tag') int? keyTag,
+    @JsonKey(name: 'key_type') String? keyType,
+    @JsonKey(name: 'modified_on') String? modifiedOn,
+    @JsonKey(name: 'public_key') String? publicKey,
+  }) = _DnssecDetails;
+
+  factory DnssecDetails.fromJson(Map<String, dynamic> json) => _$DnssecDetailsFromJson(json);
+}
+```
+
+---
+
+## Comportamentos de UI
+
+### Search Input Expansível
+
+- Estado inicial: apenas ícone de busca
+- Ao clicar: expande para TextField com autofocus
+- Ao perder foco com texto vazio: colapsa para ícone
+- Ao perder foco com texto: mantém expandido
+
+### DNS Record Name Display
+
+| Condição | Display |
+|----------|---------|
+| `name == zoneName` | `@` |
+| `name.endsWith('.$zoneName')` | Nome sem sufixo + sufixo em cinza |
+| Caso contrário | Nome completo |
+
+Exemplo: Para zona `example.com`:
+- `example.com` → `@`
+- `www.example.com` → `www` + `.example.com` (cinza)
+- `mail.other.com` → `mail.other.com`
+
+### Time Series Labels
+
+| Time Range | Formato |
+|------------|---------|
+| 30m, 6h, 12h, 24h | `HH:mm` (ex: 14:30) |
+| 7d, 30d | `DD/MM` (ex: 29/12) |
+
+### Merge de Timestamps (Múltiplas Séries)
+
+Ao plotar múltiplas séries (Total + query names selecionados):
+1. Coletar todos timestamps únicos de todas as séries
+2. Ordenar cronologicamente
+3. Para cada série, mapear dados para timestamps (usar 0 se timestamp não existir na série)
+
+```dart
+// Exemplo
+final allTimestamps = <String>{};
+for (final series in allSeries) {
+  allTimestamps.addAll(series.map((e) => e.timestamp));
+}
+final sortedTimestamps = allTimestamps.toList()..sort();
+
+// Para cada série, criar array alinhado com timestamps
+final alignedData = sortedTimestamps.map((ts) => 
+  series.firstWhere((e) => e.timestamp == ts, orElse: () => 0)
+).toList();
+```
+
+---
+
 ## Notas Importantes
 
 1. **CORS**: Web precisa de proxy (`cors.verseles.com`), mobile/desktop não.
@@ -598,11 +824,7 @@
    - Estilos e cores específicos
    - Edge cases não documentados aqui
 
-5. **Race Conditions**: Implementar request ID tracking para evitar respostas obsoletas (ver `useDnsManagement.ts` na branch old_vue).
-
-6. **Optimistic Updates**: Atualizar UI imediatamente, fazer rollback se API falhar.
-
-7. **DNSSEC State Machine**: 4 estados (disabled, pending, active, pending-disabled). Polling após mudanças.
+5. **Optimistic Updates**: Atualizar UI imediatamente, fazer rollback se API falhar.
 
 ---
 
