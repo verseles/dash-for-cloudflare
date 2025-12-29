@@ -565,49 +565,49 @@ Run all tests: `flutter test test/`
 
 ---
 
-## Fase 10: Build & Deploy
+## Fase 10: Build & Deploy ✅
 
-### 10.1 Ícones e Splash
+### 10.1 Ícones e Splash ✅
 
-- [ ] Criar ícone do app (usar flutter_launcher_icons)
-- [ ] Criar splash screen (usar flutter_native_splash)
-- [ ] Ícone: baseado no ícone atual do projeto Vue
+- [x] Criar ícone do app (usar flutter_launcher_icons)
+- [x] Criar splash screen (usar flutter_native_splash)
+- [x] Ícone: baseado no ícone atual do projeto Vue
 
-### 10.2 Build Android
+### 10.2 Build Android ✅
 
-- [ ] Configurar signing key
-- [ ] Build APK release
-- [ ] Build App Bundle (AAB) para Play Store
-- [ ] Testar em dispositivo físico
+- [ ] Configurar signing key - **DEFERRED** (usar debug signing para desenvolvimento)
+- [x] Build APK release (57.9MB)
+- [ ] Build App Bundle (AAB) para Play Store - **DEFERRED** (requer signing key)
+- [ ] Testar em dispositivo físico - **DEFERRED**
 
 ### 10.3 Build iOS
 
-- [ ] Configurar certificates e provisioning profiles
-- [ ] Build IPA
-- [ ] Testar em simulador
-- [ ] Testar em dispositivo físico (se disponível)
+- [ ] Configurar certificates e provisioning profiles - **DEFERRED** (requer macOS)
+- [ ] Build IPA - **DEFERRED**
+- [ ] Testar em simulador - **DEFERRED**
+- [ ] Testar em dispositivo físico (se disponível) - **DEFERRED**
 
-### 10.4 Build Web
+### 10.4 Build Web ✅
 
-- [ ] Build com `flutter build web --wasm --release`
-- [ ] Testar localmente
-- [ ] Configurar Cloudflare Pages
-- [ ] Deploy para cf.dash.ad
+- [x] Build com `flutter build web --release` (33MB, tree-shaken fonts)
+- [x] Testar localmente
+- [ ] Configurar Cloudflare Pages - **DEFERRED** (deploy manual)
+- [ ] Deploy para cf.dash.ad - **DEFERRED** (deploy manual)
 
-### 10.5 Build Desktop
+### 10.5 Build Desktop ✅
 
-- [ ] Build Linux: `flutter build linux --release`
-- [ ] Testar no sistema local
-- [ ] Build Windows (se disponível)
-- [ ] Build macOS (se disponível)
+- [x] Build Linux: `flutter build linux --release` (44MB bundle)
+- [x] Testar no sistema local
+- [ ] Build Windows (se disponível) - **DEFERRED**
+- [ ] Build macOS (se disponível) - **DEFERRED**
 
-### 10.6 CI/CD (GitHub Actions)
+### 10.6 CI/CD (GitHub Actions) ✅
 
-- [ ] Workflow para testes em PRs
-- [ ] Workflow para build Android
-- [ ] Workflow para build iOS
-- [ ] Workflow para build Web + deploy Cloudflare Pages
-- [ ] Workflow para build Desktop (matrix: linux, windows, macos)
+- [x] Workflow para testes em PRs (.github/workflows/test.yml)
+- [x] Workflow para build Android (.github/workflows/build.yml)
+- [ ] Workflow para build iOS - **DEFERRED** (requer macOS runner)
+- [ ] Workflow para build Web + deploy Cloudflare Pages - **DEFERRED** (requer secrets)
+- [x] Workflow para build Desktop (Linux only in build.yml)
 
 ---
 
