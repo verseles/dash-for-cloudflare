@@ -75,6 +75,7 @@ jobs:
           retention-days: 1
 
   build-web:
+    if: false  # DISABLED: Remove this line to re-enable
     needs: setup
     runs-on: ubuntu-latest
 
@@ -174,6 +175,7 @@ jobs:
           retention-days: 7
 
   build-linux:
+    if: false  # DISABLED: Remove this line to re-enable
     needs: setup
     runs-on: ubuntu-latest
 
@@ -228,6 +230,7 @@ jobs:
           retention-days: 7
 
   build-macos:
+    if: false  # DISABLED: Remove this line to re-enable
     needs: setup
     runs-on: macos-latest
 
