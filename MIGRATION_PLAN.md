@@ -169,46 +169,46 @@
 
 ---
 
-## Fase 3: Camada de API
+## Fase 3: Camada de API ✅
 
 ### 3.1 Configuração Base
 
-- [ ] Criar `ApiConfig` com URLs base (com e sem proxy CORS)
-- [ ] Criar `PlatformDetector` para detectar web vs nativo
-- [ ] Implementar lógica de seleção de URL baseada na plataforma
+- [x] Criar `ApiConfig` com URLs base (com e sem proxy CORS)
+- [x] Criar `PlatformDetector` para detectar web vs nativo
+- [x] Implementar lógica de seleção de URL baseada na plataforma
 
 ### 3.2 Interceptors Dio
 
-- [ ] Criar `AuthInterceptor` para adicionar Bearer token
-- [ ] Criar `RetryInterceptor` com exponential backoff (429, 5xx)
-- [ ] Criar `RateLimitInterceptor` para monitorar headers X-RateLimit-\*
-- [ ] Criar `LogInterceptor` para debug mode
+- [x] Criar `AuthInterceptor` para adicionar Bearer token
+- [x] Criar `RetryInterceptor` com exponential backoff (429, 5xx)
+- [x] Criar `RateLimitInterceptor` para monitorar headers X-RateLimit-\*
+- [x] Criar `LogInterceptor` para debug mode
 
 ### 3.3 REST API Client (Retrofit)
 
-- [ ] Criar interface `CloudflareApi` com anotações Retrofit
-- [ ] Implementar endpoint GET /zones com `per_page=100` (padrão da API é 20)
-- [ ] Implementar endpoints CRUD /zones/{zoneId}/dns_records
-- [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/dnssec
-- [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/settings
-- [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/dns_settings
+- [x] Criar interface `CloudflareApi` com anotações Retrofit
+- [x] Implementar endpoint GET /zones com `per_page=100` (padrão da API é 20)
+- [x] Implementar endpoints CRUD /zones/{zoneId}/dns_records
+- [x] Implementar endpoints GET/PATCH /zones/{zoneId}/dnssec
+- [x] Implementar endpoints GET/PATCH /zones/{zoneId}/settings
+- [x] Implementar endpoints GET/PATCH /zones/{zoneId}/dns_settings
 
 ### 3.4 GraphQL Client
 
-- [ ] Criar classe `CloudflareGraphQL` para analytics
-- [ ] Implementar query principal de analytics (7 grupos)
-- [ ] Implementar queries paralelas por query name
-- [ ] Parsear resposta GraphQL para DnsAnalyticsData
+- [x] Criar classe `CloudflareGraphQL` para analytics
+- [x] Implementar query principal de analytics (7 grupos)
+- [x] Implementar queries paralelas por query name
+- [x] Parsear resposta GraphQL para DnsAnalyticsData
 
 ### 3.5 Providers de API
 
-- [ ] Criar provider `dioProvider`
-- [ ] Criar provider `cloudflareApiProvider`
-- [ ] Criar provider `cloudflareGraphQLProvider`
+- [x] Criar provider `dioProvider`
+- [x] Criar provider `cloudflareApiProvider`
+- [x] Criar provider `cloudflareGraphQLProvider`
 
 ### 3.6 Gerar Código Retrofit
 
-- [ ] Executar build_runner para gerar \_CloudflareApi
+- [x] Executar build_runner para gerar \_CloudflareApi
 
 ---
 

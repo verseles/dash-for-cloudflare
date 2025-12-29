@@ -11,9 +11,12 @@ sealed class DnsAnalyticsData with _$DnsAnalyticsData {
     @Default([]) List<AnalyticsGroup> byQueryName,
     @Default([]) List<AnalyticsGroup> byQueryType,
     @Default([]) List<AnalyticsGroup> byResponseCode,
-    @Default([]) List<AnalyticsGroup> byColoName,
+    @Default([]) List<AnalyticsGroup> byDataCenter,
     @Default([]) List<AnalyticsGroup> byIpVersion,
     @Default([]) List<AnalyticsGroup> byProtocol,
+
+    /// Time series data per query name (for multi-series charts)
+    @Default({}) Map<String, List<AnalyticsTimeSeries>> byQueryNameTimeSeries,
     double? avgProcessingTime,
     double? avgQps,
   }) = _DnsAnalyticsData;
