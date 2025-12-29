@@ -22,7 +22,7 @@ class DesktopWindowManager {
       size: _initialSize,
       minimumSize: _minimumSize,
       center: true,
-      backgroundColor: const Color(0x00000000),
+      backgroundColor: Color(0x00000000),
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.normal,
       title: _windowTitle,

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/models/analytics.dart';
@@ -17,20 +16,14 @@ enum AnalyticsTimeRange {
   days7(Duration(days: 7), '7d'),
   days30(Duration(days: 30), '30d');
 
+  const AnalyticsTimeRange(this.duration, this.label);
+
   final Duration duration;
   final String label;
-
-  const AnalyticsTimeRange(this.duration, this.label);
 }
 
 /// State for analytics
 class AnalyticsState {
-  final DnsAnalyticsData? data;
-  final AnalyticsTimeRange timeRange;
-  final Set<String> selectedQueryNames;
-  final bool isLoading;
-  final String? error;
-
   const AnalyticsState({
     this.data,
     this.timeRange = AnalyticsTimeRange.hours24,
@@ -38,6 +31,12 @@ class AnalyticsState {
     this.isLoading = false,
     this.error,
   });
+
+  final DnsAnalyticsData? data;
+  final AnalyticsTimeRange timeRange;
+  final Set<String> selectedQueryNames;
+  final bool isLoading;
+  final String? error;
 
   AnalyticsState copyWith({
     DnsAnalyticsData? data,

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 /// Cloudflare proxy toggle switch
 class CloudflareProxyToggle extends StatelessWidget {
-  final bool value;
-  final bool isLoading;
-  final ValueChanged<bool> onChanged;
-
   const CloudflareProxyToggle({
     super.key,
     required this.value,
     required this.isLoading,
     required this.onChanged,
   });
+
+  final bool value;
+  final bool isLoading;
+  final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/models/dns_record.dart';
@@ -10,13 +9,6 @@ part 'dns_records_provider.g.dart';
 
 /// State for DNS records with additional UI state
 class DnsRecordsState {
-  final List<DnsRecord> records;
-  final Set<String> savingIds;
-  final Set<String> newIds;
-  final Set<String> deletingIds;
-  final String activeFilter;
-  final String searchQuery;
-
   const DnsRecordsState({
     this.records = const [],
     this.savingIds = const {},
@@ -25,6 +17,13 @@ class DnsRecordsState {
     this.activeFilter = 'All',
     this.searchQuery = '',
   });
+
+  final List<DnsRecord> records;
+  final Set<String> savingIds;
+  final Set<String> newIds;
+  final Set<String> deletingIds;
+  final String activeFilter;
+  final String searchQuery;
 
   DnsRecordsState copyWith({
     List<DnsRecord>? records,

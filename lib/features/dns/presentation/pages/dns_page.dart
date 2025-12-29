@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 
 /// DNS page container with bottom navigation
 class DnsPage extends StatelessWidget {
-  final StatefulNavigationShell navigationShell;
-
   const DnsPage({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {

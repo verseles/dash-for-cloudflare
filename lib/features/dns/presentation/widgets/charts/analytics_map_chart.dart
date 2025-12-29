@@ -116,7 +116,7 @@ class AnalyticsMapChart extends ConsumerWidget {
     return SfMaps(
       layers: [
         MapShapeLayer(
-          source: MapShapeSource.asset(
+          source: const MapShapeSource.asset(
             'assets/data/world.json',
             shapeDataField: 'name',
           ),

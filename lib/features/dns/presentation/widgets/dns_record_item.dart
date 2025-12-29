@@ -6,14 +6,6 @@ import 'cloudflare_proxy_toggle.dart';
 
 /// DNS Record list item with swipe-to-delete
 class DnsRecordItem extends StatelessWidget {
-  final DnsRecord record;
-  final bool isSaving;
-  final bool isNew;
-  final bool isDeleting;
-  final VoidCallback onTap;
-  final VoidCallback onDelete;
-  final ValueChanged<bool> onProxyToggle;
-
   const DnsRecordItem({
     super.key,
     required this.record,
@@ -24,6 +16,14 @@ class DnsRecordItem extends StatelessWidget {
     required this.onDelete,
     required this.onProxyToggle,
   });
+
+  final DnsRecord record;
+  final bool isSaving;
+  final bool isNew;
+  final bool isDeleting;
+  final VoidCallback onTap;
+  final VoidCallback onDelete;
+  final ValueChanged<bool> onProxyToggle;
 
   @override
   Widget build(BuildContext context) {

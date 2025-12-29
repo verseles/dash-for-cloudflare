@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../domain/models/dns_settings.dart';
@@ -10,12 +9,6 @@ part 'dns_settings_provider.g.dart';
 
 /// State for DNS zone settings
 class DnsZoneSettingsState {
-  final DnssecDetails? dnssec;
-  final DnsZoneSettings? dnsSettings;
-  final List<DnsSetting> zoneSettings;
-  final bool isLoading;
-  final String? error;
-
   const DnsZoneSettingsState({
     this.dnssec,
     this.dnsSettings,
@@ -23,6 +16,12 @@ class DnsZoneSettingsState {
     this.isLoading = false,
     this.error,
   });
+
+  final DnssecDetails? dnssec;
+  final DnsZoneSettings? dnsSettings;
+  final List<DnsSetting> zoneSettings;
+  final bool isLoading;
+  final String? error;
 
   DnsZoneSettingsState copyWith({
     DnssecDetails? dnssec,

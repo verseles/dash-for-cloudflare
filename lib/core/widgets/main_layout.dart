@@ -8,9 +8,9 @@ import '../router/app_router.dart';
 
 /// Main layout with AppBar and optional Drawer
 class MainLayout extends ConsumerWidget {
-  final Widget child;
-
   const MainLayout({super.key, required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -196,9 +196,9 @@ class _ZoneSelectorState extends ConsumerState<_ZoneSelector> {
 
 /// Status badge for zone
 class _StatusBadge extends StatelessWidget {
-  final String status;
-
   const _StatusBadge({required this.status});
+
+  final String status;
 
   @override
   Widget build(BuildContext context) {

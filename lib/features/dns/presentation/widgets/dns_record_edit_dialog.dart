@@ -8,9 +8,9 @@ import 'cloudflare_proxy_toggle.dart';
 
 /// DNS Record edit/create dialog
 class DnsRecordEditDialog extends ConsumerStatefulWidget {
-  final DnsRecord? record;
-
   const DnsRecordEditDialog({super.key, this.record});
+
+  final DnsRecord? record;
 
   @override
   ConsumerState<DnsRecordEditDialog> createState() =>
@@ -129,7 +129,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
             children: [
               // Type dropdown
               DropdownButtonFormField<String>(
-                value: _type,
+                initialValue: _type,
                 decoration: const InputDecoration(labelText: 'Type'),
                 items: recordTypes
                     .map(
@@ -185,7 +185,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
 
               // TTL dropdown
               DropdownButtonFormField<int>(
-                value: _ttl,
+                initialValue: _ttl,
                 decoration: const InputDecoration(labelText: 'TTL'),
                 items: _ttlOptions
                     .map(

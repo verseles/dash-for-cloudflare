@@ -175,8 +175,8 @@ class AnalyticsTimeSeriesChart extends StatelessWidget {
 }
 
 class _TimeSeriesPoint {
+  _TimeSeriesPoint({required this.timestamp, required this.value});
+
   final DateTime timestamp;
   final int value;
-
-  _TimeSeriesPoint({required this.timestamp, required this.value});
 }

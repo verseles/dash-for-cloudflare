@@ -86,13 +86,6 @@ void main() {
         expect(interceptor.limit, 1200);
         expect(interceptor.remaining, 0);
         expect(handler.isCompleted, true);
-
-        // Consume the future to prevent unhandled exception
-        try {
-          await handler.future;
-        } catch (_) {
-          // Expected - the handler rejects with the error
-        }
       });
 
       test('handles error without response', () async {
@@ -105,13 +98,6 @@ void main() {
         // Should not throw
         interceptor.onError(error, handler);
         expect(handler.isCompleted, true);
-
-        // Consume the future to prevent unhandled exception
-        try {
-          await handler.future;
-        } catch (_) {
-          // Expected - the handler rejects with the error
-        }
       });
     });
 

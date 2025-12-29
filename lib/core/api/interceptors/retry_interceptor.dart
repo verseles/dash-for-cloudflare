@@ -5,15 +5,15 @@ import 'package:dio/dio.dart';
 /// Interceptor that retries failed requests with exponential backoff.
 /// Handles rate limiting (429) and server errors (5xx).
 class RetryInterceptor extends Interceptor {
-  final Dio dio;
-  final int maxRetries;
-  final int baseDelayMs;
-
   RetryInterceptor({
     required this.dio,
     this.maxRetries = 3,
     this.baseDelayMs = 1000,
   });
+
+  final Dio dio;
+  final int maxRetries;
+  final int baseDelayMs;
 
   @override
   Future<void> onError(

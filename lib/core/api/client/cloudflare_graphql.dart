@@ -3,9 +3,9 @@ import '../../../features/analytics/domain/models/analytics.dart';
 
 /// GraphQL client for Cloudflare Analytics API.
 class CloudflareGraphQL {
-  final Dio _dio;
-
   CloudflareGraphQL(this._dio);
+
+  final Dio _dio;
 
   /// Main analytics query that fetches all 7 groups
   static const String _mainAnalyticsQuery = '''

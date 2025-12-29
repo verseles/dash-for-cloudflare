@@ -134,8 +134,8 @@ class AnalyticsDoughnutChart extends StatelessWidget {
 }
 
 class _ChartDataPoint {
+  _ChartDataPoint({required this.label, required this.value});
+
   final String label;
   final int value;
-
-  _ChartDataPoint({required this.label, required this.value});
 }

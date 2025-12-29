@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,7 +25,7 @@ class DataCentersNotifier extends _$DataCentersNotifier {
 
     // Fetch from CDN in background (if not already fetched)
     if (!_hasFetched) {
-      _fetchFromCdn();
+      unawaited(_fetchFromCdn());
     }
 
     return localData;
