@@ -1,0 +1,75 @@
+name: cf
+description: "Dash for Cloudflare - DNS management app"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State Management
+  flutter_riverpod: ^2.6.1
+  riverpod_annotation: ^2.6.1
+
+  # HTTP Client
+  dio: ^5.8.0
+  retrofit: ^4.4.2
+
+  # Routing
+  go_router: ^14.8.1
+
+  # Data Classes
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+
+  # Storage
+  flutter_secure_storage: ^9.2.4
+  shared_preferences: ^2.5.3
+
+  # Charts & Maps (Syncfusion - Community License)
+  syncfusion_flutter_charts: ^29.2.4
+  syncfusion_flutter_maps: ^29.2.4
+
+  # Internationalization
+  intl: ^0.20.2
+
+  # Desktop
+  window_manager: ^0.4.3
+  tray_manager: ^0.2.3
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Linting
+  flutter_lints: ^6.0.0
+
+  # Code Generation
+  build_runner: ^2.4.15
+  freezed: ^3.1.0
+  json_serializable: ^6.9.4
+  riverpod_generator: ^2.6.5
+  retrofit_generator: ^9.1.9
+
+  # Testing
+  mocktail: ^1.0.4
+
+  # App Icons & Splash
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/data/
+    - assets/icons/

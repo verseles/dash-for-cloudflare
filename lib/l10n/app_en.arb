@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appTitle": "Dash for Cloudflare",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "error": "Error",
+  "loading": "Loading...",
+  "ok": "OK",
+  "save": "Save",
+  "workInProgress": "Work in progress. This feature will be available soon!"
+}

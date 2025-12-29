@@ -29,8 +29,8 @@
 | **Data Classes** | Freezed + JSON Serializable | `freezed flutter`, `json_serializable`, `build_runner` |
 | **Storage Seguro** | flutter_secure_storage | `flutter_secure_storage`, `keychain flutter` |
 | **Storage Simples** | shared_preferences | `shared_preferences flutter` |
-| **Charts** | fl_chart | `fl_chart`, `LineChart`, `BarChart`, `PieChart` |
-| **Maps** | Syncfusion Maps (Community License) | `syncfusion_flutter_maps`, `MapShapeLayer`, `choropleth flutter` |
+| **Charts** | Syncfusion Charts (Community License) | `syncfusion_flutter_charts`, `SfCartesianChart`, `SfCircularChart` |
+| **Maps** | Syncfusion Maps (Community License) | `syncfusion_flutter_maps`, `SfMaps`, `MapShapeLayer`, `MapBubbleSettings` |
 | **i18n** | flutter_localizations + intl | `flutter l10n`, `arb files`, `flutter gen-l10n` |
 | **Desktop** | window_manager, tray_manager | `window_manager flutter`, `system tray flutter` |
 | **PWA** | pwa_install + Workbox | `flutter web pwa`, `workbox service worker` |
@@ -73,8 +73,8 @@
 | DnsRecordEditDialog | Dialog para criar/editar registros | `showDialog`, `AlertDialog`, `Form` |
 | CloudflareProxyToggle | Toggle com ícone de cloud | `Switch flutter`, `custom toggle` |
 | DnssecDetailsDialog | Modal com detalhes DS record | `showDialog`, `copyToClipboard` |
-| AnalyticsChart | Gráficos line/bar/pie | `fl_chart LineChart`, `BarChart`, `PieChart` |
-| AnalyticsMapChart | Mapa mundi com bubbles | `syncfusion maps`, `MapBubbleLayer` |
+| AnalyticsChart | Gráficos line/bar/pie | `SfCartesianChart`, `SfCircularChart`, `LineSeries`, `BarSeries`, `PieSeries` |
+| AnalyticsMapChart | Mapa mundi com bubbles | `SfMaps`, `MapShapeLayer`, `MapBubbleSettings` |
 | TimeRangeSelector | Seletor de período (30m a 30d) | `SegmentedButton`, `ToggleButtons` |
 | SkeletonLoader | Loading placeholder | `shimmer flutter`, `Skeleton` |
 
@@ -105,8 +105,7 @@
 - [ ] Adicionar go_router
 - [ ] Adicionar freezed_annotation e json_annotation
 - [ ] Adicionar flutter_secure_storage e shared_preferences
-- [ ] Adicionar fl_chart
-- [ ] Adicionar syncfusion_flutter_maps
+- [ ] Adicionar syncfusion_flutter_charts e syncfusion_flutter_maps
 - [ ] Adicionar window_manager e tray_manager
 - [ ] Adicionar pwa_install
 - [ ] Adicionar intl e flutter_localizations
@@ -333,18 +332,20 @@
 - [ ] Chart: Queries by IP Version (pie)
 - [ ] Chart: Queries by Protocol (pie)
 
-### 5.11 AnalyticsChart (fl_chart)
-- [ ] Criar widget reusável para line/bar/pie
+### 5.11 AnalyticsChart (Syncfusion Charts)
+- [ ] Criar widget reusável usando `SfCartesianChart` para line/bar
+- [ ] Criar widget reusável usando `SfCircularChart` para pie/donut
+- [ ] Usar `LineSeries`, `BarSeries`, `ColumnSeries`, `PieSeries`
 - [ ] Suportar theming (cores light/dark)
-- [ ] Implementar tooltips
+- [ ] Implementar tooltips com `TooltipBehavior`
 - [ ] Implementar responsive sizing
 
-### 5.12 AnalyticsMapChart (Syncfusion)
-- [ ] Carregar world.json como GeoJSON
-- [ ] Implementar choropleth por país (se dados disponíveis)
-- [ ] Implementar bubble layer para data centers
+### 5.12 AnalyticsMapChart (Syncfusion Maps)
+- [ ] Usar `SfMaps` com `MapShapeLayer`
+- [ ] Carregar world.json como GeoJSON via `MapShapeSource.asset`
+- [ ] Implementar bubble layer com `MapBubbleSettings` para data centers
 - [ ] Mapear IATA codes para coordenadas
-- [ ] Implementar tooltips com location + count
+- [ ] Implementar tooltips com `MapTooltipSettings`
 - [ ] Responsive sizing
 
 ### 5.13 DnsSettingsPage
@@ -575,8 +576,8 @@
 | go_router | `pub.dev/packages/go_router`, `go_router nested navigation` |
 | Freezed | `pub.dev/packages/freezed`, `freezed flutter tutorial` |
 | Dio + Retrofit | `pub.dev/packages/retrofit`, `retrofit flutter example` |
-| fl_chart | `pub.dev/packages/fl_chart`, `fl_chart examples` |
-| Syncfusion Maps | `pub.dev/packages/syncfusion_flutter_maps`, `syncfusion maps choropleth` |
+| Syncfusion Charts | `pub.dev/packages/syncfusion_flutter_charts`, `SfCartesianChart`, `SfCircularChart` |
+| Syncfusion Maps | `pub.dev/packages/syncfusion_flutter_maps`, `SfMaps`, `MapBubbleSettings` |
 | Flutter Secure Storage | `pub.dev/packages/flutter_secure_storage` |
 | Window Manager | `pub.dev/packages/window_manager`, `flutter desktop window` |
 | Flutter PWA | `flutter web pwa 2025`, `workbox flutter` |
@@ -816,7 +817,7 @@ final alignedData = sortedTimestamps.map((ts) =>
 
 2. **SecureStorage**: Usado apenas para API token. Tema e idioma usam SharedPreferences.
 
-3. **Syncfusion License**: Community License gratuita para <$1M receita. Registrar em syncfusion.com/products/communitylicense.
+3. **Syncfusion License**: Community License gratuita para <$1M receita. Registrar em syncfusion.com/products/communitylicense. **Nota**: Pacotes Flutter funcionam sem chave no código - a licença é apenas requisito legal.
 
 4. **Branch old_vue**: Contém todo o código Vue original. Consultar para:
    - Lógica de negócio detalhada
