@@ -1,0 +1,130 @@
+import 'dart:async';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../domain/models/analytics.dart';
+import '../../dns/providers/zone_provider.dart';
+import '../../../core/providers/api_providers.dart';
+
+part 'analytics_provider.g.dart';
+
+/// Time range options for analytics
+enum AnalyticsTimeRange {
+  minutes30(Duration(minutes: 30), '30m'),
+  hours6(Duration(hours: 6), '6h'),
+  hours12(Duration(hours: 12), '12h'),
+  hours24(Duration(hours: 24), '24h'),
+  days7(Duration(days: 7), '7d'),
+  days30(Duration(days: 30), '30d');
+
+  final Duration duration;
+  final String label;
+
+  const AnalyticsTimeRange(this.duration, this.label);
+}
+
+/// State for analytics
+class AnalyticsState {
+  final DnsAnalyticsData? data;
+  final AnalyticsTimeRange timeRange;
+  final Set<String> selectedQueryNames;
+  final bool isLoading;
+  final String? error;
+
+  const AnalyticsState({
+    this.data,
+    this.timeRange = AnalyticsTimeRange.hours24,
+    this.selectedQueryNames = const {},
+    this.isLoading = false,
+    this.error,
+  });
+
+  AnalyticsState copyWith({
+    DnsAnalyticsData? data,
+    AnalyticsTimeRange? timeRange,
+    Set<String>? selectedQueryNames,
+    bool? isLoading,
+    String? error,
+  }) {
+    return AnalyticsState(
+      data: data ?? this.data,
+      timeRange: timeRange ?? this.timeRange,
+      selectedQueryNames: selectedQueryNames ?? this.selectedQueryNames,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+    );
+  }
+}
+
+/// Analytics notifier
+@riverpod
+class AnalyticsNotifier extends _$AnalyticsNotifier {
+  @override
+  AnalyticsState build() {
+    // Auto-fetch when zone changes
+    ref.listen(selectedZoneIdProvider, (previous, next) {
+      if (next != null && next != previous) {
+        fetchAnalytics();
+      }
+    });
+
+    return const AnalyticsState();
+  }
+
+  /// Fetch analytics data
+  Future<void> fetchAnalytics() async {
+    final zoneId = ref.read(selectedZoneIdProvider);
+    if (zoneId == null) return;
+
+    final currentState = state;
+    state = currentState.copyWith(isLoading: true, error: null);
+
+    try {
+      final graphql = ref.read(cloudflareGraphQLProvider);
+      final now = DateTime.now();
+      final since = now.subtract(currentState.timeRange.duration);
+
+      final data = await graphql.fetchAnalytics(
+        zoneId: zoneId,
+        since: since,
+        until: now,
+        queryNames: currentState.selectedQueryNames.toList(),
+      );
+
+      state = currentState.copyWith(data: data, isLoading: false);
+    } catch (e) {
+      state = currentState.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+  /// Change time range and refetch
+  Future<void> setTimeRange(AnalyticsTimeRange range) async {
+    state = state.copyWith(timeRange: range);
+    await fetchAnalytics();
+  }
+
+  /// Toggle query name selection (max 5)
+  Future<void> toggleQueryName(String queryName) async {
+    final current = state.selectedQueryNames;
+
+    Set<String> updated;
+    if (current.contains(queryName)) {
+      updated = current.difference({queryName});
+    } else {
+      if (current.length >= 5) {
+        // Max 5 selections
+        return;
+      }
+      updated = {...current, queryName};
+    }
+
+    state = state.copyWith(selectedQueryNames: updated);
+    await fetchAnalytics();
+  }
+
+  /// Clear all query name selections
+  Future<void> clearQueryNames() async {
+    state = state.copyWith(selectedQueryNames: {});
+    await fetchAnalytics();
+  }
+}

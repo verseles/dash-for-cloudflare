@@ -212,61 +212,61 @@
 
 ---
 
-## Fase 4: State Management (Riverpod)
+## Fase 4: State Management (Riverpod) ✅
 
 ### 4.1 Settings Provider
 
-- [ ] Criar `SettingsNotifier` com FlutterSecureStorage e SharedPreferences
-- [ ] Implementar load/save de API token (SecureStorage)
-- [ ] Implementar load/save de tema (SharedPreferences)
-- [ ] Implementar load/save de idioma (SharedPreferences)
-- [ ] Validar token (mínimo 40 caracteres)
+- [x] Criar `SettingsNotifier` com FlutterSecureStorage e SharedPreferences
+- [x] Implementar load/save de API token (SecureStorage)
+- [x] Implementar load/save de tema (SharedPreferences)
+- [x] Implementar load/save de idioma (SharedPreferences)
+- [x] Validar token (mínimo 40 caracteres)
 
 ### 4.2 Zone Provider
 
-- [ ] Criar `ZonesNotifier` para lista de zonas
-- [ ] Criar `SelectedZoneNotifier` para zona selecionada
-- [ ] Persistir zona selecionada em SharedPreferences
-- [ ] Auto-selecionar primeira zona se nenhuma selecionada
+- [x] Criar `ZonesNotifier` para lista de zonas
+- [x] Criar `SelectedZoneNotifier` para zona selecionada
+- [x] Persistir zona selecionada em SharedPreferences
+- [x] Auto-selecionar primeira zona se nenhuma selecionada
 
 ### 4.3 DNS Records Provider
 
-- [ ] Criar `DnsRecordsNotifier` (family por zoneId)
-- [ ] Implementar fetchRecords com race condition prevention
-- [ ] Implementar saveRecord (create ou update)
-- [ ] Implementar deleteRecord
-- [ ] Implementar updateProxy (optimistic update)
+- [x] Criar `DnsRecordsNotifier` (family por zoneId)
+- [x] Implementar fetchRecords com race condition prevention
+- [x] Implementar saveRecord (create ou update)
+- [x] Implementar deleteRecord
+- [x] Implementar updateProxy (optimistic update)
 
 ### 4.4 DNS Settings Provider
 
-- [ ] Criar `DnsSettingsNotifier`
-- [ ] Implementar fetch de DNSSEC status
-- [ ] Implementar toggle DNSSEC (enable/disable)
-- [ ] Implementar toggle multi-signer DNSSEC
-- [ ] Implementar toggle multi-provider DNS
-- [ ] Implementar toggle CNAME flattening
-- [ ] Implementar polling de status após mudanças
+- [x] Criar `DnsSettingsNotifier`
+- [x] Implementar fetch de DNSSEC status
+- [x] Implementar toggle DNSSEC (enable/disable)
+- [x] Implementar toggle multi-signer DNSSEC
+- [x] Implementar toggle multi-provider DNS
+- [x] Implementar toggle CNAME flattening
+- [x] Implementar polling de status após mudanças
 
 ### 4.5 Analytics Provider
 
-- [ ] Criar `AnalyticsNotifier` (family por zoneId)
-- [ ] Implementar fetchAnalytics com time range
-- [ ] Implementar fetch por query names selecionados
-- [ ] Gerenciar loading/error states
+- [x] Criar `AnalyticsNotifier` (family por zoneId)
+- [x] Implementar fetchAnalytics com time range
+- [x] Implementar fetch por query names selecionados
+- [x] Gerenciar loading/error states
 
 ### 4.6 Loading Provider
 
-- [ ] Criar `LoadingNotifier` para múltiplas operações
-- [ ] Implementar startLoading/stopLoading por operationId
-- [ ] Implementar isAnyLoading computed
+- [x] Criar `LoadingNotifier` para múltiplas operações
+- [x] Implementar startLoading/stopLoading por operationId
+- [x] Implementar isAnyLoading computed
 
 ### 4.7 Data Centers Provider
 
-- [ ] Criar `DataCentersNotifier`
-- [ ] Carregar cloudflare-iata-full.json do assets como fallback imediato
-- [ ] Buscar versão atualizada do CDN em background (`https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json`)
-- [ ] Implementar flag `hasFetched` para evitar refetch em cada mount
-- [ ] Mapear IATA codes para lat/lng
+- [x] Criar `DataCentersNotifier`
+- [x] Carregar cloudflare-iata-full.json do assets como fallback imediato
+- [x] Buscar versão atualizada do CDN em background (`https://cdn.jsdelivr.net/gh/insign/Cloudflare-Data-Center-IATA-Code-list/cloudflare-iata-full.json`)
+- [x] Implementar flag `hasFetched` para evitar refetch em cada mount
+- [x] Mapear IATA codes para lat/lng
 
 ---
 
