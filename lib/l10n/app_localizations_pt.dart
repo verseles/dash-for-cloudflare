@@ -1,0 +1,511 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Portuguese (`pt`).
+class AppLocalizationsPt extends AppLocalizations {
+  AppLocalizationsPt([String locale = 'pt']) : super(locale);
+
+  @override
+  String get appTitle => 'Dash for Cloudflare';
+
+  @override
+  String get common_cancel => 'Cancelar';
+
+  @override
+  String get common_close => 'Fechar';
+
+  @override
+  String get common_copied => 'Copiado para a área de transferência';
+
+  @override
+  String get common_copy => 'Copiar';
+
+  @override
+  String get common_copyFailed => 'Falha ao copiar';
+
+  @override
+  String get common_create => 'Criar';
+
+  @override
+  String get common_delete => 'Excluir';
+
+  @override
+  String get common_edit => 'Editar';
+
+  @override
+  String get common_error => 'Erro';
+
+  @override
+  String get common_loading => 'Carregando...';
+
+  @override
+  String get common_noData => 'Nenhum dado disponível';
+
+  @override
+  String get common_ok => 'OK';
+
+  @override
+  String get common_refresh => 'Atualizar';
+
+  @override
+  String get common_retry => 'Tentar novamente';
+
+  @override
+  String get common_save => 'Salvar';
+
+  @override
+  String get common_workInProgress =>
+      'Em desenvolvimento. Esta funcionalidade estará disponível em breve!';
+
+  @override
+  String get menu_dns => 'DNS';
+
+  @override
+  String get menu_settings => 'Configurações';
+
+  @override
+  String get menu_about => 'Sobre';
+
+  @override
+  String get tabs_records => 'Registros';
+
+  @override
+  String get tabs_analytics => 'Estatísticas';
+
+  @override
+  String get tabs_settings => 'Configurações';
+
+  @override
+  String get zone_selectZone => 'Selecionar zona';
+
+  @override
+  String get zone_searchZones => 'Buscar zonas...';
+
+  @override
+  String get zone_noZones => 'Nenhuma zona encontrada';
+
+  @override
+  String get zone_status_active => 'Ativo';
+
+  @override
+  String get zone_status_pending => 'Pendente';
+
+  @override
+  String get zone_status_initializing => 'Inicializando';
+
+  @override
+  String get zone_status_moved => 'Movido';
+
+  @override
+  String get zone_status_deleted => 'Excluído';
+
+  @override
+  String get zone_status_deactivated => 'Desativado';
+
+  @override
+  String get dns_records => 'Registros DNS';
+
+  @override
+  String get dns_filterAll => 'Todos';
+
+  @override
+  String get dns_searchRecords => 'Buscar registros...';
+
+  @override
+  String get dns_noRecords => 'Nenhum registro DNS';
+
+  @override
+  String get dns_noRecordsDescription =>
+      'Adicione um registro DNS para começar';
+
+  @override
+  String get dns_noRecordsMatch => 'Nenhum registro corresponde ao filtro';
+
+  @override
+  String get dns_selectZoneFirst => 'Selecione uma zona para ver os registros';
+
+  @override
+  String get dns_addRecord => 'Adicionar Registro';
+
+  @override
+  String get dns_editRecord => 'Editar Registro';
+
+  @override
+  String get dns_deleteRecord => 'Excluir Registro';
+
+  @override
+  String get dns_deleteConfirmTitle => 'Excluir Registro DNS?';
+
+  @override
+  String dns_deleteConfirmMessage(String name) {
+    return 'Tem certeza que deseja excluir $name? Esta ação não pode ser desfeita.';
+  }
+
+  @override
+  String get dns_recordSaved => 'Registro salvo com sucesso';
+
+  @override
+  String get dns_recordDeleted => 'Registro excluído com sucesso';
+
+  @override
+  String get dns_recordDeletedUndo => 'Registro excluído. Toque para desfazer.';
+
+  @override
+  String get record_type => 'Tipo';
+
+  @override
+  String get record_name => 'Nome';
+
+  @override
+  String get record_nameHint => 'Nome ou @ para raiz';
+
+  @override
+  String get record_nameRequired => 'Nome é obrigatório';
+
+  @override
+  String get record_content => 'Conteúdo';
+
+  @override
+  String get record_contentRequired => 'Conteúdo é obrigatório';
+
+  @override
+  String get record_ttl => 'TTL';
+
+  @override
+  String get record_ttlAuto => 'Auto';
+
+  @override
+  String get record_priority => 'Prioridade';
+
+  @override
+  String get record_proxied => 'Proxied';
+
+  @override
+  String get record_proxiedTooltip => 'Proxied pela Cloudflare';
+
+  @override
+  String get record_dnsOnly => 'Somente DNS';
+
+  @override
+  String get record_dnsOnlyTooltip => 'Somente DNS (sem proxy)';
+
+  @override
+  String get analytics_title => 'Estatísticas DNS';
+
+  @override
+  String get analytics_selectZone =>
+      'Selecione uma zona para ver as estatísticas';
+
+  @override
+  String get analytics_noData => 'Nenhum dado de estatística';
+
+  @override
+  String get analytics_loadAnalytics => 'Carregar Estatísticas';
+
+  @override
+  String get analytics_timeRange30m => '30m';
+
+  @override
+  String get analytics_timeRange6h => '6h';
+
+  @override
+  String get analytics_timeRange12h => '12h';
+
+  @override
+  String get analytics_timeRange24h => '24h';
+
+  @override
+  String get analytics_timeRange7d => '7d';
+
+  @override
+  String get analytics_timeRange30d => '30d';
+
+  @override
+  String get analytics_totalQueries => 'Total de Consultas';
+
+  @override
+  String get analytics_topQueryNames => 'Principais Nomes Consultados';
+
+  @override
+  String get analytics_clearSelection => 'Limpar seleção';
+
+  @override
+  String get analytics_total => 'Total';
+
+  @override
+  String get analytics_queryTypes => 'Tipos de Consulta';
+
+  @override
+  String get analytics_dataCenters => 'Data Centers';
+
+  @override
+  String get analytics_queriesOverTime => 'Consultas ao Longo do Tempo';
+
+  @override
+  String get analytics_queriesByDataCenter => 'Consultas por Data Center';
+
+  @override
+  String get analytics_queriesByLocation => 'Consultas por Localização';
+
+  @override
+  String get analytics_queriesByRecordType => 'Consultas por Tipo de Registro';
+
+  @override
+  String get analytics_queriesByResponseCode =>
+      'Consultas por Código de Resposta';
+
+  @override
+  String get analytics_queriesByIpVersion => 'Consultas por Versão IP';
+
+  @override
+  String get analytics_queriesByProtocol => 'Consultas por Protocolo';
+
+  @override
+  String get analytics_topQueryNamesChart => 'Principais Nomes Consultados';
+
+  @override
+  String get dnsSettings_title => 'Configurações DNS';
+
+  @override
+  String get dnsSettings_dnssec => 'DNSSEC';
+
+  @override
+  String get dnsSettings_dnssecDescription =>
+      'DNS Security Extensions adiciona uma camada de segurança assinando os registros DNS. Isso ajuda a proteger seu domínio contra spoofing e ataques de envenenamento de cache.';
+
+  @override
+  String get dnsSettings_dnssecDisabled => 'DNSSEC está desabilitado';
+
+  @override
+  String get dnsSettings_dnssecPending => 'DNSSEC está pendente de ativação';
+
+  @override
+  String get dnsSettings_dnssecPendingCf =>
+      'DNSSEC será configurado automaticamente pelo Cloudflare Registrar';
+
+  @override
+  String get dnsSettings_dnssecActive => 'DNSSEC está ativo';
+
+  @override
+  String get dnsSettings_dnssecPendingDisable =>
+      'DNSSEC está pendente de desativação';
+
+  @override
+  String get dnsSettings_enableDnssec => 'Habilitar DNSSEC';
+
+  @override
+  String get dnsSettings_disableDnssec => 'Desabilitar DNSSEC';
+
+  @override
+  String get dnsSettings_cancelDnssec => 'Cancelar';
+
+  @override
+  String get dnsSettings_viewDetails => 'Ver Detalhes';
+
+  @override
+  String get dnsSettings_viewDsRecord => 'Ver Registro DS';
+
+  @override
+  String get dnsSettings_dsRecord => 'Registro DS';
+
+  @override
+  String get dnsSettings_copyDsRecord => 'Copiar Registro DS';
+
+  @override
+  String get dnsSettings_dsRecordCopied =>
+      'Registro DS copiado para a área de transferência';
+
+  @override
+  String get dnsSettings_addDsToRegistrar =>
+      'Adicione este registro DS ao seu registrador de domínio para completar a configuração do DNSSEC:';
+
+  @override
+  String get dnsSettings_multiSignerDnssec => 'DNSSEC Multi-assinante';
+
+  @override
+  String get dnsSettings_multiSignerDescription =>
+      'Permite que múltiplos provedores DNS assinem sua zona';
+
+  @override
+  String get dnsSettings_multiProviderDns => 'DNS Multi-provedor';
+
+  @override
+  String get dnsSettings_multiProviderDescription =>
+      'Habilitar DNS secundário com outros provedores';
+
+  @override
+  String get dnsSettings_cnameFlattening => 'CNAME Flattening';
+
+  @override
+  String get dnsSettings_cnameFlatteningDescription =>
+      'Achatar registros CNAME no apex da zona';
+
+  @override
+  String get dnsSettings_cnameFlattenNone => 'Nenhum';
+
+  @override
+  String get dnsSettings_cnameFlattenAtRoot => 'Achatar na raiz';
+
+  @override
+  String get dnsSettings_cnameFlattenAll => 'Achatar todos';
+
+  @override
+  String get dnsSettings_emailSecurity => 'Segurança de Email';
+
+  @override
+  String get dnsSettings_emailSecurityDescription =>
+      'Configurar registros DMARC, SPF e DKIM para autenticação de email';
+
+  @override
+  String get dnsSettings_configureEmail => 'Configurar';
+
+  @override
+  String get dnssecDetails_title => 'Detalhes DNSSEC';
+
+  @override
+  String get dnssecDetails_dsRecord => 'Registro DS';
+
+  @override
+  String get dnssecDetails_digest => 'Digest';
+
+  @override
+  String get dnssecDetails_digestType => 'Tipo de Digest';
+
+  @override
+  String get dnssecDetails_algorithm => 'Algoritmo';
+
+  @override
+  String get dnssecDetails_publicKey => 'Chave Pública';
+
+  @override
+  String get dnssecDetails_keyTag => 'Tag da Chave';
+
+  @override
+  String get dnssecDetails_keyType => 'Tipo de Chave';
+
+  @override
+  String get dnssecDetails_flags => 'Flags';
+
+  @override
+  String get dnssecDetails_modifiedOn => 'Modificado em';
+
+  @override
+  String get dnssecDetails_tapToCopy => 'Toque para copiar';
+
+  @override
+  String get settings_title => 'Configurações';
+
+  @override
+  String get settings_apiToken => 'Token da API';
+
+  @override
+  String get settings_apiTokenHint => 'Digite seu token da API Cloudflare';
+
+  @override
+  String get settings_apiTokenDescription =>
+      'Seu token da API precisa das seguintes permissões:';
+
+  @override
+  String get settings_apiTokenPermission1 =>
+      'Zone:Read - para listar suas zonas';
+
+  @override
+  String get settings_apiTokenPermission2 =>
+      'DNS:Edit - para gerenciar registros DNS';
+
+  @override
+  String get settings_apiTokenPermission3 =>
+      'Zone Settings:Read - para status do DNSSEC';
+
+  @override
+  String get settings_apiTokenPermission4 =>
+      'Zone Settings:Edit - para alternar DNSSEC';
+
+  @override
+  String get settings_apiTokenPermission5 =>
+      'Analytics:Read - para estatísticas DNS';
+
+  @override
+  String get settings_createToken => 'Crie um token em dash.cloudflare.com';
+
+  @override
+  String get settings_tokenValid => 'Token é válido';
+
+  @override
+  String get settings_tokenInvalid => 'Token deve ter pelo menos 40 caracteres';
+
+  @override
+  String get settings_tokenSaved => 'Token salvo';
+
+  @override
+  String get settings_goToDns => 'Ir para DNS';
+
+  @override
+  String get settings_theme => 'Tema';
+
+  @override
+  String get settings_themeLight => 'Claro';
+
+  @override
+  String get settings_themeDark => 'Escuro';
+
+  @override
+  String get settings_themeSystem => 'Sistema';
+
+  @override
+  String get settings_language => 'Idioma';
+
+  @override
+  String get settings_languageEn => 'English';
+
+  @override
+  String get settings_languagePt => 'Português';
+
+  @override
+  String get settings_about => 'Sobre';
+
+  @override
+  String settings_version(String version) {
+    return 'Versão $version';
+  }
+
+  @override
+  String get error_generic => 'Algo deu errado';
+
+  @override
+  String get error_network => 'Erro de rede. Por favor, verifique sua conexão.';
+
+  @override
+  String get error_unauthorized => 'Token da API inválido ou expirado';
+
+  @override
+  String get error_forbidden =>
+      'Você não tem permissão para acessar este recurso';
+
+  @override
+  String get error_notFound => 'Recurso não encontrado';
+
+  @override
+  String get error_rateLimited =>
+      'Muitas requisições. Por favor, tente novamente mais tarde.';
+
+  @override
+  String get error_serverError =>
+      'Erro no servidor. Por favor, tente novamente mais tarde.';
+
+  @override
+  String get pwa_updateAvailable => 'Uma nova versão está disponível';
+
+  @override
+  String get pwa_updateNow => 'Atualizar Agora';
+
+  @override
+  String get pwa_installApp => 'Instalar App';
+
+  @override
+  String get pwa_installDescription =>
+      'Instale o Dash for Cloudflare para acesso rápido';
+}

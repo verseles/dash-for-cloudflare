@@ -422,32 +422,32 @@
 
 ---
 
-## Fase 6: Internacionalização (i18n)
+## Fase 6: Internacionalização (i18n) ✅
 
 ### 6.1 Configuração
 
-- [ ] Configurar l10n.yaml
-- [ ] Criar app_en.arb com todas as strings
-- [ ] Criar app_pt.arb (português brasileiro)
+- [x] Configurar l10n.yaml
+- [x] Criar app_en.arb com todas as strings
+- [x] Criar app_pt.arb (português brasileiro)
 
 ### 6.2 Strings por Módulo
 
-- [ ] Strings comuns: ok, cancel, save, delete, error, loading, workInProgress
-- [ ] Strings de menu: dns, settings
-- [ ] Strings de tabs: records, analytics, settings
-- [ ] Strings de DNS: zoneSelector, noRecords, noRecordsMatch, editRecord, deleteConfirm
-- [ ] Strings de Analytics: timeRanges, chartTitles, noData
-- [ ] Strings de Settings: apiToken, theme, language, permissions
-- [ ] Strings de DNSSEC: estados, ações, avisos
-- [ ] Strings de Email Security: title, description, configureBtn
-- [ ] Strings de PWA Update: newVersionAvailable, updateNow
-- [ ] Strings de toasts: recordSaved, recordDeleted, copied, copyError, error messages
+- [x] Strings comuns: ok, cancel, save, delete, error, loading, workInProgress
+- [x] Strings de menu: dns, settings
+- [x] Strings de tabs: records, analytics, settings
+- [x] Strings de DNS: zoneSelector, noRecords, noRecordsMatch, editRecord, deleteConfirm
+- [x] Strings de Analytics: timeRanges, chartTitles, noData
+- [x] Strings de Settings: apiToken, theme, language, permissions
+- [x] Strings de DNSSEC: estados, ações, avisos
+- [x] Strings de Email Security: title, description, configureBtn
+- [x] Strings de PWA Update: newVersionAvailable, updateNow
+- [x] Strings de toasts: recordSaved, recordDeleted, copied, copyError, error messages
 
 ### 6.3 Formatação
 
-- [ ] Configurar formatação de números (intl)
-- [ ] Configurar formatação de datas/horas
-- [ ] Pluralização onde necessário
+- [x] Configurar formatação de números (intl)
+- [x] Configurar formatação de datas/horas
+- [x] Pluralização onde necessário
 
 ---
 
