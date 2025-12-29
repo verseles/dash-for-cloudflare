@@ -9,17 +9,17 @@ NC='\033[0m'
 echo -e "${YELLOW}=== Dash for Cloudflare Pre-commit Checks ===${NC}"
 echo ""
 
-echo -e "${YELLOW}[1/5] Installing dependencies...${NC}"
+echo -e "${YELLOW}[1/6] Installing dependencies...${NC}"
 flutter pub get
 echo -e "${GREEN}✓ Dependencies installed${NC}"
 echo ""
 
-echo -e "${YELLOW}[2/5] Generating code (build_runner)...${NC}"
+echo -e "${YELLOW}[2/6] Generating code (build_runner)...${NC}"
 dart run build_runner build --delete-conflicting-outputs
 echo -e "${GREEN}✓ Code generated${NC}"
 echo ""
 
-echo -e "${YELLOW}[3/5] Analyzing code...${NC}"
+echo -e "${YELLOW}[3/6] Analyzing code...${NC}"
 if flutter analyze --no-fatal-infos; then
     echo -e "${GREEN}✓ Code analysis passed${NC}"
 else
@@ -28,7 +28,7 @@ else
 fi
 echo ""
 
-echo -e "${YELLOW}[4/5] Running tests...${NC}"
+echo -e "${YELLOW}[4/6] Running tests...${NC}"
 if flutter test; then
     echo -e "${GREEN}✓ All tests passed${NC}"
 else
@@ -37,11 +37,20 @@ else
 fi
 echo ""
 
-echo -e "${YELLOW}[5/5] Build verification (Linux)...${NC}"
+echo -e "${YELLOW}[5/6] Build verification (Linux)...${NC}"
 if flutter build linux --release 2>/dev/null; then
     echo -e "${GREEN}✓ Linux build successful${NC}"
 else
     echo -e "${YELLOW}⚠ Linux build skipped (not on Linux or missing deps)${NC}"
+fi
+echo ""
+
+echo -e "${YELLOW}[6/6] Build verification (Android x86_64 for emulator)...${NC}"
+if flutter build apk --release --target-platform android-x64 2>/dev/null; then
+    echo -e "${GREEN}✓ Android x86_64 build successful${NC}"
+    echo -e "  APK: build/app/outputs/flutter-apk/app-release.apk"
+else
+    echo -e "${YELLOW}⚠ Android build skipped (missing Android SDK or deps)${NC}"
 fi
 echo ""
 

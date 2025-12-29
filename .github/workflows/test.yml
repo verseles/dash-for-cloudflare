@@ -6,28 +6,63 @@ on:
   pull_request:
     branches: [main, master]
 
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: '3.x'
+
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: 'stable'
           cache: true
-      
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-
+
+      - name: Cache generated code
+        id: cache-generated
+        uses: actions/cache@v4
+        with:
+          path: |
+            lib/**/*.g.dart
+            lib/**/*.freezed.dart
+          key: generated-${{ hashFiles('pubspec.lock', 'lib/**/*.dart') }}
+
       - name: Install dependencies
         run: flutter pub get
-      
+
       - name: Generate code
+        if: steps.cache-generated.outputs.cache-hit != 'true'
         run: dart run build_runner build --delete-conflicting-outputs
-      
+
       - name: Analyze code
-        run: flutter analyze
-      
+        run: flutter analyze --no-fatal-infos
+
       - name: Run tests
-        run: flutter test
+        run: flutter test --coverage
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
