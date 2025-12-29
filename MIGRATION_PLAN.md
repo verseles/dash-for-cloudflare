@@ -270,123 +270,123 @@
 
 ---
 
-## Fase 5: UI/Widgets
+## Fase 5: UI/Widgets ✅
 
 ### 5.1 Tema e Cores
 
-- [ ] Criar `AppTheme` com light e dark themes
-- [ ] Definir color scheme baseado em Cloudflare (laranja #F38020)
-- [ ] Configurar Material 3 (useMaterial3: true)
+- [x] Criar `AppTheme` com light e dark themes
+- [x] Definir color scheme baseado em Cloudflare (laranja #F38020)
+- [x] Configurar Material 3 (useMaterial3: true)
 
 ### 5.2 Routing (go_router)
 
-- [ ] Configurar GoRouter com rotas
-- [ ] Implementar ShellRoute para MainLayout
-- [ ] Implementar StatefulShellRoute para DNS tabs
-- [ ] Implementar redirect guard condicional:
+- [x] Configurar GoRouter com rotas
+- [x] Implementar ShellRoute para MainLayout
+- [x] Implementar StatefulShellRoute para DNS tabs
+- [x] Implementar redirect guard condicional:
   - Sem token salvo → redireciona para `/settings`
   - Com token salvo → redireciona `/` para `/dns/records`
-- [ ] Bloquear acesso a `/dns/*` sem token válido
+- [x] Bloquear acesso a `/dns/*` sem token válido
 
 ### 5.3 MainLayout
 
-- [ ] Criar Scaffold com AppBar
-- [ ] Implementar Drawer com menu de navegação
-- [ ] Implementar ZoneSelector no AppBar (autocomplete)
-- [ ] Auto-selecionar zona quando filtro retornar apenas 1 resultado
-- [ ] Mostrar loading indicator global
-- [ ] Condicional: mostrar ZoneSelector apenas em rotas /dns/\*
+- [x] Criar Scaffold com AppBar
+- [x] Implementar Drawer com menu de navegação
+- [x] Implementar ZoneSelector no AppBar (autocomplete)
+- [x] Auto-selecionar zona quando filtro retornar apenas 1 resultado
+- [x] Mostrar loading indicator global
+- [x] Condicional: mostrar ZoneSelector apenas em rotas /dns/\*
 
 ### 5.4 SettingsPage
 
-- [ ] Criar form com TextField para API token (obscured)
-- [ ] Validar token (40+ chars) com mensagem de erro
-- [ ] Adicionar texto de ajuda com permissões necessárias
-- [ ] Adicionar link para criar token no Cloudflare
-- [ ] Implementar seletor de tema (Light/Auto/Dark) com SegmentedButton
-- [ ] Implementar seletor de idioma (Dropdown)
-- [ ] Botão "Ir para DNS" (aparece após token válido)
+- [x] Criar form com TextField para API token (obscured)
+- [x] Validar token (40+ chars) com mensagem de erro
+- [x] Adicionar texto de ajuda com permissões necessárias
+- [x] Adicionar link para criar token no Cloudflare
+- [x] Implementar seletor de tema (Light/Auto/Dark) com SegmentedButton
+- [x] Implementar seletor de idioma (Dropdown)
+- [x] Botão "Ir para DNS" (aparece após token válido)
 
 ### 5.5 DnsPage (Container com Tabs)
 
-- [ ] Implementar BottomNavigationBar com 3 tabs
-- [ ] Tab 1: Records (icon: dns)
-- [ ] Tab 2: Analytics (icon: analytics)
-- [ ] Tab 3: Settings (icon: settings)
-- [ ] Usar StatefulShellRoute para preservar estado dos tabs
+- [x] Implementar BottomNavigationBar com 3 tabs
+- [x] Tab 1: Records (icon: dns)
+- [x] Tab 2: Analytics (icon: analytics)
+- [x] Tab 3: Settings (icon: settings)
+- [x] Usar StatefulShellRoute para preservar estado dos tabs
 
 ### 5.6 DnsRecordsPage
 
-- [ ] Criar toolbar com chips de filtro (All, A, AAAA, CNAME, TXT, MX, etc.)
-- [ ] Implementar scroll horizontal nos chips
-- [ ] Criar campo de busca expansível
-- [ ] Implementar lista de DnsRecordItem
-- [ ] Manter Sets de IDs por estado: saving, new, deleting
-- [ ] Implementar delay de ~1200ms antes de executar delete (permite ver animação)
-- [ ] Limpar newRecordIds após 2000ms da animação
-- [ ] Implementar skeleton loaders (5 itens)
-- [ ] Implementar empty state com mensagem
-- [ ] Criar FAB para adicionar registro
-- [ ] Implementar pull-to-refresh
+- [x] Criar toolbar com chips de filtro (All, A, AAAA, CNAME, TXT, MX, etc.)
+- [x] Implementar scroll horizontal nos chips
+- [x] Criar campo de busca expansível
+- [x] Implementar lista de DnsRecordItem
+- [x] Manter Sets de IDs por estado: saving, new, deleting
+- [x] Implementar delay de ~1200ms antes de executar delete (permite ver animação)
+- [x] Limpar newRecordIds após 2000ms da animação
+- [x] Implementar skeleton loaders (5 itens)
+- [x] Implementar empty state com mensagem
+- [x] Criar FAB para adicionar registro
+- [x] Implementar pull-to-refresh
 
 ### 5.7 DnsRecordItem
 
-- [ ] Usar Dismissible para swipe-to-delete
-- [ ] Mostrar Chip com tipo (A, AAAA, etc.)
-- [ ] Mostrar nome (sem sufixo de zona, @ para root)
-- [ ] Mostrar content em monospace
-- [ ] Mostrar TTL (ou "Auto" se 1)
-- [ ] Mostrar CloudflareProxyToggle (apenas A/AAAA/CNAME)
-- [ ] Animação de highlight para novo registro
-- [ ] Animação de pulse vermelho para deletando
+- [x] Usar Dismissible para swipe-to-delete
+- [x] Mostrar Chip com tipo (A, AAAA, etc.)
+- [x] Mostrar nome (sem sufixo de zona, @ para root)
+- [x] Mostrar content em monospace
+- [x] Mostrar TTL (ou "Auto" se 1)
+- [x] Mostrar CloudflareProxyToggle (apenas A/AAAA/CNAME)
+- [x] Animação de highlight para novo registro
+- [x] Animação de pulse vermelho para deletando
 
 ### 5.8 DnsRecordEditDialog
 
-- [ ] Criar dialog com Form
-- [ ] Dropdown para tipo (disabled se editando)
-- [ ] TextField para name
-- [ ] TextField/TextArea para content (3 linhas para TXT)
-- [ ] Dropdown para TTL (Auto, 1min, 5min, etc.)
-- [ ] CloudflareProxyToggle (apenas A/AAAA/CNAME)
-- [ ] Placeholders dinâmicos baseados no tipo
-- [ ] Validação de campos obrigatórios
-- [ ] Botões Cancel e Save/Create
+- [x] Criar dialog com Form
+- [x] Dropdown para tipo (disabled se editando)
+- [x] TextField para name
+- [x] TextField/TextArea para content (3 linhas para TXT)
+- [x] Dropdown para TTL (Auto, 1min, 5min, etc.)
+- [x] CloudflareProxyToggle (apenas A/AAAA/CNAME)
+- [x] Placeholders dinâmicos baseados no tipo
+- [x] Validação de campos obrigatórios
+- [x] Botões Cancel e Save/Create
 
 ### 5.9 CloudflareProxyToggle
 
-- [ ] Criar Switch customizado
-- [ ] Ícone de cloud quando ativo
-- [ ] Cor laranja quando ativo, cinza quando inativo
-- [ ] Tooltip explicativo
+- [x] Criar Switch customizado
+- [x] Ícone de cloud quando ativo
+- [x] Cor laranja quando ativo, cinza quando inativo
+- [x] Tooltip explicativo
 
 ### 5.10 DnsAnalyticsPage
 
-- [ ] Implementar TimeRangeSelector (30m, 6h, 12h, 24h, 7d, 30d)
-- [ ] Card de Overview com badges clicáveis (Total + Top 5 query names)
-- [ ] Limitar seleção de query names a máximo 5 simultâneos
-- [ ] Gráfico de linha (time series)
-- [ ] Suporte a múltiplas séries (quando query names selecionados)
-- [ ] Painel de estatísticas (Total, Avg QPS, Avg Processing Time)
-- [ ] Grid 2x3 com 6 cards de gráficos
-- [ ] Chart: Queries by Data Center (bar horizontal)
-- [ ] Chart: Queries by Location (mapa mundi com bubbles)
-- [ ] Chart: Queries by Record Type (bar vertical)
-- [ ] Chart: Queries by Response Code (bar vertical)
-- [ ] Chart: Queries by IP Version (pie)
-- [ ] Chart: Queries by Protocol (pie)
+- [x] Implementar TimeRangeSelector (30m, 6h, 12h, 24h, 7d, 30d)
+- [x] Card de Overview com badges clicáveis (Total + Top 5 query names)
+- [x] Limitar seleção de query names a máximo 5 simultâneos
+- [x] Gráfico de linha (time series)
+- [x] Suporte a múltiplas séries (quando query names selecionados)
+- [x] Painel de estatísticas (Total, Avg QPS, Avg Processing Time)
+- [x] Grid 2x3 com 6 cards de gráficos
+- [x] Chart: Queries by Data Center (doughnut)
+- [ ] Chart: Queries by Location (mapa mundi com bubbles) - **DEFERRED: Syncfusion Maps implementation**
+- [x] Chart: Queries by Record Type (bar vertical)
+- [x] Chart: Queries by Response Code (doughnut)
+- [x] Chart: Queries by IP Version (doughnut)
+- [x] Chart: Queries by Protocol (doughnut)
 
 ### 5.11 AnalyticsChart (Syncfusion Charts)
 
-- [ ] Criar widget reusável usando `SfCartesianChart` para line/bar
-- [ ] Criar widget reusável usando `SfCircularChart` para pie/donut
-- [ ] Usar `LineSeries`, `BarSeries`, `ColumnSeries`, `PieSeries`
-- [ ] Suportar theming (cores light/dark)
-- [ ] Implementar tooltips com `TooltipBehavior`
-- [ ] Implementar responsive sizing
+- [x] Criar widget reusável usando `SfCartesianChart` para line/bar
+- [x] Criar widget reusável usando `SfCircularChart` para pie/donut
+- [x] Usar `LineSeries`, `BarSeries`, `ColumnSeries`, `DoughnutSeries`
+- [x] Suportar theming (cores light/dark)
+- [x] Implementar tooltips com `TooltipBehavior`
+- [x] Implementar responsive sizing
 
 ### 5.12 AnalyticsMapChart (Syncfusion Maps)
 
-- [ ] Usar `SfMaps` com `MapShapeLayer`
+- [ ] Usar `SfMaps` com `MapShapeLayer` - **DEFERRED to Phase 7 (Desktop)**
 - [ ] Carregar world.json como GeoJSON via `MapShapeSource.asset`
 - [ ] Implementar bubble layer com `MapBubbleSettings` para data centers
 - [ ] Mapear IATA codes para coordenadas
@@ -395,30 +395,30 @@
 
 ### 5.13 DnsSettingsPage
 
-- [ ] Card DNSSEC com state machine visual
-- [ ] Estado disabled: botão Enable, descrição
-- [ ] Estado pending: info DS record, botão Cancel
-- [ ] Estado pending (CF Registrar): mensagem especial
-- [ ] Estado active: sucesso, botão Disable, botão Ver Detalhes
-- [ ] Estado pending-disabled: botão cancelar deleção
-- [ ] Toggle Multi-signer DNSSEC
-- [ ] Toggle Multi-provider DNS
-- [ ] Toggle CNAME Flattening
-- [ ] Card Email Security (placeholder, botão mostra toast "Work in Progress")
-- [ ] Dialogs de confirmação para ações destrutivas
+- [x] Card DNSSEC com state machine visual
+- [x] Estado disabled: botão Enable, descrição
+- [x] Estado pending: info DS record, botão Cancel
+- [x] Estado pending (CF Registrar): mensagem especial
+- [x] Estado active: sucesso, botão Disable, botão Ver Detalhes
+- [x] Estado pending-disabled: botão cancelar deleção
+- [x] Toggle Multi-signer DNSSEC
+- [x] Toggle Multi-provider DNS
+- [x] Toggle CNAME Flattening
+- [x] Card Email Security (placeholder, botão mostra toast "Work in Progress")
+- [x] Dialogs de confirmação para ações destrutivas
 
 ### 5.14 DnssecDetailsDialog
 
-- [ ] Mostrar campos: DS Record, Digest, Digest Type, Algorithm, Public Key, Key Tag, Flags
-- [ ] Cada campo clicável para copiar
-- [ ] Feedback visual ao copiar (snackbar)
+- [x] Mostrar campos: DS Record, Digest, Digest Type, Algorithm, Public Key, Key Tag, Flags
+- [x] Cada campo clicável para copiar
+- [x] Feedback visual ao copiar (snackbar)
 
 ### 5.15 Widgets Utilitários
 
-- [ ] Criar SkeletonLoader genérico
-- [ ] Criar ErrorBanner para erros de API
-- [ ] Criar LoadingOverlay
-- [ ] Criar EmptyState com ícone e mensagem
+- [x] Criar SkeletonLoader genérico
+- [x] Criar ErrorBanner para erros de API
+- [x] Criar LoadingOverlay
+- [x] Criar EmptyState com ícone e mensagem
 
 ---
 
