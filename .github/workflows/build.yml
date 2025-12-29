@@ -25,6 +25,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+      
       - name: Build web
         run: flutter build web --release
       
@@ -57,6 +60,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+      
       - name: Build APK
         run: flutter build apk --release
       
@@ -87,6 +93,9 @@ jobs:
       
       - name: Install dependencies
         run: flutter pub get
+      
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
       
       - name: Build Linux
         run: flutter build linux --release
