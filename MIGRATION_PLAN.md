@@ -369,7 +369,7 @@
 - [x] Painel de estatísticas (Total, Avg QPS, Avg Processing Time)
 - [x] Grid 2x3 com 6 cards de gráficos
 - [x] Chart: Queries by Data Center (doughnut)
-- [ ] Chart: Queries by Location (mapa mundi com bubbles) - **DEFERRED: Syncfusion Maps implementation**
+- [x] Chart: Queries by Location (mapa mundi com bubbles) - Implemented with SfMaps + MapMarker bubbles
 - [x] Chart: Queries by Record Type (bar vertical)
 - [x] Chart: Queries by Response Code (doughnut)
 - [x] Chart: Queries by IP Version (doughnut)
@@ -384,14 +384,14 @@
 - [x] Implementar tooltips com `TooltipBehavior`
 - [x] Implementar responsive sizing
 
-### 5.12 AnalyticsMapChart (Syncfusion Maps)
+### 5.12 AnalyticsMapChart (Syncfusion Maps) ✅
 
-- [ ] Usar `SfMaps` com `MapShapeLayer` - **DEFERRED to Phase 7 (Desktop)**
-- [ ] Carregar world.json como GeoJSON via `MapShapeSource.asset`
-- [ ] Implementar bubble layer com `MapBubbleSettings` para data centers
-- [ ] Mapear IATA codes para coordenadas
-- [ ] Implementar tooltips com `MapTooltipSettings`
-- [ ] Responsive sizing
+- [x] Usar `SfMaps` com `MapShapeLayer` - Implemented with world.json GeoJSON
+- [x] Carregar world.json como GeoJSON via `MapShapeSource.asset`
+- [x] Implementar marker layer com `MapMarker` para data centers (bubble-style circles)
+- [x] Mapear IATA codes para coordenadas via DataCentersProvider
+- [x] Implementar tooltips com `Tooltip` widget
+- [x] Responsive sizing with dynamic bubble sizes based on query count
 
 ### 5.13 DnsSettingsPage
 

@@ -315,11 +315,15 @@ class DnsAnalyticsPage extends ConsumerWidget {
     final data = state.data!;
     final isWide = MediaQuery.of(context).size.width > 600;
 
-    final charts = [
+    final charts = <Widget>[
       AnalyticsDoughnutChart(
         title: 'Queries by Data Center',
         groups: data.byDataCenter,
         dimensionKey: 'coloCode',
+      ),
+      AnalyticsMapChart(
+        title: 'Queries by Location',
+        groups: data.byDataCenter,
       ),
       AnalyticsBarChart(
         title: 'Queries by Record Type',

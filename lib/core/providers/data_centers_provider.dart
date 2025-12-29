@@ -58,23 +58,40 @@ class DataCentersNotifier extends _$DataCentersNotifier {
   }
 
   Map<String, DataCenterInfo> _parseDataCenters(String jsonString) {
-    final List<dynamic> jsonList = json.decode(jsonString);
+    final dynamic decoded = json.decode(jsonString);
     final Map<String, DataCenterInfo> result = {};
 
-    for (final item in jsonList) {
-      final map = item as Map<String, dynamic>;
-      final iata = map['iata'] as String?;
-      if (iata == null) continue;
+    // Handle object format: {"AAE": {"place": "...", "lat": ..., "lng": ...}, ...}
+    if (decoded is Map<String, dynamic>) {
+      for (final entry in decoded.entries) {
+        final iata = entry.key;
+        final map = entry.value as Map<String, dynamic>;
 
-      result[iata] = DataCenterInfo(
-        iata: iata,
-        place: map['city'] as String? ?? map['place'] as String? ?? iata,
-        lat: (map['lat'] as num?)?.toDouble() ?? 0.0,
-        lng:
-            (map['lon'] as num?)?.toDouble() ??
-            (map['lng'] as num?)?.toDouble() ??
-            0.0,
-      );
+        result[iata] = DataCenterInfo(
+          iata: iata,
+          place: map['place'] as String? ?? iata,
+          lat: (map['lat'] as num?)?.toDouble() ?? 0.0,
+          lng: (map['lng'] as num?)?.toDouble() ?? 0.0,
+        );
+      }
+    }
+    // Handle list format: [{"iata": "AAE", "city": "...", "lat": ..., "lon": ...}, ...]
+    else if (decoded is List<dynamic>) {
+      for (final item in decoded) {
+        final map = item as Map<String, dynamic>;
+        final iata = map['iata'] as String?;
+        if (iata == null) continue;
+
+        result[iata] = DataCenterInfo(
+          iata: iata,
+          place: map['city'] as String? ?? map['place'] as String? ?? iata,
+          lat: (map['lat'] as num?)?.toDouble() ?? 0.0,
+          lng:
+              (map['lon'] as num?)?.toDouble() ??
+              (map['lng'] as num?)?.toDouble() ??
+              0.0,
+        );
+      }
     }
 
     return result;
