@@ -5,10 +5,18 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'core/desktop/window_manager.dart';
 import 'features/auth/providers/settings_provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize desktop window manager
+  await DesktopWindowManager.initialize();
+
+  // Initialize system tray (optional, can be enabled later)
+  // await DesktopTrayManager.instance.initialize();
+
   runApp(const ProviderScope(child: DashForCloudflareApp()));
 }
 

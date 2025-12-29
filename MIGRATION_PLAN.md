@@ -451,35 +451,35 @@
 
 ---
 
-## Fase 7: Desktop Support
+## Fase 7: Desktop Support ✅
 
 ### 7.1 Window Manager
 
-- [ ] Configurar tamanho inicial (1200x800)
-- [ ] Configurar tamanho mínimo (800x600)
-- [ ] Configurar título da janela
-- [ ] Centralizar janela ao abrir
+- [x] Configurar tamanho inicial (1200x800)
+- [x] Configurar tamanho mínimo (800x600)
+- [x] Configurar título da janela
+- [x] Centralizar janela ao abrir
 
 ### 7.2 System Tray
 
-- [ ] Criar ícone de tray (PNG para Linux/macOS, ICO para Windows)
-- [ ] Implementar menu de contexto: Show, Separator, Quit
-- [ ] Handler para click no ícone (mostrar janela)
-- [ ] Handler para menu items
+- [x] Criar ícone de tray (PNG para Linux/macOS, ICO para Windows)
+- [x] Implementar menu de contexto: Show, Separator, Quit
+- [x] Handler para click no ícone (mostrar janela)
+- [x] Handler para menu items
 
 ### 7.3 Keyboard Shortcuts
 
-- [ ] Ctrl/Cmd+S para salvar
-- [ ] Ctrl/Cmd+N para novo registro
-- [ ] F5 para refresh
-- [ ] Ctrl/Cmd+F para busca
+- [x] Ctrl/Cmd+S para salvar
+- [x] Ctrl/Cmd+N para novo registro
+- [x] F5 para refresh
+- [x] Ctrl/Cmd+F para busca
 
 ### 7.4 Platform-Specific
 
-- [ ] Testar em Linux (plataforma dev)
-- [ ] Configurar AppImage ou .deb para distribuição Linux
-- [ ] Configurar .exe installer para Windows
-- [ ] Configurar .dmg para macOS
+- [x] Testar em Linux (plataforma dev)
+- [ ] Configurar AppImage ou .deb para distribuição Linux - **DEFERRED to Phase 10**
+- [ ] Configurar .exe installer para Windows - **DEFERRED to Phase 10**
+- [ ] Configurar .dmg para macOS - **DEFERRED to Phase 10**
 
 ---
 
