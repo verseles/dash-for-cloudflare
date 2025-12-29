@@ -8,7 +8,48 @@
     "theme_color": "#F38020",
     "orientation": "any",
     "prefer_related_applications": false,
-    "categories": ["utilities", "productivity"],
+    "categories": [
+        "utilities",
+        "productivity"
+    ],
+    "shortcuts": [
+        {
+            "name": "DNS Records",
+            "short_name": "Records",
+            "description": "Manage DNS records",
+            "url": "/#/dns/records",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Analytics",
+            "short_name": "Analytics",
+            "description": "View DNS analytics",
+            "url": "/#/dns/analytics",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Settings",
+            "short_name": "Settings",
+            "description": "App settings",
+            "url": "/#/settings",
+            "icons": [
+                {
+                    "src": "icons/Icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ],
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -31,29 +72,6 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
-        }
-    ],
-    "shortcuts": [
-        {
-            "name": "DNS Records",
-            "short_name": "Records",
-            "description": "Manage DNS records",
-            "url": "/#/dns/records",
-            "icons": [{"src": "icons/Icon-192.png", "sizes": "192x192"}]
-        },
-        {
-            "name": "Analytics",
-            "short_name": "Analytics",
-            "description": "View DNS analytics",
-            "url": "/#/dns/analytics",
-            "icons": [{"src": "icons/Icon-192.png", "sizes": "192x192"}]
-        },
-        {
-            "name": "Settings",
-            "short_name": "Settings",
-            "description": "App settings",
-            "url": "/#/settings",
-            "icons": [{"src": "icons/Icon-192.png", "sizes": "192x192"}]
         }
     ]
 }
