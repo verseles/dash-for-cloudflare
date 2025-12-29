@@ -1,34 +1,105 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
 .DS_Store
-.thumbs.db
-node_modules
-repomix-output.xml
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
 
-# Quasar core related directories
-.quasar
-/dist
-/quasar.config.*.temporary.compiled*
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
 
-# Cordova related directories and files
-/src-cordova/node_modules
-/src-cordova/platforms
-/src-cordova/plugins
-/src-cordova/www
+# VS Code related
+.vscode/
 
-# Capacitor related directories and files
-/src-capacitor/www
-/src-capacitor/node_modules
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
 
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Symbolication related
+app.*.symbols
 
-# Editor directories and files
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
+# Obfuscation related
+app.*.map.json
 
-# local .env files
-.env.local*
+# Android Studio
+/android/app/debug
+/android/app/profile
+/android/app/release
+*.jks
+*.keystore
+
+# iOS/macOS
+**/ios/Pods/
+**/ios/.symlinks/
+**/macos/Pods/
+**/macos/.symlinks/
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/ephemeral
+**/ios/Flutter/app.flx
+**/ios/Flutter/app.zip
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/macos/Flutter/App.framework
+**/macos/Flutter/Flutter.framework
+**/macos/Flutter/Generated.xcconfig
+**/macos/Flutter/ephemeral
+
+# Linux
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+
+# Windows
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+**/windows/flutter/ephemeral
+
+# Web
+lib/generated_plugin_registrant.dart
+
+# Exceptions to above rules
+!/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+!**/ios/**/googlemaps-sdk.ipa
+
+# Generated files
+*.freezed.dart
+*.g.dart
+*.gr.dart
+*.gen.dart
+
+# Coverage
+coverage/
+
+# Test
+test-results/
+playwright-report/
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Syncfusion license (keep the key private)
+# Add your key in code, not in a file
+
+# Local development
+serve.log

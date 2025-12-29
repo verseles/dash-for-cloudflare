@@ -1,0 +1,590 @@
+# Dash for Cloudflare - Migration Plan (Vue → Flutter)
+
+> **Projeto original Vue/Quasar**: Branch `old_vue`
+> **Consulte a branch `old_vue` para esclarecer dúvidas não cobertas por este plano.**
+
+---
+
+## Informações do Projeto
+
+| Campo | Valor |
+|-------|-------|
+| **Nome** | Dash for Cloudflare |
+| **Package ID** | `ad.dash.cf` |
+| **Web URL** | `cf.dash.ad` |
+| **Plataformas** | Android, iOS, Web, Linux, macOS, Windows |
+| **Plataformas Dev** | Android, Linux |
+| **Repositório** | github.com/verseles/dash-for-cloudflare |
+
+---
+
+## Stack Técnica Definida
+
+| Categoria | Pacote/Tecnologia | Termos de Busca |
+|-----------|-------------------|-----------------|
+| **Framework** | Flutter 3.x | `flutter create`, `flutter multi-platform` |
+| **State Management** | Riverpod 2.x | `flutter_riverpod`, `riverpod_annotation`, `riverpod_generator` |
+| **HTTP Client** | Dio + Retrofit | `dio flutter`, `retrofit flutter`, `retrofit_generator` |
+| **Routing** | go_router | `go_router flutter`, `ShellRoute`, `StatefulShellRoute` |
+| **Data Classes** | Freezed + JSON Serializable | `freezed flutter`, `json_serializable`, `build_runner` |
+| **Storage Seguro** | flutter_secure_storage | `flutter_secure_storage`, `keychain flutter` |
+| **Storage Simples** | shared_preferences | `shared_preferences flutter` |
+| **Charts** | fl_chart | `fl_chart`, `LineChart`, `BarChart`, `PieChart` |
+| **Maps** | Syncfusion Maps (Community License) | `syncfusion_flutter_maps`, `MapShapeLayer`, `choropleth flutter` |
+| **i18n** | flutter_localizations + intl | `flutter l10n`, `arb files`, `flutter gen-l10n` |
+| **Desktop** | window_manager, tray_manager | `window_manager flutter`, `system tray flutter` |
+| **PWA** | pwa_install + Workbox | `flutter web pwa`, `workbox service worker` |
+| **Testes** | flutter_test, mocktail, patrol | `flutter test`, `widget test`, `integration_test` |
+
+---
+
+## CORS Strategy
+
+| Plataforma | Precisa Proxy? | URL Base |
+|------------|----------------|----------|
+| **Web** | Sim | `https://cors.verseles.com/api.cloudflare.com/client/v4` |
+| **Android** | Não | `https://api.cloudflare.com/client/v4` |
+| **iOS** | Não | `https://api.cloudflare.com/client/v4` |
+| **Desktop** | Não | `https://api.cloudflare.com/client/v4` |
+
+**Detecção**: Usar `kIsWeb` do Flutter para detectar plataforma web.
+
+---
+
+## Telas a Implementar
+
+| # | Tela | Rota | Descrição |
+|---|------|------|-----------|
+| 1 | MainLayout | Shell | Layout principal com Drawer e AppBar |
+| 2 | SettingsPage | `/settings` | API Token, Tema, Idioma |
+| 3 | DnsPage | `/dns` | Container com BottomNavigationBar |
+| 4 | DnsRecordsPage | `/dns/records` | CRUD de registros DNS |
+| 5 | DnsAnalyticsPage | `/dns/analytics` | Dashboard com gráficos |
+| 6 | DnsSettingsPage | `/dns/settings` | DNSSEC, Multi-provider, CNAME Flattening |
+
+---
+
+## Componentes a Implementar
+
+| Componente | Descrição | Termos de Busca |
+|------------|-----------|-----------------|
+| ZoneSelector | Dropdown com autocomplete de zonas | `Autocomplete flutter`, `DropdownButton` |
+| DnsRecordItem | Item de lista com swipe-to-delete | `Dismissible flutter`, `ListTile` |
+| DnsRecordEditDialog | Dialog para criar/editar registros | `showDialog`, `AlertDialog`, `Form` |
+| CloudflareProxyToggle | Toggle com ícone de cloud | `Switch flutter`, `custom toggle` |
+| DnssecDetailsDialog | Modal com detalhes DS record | `showDialog`, `copyToClipboard` |
+| AnalyticsChart | Gráficos line/bar/pie | `fl_chart LineChart`, `BarChart`, `PieChart` |
+| AnalyticsMapChart | Mapa mundi com bubbles | `syncfusion maps`, `MapBubbleLayer` |
+| TimeRangeSelector | Seletor de período (30m a 30d) | `SegmentedButton`, `ToggleButtons` |
+| SkeletonLoader | Loading placeholder | `shimmer flutter`, `Skeleton` |
+
+---
+
+## Fase 1: Setup do Projeto
+
+### 1.1 Criar Projeto Flutter
+- [ ] Executar `flutter create` com plataformas: android, ios, web, linux, macos, windows
+- [ ] Configurar package name: `ad.dash.cf`
+- [ ] Configurar nome do app: "Dash for Cloudflare"
+
+### 1.2 Estrutura de Pastas
+- [ ] Criar estrutura feature-based: `lib/features/`, `lib/core/`, `lib/shared/`
+- [ ] Criar pasta `lib/features/auth/` para settings
+- [ ] Criar pasta `lib/features/dns/` para DNS records, analytics, settings
+- [ ] Criar pasta `lib/features/analytics/` para analytics específicos
+- [ ] Criar pasta `lib/core/theme/` para temas light/dark
+- [ ] Criar pasta `lib/core/platform/` para detecção de plataforma e CORS
+- [ ] Criar pasta `lib/core/widgets/` para widgets reutilizáveis
+- [ ] Criar pasta `lib/l10n/` para internacionalização
+- [ ] Criar pasta `assets/data/` para world.json e cloudflare-iata-full.json
+- [ ] Criar pasta `assets/icons/` para ícones
+
+### 1.3 Dependências (pubspec.yaml)
+- [ ] Adicionar flutter_riverpod e riverpod_annotation
+- [ ] Adicionar dio e retrofit
+- [ ] Adicionar go_router
+- [ ] Adicionar freezed_annotation e json_annotation
+- [ ] Adicionar flutter_secure_storage e shared_preferences
+- [ ] Adicionar fl_chart
+- [ ] Adicionar syncfusion_flutter_maps
+- [ ] Adicionar window_manager e tray_manager
+- [ ] Adicionar pwa_install
+- [ ] Adicionar intl e flutter_localizations
+- [ ] Adicionar dev_dependencies: build_runner, freezed, json_serializable, riverpod_generator, retrofit_generator
+- [ ] Adicionar dev_dependencies: mocktail, patrol
+- [ ] Adicionar flutter_launcher_icons e flutter_native_splash
+
+### 1.4 Configurações Iniciais
+- [ ] Configurar analysis_options.yaml
+- [ ] Configurar l10n.yaml para internacionalização
+- [ ] Criar .gitignore adequado para Flutter
+- [ ] Registrar Syncfusion Community License key
+
+---
+
+## Fase 2: Modelos de Dados
+
+### 2.1 Models Core (com Freezed)
+- [ ] Criar model `Zone` (id, name, status, registrar)
+- [ ] Criar model `ZoneRegistrar` (id, name)
+- [ ] Criar model `DnsRecord` (id, type, name, content, proxied, ttl, zoneId, zoneName)
+- [ ] Criar model `DnsRecordCreate` (para POST/PUT requests)
+- [ ] Criar model `DnsSetting` (id, value, editable, modifiedOn)
+- [ ] Criar model `DnsZoneSettings` (multiProvider)
+- [ ] Criar model `DnssecDetails` (status, ds, digest, algorithm, publicKey, keyTag, flags, etc.)
+- [ ] Criar model `AppSettings` (cloudflareApiToken, themeMode, locale)
+
+### 2.2 Models Analytics
+- [ ] Criar model `DnsAnalyticsData` (total, timeSeries, byQueryName, byRecordType, etc.)
+- [ ] Criar model `AnalyticsGroup` (count, dimensions)
+- [ ] Criar model `DataCenterInfo` (place, lat, lng)
+
+### 2.3 Models API Response
+- [ ] Criar model `CloudflareResponse<T>` (result, success, errors, messages)
+- [ ] Criar model `CloudflareError` (code, message)
+- [ ] Criar model `DeleteResponse` (id)
+
+### 2.4 Gerar Código
+- [ ] Executar `dart run build_runner build --delete-conflicting-outputs`
+- [ ] Verificar arquivos .freezed.dart e .g.dart gerados
+
+---
+
+## Fase 3: Camada de API
+
+### 3.1 Configuração Base
+- [ ] Criar `ApiConfig` com URLs base (com e sem proxy CORS)
+- [ ] Criar `PlatformDetector` para detectar web vs nativo
+- [ ] Implementar lógica de seleção de URL baseada na plataforma
+
+### 3.2 Interceptors Dio
+- [ ] Criar `AuthInterceptor` para adicionar Bearer token
+- [ ] Criar `RetryInterceptor` com exponential backoff (429, 5xx)
+- [ ] Criar `RateLimitInterceptor` para monitorar headers X-RateLimit-*
+- [ ] Criar `LogInterceptor` para debug mode
+
+### 3.3 REST API Client (Retrofit)
+- [ ] Criar interface `CloudflareApi` com anotações Retrofit
+- [ ] Implementar endpoint GET /zones
+- [ ] Implementar endpoints CRUD /zones/{zoneId}/dns_records
+- [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/dnssec
+- [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/settings
+- [ ] Implementar endpoints GET/PATCH /zones/{zoneId}/dns_settings
+
+### 3.4 GraphQL Client
+- [ ] Criar classe `CloudflareGraphQL` para analytics
+- [ ] Implementar query principal de analytics (7 grupos)
+- [ ] Implementar queries paralelas por query name
+- [ ] Parsear resposta GraphQL para DnsAnalyticsData
+
+### 3.5 Providers de API
+- [ ] Criar provider `dioProvider`
+- [ ] Criar provider `cloudflareApiProvider`
+- [ ] Criar provider `cloudflareGraphQLProvider`
+
+### 3.6 Gerar Código Retrofit
+- [ ] Executar build_runner para gerar _CloudflareApi
+
+---
+
+## Fase 4: State Management (Riverpod)
+
+### 4.1 Settings Provider
+- [ ] Criar `SettingsNotifier` com FlutterSecureStorage e SharedPreferences
+- [ ] Implementar load/save de API token (SecureStorage)
+- [ ] Implementar load/save de tema (SharedPreferences)
+- [ ] Implementar load/save de idioma (SharedPreferences)
+- [ ] Validar token (mínimo 40 caracteres)
+
+### 4.2 Zone Provider
+- [ ] Criar `ZonesNotifier` para lista de zonas
+- [ ] Criar `SelectedZoneNotifier` para zona selecionada
+- [ ] Persistir zona selecionada em SharedPreferences
+- [ ] Auto-selecionar primeira zona se nenhuma selecionada
+
+### 4.3 DNS Records Provider
+- [ ] Criar `DnsRecordsNotifier` (family por zoneId)
+- [ ] Implementar fetchRecords com race condition prevention
+- [ ] Implementar saveRecord (create ou update)
+- [ ] Implementar deleteRecord
+- [ ] Implementar updateProxy (optimistic update)
+
+### 4.4 DNS Settings Provider
+- [ ] Criar `DnsSettingsNotifier`
+- [ ] Implementar fetch de DNSSEC status
+- [ ] Implementar toggle DNSSEC (enable/disable)
+- [ ] Implementar toggle multi-signer DNSSEC
+- [ ] Implementar toggle multi-provider DNS
+- [ ] Implementar toggle CNAME flattening
+- [ ] Implementar polling de status após mudanças
+
+### 4.5 Analytics Provider
+- [ ] Criar `AnalyticsNotifier` (family por zoneId)
+- [ ] Implementar fetchAnalytics com time range
+- [ ] Implementar fetch por query names selecionados
+- [ ] Gerenciar loading/error states
+
+### 4.6 Loading Provider
+- [ ] Criar `LoadingNotifier` para múltiplas operações
+- [ ] Implementar startLoading/stopLoading por operationId
+- [ ] Implementar isAnyLoading computed
+
+### 4.7 Data Centers Provider
+- [ ] Criar `DataCentersNotifier`
+- [ ] Carregar cloudflare-iata-full.json do assets
+- [ ] Mapear IATA codes para lat/lng
+
+---
+
+## Fase 5: UI/Widgets
+
+### 5.1 Tema e Cores
+- [ ] Criar `AppTheme` com light e dark themes
+- [ ] Definir color scheme baseado em Cloudflare (laranja #F38020)
+- [ ] Configurar Material 3 (useMaterial3: true)
+
+### 5.2 Routing (go_router)
+- [ ] Configurar GoRouter com rotas
+- [ ] Implementar ShellRoute para MainLayout
+- [ ] Implementar StatefulShellRoute para DNS tabs
+- [ ] Implementar redirect guard (token válido para /dns/*)
+- [ ] Configurar initial location como /settings
+
+### 5.3 MainLayout
+- [ ] Criar Scaffold com AppBar
+- [ ] Implementar Drawer com menu de navegação
+- [ ] Implementar ZoneSelector no AppBar (autocomplete)
+- [ ] Mostrar loading indicator global
+- [ ] Condicional: mostrar ZoneSelector apenas em rotas /dns/*
+
+### 5.4 SettingsPage
+- [ ] Criar form com TextField para API token (obscured)
+- [ ] Validar token (40+ chars) com mensagem de erro
+- [ ] Adicionar texto de ajuda com permissões necessárias
+- [ ] Adicionar link para criar token no Cloudflare
+- [ ] Implementar seletor de tema (Light/Auto/Dark) com SegmentedButton
+- [ ] Implementar seletor de idioma (Dropdown)
+- [ ] Botão "Ir para DNS" (aparece após token válido)
+
+### 5.5 DnsPage (Container com Tabs)
+- [ ] Implementar BottomNavigationBar com 3 tabs
+- [ ] Tab 1: Records (icon: dns)
+- [ ] Tab 2: Analytics (icon: analytics)
+- [ ] Tab 3: Settings (icon: settings)
+- [ ] Usar StatefulShellRoute para preservar estado dos tabs
+
+### 5.6 DnsRecordsPage
+- [ ] Criar toolbar com chips de filtro (All, A, AAAA, CNAME, TXT, MX, etc.)
+- [ ] Implementar scroll horizontal nos chips
+- [ ] Criar campo de busca expansível
+- [ ] Implementar lista de DnsRecordItem
+- [ ] Implementar skeleton loaders (5 itens)
+- [ ] Implementar empty state com mensagem
+- [ ] Criar FAB para adicionar registro
+- [ ] Implementar pull-to-refresh
+
+### 5.7 DnsRecordItem
+- [ ] Usar Dismissible para swipe-to-delete
+- [ ] Mostrar Chip com tipo (A, AAAA, etc.)
+- [ ] Mostrar nome (sem sufixo de zona, @ para root)
+- [ ] Mostrar content em monospace
+- [ ] Mostrar TTL (ou "Auto" se 1)
+- [ ] Mostrar CloudflareProxyToggle (apenas A/AAAA/CNAME)
+- [ ] Animação de highlight para novo registro
+- [ ] Animação de pulse vermelho para deletando
+
+### 5.8 DnsRecordEditDialog
+- [ ] Criar dialog com Form
+- [ ] Dropdown para tipo (disabled se editando)
+- [ ] TextField para name
+- [ ] TextField/TextArea para content (3 linhas para TXT)
+- [ ] Dropdown para TTL (Auto, 1min, 5min, etc.)
+- [ ] CloudflareProxyToggle (apenas A/AAAA/CNAME)
+- [ ] Placeholders dinâmicos baseados no tipo
+- [ ] Validação de campos obrigatórios
+- [ ] Botões Cancel e Save/Create
+
+### 5.9 CloudflareProxyToggle
+- [ ] Criar Switch customizado
+- [ ] Ícone de cloud quando ativo
+- [ ] Cor laranja quando ativo, cinza quando inativo
+- [ ] Tooltip explicativo
+
+### 5.10 DnsAnalyticsPage
+- [ ] Implementar TimeRangeSelector (30m, 6h, 12h, 24h, 7d, 30d)
+- [ ] Card de Overview com badges clicáveis (Total + Top 5 query names)
+- [ ] Gráfico de linha (time series)
+- [ ] Suporte a múltiplas séries (quando query names selecionados)
+- [ ] Painel de estatísticas (Total, Avg QPS, Avg Processing Time)
+- [ ] Grid 2x3 com 6 cards de gráficos
+- [ ] Chart: Queries by Data Center (bar horizontal)
+- [ ] Chart: Queries by Location (mapa mundi com bubbles)
+- [ ] Chart: Queries by Record Type (bar vertical)
+- [ ] Chart: Queries by Response Code (bar vertical)
+- [ ] Chart: Queries by IP Version (pie)
+- [ ] Chart: Queries by Protocol (pie)
+
+### 5.11 AnalyticsChart (fl_chart)
+- [ ] Criar widget reusável para line/bar/pie
+- [ ] Suportar theming (cores light/dark)
+- [ ] Implementar tooltips
+- [ ] Implementar responsive sizing
+
+### 5.12 AnalyticsMapChart (Syncfusion)
+- [ ] Carregar world.json como GeoJSON
+- [ ] Implementar choropleth por país (se dados disponíveis)
+- [ ] Implementar bubble layer para data centers
+- [ ] Mapear IATA codes para coordenadas
+- [ ] Implementar tooltips com location + count
+- [ ] Responsive sizing
+
+### 5.13 DnsSettingsPage
+- [ ] Card DNSSEC com state machine visual
+- [ ] Estado disabled: botão Enable, descrição
+- [ ] Estado pending: info DS record, botão Cancel
+- [ ] Estado pending (CF Registrar): mensagem especial
+- [ ] Estado active: sucesso, botão Disable, botão Ver Detalhes
+- [ ] Estado pending-disabled: botão cancelar deleção
+- [ ] Toggle Multi-signer DNSSEC
+- [ ] Toggle Multi-provider DNS
+- [ ] Toggle CNAME Flattening
+- [ ] Dialogs de confirmação para ações destrutivas
+
+### 5.14 DnssecDetailsDialog
+- [ ] Mostrar campos: DS Record, Digest, Digest Type, Algorithm, Public Key, Key Tag, Flags
+- [ ] Cada campo clicável para copiar
+- [ ] Feedback visual ao copiar (snackbar)
+
+### 5.15 Widgets Utilitários
+- [ ] Criar SkeletonLoader genérico
+- [ ] Criar ErrorBanner para erros de API
+- [ ] Criar LoadingOverlay
+- [ ] Criar EmptyState com ícone e mensagem
+
+---
+
+## Fase 6: Internacionalização (i18n)
+
+### 6.1 Configuração
+- [ ] Configurar l10n.yaml
+- [ ] Criar app_en.arb com todas as strings
+- [ ] Criar app_pt.arb (português brasileiro)
+
+### 6.2 Strings por Módulo
+- [ ] Strings comuns: ok, cancel, save, delete, error, loading
+- [ ] Strings de menu: dns, settings
+- [ ] Strings de tabs: records, analytics, settings
+- [ ] Strings de DNS: zoneSelector, noRecords, editRecord, deleteConfirm
+- [ ] Strings de Analytics: timeRanges, chartTitles, noData
+- [ ] Strings de Settings: apiToken, theme, language, permissions
+- [ ] Strings de DNSSEC: estados, ações, avisos
+- [ ] Strings de toasts: recordSaved, recordDeleted, error messages
+
+### 6.3 Formatação
+- [ ] Configurar formatação de números (intl)
+- [ ] Configurar formatação de datas/horas
+- [ ] Pluralização onde necessário
+
+---
+
+## Fase 7: Desktop Support
+
+### 7.1 Window Manager
+- [ ] Configurar tamanho inicial (1200x800)
+- [ ] Configurar tamanho mínimo (800x600)
+- [ ] Configurar título da janela
+- [ ] Centralizar janela ao abrir
+
+### 7.2 System Tray
+- [ ] Criar ícone de tray (PNG para Linux/macOS, ICO para Windows)
+- [ ] Implementar menu de contexto: Show, Separator, Quit
+- [ ] Handler para click no ícone (mostrar janela)
+- [ ] Handler para menu items
+
+### 7.3 Keyboard Shortcuts
+- [ ] Ctrl/Cmd+S para salvar
+- [ ] Ctrl/Cmd+N para novo registro
+- [ ] F5 para refresh
+- [ ] Ctrl/Cmd+F para busca
+
+### 7.4 Platform-Specific
+- [ ] Testar em Linux (plataforma dev)
+- [ ] Configurar AppImage ou .deb para distribuição Linux
+- [ ] Configurar .exe installer para Windows
+- [ ] Configurar .dmg para macOS
+
+---
+
+## Fase 8: PWA Web
+
+### 8.1 Manifest
+- [ ] Configurar web/manifest.json
+- [ ] Nome: "Dash for Cloudflare"
+- [ ] Short name: "CF Dash"
+- [ ] Theme color: #F38020 (laranja Cloudflare)
+- [ ] Display: standalone
+- [ ] Ícones: 192x192 e 512x512
+
+### 8.2 Service Worker
+- [ ] Configurar Workbox para caching
+- [ ] Strategy NetworkFirst para pages
+- [ ] Strategy StaleWhileRevalidate para Flutter app files
+- [ ] Strategy CacheFirst para assets
+
+### 8.3 Install Prompt
+- [ ] Adicionar pwa_install package
+- [ ] Implementar botão "Instalar App" no Settings
+- [ ] Detectar se já está instalado
+
+### 8.4 Headers para Deploy
+- [ ] Criar _headers file para Cloudflare Pages
+- [ ] Configurar COOP/COEP para WASM multi-threading
+- [ ] Configurar cache headers
+
+---
+
+## Fase 9: Testes
+
+### 9.1 Unit Tests
+- [ ] Testes para models (fromJson, toJson, copyWith)
+- [ ] Testes para ApiConfig (detecção de plataforma)
+- [ ] Testes para interceptors
+- [ ] Testes para providers (mock API)
+
+### 9.2 Widget Tests
+- [ ] Teste DnsRecordItem (render, swipe, toggle)
+- [ ] Teste DnsRecordEditDialog (validação, submit)
+- [ ] Teste CloudflareProxyToggle (toggle state)
+- [ ] Teste SettingsPage (form validation)
+- [ ] Teste ZoneSelector (search, select)
+
+### 9.3 Integration Tests
+- [ ] Fluxo completo: Settings → DNS Records → Create → Edit → Delete
+- [ ] Fluxo: Settings → Analytics → Time Range → Charts
+- [ ] Fluxo: Settings → DNS Settings → DNSSEC toggle
+
+### 9.4 Golden Tests (opcional)
+- [ ] Screenshots de páginas principais
+- [ ] Comparação visual light vs dark theme
+
+---
+
+## Fase 10: Build & Deploy
+
+### 10.1 Ícones e Splash
+- [ ] Criar ícone do app (usar flutter_launcher_icons)
+- [ ] Criar splash screen (usar flutter_native_splash)
+- [ ] Ícone: baseado no ícone atual do projeto Vue
+
+### 10.2 Build Android
+- [ ] Configurar signing key
+- [ ] Build APK release
+- [ ] Build App Bundle (AAB) para Play Store
+- [ ] Testar em dispositivo físico
+
+### 10.3 Build iOS
+- [ ] Configurar certificates e provisioning profiles
+- [ ] Build IPA
+- [ ] Testar em simulador
+- [ ] Testar em dispositivo físico (se disponível)
+
+### 10.4 Build Web
+- [ ] Build com `flutter build web --wasm --release`
+- [ ] Testar localmente
+- [ ] Configurar Cloudflare Pages
+- [ ] Deploy para cf.dash.ad
+
+### 10.5 Build Desktop
+- [ ] Build Linux: `flutter build linux --release`
+- [ ] Testar no sistema local
+- [ ] Build Windows (se disponível)
+- [ ] Build macOS (se disponível)
+
+### 10.6 CI/CD (GitHub Actions)
+- [ ] Workflow para testes em PRs
+- [ ] Workflow para build Android
+- [ ] Workflow para build iOS
+- [ ] Workflow para build Web + deploy Cloudflare Pages
+- [ ] Workflow para build Desktop (matrix: linux, windows, macos)
+
+---
+
+## Assets a Migrar
+
+| Arquivo Original | Destino Flutter | Descrição |
+|------------------|-----------------|-----------|
+| `src/assets/world.json` | `assets/data/world.json` | GeoJSON para mapa mundi |
+| `src/assets/cloudflare-iata-full.json` | `assets/data/cloudflare-iata-full.json` | Coordenadas data centers |
+| `src/assets/icon.png` | `assets/icons/icon.png` | Ícone base para geração |
+| `src/assets/orange-cloud.png` | `assets/icons/cloud.png` | Ícone de cloud |
+
+---
+
+## APIs Cloudflare Utilizadas
+
+### REST API (Base: api.cloudflare.com/client/v4)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | /zones | Listar zonas |
+| GET | /zones/{zoneId}/dns_records | Listar registros DNS |
+| POST | /zones/{zoneId}/dns_records | Criar registro DNS |
+| PUT | /zones/{zoneId}/dns_records/{id} | Atualizar registro DNS |
+| DELETE | /zones/{zoneId}/dns_records/{id} | Deletar registro DNS |
+| GET | /zones/{zoneId}/dnssec | Obter status DNSSEC |
+| PATCH | /zones/{zoneId}/dnssec | Atualizar DNSSEC |
+| GET | /zones/{zoneId}/settings | Listar settings |
+| PATCH | /zones/{zoneId}/settings/{id} | Atualizar setting |
+| GET | /zones/{zoneId}/dns_settings | Obter DNS settings |
+| PATCH | /zones/{zoneId}/dns_settings | Atualizar DNS settings |
+
+### GraphQL API (Endpoint: api.cloudflare.com/client/v4/graphql)
+
+| Query | Descrição |
+|-------|-----------|
+| dnsAnalyticsAdaptiveGroups | Analytics agregados por dimensão |
+
+**Dimensões usadas**: datetimeFifteenMinutes, queryName, queryType, responseCode, coloName, ipVersion, protocol
+
+---
+
+## Referências Úteis
+
+| Tópico | Link/Termo de Busca |
+|--------|---------------------|
+| Flutter Riverpod | `riverpod.dev`, `flutter riverpod tutorial 2025` |
+| go_router | `pub.dev/packages/go_router`, `go_router nested navigation` |
+| Freezed | `pub.dev/packages/freezed`, `freezed flutter tutorial` |
+| Dio + Retrofit | `pub.dev/packages/retrofit`, `retrofit flutter example` |
+| fl_chart | `pub.dev/packages/fl_chart`, `fl_chart examples` |
+| Syncfusion Maps | `pub.dev/packages/syncfusion_flutter_maps`, `syncfusion maps choropleth` |
+| Flutter Secure Storage | `pub.dev/packages/flutter_secure_storage` |
+| Window Manager | `pub.dev/packages/window_manager`, `flutter desktop window` |
+| Flutter PWA | `flutter web pwa 2025`, `workbox flutter` |
+| Cloudflare API | `developers.cloudflare.com/api`, `cloudflare api v4` |
+
+---
+
+## Notas Importantes
+
+1. **CORS**: Web precisa de proxy (`cors.verseles.com`), mobile/desktop não.
+
+2. **SecureStorage**: Usado apenas para API token. Tema e idioma usam SharedPreferences.
+
+3. **Syncfusion License**: Community License gratuita para <$1M receita. Registrar em syncfusion.com/products/communitylicense.
+
+4. **Branch old_vue**: Contém todo o código Vue original. Consultar para:
+   - Lógica de negócio detalhada
+   - Estrutura de i18n completa
+   - Estilos e cores específicos
+   - Edge cases não documentados aqui
+
+5. **Race Conditions**: Implementar request ID tracking para evitar respostas obsoletas (ver `useDnsManagement.ts` na branch old_vue).
+
+6. **Optimistic Updates**: Atualizar UI imediatamente, fazer rollback se API falhar.
+
+7. **DNSSEC State Machine**: 4 estados (disabled, pending, active, pending-disabled). Polling após mudanças.
+
+---
+
+*Última atualização: 2024-12-29*
