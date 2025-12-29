@@ -39,9 +39,10 @@ GoRouter appRouter(Ref ref) {
     debugLogDiagnostics: true,
     redirect: (context, state) {
       final isSettingsRoute = state.matchedLocation == AppRoutes.settings;
+      final isDebugLogsRoute = state.matchedLocation == AppRoutes.debugLogs;
 
-      // If no valid token and not on settings, redirect to settings
-      if (!hasValidToken && !isSettingsRoute) {
+      // If no valid token and not on settings or debug logs, redirect to settings
+      if (!hasValidToken && !isSettingsRoute && !isDebugLogsRoute) {
         return AppRoutes.settings;
       }
 
