@@ -80,72 +80,72 @@
 
 ---
 
-## Fase 1: Setup do Projeto
+## Fase 1: Setup do Projeto ✅
 
 ### 1.1 Criar Projeto Flutter
-- [ ] Executar `flutter create` com plataformas: android, ios, web, linux, macos, windows
-- [ ] Configurar package name: `ad.dash.cf`
-- [ ] Configurar nome do app: "Dash for Cloudflare"
+- [x] Executar `flutter create` com plataformas: android, ios, web, linux, macos, windows
+- [x] Configurar package name: `ad.dash.cf`
+- [x] Configurar nome do app: "Dash for Cloudflare"
 
 ### 1.2 Estrutura de Pastas
-- [ ] Criar estrutura feature-based: `lib/features/`, `lib/core/`, `lib/shared/`
-- [ ] Criar pasta `lib/features/auth/` para settings
-- [ ] Criar pasta `lib/features/dns/` para DNS records, analytics, settings
-- [ ] Criar pasta `lib/features/analytics/` para analytics específicos
-- [ ] Criar pasta `lib/core/theme/` para temas light/dark
-- [ ] Criar pasta `lib/core/platform/` para detecção de plataforma e CORS
-- [ ] Criar pasta `lib/core/widgets/` para widgets reutilizáveis
-- [ ] Criar pasta `lib/l10n/` para internacionalização
-- [ ] Criar pasta `assets/data/` para world.json e cloudflare-iata-full.json
-- [ ] Criar pasta `assets/icons/` para ícones
+- [x] Criar estrutura feature-based: `lib/features/`, `lib/core/`, `lib/shared/`
+- [x] Criar pasta `lib/features/auth/` para settings
+- [x] Criar pasta `lib/features/dns/` para DNS records, analytics, settings
+- [x] Criar pasta `lib/features/analytics/` para analytics específicos
+- [x] Criar pasta `lib/core/theme/` para temas light/dark
+- [x] Criar pasta `lib/core/platform/` para detecção de plataforma e CORS
+- [x] Criar pasta `lib/core/widgets/` para widgets reutilizáveis
+- [x] Criar pasta `lib/l10n/` para internacionalização
+- [x] Criar pasta `assets/data/` para world.json e cloudflare-iata-full.json
+- [x] Criar pasta `assets/icons/` para ícones
 
 ### 1.3 Dependências (pubspec.yaml)
-- [ ] Adicionar flutter_riverpod e riverpod_annotation
-- [ ] Adicionar dio e retrofit
-- [ ] Adicionar go_router
-- [ ] Adicionar freezed_annotation e json_annotation
-- [ ] Adicionar flutter_secure_storage e shared_preferences
-- [ ] Adicionar syncfusion_flutter_charts e syncfusion_flutter_maps
-- [ ] Adicionar window_manager e tray_manager
-- [ ] Adicionar pwa_install
-- [ ] Adicionar intl e flutter_localizations
-- [ ] Adicionar dev_dependencies: build_runner, freezed, json_serializable, riverpod_generator, retrofit_generator
-- [ ] Adicionar dev_dependencies: mocktail, patrol
-- [ ] Adicionar flutter_launcher_icons e flutter_native_splash
+- [x] Adicionar flutter_riverpod e riverpod_annotation
+- [x] Adicionar dio e retrofit
+- [x] Adicionar go_router
+- [x] Adicionar freezed_annotation e json_annotation
+- [x] Adicionar flutter_secure_storage e shared_preferences
+- [x] Adicionar syncfusion_flutter_charts e syncfusion_flutter_maps
+- [x] Adicionar window_manager e tray_manager
+- [x] Adicionar pwa_install
+- [x] Adicionar intl e flutter_localizations
+- [x] Adicionar dev_dependencies: build_runner, freezed, json_serializable, riverpod_generator, retrofit_generator
+- [x] Adicionar dev_dependencies: mocktail, patrol
+- [x] Adicionar flutter_launcher_icons e flutter_native_splash
 
 ### 1.4 Configurações Iniciais
-- [ ] Configurar analysis_options.yaml
-- [ ] Configurar l10n.yaml para internacionalização
-- [ ] Criar .gitignore adequado para Flutter
-- [ ] Registrar Syncfusion Community License key
+- [x] Configurar analysis_options.yaml
+- [x] Configurar l10n.yaml para internacionalização
+- [x] Criar .gitignore adequado para Flutter
+- [ ] Registrar Syncfusion Community License key (não necessário para desenvolvimento)
 
 ---
 
-## Fase 2: Modelos de Dados
+## Fase 2: Modelos de Dados ✅
 
 ### 2.1 Models Core (com Freezed)
-- [ ] Criar model `Zone` (id, name, status, registrar)
-- [ ] Criar model `ZoneRegistrar` (id, name)
-- [ ] Criar model `DnsRecord` (id, type, name, content, proxied, ttl, zoneId, zoneName)
-- [ ] Criar model `DnsRecordCreate` (para POST/PUT requests)
-- [ ] Criar model `DnsSetting` (id, value, editable, modifiedOn)
-- [ ] Criar model `DnsZoneSettings` (multiProvider)
-- [ ] Criar model `DnssecDetails` (status, ds, digest, algorithm, publicKey, keyTag, flags, etc.)
-- [ ] Criar model `AppSettings` (cloudflareApiToken, themeMode, locale)
+- [x] Criar model `Zone` (id, name, status, registrar)
+- [x] Criar model `ZoneRegistrar` (id, name)
+- [x] Criar model `DnsRecord` (id, type, name, content, proxied, ttl, zoneId, zoneName)
+- [x] Criar model `DnsRecordCreate` (para POST/PUT requests)
+- [x] Criar model `DnsSetting` (id, value, editable, modifiedOn)
+- [x] Criar model `DnsZoneSettings` (multiProvider)
+- [x] Criar model `DnssecDetails` (status, ds, digest, algorithm, publicKey, keyTag, flags, etc.)
+- [x] Criar model `AppSettings` (cloudflareApiToken, themeMode, locale)
 
 ### 2.2 Models Analytics
-- [ ] Criar model `DnsAnalyticsData` (total, timeSeries, byQueryName, byRecordType, etc.)
-- [ ] Criar model `AnalyticsGroup` (count, dimensions)
-- [ ] Criar model `DataCenterInfo` (place, lat, lng)
+- [x] Criar model `DnsAnalyticsData` (total, timeSeries, byQueryName, byRecordType, etc.)
+- [x] Criar model `AnalyticsGroup` (count, dimensions)
+- [x] Criar model `DataCenterInfo` (place, lat, lng)
 
 ### 2.3 Models API Response
-- [ ] Criar model `CloudflareResponse<T>` (result, success, errors, messages)
-- [ ] Criar model `CloudflareError` (code, message)
-- [ ] Criar model `DeleteResponse` (id)
+- [x] Criar model `CloudflareResponse<T>` (result, success, errors, messages)
+- [x] Criar model `CloudflareError` (code, message)
+- [x] Criar model `DeleteResponse` (id)
 
 ### 2.4 Gerar Código
-- [ ] Executar `dart run build_runner build --delete-conflicting-outputs`
-- [ ] Verificar arquivos .freezed.dart e .g.dart gerados
+- [x] Executar `dart run build_runner build --delete-conflicting-outputs`
+- [x] Verificar arquivos .freezed.dart e .g.dart gerados
 
 ---
 
@@ -711,7 +711,7 @@ const analyticsColors = [
 
 ```dart
 @freezed
-class Zone with _$Zone {
+sealed class Zone with _$Zone {
   const factory Zone({
     required String id,
     required String name,
@@ -723,7 +723,7 @@ class Zone with _$Zone {
 }
 
 @freezed
-class ZoneRegistrar with _$ZoneRegistrar {
+sealed class ZoneRegistrar with _$ZoneRegistrar {
   const factory ZoneRegistrar({
     required String id,
     required String name,
@@ -737,7 +737,7 @@ class ZoneRegistrar with _$ZoneRegistrar {
 
 ```dart
 @freezed
-class DnssecDetails with _$DnssecDetails {
+sealed class DnssecDetails with _$DnssecDetails {
   const factory DnssecDetails({
     required String status,
     @JsonKey(name: 'dnssec_multi_signer') bool? dnssecMultiSigner,
@@ -826,6 +826,10 @@ final alignedData = sortedTimestamps.map((ts) =>
    - Edge cases não documentados aqui
 
 5. **Optimistic Updates**: Atualizar UI imediatamente, fazer rollback se API falhar.
+
+6. **Version Pinning**: retrofit pinado em 4.6.0 por incompatibilidade com retrofit_generator 9.7.0 (versões mais novas têm `Parser.DartMappable` não suportado).
+
+7. **Freezed 3.x**: Usa sintaxe `sealed class` para melhor suporte a pattern matching no Dart 3.
 
 ---
 
