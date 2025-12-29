@@ -2,6 +2,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cf/core/api/interceptors/rate_limit_interceptor.dart';
 
+// Mock handler that doesn't throw on next()
+class _MockErrorHandler extends ErrorInterceptorHandler {
+  bool nextCalled = false;
+
+  @override
+  void next(DioException err) {
+    nextCalled = true;
+    // Don't call super.next() to avoid throwing
+  }
+}
+
 void main() {
   group('RateLimitInterceptor', () {
     late RateLimitInterceptor interceptor;
@@ -65,7 +76,7 @@ void main() {
     });
 
     group('onError', () {
-      test('extracts rate limit headers from error response', () async {
+      test('extracts rate limit headers from error response', () {
         final response = Response(
           requestOptions: RequestOptions(path: '/zones'),
           statusCode: 429,
@@ -79,25 +90,31 @@ void main() {
           requestOptions: RequestOptions(path: '/zones'),
           response: response,
         );
-        final handler = ErrorInterceptorHandler();
+        final handler = _MockErrorHandler();
 
+        // Call onError
         interceptor.onError(error, handler);
 
+        // Verify rate limit info was extracted from error response
         expect(interceptor.limit, 1200);
         expect(interceptor.remaining, 0);
-        expect(handler.isCompleted, true);
+        expect(handler.nextCalled, true);
       });
 
-      test('handles error without response', () async {
+      test('handles error without response', () {
         final error = DioException(
           requestOptions: RequestOptions(path: '/zones'),
           type: DioExceptionType.connectionTimeout,
         );
-        final handler = ErrorInterceptorHandler();
+        final handler = _MockErrorHandler();
 
-        // Should not throw
+        // Call onError
         interceptor.onError(error, handler);
-        expect(handler.isCompleted, true);
+
+        // Rate limit info should remain unchanged
+        expect(interceptor.limit, isNull);
+        expect(interceptor.remaining, isNull);
+        expect(handler.nextCalled, true);
       });
     });
 
