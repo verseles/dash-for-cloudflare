@@ -65,7 +65,7 @@ class DashForCloudflareApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('en'), Locale('pt', 'BR')],
+      supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
     );
   }
