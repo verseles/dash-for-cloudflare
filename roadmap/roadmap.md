@@ -103,7 +103,7 @@ Description: Unit tests para models/API, widget tests para componentes principai
 Description: Ícones, splash, builds (Android, iOS, Web, Desktop) e CI/CD
 - [x] 10.01 Criar ícone e splash screen com flutter_launcher_icons (note: Ícone e splash screen criados)
 - [x] 10.02 Build APK release (57.9MB) (note: APK release 57.9MB)
-- [ ] 10.03 [DEFERRED] Configurar signing key e build AAB para Play Store
+- [x] 10.03 Configurar signing key e build AAB para Play Store (note: upload-keystore.jks + key.properties configurados)
 - [ ] 10.04 [DEFERRED] Build iOS (requer macOS)
 - [x] 10.05 Build Web com flutter build web --release (note: Web build 33MB com tree-shaken fonts)
 - [x] 10.06 Build Linux com flutter build linux --release (note: Linux build 44MB bundle)
