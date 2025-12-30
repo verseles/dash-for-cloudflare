@@ -9,15 +9,9 @@ import '../api/interceptors/auth_interceptor.dart';
 import '../api/interceptors/retry_interceptor.dart';
 import '../api/interceptors/rate_limit_interceptor.dart';
 import '../api/interceptors/logging_interceptor.dart';
+import '../../features/auth/providers/settings_provider.dart';
 
 part 'api_providers.g.dart';
-
-/// Provider for API token - must be overridden by SettingsNotifier
-@riverpod
-String apiToken(Ref ref) {
-  // This will be overridden when settings are loaded
-  return '';
-}
 
 /// Provider for rate limit interceptor (singleton for monitoring)
 @riverpod
@@ -39,7 +33,7 @@ Dio dio(Ref ref) {
 
   // Add interceptors in order
   dio.interceptors.addAll([
-    AuthInterceptor(getToken: () => ref.read(apiTokenProvider)),
+    AuthInterceptor(getToken: () => ref.read(currentApiTokenProvider)),
     ref.read(rateLimitInterceptorProvider),
     RetryInterceptor(dio: dio),
     LoggingInterceptor(),
