@@ -130,6 +130,22 @@ jobs:
           name: generated-code
           path: lib/
 
+      - name: Setup Android signing
+        if: ${{ env.KEYSTORE_BASE64 != '' }}
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
+          cat > android/key.properties << EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=upload-keystore.jks
+          EOF
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -167,11 +183,14 @@ jobs:
       - name: Build APK (arm64 only)
         run: flutter build apk --release --target-platform android-arm64
 
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/dash-for-cf.apk
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: android-apk-arm64
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/dash-for-cf.apk
           retention-days: 7
 
   build-linux:
@@ -222,11 +241,16 @@ jobs:
       - name: Build Linux
         run: flutter build linux --release
 
+      - name: Package Linux build
+        run: |
+          cd build/linux/x64/release/bundle
+          tar -czvf ../../../../../dash-for-cf-linux.tar.gz .
+
       - name: Upload Linux artifacts
         uses: actions/upload-artifact@v4
         with:
           name: linux-build
-          path: build/linux/x64/release/bundle/
+          path: dash-for-cf-linux.tar.gz
           retention-days: 7
 
   build-macos:
@@ -274,9 +298,14 @@ jobs:
       - name: Build macOS
         run: flutter build macos --release
 
+      - name: Package macOS build
+        run: |
+          cd build/macos/Build/Products/Release
+          zip -r ../../../../../dash-for-cf-macos.zip *.app
+
       - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
           name: macos-build
-          path: build/macos/Build/Products/Release/
+          path: dash-for-cf-macos.zip
           retention-days: 7
