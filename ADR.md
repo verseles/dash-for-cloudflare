@@ -432,6 +432,34 @@ flutter build apk --release
 
 ---
 
+## APIs Cloudflare Utilizadas
+
+### REST API (Base: api.cloudflare.com/client/v4)
+
+| Método | Endpoint                         | Descrição              |
+| ------ | -------------------------------- | ---------------------- |
+| GET    | /zones                           | Listar zonas           |
+| GET    | /zones/{zoneId}/dns_records      | Listar registros DNS   |
+| POST   | /zones/{zoneId}/dns_records      | Criar registro DNS     |
+| PUT    | /zones/{zoneId}/dns_records/{id} | Atualizar registro DNS |
+| DELETE | /zones/{zoneId}/dns_records/{id} | Deletar registro DNS   |
+| GET    | /zones/{zoneId}/dnssec           | Obter status DNSSEC    |
+| PATCH  | /zones/{zoneId}/dnssec           | Atualizar DNSSEC       |
+| GET    | /zones/{zoneId}/settings         | Listar settings        |
+| PATCH  | /zones/{zoneId}/settings/{id}    | Atualizar setting      |
+| GET    | /zones/{zoneId}/dns_settings     | Obter DNS settings     |
+| PATCH  | /zones/{zoneId}/dns_settings     | Atualizar DNS settings |
+
+### GraphQL API (Endpoint: api.cloudflare.com/client/v4/graphql)
+
+| Query                      | Descrição                        |
+| -------------------------- | -------------------------------- |
+| dnsAnalyticsAdaptiveGroups | Analytics agregados por dimensão |
+
+**Dimensões usadas**: datetimeFifteenMinutes, queryName, queryType, responseCode, coloName, ipVersion, protocol
+
+---
+
 ## Problemas Conhecidos
 
 1. **flutter_secure_storage_web usa dart:html**: Não compatível com WASM. Web build usa JavaScript renderer.
