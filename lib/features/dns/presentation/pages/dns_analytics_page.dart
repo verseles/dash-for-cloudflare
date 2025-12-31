@@ -319,7 +319,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
       AnalyticsDoughnutChart(
         title: 'Queries by Data Center',
         groups: data.byDataCenter,
-        dimensionKey: 'coloCode',
+        dimensionKey: 'coloName',
       ),
       AnalyticsMapChart(
         title: 'Queries by Location',

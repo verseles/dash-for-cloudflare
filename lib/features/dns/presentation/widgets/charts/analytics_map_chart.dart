@@ -77,14 +77,14 @@ class AnalyticsMapChart extends ConsumerWidget {
     int maxCount = 0;
 
     for (final group in groups) {
-      final coloCode = group.dimensions['coloCode'] as String?;
-      if (coloCode == null) continue;
+      final coloName = group.dimensions['coloName'] as String?;
+      if (coloName == null) continue;
 
-      final info = dataCenters[coloCode];
+      final info = dataCenters[coloName];
       if (info != null && info.lat != 0.0 && info.lng != 0.0) {
         dataPoints.add(
           MapDataPoint(
-            iata: coloCode,
+            iata: coloName,
             place: info.place,
             lat: info.lat,
             lng: info.lng,

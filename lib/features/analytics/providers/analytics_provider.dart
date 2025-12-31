@@ -61,14 +61,30 @@ class AnalyticsState {
 class AnalyticsNotifier extends _$AnalyticsNotifier {
   @override
   AnalyticsState build() {
-    // Auto-fetch when zone changes
+    // Auto-fetch when zone changes (with delay to let current tab load first)
     ref.listen(selectedZoneIdProvider, (previous, next) {
       if (next != null && next != previous) {
-        fetchAnalytics();
+        // Clear old data and show loading
+        state = const AnalyticsState(isLoading: true);
+        _scheduleFetch();
       }
     });
 
+    // If zone already selected, schedule initial fetch
+    final currentZone = ref.read(selectedZoneIdProvider);
+    if (currentZone != null) {
+      _scheduleFetch();
+      return const AnalyticsState(isLoading: true);
+    }
+
     return const AnalyticsState();
+  }
+
+  /// Schedule a fetch with delay to avoid blocking current tab
+  void _scheduleFetch() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      fetchAnalytics();
+    });
   }
 
   /// Fetch analytics data

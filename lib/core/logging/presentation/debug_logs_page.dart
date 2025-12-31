@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../log_entry.dart';
 import '../log_level.dart';
@@ -46,6 +51,72 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
     }
   }
 
+  Future<void> _saveToFile(String logs) async {
+    if (kIsWeb) {
+      // Web doesn't support file saving the same way
+      await _copyLogs(logs);
+      return;
+    }
+
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+      final file = File('${directory.path}/debug_logs_$timestamp.txt');
+      await file.writeAsString(logs);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Saved to ${file.path}'),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to save: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _shareAsText(String logs) async {
+    await Share.share(logs, subject: 'Debug Logs');
+  }
+
+  Future<void> _shareAsFile(String logs) async {
+    if (kIsWeb) {
+      // Fallback to text sharing on web
+      await _shareAsText(logs);
+      return;
+    }
+
+    try {
+      final directory = await getTemporaryDirectory();
+      final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+      final file = File('${directory.path}/debug_logs_$timestamp.txt');
+      await file.writeAsString(logs);
+
+      await Share.shareXFiles(
+        [XFile(file.path)],
+        subject: 'Debug Logs',
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to share: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final logState = ref.watch(logViewerProvider);
@@ -76,13 +147,22 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
             onSelected: (value) {
+              final logs = ref.read(logViewerProvider.notifier).getLogsForExport();
               switch (value) {
                 case 'clear':
                   ref.read(logViewerProvider.notifier).clearLogs();
                   break;
                 case 'copy_all':
-                  final logs = ref.read(logViewerProvider.notifier).getLogsForExport();
                   _copyLogs(logs);
+                  break;
+                case 'save_file':
+                  _saveToFile(logs);
+                  break;
+                case 'share_file':
+                  _shareAsFile(logs);
+                  break;
+                case 'share_text':
+                  _shareAsText(logs);
                   break;
               }
             },
@@ -91,10 +171,37 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
                 value: 'copy_all',
                 child: ListTile(
                   leading: Icon(Icons.copy_all),
-                  title: Text('Copy All Visible'),
+                  title: Text('Copy All'),
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
+              if (!kIsWeb)
+                const PopupMenuItem(
+                  value: 'save_file',
+                  child: ListTile(
+                    leading: Icon(Icons.save),
+                    title: Text('Save to File'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              const PopupMenuItem(
+                value: 'share_text',
+                child: ListTile(
+                  leading: Icon(Icons.share),
+                  title: Text('Share as Text'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+              if (!kIsWeb)
+                const PopupMenuItem(
+                  value: 'share_file',
+                  child: ListTile(
+                    leading: Icon(Icons.attach_file),
+                    title: Text('Share as File'),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                ),
+              const PopupMenuDivider(),
               const PopupMenuItem(
                 value: 'clear',
                 child: ListTile(
@@ -276,12 +383,33 @@ class _LogEntryTile extends StatelessWidget {
 
   final LogEntry entry;
 
+  String _formatForCopy() {
+    final buffer = StringBuffer();
+    buffer.writeln('[${entry.formattedTime}] [${entry.level.label}] ${entry.message}');
+    if (entry.details != null && entry.details!.isNotEmpty) {
+      buffer.writeln('  → ${entry.details}');
+    }
+    return buffer.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    return Container(
+    return GestureDetector(
+      onLongPress: () async {
+        await Clipboard.setData(ClipboardData(text: _formatForCopy()));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Log entry copied'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+        }
+      },
+      child: Container(
       margin: const EdgeInsets.symmetric(vertical: 2),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
@@ -351,6 +479,7 @@ class _LogEntryTile extends StatelessWidget {
             ),
           ],
         ],
+      ),
       ),
     );
   }

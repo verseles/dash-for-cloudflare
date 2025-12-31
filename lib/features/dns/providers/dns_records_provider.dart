@@ -1,13 +1,19 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/dns_record.dart';
 import './zone_provider.dart';
 import '../../../core/providers/api_providers.dart';
 import '../../../core/logging/log_service.dart';
 import '../../../core/logging/log_level.dart';
+import '../../auth/providers/settings_provider.dart';
 
 part 'dns_records_provider.g.dart';
+
+/// Cache expiration duration (3 days)
+const _cacheMaxAge = Duration(days: 3);
 
 /// State for DNS records with additional UI state
 class DnsRecordsState {
@@ -18,6 +24,9 @@ class DnsRecordsState {
     this.deletingIds = const {},
     this.activeFilter = 'All',
     this.searchQuery = '',
+    this.isFromCache = false,
+    this.isRefreshing = false,
+    this.cachedAt,
   });
 
   final List<DnsRecord> records;
@@ -26,6 +35,9 @@ class DnsRecordsState {
   final Set<String> deletingIds;
   final String activeFilter;
   final String searchQuery;
+  final bool isFromCache;
+  final bool isRefreshing;
+  final DateTime? cachedAt;
 
   DnsRecordsState copyWith({
     List<DnsRecord>? records,
@@ -34,6 +46,9 @@ class DnsRecordsState {
     Set<String>? deletingIds,
     String? activeFilter,
     String? searchQuery,
+    bool? isFromCache,
+    bool? isRefreshing,
+    DateTime? cachedAt,
   }) {
     return DnsRecordsState(
       records: records ?? this.records,
@@ -42,6 +57,9 @@ class DnsRecordsState {
       deletingIds: deletingIds ?? this.deletingIds,
       activeFilter: activeFilter ?? this.activeFilter,
       searchQuery: searchQuery ?? this.searchQuery,
+      isFromCache: isFromCache ?? this.isFromCache,
+      isRefreshing: isRefreshing ?? this.isRefreshing,
+      cachedAt: cachedAt ?? this.cachedAt,
     );
   }
 
@@ -74,6 +92,10 @@ class DnsRecordsState {
 @riverpod
 class DnsRecordsNotifier extends _$DnsRecordsNotifier {
   int _currentFetchId = 0;
+  SharedPreferences? _prefs;
+
+  String _cacheKey(String zoneId) => 'dns_records_cache_$zoneId';
+  String _cacheTimeKey(String zoneId) => 'dns_records_cache_time_$zoneId';
 
   @override
   FutureOr<DnsRecordsState> build() async {
@@ -82,10 +104,88 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
       return const DnsRecordsState();
     }
 
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try to load from cache first
+    final cachedState = await _loadFromCache(zoneId);
+    if (cachedState != null) {
+      // Return cached data and refresh in background
+      unawaited(_refreshInBackground(zoneId, cachedState));
+      return cachedState;
+    }
+
+    // No cache, fetch from API
     return _fetchRecords(zoneId);
   }
 
+  Future<DnsRecordsState?> _loadFromCache(String zoneId) async {
+    try {
+      final cachedJson = _prefs?.getString(_cacheKey(zoneId));
+      final cachedTimeStr = _prefs?.getString(_cacheTimeKey(zoneId));
+
+      if (cachedJson == null || cachedTimeStr == null) return null;
+
+      final cachedTime = DateTime.parse(cachedTimeStr);
+      final age = DateTime.now().difference(cachedTime);
+
+      // Check if cache is still valid
+      if (age > _cacheMaxAge) {
+        log.info('DnsRecordsNotifier: Cache expired (${age.inDays} days old)', category: LogCategory.state);
+        return null;
+      }
+
+      final List<dynamic> recordsJson = json.decode(cachedJson) as List<dynamic>;
+      final records = recordsJson
+          .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      log.info('DnsRecordsNotifier: Loaded ${records.length} records from cache (${age.inMinutes} minutes old)', category: LogCategory.state);
+
+      return DnsRecordsState(
+        records: records,
+        isFromCache: true,
+        cachedAt: cachedTime,
+      );
+    } catch (e, stack) {
+      log.warning('DnsRecordsNotifier: Failed to load cache', details: e.toString());
+      log.error('DnsRecordsNotifier: Cache error', error: e, stackTrace: stack);
+      return null;
+    }
+  }
+
+  Future<void> _saveToCache(String zoneId, List<DnsRecord> records) async {
+    try {
+      final recordsJson = records.map((r) => r.toJson()).toList();
+      await _prefs?.setString(_cacheKey(zoneId), json.encode(recordsJson));
+      await _prefs?.setString(_cacheTimeKey(zoneId), DateTime.now().toIso8601String());
+      log.info('DnsRecordsNotifier: Saved ${records.length} records to cache', category: LogCategory.state);
+    } catch (e) {
+      log.warning('DnsRecordsNotifier: Failed to save cache', details: e.toString());
+    }
+  }
+
+  Future<void> _refreshInBackground(String zoneId, DnsRecordsState currentState) async {
+    // Mark as refreshing
+    state = AsyncData(currentState.copyWith(isRefreshing: true));
+
+    try {
+      final freshState = await _fetchRecordsFromApi(zoneId);
+      state = AsyncData(freshState.copyWith(
+        activeFilter: currentState.activeFilter,
+        searchQuery: currentState.searchQuery,
+      ));
+    } catch (e) {
+      // Keep showing cached data on error
+      log.warning('DnsRecordsNotifier: Background refresh failed, keeping cache', details: e.toString());
+      state = AsyncData(currentState.copyWith(isRefreshing: false));
+    }
+  }
+
   Future<DnsRecordsState> _fetchRecords(String zoneId) async {
+    return _fetchRecordsFromApi(zoneId);
+  }
+
+  Future<DnsRecordsState> _fetchRecordsFromApi(String zoneId) async {
     final fetchId = ++_currentFetchId;
     log.stateChange('DnsRecordsNotifier', 'Fetching records for zone $zoneId');
 
@@ -107,8 +207,17 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
         throw Exception(error);
       }
 
-      log.stateChange('DnsRecordsNotifier', 'Fetched ${response.result!.length} records');
-      return DnsRecordsState(records: response.result!);
+      final records = response.result!;
+      log.stateChange('DnsRecordsNotifier', 'Fetched ${records.length} records');
+
+      // Save to cache
+      unawaited(_saveToCache(zoneId, records));
+
+      return DnsRecordsState(
+        records: records,
+        isFromCache: false,
+        cachedAt: DateTime.now(),
+      );
     } catch (e, stack) {
       log.error('DnsRecordsNotifier: Exception', error: e, stackTrace: stack);
       rethrow;
@@ -168,15 +277,19 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
                 .map((r) => r.id == record.id ? savedRecord : r)
                 .toList();
 
-      state = AsyncData(
-        currentState.copyWith(
-          records: updatedRecords,
-          savingIds: currentState.savingIds.difference({record.id}),
-          newIds: isNew
-              ? {...currentState.newIds, savedRecord.id}
-              : currentState.newIds,
-        ),
+      final newState = currentState.copyWith(
+        records: updatedRecords,
+        savingIds: currentState.savingIds.difference({record.id}),
+        newIds: isNew
+            ? {...currentState.newIds, savedRecord.id}
+            : currentState.newIds,
+        isFromCache: false,
+        cachedAt: DateTime.now(),
       );
+      state = AsyncData(newState);
+
+      // Update cache
+      unawaited(_saveToCache(zoneId, newState.records));
 
       // Clear new indicator after delay
       if (isNew) {
@@ -239,12 +352,18 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
       }
 
       // Remove from list
+      final updatedRecords = currentState.records.where((r) => r.id != recordId).toList();
       state = AsyncData(
         currentState.copyWith(
-          records: currentState.records.where((r) => r.id != recordId).toList(),
+          records: updatedRecords,
           deletingIds: currentState.deletingIds.difference({recordId}),
+          isFromCache: false,
+          cachedAt: DateTime.now(),
         ),
       );
+
+      // Update cache
+      unawaited(_saveToCache(zoneId, updatedRecords));
 
       return true;
     } catch (e, stack) {
@@ -284,6 +403,9 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
       final api = ref.read(cloudflareApiProvider);
       await api.patchDnsRecord(zoneId, recordId, {'proxied': proxied});
       log.stateChange('DnsRecordsNotifier', 'Proxy ${proxied ? 'enabled' : 'disabled'} for ${record.name}');
+
+      // Update cache with new records
+      unawaited(_saveToCache(zoneId, optimisticRecords));
     } catch (e, stack) {
       log.error(
         'DnsRecordsNotifier: Failed to update proxy',

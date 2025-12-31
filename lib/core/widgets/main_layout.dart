@@ -16,7 +16,7 @@ class MainLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dash for Cloudflare'),
+        title: const Text('DNS'),
         actions: [
           // Zone selector
           _ZoneSelector(),

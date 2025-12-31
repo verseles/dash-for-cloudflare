@@ -98,13 +98,13 @@ class AnalyticsBarChart extends StatelessWidget {
     final reversed = dataPoints.reversed.toList();
 
     return SfCartesianChart(
-      primaryXAxis: NumericAxis(
-        numberFormat: NumberFormat.compact(),
-        majorGridLines: const MajorGridLines(dashArray: [5, 5]),
-      ),
-      primaryYAxis: const CategoryAxis(
+      primaryXAxis: const CategoryAxis(
         labelStyle: TextStyle(fontSize: 10),
         majorGridLines: MajorGridLines(width: 0),
+      ),
+      primaryYAxis: NumericAxis(
+        numberFormat: NumberFormat.compact(),
+        majorGridLines: const MajorGridLines(dashArray: [5, 5]),
       ),
       tooltipBehavior: TooltipBehavior(enable: true),
       series: <CartesianSeries>[
