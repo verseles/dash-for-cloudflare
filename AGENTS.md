@@ -114,7 +114,7 @@ make gen          # Após alterar models Freezed/Retrofit
 
 13. **Atualize AGENTS.md quando mudanças o afetarem.** Novas regras, comandos, fluxos ou convenções devem ser refletidos aqui.
 
-14. **Atualize ADR.md para decisões técnicas relevantes.** Adicione novo ADR ou atualize existente quando: escolher biblioteca/abordagem, resolver problema arquitetural, ou tomar decisão que afete desenvolvimento futuro.
+14. **Adicione ou atualize ADR.md para decisões técnicas relevantes.** Novo ADR quando: escolher biblioteca/abordagem, resolver problema arquitetural, tomar decisão que afete desenvolvimento futuro. Atualize ADR existente quando a decisão mudar.
 
 ### Referências
 
