@@ -418,6 +418,86 @@ Total entries: 42
 
 ---
 
+## ADR-022: DNS Records Cache com Background Refresh
+
+**Status**: Aceito
+**Data**: 2025-12-31
+
+**Contexto**: Ao acessar DNS Records, skeleton loading era exibido mesmo quando dados recentes estavam disponíveis. Isso causava uma experiência de "piscar" toda vez que o usuário acessava a tela.
+
+**Decisão**: Implementar cache local de DNS records com as seguintes características:
+
+1. **Armazenamento**: SharedPreferences (JSON serializado)
+2. **Chaves**: `dns_records_cache_{zoneId}` e `dns_records_cache_time_{zoneId}`
+3. **Expiração**: 3 dias
+4. **Refresh**: Background (stale-while-revalidate)
+
+**Fluxo**:
+```
+1. Ao acessar zona:
+   - Tentar carregar cache
+   - Se cache válido (<3 dias): mostrar imediatamente
+   - Iniciar refresh em background
+
+2. Durante refresh:
+   - UI mostra isRefreshing=true (indicador sutil)
+   - Se falhar: manter dados do cache
+   - Se sucesso: atualizar lista
+
+3. Cache atualizado em:
+   - Fetch bem-sucedido
+   - Create/Update/Delete de record
+   - Toggle de proxy
+```
+
+**Campos adicionados em DnsRecordsState**:
+```dart
+final bool isFromCache;
+final bool isRefreshing;
+final DateTime? cachedAt;
+```
+
+**Consequência**:
+- UX muito melhorada: dados aparecem instantaneamente
+- Funciona offline (enquanto cache válido)
+- Background refresh garante dados atualizados
+- 3 dias é conservador para DNS (TTLs típicos são menores)
+
+---
+
+## ADR-023: Analytics Pre-loading com Delay
+
+**Status**: Aceito
+**Data**: 2025-12-31
+
+**Contexto**: Ao acessar aba Analytics pela primeira vez, exibia "No analytics data" em vez de loading. Além disso, fetch imediato em zona change bloqueava a UI da aba atual.
+
+**Decisão**:
+1. Iniciar com `isLoading: true` quando zona já selecionada
+2. Delay de 500ms antes de fetch para não bloquear aba atual
+3. Limpar dados anteriores ao trocar de zona (evitar dados stale)
+
+```dart
+// Ao trocar de zona
+ref.listen(selectedZoneIdProvider, (prev, next) {
+  state = const AnalyticsState(isLoading: true); // Reset
+  _scheduleFetch(); // Delay 500ms
+});
+
+// Se já tem zona no build
+if (currentZone != null) {
+  _scheduleFetch();
+  return const AnalyticsState(isLoading: true);
+}
+```
+
+**Consequência**:
+- Spinner exibido em vez de "No data"
+- Aba Records/Settings carrega sem delay
+- Analytics pronto quando usuário navega para aba
+
+---
+
 ## Comandos Úteis
 
 ```bash
