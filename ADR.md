@@ -259,21 +259,33 @@ lib/
 
 ---
 
-## ADR-015: precommit.sh como gatekeeper
+## ADR-015: Makefile como gatekeeper (check + precommit)
 
-**Status**: Aceito  
-**Data**: 2025-12-29
+**Status**: Atualizado
+**Data**: 2025-12-31
 
-**Contexto**: CI pode falhar por código não gerado ou análise não executada.
+**Contexto**: CI pode falhar por código não gerado ou análise não executada. Além disso, logs de comandos bem-sucedidos consomem tokens desnecessariamente.
 
-**Decisão**: Criar `precommit.sh` que executa:
-1. flutter pub get
-2. dart run build_runner build
-3. flutter analyze
-4. flutter test
-5. flutter build linux (opcional)
+**Decisão**: Usar Makefile com dois níveis de verificação:
 
-**Consequência**: Desenvolvedor verifica localmente antes de push. Menos CI failures.
+1. `make check` - Validação rápida (~20s):
+   - flutter pub get
+   - dart run build_runner build
+   - flutter analyze
+   - flutter test
+
+2. `make precommit` - Verificação completa (~30s):
+   - Executa check
+   - flutter build linux
+   - flutter build apk
+
+Todos os comandos suprimem logs de sucesso: `cmd > /tmp/log 2>&1 || cat /tmp/log`
+
+**Consequência**:
+- Feedback rápido durante desenvolvimento (`make check`)
+- Garantia completa antes de commit (`make precommit`)
+- Economia de tokens com supressão de logs
+- `precommit.sh` mantido como fallback (deprecated)
 
 ---
 
@@ -409,25 +421,28 @@ Total entries: 42
 ## Comandos Úteis
 
 ```bash
-# Gerar código (Freezed, Retrofit, Riverpod)
-dart run build_runner build --delete-conflicting-outputs
+# Validação rápida durante desenvolvimento (~20s)
+make check
 
-# Gerar ícones
+# Verificação completa antes de commit (~30s)
+make precommit
+
+# Builds específicas
+make android      # APK arm64 + upload via tdl
+make android-x64  # APK x64 para emulador
+make linux        # Linux release
+make web          # Web release
+
+# Desenvolvimento
+make deps         # Instalar dependências
+make gen          # Gerar código (Freezed, Retrofit)
+make test         # Rodar testes
+make analyze      # Análise estática
+make clean        # Limpar artefatos
+
+# Gerar ícones e splash
 dart run flutter_launcher_icons
-
-# Gerar splash screen
 dart run flutter_native_splash:create
-
-# Rodar testes
-flutter test
-
-# Build release
-flutter build linux --release
-flutter build web --release
-flutter build apk --release
-
-# Verificação completa antes de commit
-./precommit.sh
 ```
 
 ---
@@ -470,4 +485,4 @@ flutter build apk --release
 
 ---
 
-_Última atualização: 2025-12-29 (ADR-021 adicionado)_
+_Última atualização: 2025-12-31 (ADR-015 atualizado para Makefile)_

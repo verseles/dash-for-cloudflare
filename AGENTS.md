@@ -110,11 +110,17 @@ make gen          # Após alterar models Freezed/Retrofit
     cmd > /tmp/cmd.log 2>&1 || cat /tmp/cmd.log
     ```
 
+### Documentação
+
+13. **Atualize AGENTS.md quando mudanças o afetarem.** Novas regras, comandos, fluxos ou convenções devem ser refletidos aqui.
+
+14. **Atualize ADR.md para decisões técnicas relevantes.** Adicione novo ADR ou atualize existente quando: escolher biblioteca/abordagem, resolver problema arquitetural, ou tomar decisão que afete desenvolvimento futuro.
+
 ### Referências
 
-13. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
+15. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
 
-14. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
+16. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
 
 ---
 
