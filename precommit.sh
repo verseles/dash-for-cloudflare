@@ -1,4 +1,10 @@
 #!/bin/bash
+# ══════════════════════════════════════════════════════════════════════════════
+# DEPRECATED: Use `make precommit` instead!
+#
+# This script is kept as a fallback for systems without make.
+# The Makefile version includes log suppression to save tokens.
+# ══════════════════════════════════════════════════════════════════════════════
 set -e
 
 RED='\033[0;31m'
@@ -7,6 +13,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 echo -e "${YELLOW}=== Dash for Cloudflare Pre-commit Checks ===${NC}"
+echo -e "${YELLOW}NOTE: Prefer using 'make precommit' for token-efficient output${NC}"
 echo ""
 
 echo -e "${YELLOW}[1/6] Installing dependencies...${NC}"

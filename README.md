@@ -31,23 +31,38 @@ Unofficial Cloudflare management app built with Flutter.
 ## Quick Start
 
 ```bash
-# Install dependencies
-flutter pub get
-
-# Generate code (Freezed, Retrofit)
-dart run build_runner build --delete-conflicting-outputs
+# Install dependencies and generate code
+make deps
+make gen
 
 # Run tests
-flutter test
+make test
 
-# Build
-flutter build apk --release
-flutter build linux --release
-flutter build web --release
+# Build (choose platform)
+make android     # APK (arm64) + upload via tdl
+make linux       # Linux release
+make web         # Web release
 
-# Pre-commit check (recommended)
-./precommit.sh
+# Pre-commit check (REQUIRED before committing)
+make precommit
 ```
+
+## Make Commands
+
+| Command           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| `make precommit`  | Full verification before commit (required)    |
+| `make android`    | Build APK (arm64) + upload via tdl             |
+| `make android-x64`| Build APK (x64 for emulator)                   |
+| `make linux`      | Build Linux release                            |
+| `make web`        | Build Web release                              |
+| `make test`       | Run tests                                      |
+| `make analyze`    | Static analysis                                |
+| `make deps`       | Install dependencies                           |
+| `make gen`        | Generate code (Freezed, Retrofit)              |
+| `make clean`      | Clean build artifacts                          |
+| `make install`    | Install on Linux (~/.local)                    |
+| `make uninstall`  | Uninstall from Linux                           |
 
 ## CORS Strategy
 
