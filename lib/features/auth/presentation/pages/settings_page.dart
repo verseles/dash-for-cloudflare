@@ -194,8 +194,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       label: Text(l10n.settings_createTokenOnCloudflare),
                       onPressed: () async {
                         final uri = Uri.parse(_cloudflareTokenUrl);
-                        if (await canLaunchUrl(uri)) {
+                        // Don't use canLaunchUrl - it can return false on Android 11+
+                        // even when launchUrl would work
+                        try {
                           await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        } catch (e) {
+                          // Fallback: try without mode specification
+                          await launchUrl(uri);
                         }
                       },
                     ),

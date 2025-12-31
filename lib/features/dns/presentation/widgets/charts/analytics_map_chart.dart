@@ -140,7 +140,7 @@ class AnalyticsMapChart extends ConsumerWidget {
         MapShapeLayer(
           source: const MapShapeSource.asset(
             'assets/data/world.json',
-            shapeDataField: 'name',
+            shapeDataField: 'NAME',
           ),
           color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
           strokeColor: isDark ? Colors.grey.shade700 : Colors.grey.shade400,
