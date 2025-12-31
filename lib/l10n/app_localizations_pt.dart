@@ -508,4 +508,54 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get pwa_installDescription =>
       'Instale o Dash for Cloudflare para acesso rápido';
+
+  @override
+  String get settings_cloudflareApiToken => 'Token da API Cloudflare';
+
+  @override
+  String get settings_requiredPermissions =>
+      'Permissões necessárias: Zone:Read, DNS:Read, DNS:Edit';
+
+  @override
+  String get settings_createTokenOnCloudflare => 'Criar token na Cloudflare';
+
+  @override
+  String get settings_tokenPastedFromClipboard =>
+      'Token colado da área de transferência';
+
+  @override
+  String get settings_storage => 'Armazenamento';
+
+  @override
+  String get settings_clearCache => 'Limpar Cache';
+
+  @override
+  String get settings_clearCacheDescription =>
+      'Registros DNS, estatísticas e data centers';
+
+  @override
+  String get settings_clearCacheTitle => 'Limpar Cache';
+
+  @override
+  String get settings_clearCacheMessage =>
+      'Isso irá limpar todos os dados em cache incluindo registros DNS, estatísticas e informações de data centers.\n\nOs dados serão recarregados da API no próximo acesso.';
+
+  @override
+  String get settings_cacheCleared => 'Cache limpo com sucesso';
+
+  @override
+  String get settings_debug => 'Depuração';
+
+  @override
+  String get settings_saveLogsToFile => 'Salvar logs em arquivo';
+
+  @override
+  String get settings_saveLogsDescription =>
+      'Persiste logs para análise posterior';
+
+  @override
+  String get settings_viewDebugLogs => 'Ver Logs de Depuração';
+
+  @override
+  String get settings_goToDnsManagement => 'Ir para Gerenciamento DNS';
 }

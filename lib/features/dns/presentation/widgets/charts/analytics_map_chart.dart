@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 import '../../../../../core/providers/data_centers_provider.dart';
+import '../../../../../core/logging/log_service.dart';
 import '../../../../analytics/domain/models/analytics.dart';
 
 /// Map data point for bubble overlay
@@ -72,13 +73,22 @@ class AnalyticsMapChart extends ConsumerWidget {
   ) {
     final theme = Theme.of(context);
 
+    // Debug logging
+    log.debug(
+      'AnalyticsMapChart: groups=${groups.length}, dataCenters=${dataCenters.length}',
+    );
+
     // Build data points by matching IATA codes
     final dataPoints = <MapDataPoint>[];
     int maxCount = 0;
+    final missingColos = <String>[];
 
     for (final group in groups) {
       final coloName = group.dimensions['coloName'] as String?;
-      if (coloName == null) continue;
+      if (coloName == null) {
+        log.debug('AnalyticsMapChart: group missing coloName: ${group.dimensions}');
+        continue;
+      }
 
       final info = dataCenters[coloName];
       if (info != null && info.lat != 0.0 && info.lng != 0.0) {
@@ -92,8 +102,15 @@ class AnalyticsMapChart extends ConsumerWidget {
           ),
         );
         if (group.count > maxCount) maxCount = group.count;
+      } else {
+        missingColos.add(coloName);
       }
     }
+
+    if (missingColos.isNotEmpty) {
+      log.debug('AnalyticsMapChart: colos not found in dataCenters: $missingColos');
+    }
+    log.debug('AnalyticsMapChart: built ${dataPoints.length} data points');
 
     if (dataPoints.isEmpty) {
       return Center(

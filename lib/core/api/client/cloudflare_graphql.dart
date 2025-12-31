@@ -137,13 +137,23 @@ class CloudflareGraphQL {
       }
     }
 
+    // Debug log for byDataCenter data
+    final byDataCenterRaw = zoneData['byDataCenter'];
+    log.debug('GraphQL byDataCenter raw: $byDataCenterRaw');
+
+    final byDataCenter = _parseAnalyticsGroups(byDataCenterRaw);
+    log.debug('GraphQL byDataCenter parsed: ${byDataCenter.length} groups');
+    for (final group in byDataCenter.take(3)) {
+      log.debug('  - coloName=${group.dimensions['coloName']}, count=${group.count}');
+    }
+
     return DnsAnalyticsData(
       total: total,
       timeSeries: timeSeries,
       byQueryName: _parseAnalyticsGroups(zoneData['byQueryName']),
       byQueryType: _parseAnalyticsGroups(zoneData['byQueryType']),
       byResponseCode: _parseAnalyticsGroups(zoneData['byResponseCode']),
-      byDataCenter: _parseAnalyticsGroups(zoneData['byDataCenter']),
+      byDataCenter: byDataCenter,
       byIpVersion: _parseAnalyticsGroups(zoneData['byIpVersion']),
       byProtocol: _parseAnalyticsGroups(zoneData['byProtocol']),
       byQueryNameTimeSeries: byQueryNameTimeSeries,

@@ -169,5 +169,21 @@
   "pwa_updateAvailable": "Uma nova versão está disponível",
   "pwa_updateNow": "Atualizar Agora",
   "pwa_installApp": "Instalar App",
-  "pwa_installDescription": "Instale o Dash for Cloudflare para acesso rápido"
+  "pwa_installDescription": "Instale o Dash for Cloudflare para acesso rápido",
+
+  "settings_cloudflareApiToken": "Token da API Cloudflare",
+  "settings_requiredPermissions": "Permissões necessárias: Zone:Read, DNS:Read, DNS:Edit",
+  "settings_createTokenOnCloudflare": "Criar token na Cloudflare",
+  "settings_tokenPastedFromClipboard": "Token colado da área de transferência",
+  "settings_storage": "Armazenamento",
+  "settings_clearCache": "Limpar Cache",
+  "settings_clearCacheDescription": "Registros DNS, estatísticas e data centers",
+  "settings_clearCacheTitle": "Limpar Cache",
+  "settings_clearCacheMessage": "Isso irá limpar todos os dados em cache incluindo registros DNS, estatísticas e informações de data centers.\n\nOs dados serão recarregados da API no próximo acesso.",
+  "settings_cacheCleared": "Cache limpo com sucesso",
+  "settings_debug": "Depuração",
+  "settings_saveLogsToFile": "Salvar logs em arquivo",
+  "settings_saveLogsDescription": "Persiste logs para análise posterior",
+  "settings_viewDebugLogs": "Ver Logs de Depuração",
+  "settings_goToDnsManagement": "Ir para Gerenciamento DNS"
 }

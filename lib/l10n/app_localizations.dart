@@ -1045,6 +1045,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Install Dash for Cloudflare for quick access'**
   String get pwa_installDescription;
+
+  /// No description provided for @settings_cloudflareApiToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloudflare API Token'**
+  String get settings_cloudflareApiToken;
+
+  /// No description provided for @settings_requiredPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Required permissions: Zone:Read, DNS:Read, DNS:Edit'**
+  String get settings_requiredPermissions;
+
+  /// No description provided for @settings_createTokenOnCloudflare.
+  ///
+  /// In en, this message translates to:
+  /// **'Create token on Cloudflare'**
+  String get settings_createTokenOnCloudflare;
+
+  /// No description provided for @settings_tokenPastedFromClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Token pasted from clipboard'**
+  String get settings_tokenPastedFromClipboard;
+
+  /// No description provided for @settings_storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Storage'**
+  String get settings_storage;
+
+  /// No description provided for @settings_clearCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get settings_clearCache;
+
+  /// No description provided for @settings_clearCacheDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS records, analytics, and data centers'**
+  String get settings_clearCacheDescription;
+
+  /// No description provided for @settings_clearCacheTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Cache'**
+  String get settings_clearCacheTitle;
+
+  /// No description provided for @settings_clearCacheMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will clear all cached data including DNS records, analytics, and data center information.\n\nData will be reloaded from the API on next access.'**
+  String get settings_clearCacheMessage;
+
+  /// No description provided for @settings_cacheCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache cleared successfully'**
+  String get settings_cacheCleared;
+
+  /// No description provided for @settings_debug.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug'**
+  String get settings_debug;
+
+  /// No description provided for @settings_saveLogsToFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save logs to file'**
+  String get settings_saveLogsToFile;
+
+  /// No description provided for @settings_saveLogsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Persists logs for later analysis'**
+  String get settings_saveLogsDescription;
+
+  /// No description provided for @settings_viewDebugLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'View Debug Logs'**
+  String get settings_viewDebugLogs;
+
+  /// No description provided for @settings_goToDnsManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to DNS Management'**
+  String get settings_goToDnsManagement;
 }
 
 class _AppLocalizationsDelegate

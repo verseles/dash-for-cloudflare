@@ -500,4 +500,52 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pwa_installDescription =>
       'Install Dash for Cloudflare for quick access';
+
+  @override
+  String get settings_cloudflareApiToken => 'Cloudflare API Token';
+
+  @override
+  String get settings_requiredPermissions =>
+      'Required permissions: Zone:Read, DNS:Read, DNS:Edit';
+
+  @override
+  String get settings_createTokenOnCloudflare => 'Create token on Cloudflare';
+
+  @override
+  String get settings_tokenPastedFromClipboard => 'Token pasted from clipboard';
+
+  @override
+  String get settings_storage => 'Storage';
+
+  @override
+  String get settings_clearCache => 'Clear Cache';
+
+  @override
+  String get settings_clearCacheDescription =>
+      'DNS records, analytics, and data centers';
+
+  @override
+  String get settings_clearCacheTitle => 'Clear Cache';
+
+  @override
+  String get settings_clearCacheMessage =>
+      'This will clear all cached data including DNS records, analytics, and data center information.\n\nData will be reloaded from the API on next access.';
+
+  @override
+  String get settings_cacheCleared => 'Cache cleared successfully';
+
+  @override
+  String get settings_debug => 'Debug';
+
+  @override
+  String get settings_saveLogsToFile => 'Save logs to file';
+
+  @override
+  String get settings_saveLogsDescription => 'Persists logs for later analysis';
+
+  @override
+  String get settings_viewDebugLogs => 'View Debug Logs';
+
+  @override
+  String get settings_goToDnsManagement => 'Go to DNS Management';
 }
