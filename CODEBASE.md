@@ -137,14 +137,17 @@ lib/
 
 | Arquivo | Provider | Responsabilidade |
 |---------|----------|------------------|
-| `zone_provider.dart` | `zonesNotifierProvider` | Lista de zonas do usuário |
+| `zone_provider.dart` | `zonesNotifierProvider` | Lista de zonas com cache (ADR-022) |
 | | `selectedZoneNotifierProvider` | Zona atualmente selecionada |
 | | `zoneFilterProvider` | Filtro de busca de zonas |
 | | `filteredZonesProvider` | Zonas filtradas |
-| `dns_records_provider.dart` | `dnsRecordsNotifierProvider` | CRUD de registros DNS, filtros, busca |
+| `dns_records_provider.dart` | `dnsRecordsNotifierProvider` | CRUD de registros DNS com cache |
 | `dns_settings_provider.dart` | `dnsSettingsNotifierProvider` | DNSSEC, multi-provider, CNAME flattening |
+| `tab_preloader_provider.dart` | `tabPreloaderProvider` | Preload de abas ao mudar zona (ADR-024) |
 
 **Padrões importantes:**
+- Cache com background refresh (ADR-022) para zones e records
+- Tab preloading ao mudar zona (ADR-024)
 - Race condition prevention com `_currentFetchId`
 - Optimistic updates para proxy toggle
 - DNSSEC polling duplo (3s + 2s)

@@ -1,4 +1,4 @@
-.PHONY: all check precommit deps gen analyze test linux android android-x64 web clean install uninstall help
+.PHONY: all check precommit deps gen analyze test linux android android-x64 web clean install uninstall help sync-datacenters
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Dash for Cloudflare - Makefile
@@ -102,7 +102,7 @@ precommit: check
 # ══════════════════════════════════════════════════════════════════════════════
 
 # Install dependencies
-deps:
+deps: sync-datacenters
 	@echo "Installing dependencies..."
 	@flutter pub get $(RUN)
 	@echo "✓ Dependencies installed"
@@ -216,6 +216,17 @@ uninstall:
 	@echo "✓ Uninstalled"
 
 # ══════════════════════════════════════════════════════════════════════════════
+# DATA SYNC
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Sync Cloudflare data centers list from GitHub
+sync-datacenters:
+	@echo "Syncing Cloudflare data centers..."
+	@curl -sfL "https://raw.githubusercontent.com/insign/Cloudflare-Data-Center-IATA-Code-list/main/cloudflare-iata-full.json" \
+		-o assets/data/cloudflare-iata-full.json $(RUN)
+	@echo "✓ Data centers synced"
+
+# ══════════════════════════════════════════════════════════════════════════════
 # HELP
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -233,8 +244,9 @@ help:
 	@echo "    make web         Build Web release"
 	@echo ""
 	@echo "  Development:"
-	@echo "    make deps        Install dependencies"
-	@echo "    make gen         Generate code (Freezed, Retrofit)"
+	@echo "    make deps             Install dependencies (+ sync data centers)"
+	@echo "    make sync-datacenters Update Cloudflare data centers list"
+	@echo "    make gen              Generate code (Freezed, Retrofit)"
 	@echo "    make test        Run tests only"
 	@echo "    make analyze     Static analysis only"
 	@echo "    make clean       Clean build artifacts"

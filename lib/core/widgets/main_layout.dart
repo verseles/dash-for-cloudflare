@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/dns/providers/zone_provider.dart';
+import '../../features/dns/providers/tab_preloader_provider.dart';
 import '../../features/dns/domain/models/zone.dart';
 import '../router/app_router.dart';
 
@@ -14,6 +15,9 @@ class MainLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Activate tab preloader - listens to zone changes and preloads data
+    ref.watch(tabPreloaderProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('DNS'),
@@ -105,7 +109,8 @@ class _ZoneSelector extends ConsumerWidget {
         onPressed: () => ref.read(zonesNotifierProvider.notifier).refresh(),
         tooltip: 'Error loading zones. Tap to retry.',
       ),
-      data: (zones) {
+      data: (state) {
+        final zones = state.zones;
         if (zones.isEmpty) {
           return const Text('No zones');
         }
@@ -173,9 +178,11 @@ class _ZoneSelector extends ConsumerWidget {
                         onChanged: (value) {
                           setState(() {
                             filteredZones = zones
-                                .where((z) => z.name
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()))
+                                .where(
+                                  (z) => z.name.toLowerCase().contains(
+                                    value.toLowerCase(),
+                                  ),
+                                )
                                 .toList();
                           });
                         },

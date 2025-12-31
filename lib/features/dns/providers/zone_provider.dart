@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/zone.dart';
 import '../../auth/providers/settings_provider.dart';
@@ -10,22 +12,145 @@ import '../../../core/logging/log_level.dart';
 
 part 'zone_provider.g.dart';
 
-/// Provider for fetching and caching zones
+/// Cache expiration duration (3 days)
+const _cacheMaxAge = Duration(days: 3);
+
+/// State for zones with cache metadata
+class ZonesState {
+  const ZonesState({
+    this.zones = const [],
+    this.isFromCache = false,
+    this.isRefreshing = false,
+    this.cachedAt,
+  });
+
+  final List<Zone> zones;
+  final bool isFromCache;
+  final bool isRefreshing;
+  final DateTime? cachedAt;
+
+  ZonesState copyWith({
+    List<Zone>? zones,
+    bool? isFromCache,
+    bool? isRefreshing,
+    DateTime? cachedAt,
+  }) {
+    return ZonesState(
+      zones: zones ?? this.zones,
+      isFromCache: isFromCache ?? this.isFromCache,
+      isRefreshing: isRefreshing ?? this.isRefreshing,
+      cachedAt: cachedAt ?? this.cachedAt,
+    );
+  }
+}
+
+/// Provider for fetching and caching zones (ADR-022 pattern)
 @riverpod
 class ZonesNotifier extends _$ZonesNotifier {
+  SharedPreferences? _prefs;
+
+  static const _cacheKey = 'zones_cache';
+  static const _cacheTimeKey = 'zones_cache_time';
+
   @override
-  FutureOr<List<Zone>> build() async {
+  FutureOr<ZonesState> build() async {
     // Only fetch if we have a valid token
     final hasToken = ref.watch(hasValidTokenProvider);
     if (!hasToken) {
-      log.info('ZonesNotifier: No valid token, returning empty list', category: LogCategory.state);
-      return [];
+      log.info(
+        'ZonesNotifier: No valid token, returning empty list',
+        category: LogCategory.state,
+      );
+      return const ZonesState();
     }
 
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try to load from cache first
+    final cachedState = await _loadFromCache();
+    if (cachedState != null) {
+      // Return cached data and refresh in background
+      unawaited(_refreshInBackground(cachedState));
+      return cachedState;
+    }
+
+    // No cache, fetch from API
     return _fetchZones();
   }
 
-  Future<List<Zone>> _fetchZones() async {
+  Future<ZonesState?> _loadFromCache() async {
+    try {
+      final cachedJson = _prefs?.getString(_cacheKey);
+      final cachedTimeStr = _prefs?.getString(_cacheTimeKey);
+
+      if (cachedJson == null || cachedTimeStr == null) return null;
+
+      final cachedTime = DateTime.parse(cachedTimeStr);
+      final age = DateTime.now().difference(cachedTime);
+
+      // Check if cache is still valid
+      if (age > _cacheMaxAge) {
+        log.info(
+          'ZonesNotifier: Cache expired (${age.inDays} days old)',
+          category: LogCategory.state,
+        );
+        return null;
+      }
+
+      final List<dynamic> zonesJson = json.decode(cachedJson) as List<dynamic>;
+      final zones = zonesJson
+          .map((e) => Zone.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      log.info(
+        'ZonesNotifier: Loaded ${zones.length} zones from cache (${age.inMinutes} minutes old)',
+        category: LogCategory.state,
+      );
+
+      return ZonesState(zones: zones, isFromCache: true, cachedAt: cachedTime);
+    } catch (e, stack) {
+      log.warning('ZonesNotifier: Failed to load cache', details: e.toString());
+      log.error('ZonesNotifier: Cache error', error: e, stackTrace: stack);
+      return null;
+    }
+  }
+
+  Future<void> _saveToCache(List<Zone> zones) async {
+    try {
+      final zonesJson = zones.map((z) => z.toJson()).toList();
+      await _prefs?.setString(_cacheKey, json.encode(zonesJson));
+      await _prefs?.setString(_cacheTimeKey, DateTime.now().toIso8601String());
+      log.info(
+        'ZonesNotifier: Saved ${zones.length} zones to cache',
+        category: LogCategory.state,
+      );
+    } catch (e) {
+      log.warning('ZonesNotifier: Failed to save cache', details: e.toString());
+    }
+  }
+
+  Future<void> _refreshInBackground(ZonesState currentState) async {
+    // Mark as refreshing
+    state = AsyncData(currentState.copyWith(isRefreshing: true));
+
+    try {
+      final freshState = await _fetchZonesFromApi();
+      state = AsyncData(freshState);
+    } catch (e) {
+      // Keep showing cached data on error
+      log.warning(
+        'ZonesNotifier: Background refresh failed, keeping cache',
+        details: e.toString(),
+      );
+      state = AsyncData(currentState.copyWith(isRefreshing: false));
+    }
+  }
+
+  Future<ZonesState> _fetchZones() async {
+    return _fetchZonesFromApi();
+  }
+
+  Future<ZonesState> _fetchZonesFromApi() async {
     log.stateChange('ZonesNotifier', 'Fetching zones...');
 
     try {
@@ -40,10 +165,23 @@ class ZonesNotifier extends _$ZonesNotifier {
         throw Exception(error);
       }
 
-      log.stateChange('ZonesNotifier', 'Fetched ${response.result!.length} zones');
-      return response.result!;
+      final zones = response.result!;
+      log.stateChange('ZonesNotifier', 'Fetched ${zones.length} zones');
+
+      // Save to cache
+      unawaited(_saveToCache(zones));
+
+      return ZonesState(
+        zones: zones,
+        isFromCache: false,
+        cachedAt: DateTime.now(),
+      );
     } catch (e, stack) {
-      log.error('ZonesNotifier: Exception fetching zones', error: e, stackTrace: stack);
+      log.error(
+        'ZonesNotifier: Exception fetching zones',
+        error: e,
+        stackTrace: stack,
+      );
       rethrow;
     }
   }
@@ -65,7 +203,7 @@ class SelectedZoneNotifier extends _$SelectedZoneNotifier {
     final zonesAsync = ref.watch(zonesNotifierProvider);
     final settings = ref.watch(settingsNotifierProvider);
 
-    final zones = zonesAsync.valueOrNull ?? [];
+    final zones = zonesAsync.valueOrNull?.zones ?? [];
     final savedZoneId = settings.valueOrNull?.selectedZoneId;
 
     if (zones.isEmpty) return null;
@@ -111,7 +249,7 @@ class ZoneFilter extends _$ZoneFilter {
     state = query;
 
     // Auto-select if filter returns exactly 1 result
-    final zones = ref.read(zonesNotifierProvider).valueOrNull ?? [];
+    final zones = ref.read(zonesNotifierProvider).valueOrNull?.zones ?? [];
     final filtered = zones
         .where((z) => z.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
@@ -131,7 +269,7 @@ class ZoneFilter extends _$ZoneFilter {
 /// Provider for filtered zones based on search query
 @riverpod
 List<Zone> filteredZones(Ref ref) {
-  final zones = ref.watch(zonesNotifierProvider).valueOrNull ?? [];
+  final zones = ref.watch(zonesNotifierProvider).valueOrNull?.zones ?? [];
   final filter = ref.watch(zoneFilterProvider);
 
   if (filter.isEmpty) return zones;

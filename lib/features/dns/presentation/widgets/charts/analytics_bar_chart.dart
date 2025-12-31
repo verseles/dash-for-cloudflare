@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../analytics/domain/models/analytics.dart';
 import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/providers/data_centers_provider.dart';
 
 /// Bar chart for displaying analytics group data
-class AnalyticsBarChart extends StatelessWidget {
+class AnalyticsBarChart extends ConsumerWidget {
   const AnalyticsBarChart({
     super.key,
     required this.title,
@@ -23,10 +25,14 @@ class AnalyticsBarChart extends StatelessWidget {
   final bool horizontal;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     if (groups.isEmpty) {
       return _buildEmptyState(context);
     }
+
+    // Get data centers for city name lookup
+    final dataCenters =
+        ref.watch(dataCentersNotifierProvider).valueOrNull ?? {};
 
     // Sort by count descending and take top items
     final sortedGroups = List<AnalyticsGroup>.from(groups)
@@ -34,7 +40,10 @@ class AnalyticsBarChart extends StatelessWidget {
     final topGroups = sortedGroups.take(maxItems).toList();
 
     final dataPoints = topGroups
-        .map((g) => _ChartDataPoint(label: _getLabel(g), value: g.count))
+        .map(
+          (g) =>
+              _ChartDataPoint(label: _getLabel(g, dataCenters), value: g.count),
+        )
         .toList();
 
     return Card(
@@ -71,6 +80,11 @@ class AnalyticsBarChart extends StatelessWidget {
         majorGridLines: const MajorGridLines(dashArray: [5, 5]),
       ),
       tooltipBehavior: TooltipBehavior(enable: true),
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePinching: true,
+        enablePanning: true,
+        zoomMode: ZoomMode.x,
+      ),
       series: <CartesianSeries>[
         ColumnSeries<_ChartDataPoint, String>(
           dataSource: dataPoints,
@@ -107,6 +121,11 @@ class AnalyticsBarChart extends StatelessWidget {
         majorGridLines: const MajorGridLines(dashArray: [5, 5]),
       ),
       tooltipBehavior: TooltipBehavior(enable: true),
+      zoomPanBehavior: ZoomPanBehavior(
+        enablePinching: true,
+        enablePanning: true,
+        zoomMode: ZoomMode.x,
+      ),
       series: <CartesianSeries>[
         BarSeries<_ChartDataPoint, String>(
           dataSource: reversed,
@@ -128,9 +147,22 @@ class AnalyticsBarChart extends StatelessWidget {
     );
   }
 
-  String _getLabel(AnalyticsGroup group) {
+  String _getLabel(
+    AnalyticsGroup group,
+    Map<String, DataCenterInfo> dataCenters,
+  ) {
     final value = group.dimensions[dimensionKey];
     if (value == null) return 'Unknown';
+
+    // If this is a coloName (data center), try to get the city name
+    if (dimensionKey == 'coloName') {
+      final iata = value.toString();
+      final info = dataCenters[iata];
+      if (info != null) {
+        return info.place;
+      }
+    }
+
     return value.toString();
   }
 

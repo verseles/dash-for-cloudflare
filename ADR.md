@@ -418,23 +418,24 @@ Total entries: 42
 
 ---
 
-## ADR-022: DNS Records Cache com Background Refresh
+## ADR-022: Cache com Background Refresh (DNS Records e Zones)
 
-**Status**: Aceito
+**Status**: Atualizado
 **Data**: 2025-12-31
 
-**Contexto**: Ao acessar DNS Records, skeleton loading era exibido mesmo quando dados recentes estavam disponíveis. Isso causava uma experiência de "piscar" toda vez que o usuário acessava a tela.
+**Contexto**: Ao acessar DNS Records ou lista de Zones, skeleton loading era exibido mesmo quando dados recentes estavam disponíveis. Isso causava uma experiência de "piscar" toda vez que o usuário acessava a tela.
 
-**Decisão**: Implementar cache local de DNS records com as seguintes características:
+**Decisão**: Implementar cache local com as seguintes características:
 
 1. **Armazenamento**: SharedPreferences (JSON serializado)
-2. **Chaves**: `dns_records_cache_{zoneId}` e `dns_records_cache_time_{zoneId}`
-3. **Expiração**: 3 dias
-4. **Refresh**: Background (stale-while-revalidate)
+2. **Chaves DNS**: `dns_records_cache_{zoneId}` e `dns_records_cache_time_{zoneId}`
+3. **Chaves Zones**: `zones_cache` e `zones_cache_time`
+4. **Expiração**: 3 dias
+5. **Refresh**: Background (stale-while-revalidate)
 
 **Fluxo**:
 ```
-1. Ao acessar zona:
+1. Ao acessar:
    - Tentar carregar cache
    - Se cache válido (<3 dias): mostrar imediatamente
    - Iniciar refresh em background
@@ -450,7 +451,7 @@ Total entries: 42
    - Toggle de proxy
 ```
 
-**Campos adicionados em DnsRecordsState**:
+**Campos em State**:
 ```dart
 final bool isFromCache;
 final bool isRefreshing;
@@ -565,4 +566,85 @@ dart run flutter_native_splash:create
 
 ---
 
-_Última atualização: 2025-12-31 (ADR-015 atualizado para Makefile)_
+## ADR-024: Tab Preloading ao Mudar de Zona
+
+**Status**: Aceito
+**Data**: 2025-12-31
+
+**Contexto**: Ao mudar de zona, apenas a aba ativa era carregada. Ao navegar para outras abas, o usuário via skeleton loading.
+
+**Decisão**: Implementar preload inteligente das 3 abas DNS:
+
+1. **Prioridade**: Aba ativa carrega primeiro
+2. **Background**: Outras 2 abas carregam após delay de 300ms
+3. **Paralelo**: Abas em background carregam simultaneamente
+
+**Provider**: `TabPreloaderNotifier`
+```dart
+// Escuta mudança de zona
+ref.listen(selectedZoneIdProvider, (prev, next) {
+  if (next != null && prev != next) {
+    _preloadAllTabs(next);
+  }
+});
+
+// Preload com prioridade
+void _preloadAllTabs(String zoneId) {
+  _loadActiveTab();           // Imediato
+  Future.delayed(300ms, () {
+    _loadBackgroundTabs();    // Paralelo em bg
+  });
+}
+```
+
+**Integração**: `MainLayout` inicializa o preloader no build.
+
+**Consequência**:
+- Navegação entre abas é instantânea
+- Aba ativa não é afetada pelo preload das outras
+- Recursos de rede são melhor utilizados
+
+---
+
+## ADR-025: Sync de Data Centers na Build
+
+**Status**: Aceito
+**Data**: 2025-12-31
+
+**Contexto**: Lista de data centers Cloudflare (IATA codes) precisa estar atualizada. Atualmente carrega de asset e atualiza do CDN em runtime.
+
+**Decisão**: Adicionar sync na build para garantir dados mais recentes:
+
+1. **Makefile target**: `sync-datacenters`
+2. **Fonte**: GitHub raw (insign/Cloudflare-Data-Center-IATA-Code-list)
+3. **Dependência**: `deps` depende de `sync-datacenters`
+
+```makefile
+sync-datacenters:
+	@curl -fsSL $(IATA_URL) -o assets/data/cloudflare-iata-full.json
+
+deps: sync-datacenters
+	@flutter pub get
+```
+
+**Fluxo**:
+```
+make deps → sync-datacenters → pub get → código gerado
+```
+
+**Formato JSON** (já compatível):
+```json
+{
+  "AMS": {"place": "Amsterdam, Netherlands", "lat": 52.3, "lng": 4.8, "cca2": "NL"},
+  ...
+}
+```
+
+**Consequência**:
+- Dados sempre atualizados em cada build
+- Nenhuma conversão necessária (formato compatível)
+- CDN runtime continua como fallback
+
+---
+
+_Última atualização: 2025-12-31 (ADR-022 expandido, ADR-024 e ADR-025 adicionados)_

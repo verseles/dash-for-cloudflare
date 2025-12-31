@@ -86,7 +86,9 @@ class AnalyticsMapChart extends ConsumerWidget {
     for (final group in groups) {
       final coloName = group.dimensions['coloName'] as String?;
       if (coloName == null) {
-        log.debug('AnalyticsMapChart: group missing coloName: ${group.dimensions}');
+        log.debug(
+          'AnalyticsMapChart: group missing coloName: ${group.dimensions}',
+        );
         continue;
       }
 
@@ -108,7 +110,9 @@ class AnalyticsMapChart extends ConsumerWidget {
     }
 
     if (missingColos.isNotEmpty) {
-      log.debug('AnalyticsMapChart: colos not found in dataCenters: $missingColos');
+      log.debug(
+        'AnalyticsMapChart: colos not found in dataCenters: $missingColos',
+      );
     }
     log.debug('AnalyticsMapChart: built ${dataPoints.length} data points');
 
@@ -132,7 +136,9 @@ class AnalyticsMapChart extends ConsumerWidget {
 
     // Use a unique key based on dataPoints to force SfMaps rebuild when data changes
     // This is necessary because initialMarkersCount doesn't update dynamically
-    final mapKey = ValueKey('map_${dataPoints.length}_${dataPoints.map((p) => p.iata).join('_')}');
+    final mapKey = ValueKey(
+      'map_${dataPoints.length}_${dataPoints.map((p) => p.iata).join('_')}',
+    );
 
     return SfMaps(
       key: mapKey,
@@ -141,6 +147,13 @@ class AnalyticsMapChart extends ConsumerWidget {
           source: const MapShapeSource.asset(
             'assets/data/world.json',
             shapeDataField: 'NAME',
+          ),
+          zoomPanBehavior: MapZoomPanBehavior(
+            enablePinching: true,
+            enablePanning: true,
+            zoomLevel: 1,
+            minZoomLevel: 1,
+            maxZoomLevel: 10,
           ),
           color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
           strokeColor: isDark ? Colors.grey.shade700 : Colors.grey.shade400,
