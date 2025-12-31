@@ -1,10 +1,15 @@
 # Dash for Cloudflare - Agent Instructions
 
-Sempre que iniciar qualquer sessão, leia os arquivos de contexto:
+**IMPORTANTE:** Sempre que iniciar qualquer sessão, leia TODOS os arquivos abaixo. Eles contêm regras e contexto essenciais para o trabalho.
 
-- @./ADR.md
-- @./README.md
-- @./roadmap/roadmap.md
+| Arquivo | Conteúdo |
+|---------|----------|
+| @./CODEBASE.md | **Mapa do código** - onde cada funcionalidade está implementada |
+| @./ADR.md | Decisões técnicas e arquiteturais |
+| @./README.md | Visão geral do projeto |
+| @./roadmap/roadmap.md | Tarefas e progresso |
+
+As regras deste arquivo (AGENTS.md) são **obrigatórias** e devem ser seguidas rigorosamente.
 
 ---
 
@@ -116,11 +121,13 @@ make gen          # Após alterar models Freezed/Retrofit
 
 14. **Adicione ou atualize ADR.md para decisões técnicas relevantes.** Novo ADR quando: escolher biblioteca/abordagem, resolver problema arquitetural, tomar decisão que afete desenvolvimento futuro. Atualize ADR existente quando a decisão mudar.
 
+15. **Atualize CODEBASE.md ao criar/mover/renomear arquivos significativos.** Manter o mapa do código atualizado para navegação rápida.
+
 ### Referências
 
-15. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
+16. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
 
-16. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
+17. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
 
 ---
 
