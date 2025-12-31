@@ -130,7 +130,12 @@ class AnalyticsMapChart extends ConsumerWidget {
       );
     }
 
+    // Use a unique key based on dataPoints to force SfMaps rebuild when data changes
+    // This is necessary because initialMarkersCount doesn't update dynamically
+    final mapKey = ValueKey('map_${dataPoints.length}_${dataPoints.map((p) => p.iata).join('_')}');
+
     return SfMaps(
+      key: mapKey,
       layers: [
         MapShapeLayer(
           source: const MapShapeSource.asset(

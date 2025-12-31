@@ -88,25 +88,11 @@ class MainLayout extends ConsumerWidget {
 }
 
 /// Zone selector dropdown
-class _ZoneSelector extends ConsumerStatefulWidget {
+class _ZoneSelector extends ConsumerWidget {
   @override
-  ConsumerState<_ZoneSelector> createState() => _ZoneSelectorState();
-}
-
-class _ZoneSelectorState extends ConsumerState<_ZoneSelector> {
-  final _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final zonesAsync = ref.watch(zonesNotifierProvider);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
-    final filteredZones = ref.watch(filteredZonesProvider);
 
     return zonesAsync.when(
       loading: () => const SizedBox(
@@ -124,10 +110,11 @@ class _ZoneSelectorState extends ConsumerState<_ZoneSelector> {
           return const Text('No zones');
         }
 
-        return PopupMenuButton<Zone>(
-          tooltip: 'Select zone',
+        return InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () => _showZoneDialog(context, ref, zones, selectedZone),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -143,58 +130,99 @@ class _ZoneSelectorState extends ConsumerState<_ZoneSelector> {
               ],
             ),
           ),
-          itemBuilder: (context) {
-            return [
-              // Search field
-              PopupMenuItem<Zone>(
-                enabled: false,
-                child: TextField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    hintText: 'Search zones...',
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                  onChanged: (value) {
-                    ref.read(zoneFilterProvider.notifier).setFilter(value);
-                  },
+        );
+      },
+    );
+  }
+
+  void _showZoneDialog(
+    BuildContext context,
+    WidgetRef ref,
+    List<Zone> zones,
+    Zone? selectedZone,
+  ) {
+    final searchController = TextEditingController();
+    var filteredZones = zones;
+
+    showDialog<Zone>(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: const Text('Select Zone'),
+              contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              content: SizedBox(
+                width: 400,
+                height: 400,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Search field
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: TextField(
+                        controller: searchController,
+                        autofocus: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Search zones...',
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            filteredZones = zones
+                                .where((z) => z.name
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
+                                .toList();
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    // Zone list
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: filteredZones.length,
+                        itemBuilder: (context, index) {
+                          final zone = filteredZones[index];
+                          final isSelected = zone.id == selectedZone?.id;
+                          return ListTile(
+                            leading: Icon(
+                              isSelected
+                                  ? Icons.check_circle
+                                  : Icons.circle_outlined,
+                              color: isSelected
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
+                            ),
+                            title: Text(
+                              zone.name,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: _StatusBadge(status: zone.status),
+                            onTap: () {
+                              ref
+                                  .read(selectedZoneNotifierProvider.notifier)
+                                  .selectZone(zone);
+                              Navigator.of(dialogContext).pop();
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              // Zone list
-              ...filteredZones.map(
-                (zone) => PopupMenuItem<Zone>(
-                  value: zone,
-                  child: Row(
-                    children: [
-                      Icon(
-                        zone.id == selectedZone?.id
-                            ? Icons.check_circle
-                            : Icons.circle_outlined,
-                        size: 20,
-                        color: zone.id == selectedZone?.id
-                            ? Theme.of(context).colorScheme.primary
-                            : null,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(zone.name, overflow: TextOverflow.ellipsis),
-                      ),
-                      _StatusBadge(status: zone.status),
-                    ],
-                  ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('Cancel'),
                 ),
-              ),
-            ];
-          },
-          onSelected: (zone) {
-            ref.read(selectedZoneNotifierProvider.notifier).selectZone(zone);
-            _searchController.clear();
-            ref.read(zoneFilterProvider.notifier).clear();
-          },
-          onCanceled: () {
-            _searchController.clear();
-            ref.read(zoneFilterProvider.notifier).clear();
+              ],
+            );
           },
         );
       },

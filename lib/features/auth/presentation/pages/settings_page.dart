@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/router/app_router.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -12,6 +13,9 @@ import '../../../../core/logging/log_provider.dart';
 import '../../../../core/providers/data_centers_provider.dart';
 import '../../../dns/providers/dns_records_provider.dart';
 import '../../../analytics/providers/analytics_provider.dart';
+
+/// URL to create Cloudflare API token
+const _cloudflareTokenUrl = 'https://dash.cloudflare.com/profile/api-tokens';
 
 /// Settings page for API token, theme, and language
 class SettingsPage extends ConsumerStatefulWidget {
@@ -188,10 +192,25 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     TextButton.icon(
                       icon: const Icon(Icons.open_in_new, size: 16),
                       label: Text(l10n.settings_createTokenOnCloudflare),
-                      onPressed: () {
-                        // TODO: Launch URL
+                      onPressed: () async {
+                        final uri = Uri.parse(_cloudflareTokenUrl);
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                        }
                       },
                     ),
+                    // Go to DNS button (inside token card when valid)
+                    if (hasValidToken) ...[
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton.icon(
+                          icon: const Icon(Icons.dns),
+                          label: Text(l10n.settings_goToDnsManagement),
+                          onPressed: () => context.go(AppRoutes.dnsRecords),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -310,16 +329,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
             // Debug Card (only on non-web platforms)
             if (!kIsWeb) _buildDebugCard(context, l10n),
-
-            const SizedBox(height: 24),
-
-            // Go to DNS button
-            if (hasValidToken)
-              FilledButton.icon(
-                icon: const Icon(Icons.dns),
-                label: Text(l10n.settings_goToDnsManagement),
-                onPressed: () => context.go(AppRoutes.dnsRecords),
-              ),
           ],
         ),
       ),
