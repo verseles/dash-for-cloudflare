@@ -23,4 +23,15 @@ plugins {
     id("org.jetbrains.kotlin.android") version "2.2.20" apply false
 }
 
+// Build cache configuration
+buildCache {
+    local {
+        // Enable local build cache
+        isEnabled = true
+        // Cache directory (default: ~/.gradle/caches/build-cache-1)
+        // Entries older than 30 days are automatically removed
+        removeUnusedEntriesAfterDays = 30
+    }
+}
+
 include(":app")
