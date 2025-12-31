@@ -17,7 +17,11 @@ Sempre que iniciar qualquer sessão siga as regras e orientações dos arquivos:
 5. Para cada web search aguarde 1 segundo após o recebimento da resposta para fazer uma nova pesquisa
 6. A cada fase concluída, atualize o roadmap, faça um commit bem descrito. Faça push apenas caso o usuário já tenha pedido alguma vez na conversa atual
 7. Sempre monte o to-do list das fases pendentes, e sub fases
-8. Se ficar completamente preso sem opções de resolver sozinho, chame a tool play_notification e pare até receber uma resposta do usuário. Mas priorize soluções autônomas.
+8. Chame a tool `play_notification` nos seguintes casos:
+   - Ao finalizar um trabalho/tarefa grande
+   - Ao finalizar um planejamento
+   - Se ficar completamente preso sem opções de resolver sozinho (pare e aguarde resposta)
+   Priorize soluções autônomas antes de parar por estar preso.
 9. Esse projeto não está em produção, portanto, não é necessário preocupar com compatibilidade com versões anteriores, refatore livremente conforme necessário.
 10. **OBRIGATÓRIO: Use `make precommit` como gatekeeper antes de QUALQUER commit.** Este comando já inclui supressão de logs de sucesso para economizar tokens. NÃO use `./precommit.sh` diretamente.
 11. Para evitar ler logs de uma execução de sucesso redirecione a saída para um arquivo na pasta tmp do OS. Use algo como `comando > /tmp/comando.log 2>&1 || cat /tmp/comando.log` (algo assim, adapte) para verificar se houve erro e só então ler os logs. A intenção é evitar ler logs de uma execução de sucesso sem necessidade. Use para verificar logs de compilação, testes, precommit, etc.
