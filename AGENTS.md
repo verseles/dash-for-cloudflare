@@ -79,21 +79,23 @@ make gen          # Após alterar models Freezed/Retrofit
 
 4. **Push só se já pedido na sessão.** Não faça push automaticamente, apenas se o usuário já pediu pelo menos uma vez na conversa atual.
 
-5. **Se `make analyze` ou `make test` falhar, corrija TODOS os erros.** Não prossiga com erros pendentes.
+5. **`make android` após push bem-sucedido.** Envia APK via tdl para o celular do usuário testar.
+
+6. **Se `make analyze` ou `make test` falhar, corrija TODOS os erros.** Não prossiga com erros pendentes.
 
 ### Desenvolvimento
 
-6. **To-do list sempre atualizado.** Monte e mantenha a lista de fases/sub-fases pendentes.
+7. **To-do list sempre atualizado.** Monte e mantenha a lista de fases/sub-fases pendentes.
 
-7. **Testes atualizados.** Crie novos testes e atualize existentes conforme necessário.
+8. **Testes atualizados.** Crie novos testes e atualize existentes conforme necessário.
 
-8. **Refatoração livre.** Projeto não está em produção, não precisa de compatibilidade com versões anteriores.
+9. **Refatoração livre.** Projeto não está em produção, não precisa de compatibilidade com versões anteriores.
 
-9. **Para features grandes, crie branch.** Use `feature/nome`. Após PR aprovado, retorne para main.
+10. **Para features grandes, crie branch.** Use `feature/nome`. Após PR aprovado, retorne para main.
 
 ### Web Search
 
-10. **Use web search com frequência:**
+11. **Use web search com frequência:**
     - Para confirmar métodos eficientes/modernos
     - Para resolver erros quando ficar preso
     - Aguarde 1 segundo entre pesquisas (evitar rate limit)
@@ -101,7 +103,7 @@ make gen          # Após alterar models Freezed/Retrofit
 
 ### Notificações
 
-11. **Chame `play_notification` nos seguintes casos:**
+12. **Chame `play_notification` nos seguintes casos:**
     - Ao finalizar um trabalho/tarefa grande
     - Ao finalizar um planejamento
     - Se ficar completamente preso sem solução (pare e aguarde resposta)
@@ -110,24 +112,24 @@ make gen          # Após alterar models Freezed/Retrofit
 
 ### Logs
 
-12. **Suprima logs de sucesso.** Para comandos fora do make:
+13. **Makefile auto-detecta TTY.** Comandos make suprimem output automaticamente para agentes e mostram output completo para usuários no terminal. Para comandos fora do make:
     ```bash
     cmd > /tmp/cmd.log 2>&1 || cat /tmp/cmd.log
     ```
 
 ### Documentação
 
-13. **Atualize AGENTS.md quando mudanças o afetarem.** Novas regras, comandos, fluxos ou convenções devem ser refletidos aqui.
+14. **Atualize AGENTS.md quando mudanças o afetarem.** Novas regras, comandos, fluxos ou convenções devem ser refletidos aqui.
 
-14. **Adicione ou atualize ADR.md para decisões técnicas relevantes.** Novo ADR quando: escolher biblioteca/abordagem, resolver problema arquitetural, tomar decisão que afete desenvolvimento futuro. Atualize ADR existente quando a decisão mudar.
+15. **Adicione ou atualize ADR.md para decisões técnicas relevantes.** Novo ADR quando: escolher biblioteca/abordagem, resolver problema arquitetural, tomar decisão que afete desenvolvimento futuro. Atualize ADR existente quando a decisão mudar.
 
-15. **Atualize CODEBASE.md antes do commit se criar/mover/renomear arquivos significativos.** Manter o mapa do código atualizado para navegação rápida.
+16. **Atualize CODEBASE.md antes do commit se criar/mover/renomear arquivos significativos.** Manter o mapa do código atualizado para navegação rápida.
 
 ### Referências
 
-16. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
+17. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
 
-17. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
+18. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
 
 ---
 

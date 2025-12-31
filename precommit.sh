@@ -54,8 +54,9 @@ echo ""
 
 echo -e "${YELLOW}[6/6] Build verification (Android x86_64 for emulator)...${NC}"
 if flutter build apk --release --target-platform android-x64 2>/dev/null; then
+    mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/dash-for-cf.apk
     echo -e "${GREEN}✓ Android x86_64 build successful${NC}"
-    echo -e "  APK: build/app/outputs/flutter-apk/app-release.apk"
+    echo -e "  APK: build/app/outputs/flutter-apk/dash-for-cf.apk"
 else
     echo -e "${YELLOW}⚠ Android build skipped (missing Android SDK or deps)${NC}"
 fi

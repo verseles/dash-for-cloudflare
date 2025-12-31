@@ -15,12 +15,34 @@
 
 # Paths
 LINUX_BUNDLE = build/linux/x64/release/bundle
-APK_PATH = build/app/outputs/flutter-apk/app-release.apk
+APK_DIR = build/app/outputs/flutter-apk
+APK_PATH = $(APK_DIR)/dash-for-cf.apk
 WEB_PATH = build/web
 INSTALL_DIR = $(HOME)/.local
 
-# Temp log file for suppressing successful output
+# Temp log file
 LOG = /tmp/dash-cf-build.log
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Output control: TTY detection with explicit override
+#
+# - Interactive terminal (user): show full output
+# - Non-interactive (agent/CI): suppress successful output, show only errors
+# - VERBOSE=1: force full output regardless of TTY
+# ══════════════════════════════════════════════════════════════════════════════
+ifeq ($(VERBOSE),1)
+    # Explicit verbose mode
+    RUN =
+    RUN_LENIENT =
+else ifeq ($(shell [ -t 1 ] && echo 1),1)
+    # Interactive terminal - show output
+    RUN =
+    RUN_LENIENT =
+else
+    # Non-interactive (agent/CI) - suppress successful output
+    RUN = > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+    RUN_LENIENT = > $(LOG) 2>&1 || (cat $(LOG) && true)
+endif
 
 # Default target
 all: help
@@ -34,19 +56,19 @@ check:
 	@echo "══════════════════════════════════════════════════════════════"
 	@echo ""
 	@echo "[1/4] Installing dependencies..."
-	@flutter pub get > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter pub get $(RUN)
 	@echo "✓ Dependencies installed"
 	@echo ""
 	@echo "[2/4] Generating code (build_runner)..."
-	@dart run build_runner build --delete-conflicting-outputs > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@dart run build_runner build --delete-conflicting-outputs $(RUN)
 	@echo "✓ Code generated"
 	@echo ""
 	@echo "[3/4] Static Analysis..."
-	@flutter analyze --no-fatal-infos > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter analyze --no-fatal-infos $(RUN)
 	@echo "✓ Analysis passed"
 	@echo ""
 	@echo "[4/4] Running Tests..."
-	@flutter test > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter test $(RUN)
 	@echo "✓ All tests passed"
 	@echo ""
 	@echo "══════════════════════════════════════════════════════════════"
@@ -63,11 +85,12 @@ precommit: check
 	@echo "══════════════════════════════════════════════════════════════"
 	@echo ""
 	@echo "[5/6] Linux Build..."
-	@flutter build linux --release > $(LOG) 2>&1 || (echo "⚠ Linux build skipped" && true)
+	@flutter build linux --release $(RUN_LENIENT)
 	@if [ -d "$(LINUX_BUNDLE)" ]; then echo "✓ Linux build successful"; else echo "⚠ Linux build skipped (not on Linux or missing deps)"; fi
 	@echo ""
 	@echo "[6/6] Android Build..."
-	@flutter build apk --release --target-platform android-x64 > $(LOG) 2>&1 || (echo "⚠ Android build skipped" && true)
+	@flutter build apk --release --target-platform android-x64 $(RUN_LENIENT)
+	@if [ -f "$(APK_DIR)/app-release.apk" ]; then mv $(APK_DIR)/app-release.apk $(APK_PATH); fi
 	@if [ -f "$(APK_PATH)" ]; then echo "✓ Android build successful"; echo "  APK: $(APK_PATH)"; else echo "⚠ Android build skipped (missing Android SDK)"; fi
 	@echo ""
 	@echo "══════════════════════════════════════════════════════════════"
@@ -81,31 +104,31 @@ precommit: check
 # Install dependencies
 deps:
 	@echo "Installing dependencies..."
-	@flutter pub get > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter pub get $(RUN)
 	@echo "✓ Dependencies installed"
 
 # Generate code (Freezed, Retrofit, JSON Serializable)
 gen:
 	@echo "Generating code (build_runner)..."
-	@dart run build_runner build --delete-conflicting-outputs > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@dart run build_runner build --delete-conflicting-outputs $(RUN)
 	@echo "✓ Code generated"
 
 # Static analysis
 analyze:
 	@echo "Running static analysis..."
-	@flutter analyze --no-fatal-infos > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter analyze --no-fatal-infos $(RUN)
 	@echo "✓ Analysis passed"
 
 # Run tests
 test:
 	@echo "Running tests..."
-	@flutter test > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter test $(RUN)
 	@echo "✓ All tests passed"
 
 # Linux release build
 linux:
 	@echo "Building Linux release..."
-	@flutter build linux --release > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter build linux --release $(RUN)
 	@echo "✓ Linux build complete"
 	@echo "  Bundle: $(LINUX_BUNDLE)/"
 	@ls -lh $(LINUX_BUNDLE)/dash_for_cloudflare 2>/dev/null || true
@@ -113,7 +136,8 @@ linux:
 # Android release build + tdl upload
 android:
 	@echo "Building Android APK (arm64)..."
-	@flutter build apk --release --target-platform android-arm64 > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter build apk --release --target-platform android-arm64 $(RUN)
+	@mv $(APK_DIR)/app-release.apk $(APK_PATH)
 	@echo "✓ Android build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
@@ -129,7 +153,8 @@ android:
 # Android x64 build (for emulator)
 android-x64:
 	@echo "Building Android APK (x64 for emulator)..."
-	@flutter build apk --release --target-platform android-x64 > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter build apk --release --target-platform android-x64 $(RUN)
+	@mv $(APK_DIR)/app-release.apk $(APK_PATH)
 	@echo "✓ Android x64 build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
@@ -137,7 +162,7 @@ android-x64:
 # Web release build
 web:
 	@echo "Building Web release..."
-	@flutter build web --release > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter build web --release $(RUN)
 	@echo "✓ Web build complete"
 	@echo "  Output: $(WEB_PATH)/"
 	@du -sh $(WEB_PATH)
@@ -145,7 +170,7 @@ web:
 # Clean build artifacts
 clean:
 	@echo "Cleaning build artifacts..."
-	@flutter clean > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
+	@flutter clean $(RUN)
 	@rm -rf build/
 	@echo "✓ Clean complete"
 
