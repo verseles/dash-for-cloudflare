@@ -1,23 +1,15 @@
-.PHONY: all precommit deps gen analyze test linux android web clean install uninstall help
+.PHONY: all check precommit deps gen analyze test linux android android-x64 web clean install uninstall help
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Dash for Cloudflare - Makefile
 # ══════════════════════════════════════════════════════════════════════════════
 #
-# IMPORTANT: Always use `make precommit` before committing (see AGENTS.md)
+# Workflow:
+#   make check      - Quick validation during development (~20s)
+#   make precommit  - Full verification before commit (~30s)
 #
-# Usage:
-#   make precommit  - Full verification before commit (REQUIRED)
-#   make android    - Build APK and send via tdl
-#   make linux      - Build Linux release
-#   make web        - Build Web release
-#   make test       - Run tests only
-#   make analyze    - Static analysis only
-#   make deps       - Install dependencies
-#   make gen        - Generate code (Freezed, Retrofit)
-#   make clean      - Clean build artifacts
-#   make install    - Install on Linux (~/.local)
-#   make uninstall  - Uninstall from Linux
+# All commands suppress successful output to save tokens.
+# Logs only shown on errors.
 #
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -34,40 +26,47 @@ LOG = /tmp/dash-cf-build.log
 all: help
 
 # ══════════════════════════════════════════════════════════════════════════════
-# PRECOMMIT - Full verification sequence (AGENTS.md compliance)
+# CHECK - Quick validation (deps + gen + analyze + test)
 # ══════════════════════════════════════════════════════════════════════════════
-precommit:
+check:
 	@echo "══════════════════════════════════════════════════════════════"
-	@echo "  PRECOMMIT VERIFICATION (AGENTS.md)"
+	@echo "  CHECK - Quick Validation"
 	@echo "══════════════════════════════════════════════════════════════"
 	@echo ""
-	@echo "Step 1/6: Installing dependencies..."
-	@echo "──────────────────────────────────────────────────────────────"
+	@echo "[1/4] Installing dependencies..."
 	@flutter pub get > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
 	@echo "✓ Dependencies installed"
 	@echo ""
-	@echo "Step 2/6: Generating code (build_runner)..."
-	@echo "──────────────────────────────────────────────────────────────"
+	@echo "[2/4] Generating code (build_runner)..."
 	@dart run build_runner build --delete-conflicting-outputs > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
 	@echo "✓ Code generated"
 	@echo ""
-	@echo "Step 3/6: Static Analysis..."
-	@echo "──────────────────────────────────────────────────────────────"
+	@echo "[3/4] Static Analysis..."
 	@flutter analyze --no-fatal-infos > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
 	@echo "✓ Analysis passed"
 	@echo ""
-	@echo "Step 4/6: Running Tests..."
-	@echo "──────────────────────────────────────────────────────────────"
+	@echo "[4/4] Running Tests..."
 	@flutter test > $(LOG) 2>&1 || (cat $(LOG) && exit 1)
 	@echo "✓ All tests passed"
 	@echo ""
-	@echo "Step 5/6: Linux Build..."
-	@echo "──────────────────────────────────────────────────────────────"
+	@echo "══════════════════════════════════════════════════════════════"
+	@echo "  ✅ CHECK PASSED"
+	@echo "══════════════════════════════════════════════════════════════"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PRECOMMIT - Full verification (check + builds)
+# ══════════════════════════════════════════════════════════════════════════════
+precommit: check
+	@echo ""
+	@echo "══════════════════════════════════════════════════════════════"
+	@echo "  PRECOMMIT - Build Verification"
+	@echo "══════════════════════════════════════════════════════════════"
+	@echo ""
+	@echo "[5/6] Linux Build..."
 	@flutter build linux --release > $(LOG) 2>&1 || (echo "⚠ Linux build skipped" && true)
 	@if [ -d "$(LINUX_BUNDLE)" ]; then echo "✓ Linux build successful"; else echo "⚠ Linux build skipped (not on Linux or missing deps)"; fi
 	@echo ""
-	@echo "Step 6/6: Android Build..."
-	@echo "──────────────────────────────────────────────────────────────"
+	@echo "[6/6] Android Build..."
 	@flutter build apk --release --target-platform android-x64 > $(LOG) 2>&1 || (echo "⚠ Android build skipped" && true)
 	@if [ -f "$(APK_PATH)" ]; then echo "✓ Android build successful"; echo "  APK: $(APK_PATH)"; else echo "⚠ Android build skipped (missing Android SDK)"; fi
 	@echo ""
@@ -161,11 +160,8 @@ install: linux
 	@mkdir -p $(INSTALL_DIR)/share/dash-for-cloudflare
 	@mkdir -p $(INSTALL_DIR)/share/applications
 	@mkdir -p $(INSTALL_DIR)/share/icons/hicolor/128x128/apps
-	@# Copy bundle
 	@cp -r $(LINUX_BUNDLE)/* $(INSTALL_DIR)/share/dash-for-cloudflare/
-	@# Create symlink
 	@ln -sf $(INSTALL_DIR)/share/dash-for-cloudflare/dash_for_cloudflare $(INSTALL_DIR)/bin/dash-cf
-	@# Create desktop file
 	@echo "[Desktop Entry]" > $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Name=Dash for Cloudflare" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Comment=Unofficial Cloudflare management app" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
@@ -174,10 +170,8 @@ install: linux
 	@echo "Terminal=false" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Type=Application" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Categories=Network;Utility;" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
-	@# Copy icon
 	@cp assets/icons/app_icon.png $(INSTALL_DIR)/share/icons/hicolor/128x128/apps/ad.dash.cf.png 2>/dev/null || \
 		cp android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png $(INSTALL_DIR)/share/icons/hicolor/128x128/apps/ad.dash.cf.png 2>/dev/null || true
-	@# Update icon cache
 	@gtk-update-icon-cache $(INSTALL_DIR)/share/icons/hicolor 2>/dev/null || true
 	@echo ""
 	@echo "✅ Dash for Cloudflare installed!"
@@ -203,17 +197,25 @@ uninstall:
 help:
 	@echo "Dash for Cloudflare - Build Commands"
 	@echo ""
-	@echo "  make precommit   Full verification before commit (REQUIRED)"
-	@echo "  make android     Build APK (arm64) and upload via tdl"
-	@echo "  make android-x64 Build APK (x64 for emulator)"
-	@echo "  make linux       Build Linux release"
-	@echo "  make web         Build Web release"
-	@echo "  make test        Run tests"
-	@echo "  make analyze     Static analysis"
-	@echo "  make deps        Install dependencies"
-	@echo "  make gen         Generate code (Freezed, Retrofit)"
-	@echo "  make clean       Clean build artifacts"
-	@echo "  make install     Install on Linux (~/.local)"
-	@echo "  make uninstall   Uninstall from Linux"
+	@echo "  Validation:"
+	@echo "    make check      Quick validation (deps+gen+analyze+test) ~20s"
+	@echo "    make precommit  Full verification (check+builds) ~30s"
 	@echo ""
-	@echo "IMPORTANT: Always run 'make precommit' before committing!"
+	@echo "  Build:"
+	@echo "    make android     Build APK (arm64) + upload via tdl"
+	@echo "    make android-x64 Build APK (x64 for emulator)"
+	@echo "    make linux       Build Linux release"
+	@echo "    make web         Build Web release"
+	@echo ""
+	@echo "  Development:"
+	@echo "    make deps        Install dependencies"
+	@echo "    make gen         Generate code (Freezed, Retrofit)"
+	@echo "    make test        Run tests only"
+	@echo "    make analyze     Static analysis only"
+	@echo "    make clean       Clean build artifacts"
+	@echo ""
+	@echo "  Linux Install:"
+	@echo "    make install     Install to ~/.local"
+	@echo "    make uninstall   Remove from ~/.local"
+	@echo ""
+	@echo "Workflow: make check (during dev) -> make precommit (before commit)"

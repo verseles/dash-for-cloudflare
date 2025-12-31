@@ -1,32 +1,10 @@
 # Dash for Cloudflare - Agent Instructions
 
-Sempre que iniciar qualquer sessão siga as regras e orientações dos arquivos:
+Sempre que iniciar qualquer sessão, leia os arquivos de contexto:
 
 - @./ADR.md
 - @./README.md
 - @./roadmap/roadmap.md
-
----
-
-## Regras de Trabalho
-
-1. Sempre que necessário ou mencionado "projeto original", "projeto Vue", "projeto antigo", visite o projeto original (branch `old_vue`) para esclarecer o funcionamento anterior funcional
-2. Use web search com frequência, antes de cada solicitação ou no modo planejamento, nem sempre para resolver erros, mas para confirmar que usará o método mais eficiente e moderno ou comparar possibilidades
-3. Se ao usar r.jina.ai/endereço falhar, tente novamente diretamente no endereço original.
-4. Se ficar preso em erros, use web search para resolver
-5. Para cada web search aguarde 1 segundo após o recebimento da resposta para fazer uma nova pesquisa
-6. A cada fase concluída, atualize o roadmap, faça um commit bem descrito. Faça push apenas caso o usuário já tenha pedido alguma vez na conversa atual
-7. Sempre monte o to-do list das fases pendentes, e sub fases
-8. Chame a tool `play_notification` nos seguintes casos:
-   - Ao finalizar um trabalho/tarefa grande
-   - Ao finalizar um planejamento
-   - Se ficar completamente preso sem opções de resolver sozinho (pare e aguarde resposta)
-   Priorize soluções autônomas antes de parar por estar preso.
-9. Esse projeto não está em produção, portanto, não é necessário preocupar com compatibilidade com versões anteriores, refatore livremente conforme necessário.
-10. **OBRIGATÓRIO: Use `make precommit` como gatekeeper antes de QUALQUER commit.** Este comando já inclui supressão de logs de sucesso para economizar tokens. NÃO use `./precommit.sh` diretamente.
-11. Para evitar ler logs de uma execução de sucesso redirecione a saída para um arquivo na pasta tmp do OS. Use algo como `comando > /tmp/comando.log 2>&1 || cat /tmp/comando.log` (algo assim, adapte) para verificar se houve erro e só então ler os logs. A intenção é evitar ler logs de uma execução de sucesso sem necessidade. Use para verificar logs de compilação, testes, precommit, etc.
-12. Crie novos tests e atualize os existentes conforme necessário para garantir a qualidade do código.
-13. **Use os comandos `make` disponíveis em vez de comandos Flutter/Dart diretos.** Os comandos make já incluem supressão de logs para economizar tokens.
 
 ---
 
@@ -46,34 +24,105 @@ Sempre que iniciar qualquer sessão siga as regras e orientações dos arquivos:
 
 ## Comandos Make (OBRIGATÓRIO)
 
-Use SEMPRE os comandos make em vez de comandos Flutter/Dart diretos. Eles incluem supressão de logs de sucesso para economizar tokens.
+Use SEMPRE comandos make. Eles suprimem logs de sucesso para economizar tokens.
 
-| Comando           | Descrição                                          |
-| ----------------- | -------------------------------------------------- |
-| `make precommit`  | **OBRIGATÓRIO antes de commit** - verificação completa |
-| `make android`    | Build APK (arm64) + upload via tdl                 |
-| `make android-x64`| Build APK (x64 para emulador)                      |
-| `make linux`      | Build Linux release                                |
-| `make web`        | Build Web release                                  |
-| `make test`       | Executar testes                                    |
-| `make analyze`    | Análise estática                                   |
-| `make deps`       | Instalar dependências                              |
-| `make gen`        | Gerar código (Freezed, Retrofit)                   |
-| `make clean`      | Limpar artefatos de build                          |
-| `make install`    | Instalar no Linux (~/.local)                       |
-| `make uninstall`  | Desinstalar do Linux                               |
+| Comando           | Descrição                                    | Tempo   |
+| ----------------- | -------------------------------------------- | ------- |
+| `make check`      | Validação rápida (deps+gen+analyze+test)     | ~20s    |
+| `make precommit`  | Verificação completa (check+builds)          | ~30s    |
+| `make android`    | Build APK (arm64) + upload via tdl           | ~30s    |
+| `make android-x64`| Build APK (x64 para emulador)                | ~30s    |
+| `make linux`      | Build Linux release                          | ~10s    |
+| `make web`        | Build Web release                            | ~20s    |
+| `make test`       | Executar testes                              | ~10s    |
+| `make analyze`    | Análise estática                             | ~3s     |
+| `make deps`       | Instalar dependências                        | ~2s     |
+| `make gen`        | Gerar código (Freezed, Retrofit)             | ~5s     |
+| `make clean`      | Limpar artefatos de build                    | ~2s     |
+| `make install`    | Instalar no Linux (~/.local)                 | -       |
+| `make uninstall`  | Desinstalar do Linux                         | -       |
 
 ### Fluxo de Trabalho
 
 ```bash
-# Após fazer alterações no código:
-make precommit    # Verifica tudo antes de commit
+# Durante desenvolvimento (várias vezes):
+make check
+
+# Antes de commit (uma vez):
+make precommit
 
 # Para builds específicas:
 make android      # Build + upload para Telegram
 make linux        # Build Linux
 
-# Para desenvolvimento:
+# Após alterar dependências ou models:
 make deps         # Após alterar pubspec.yaml
 make gen          # Após alterar models Freezed/Retrofit
 ```
+
+---
+
+## Regras de Trabalho
+
+### Build & Commit
+
+1. **`make check` durante desenvolvimento.** Validação rápida (~20s) para feedback iterativo.
+
+2. **`make precommit` antes de QUALQUER commit.** Verificação completa incluindo builds.
+
+3. **Commit a cada fase concluída.** Atualize o roadmap e faça commit bem descrito.
+
+4. **Push só se já pedido na sessão.** Não faça push automaticamente, apenas se o usuário já pediu pelo menos uma vez na conversa atual.
+
+5. **Se `make analyze` ou `make test` falhar, corrija TODOS os erros.** Não prossiga com erros pendentes.
+
+### Desenvolvimento
+
+6. **To-do list sempre atualizado.** Monte e mantenha a lista de fases/sub-fases pendentes.
+
+7. **Testes atualizados.** Crie novos testes e atualize existentes conforme necessário.
+
+8. **Refatoração livre.** Projeto não está em produção, não precisa de compatibilidade com versões anteriores.
+
+9. **Para features grandes, crie branch.** Use `feature/nome`. Após PR aprovado, retorne para main.
+
+### Web Search
+
+10. **Use web search com frequência:**
+    - Para confirmar métodos eficientes/modernos
+    - Para resolver erros quando ficar preso
+    - Aguarde 1 segundo entre pesquisas (evitar rate limit)
+    - Se r.jina.ai falhar, tente a URL original
+
+### Notificações
+
+11. **Chame `play_notification` nos seguintes casos:**
+    - Ao finalizar um trabalho/tarefa grande
+    - Ao finalizar um planejamento
+    - Se ficar completamente preso sem solução (pare e aguarde resposta)
+
+    Priorize soluções autônomas antes de parar.
+
+### Logs
+
+12. **Suprima logs de sucesso.** Para comandos fora do make:
+    ```bash
+    cmd > /tmp/cmd.log 2>&1 || cat /tmp/cmd.log
+    ```
+
+### Referências
+
+13. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
+
+14. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
+
+---
+
+## Não Fazer
+
+- **NÃO** use `./precommit.sh` (use `make precommit`)
+- **NÃO** use comandos Flutter/Dart diretos (use `make`)
+- **NÃO** faça push sem o usuário ter pedido na sessão atual
+- **NÃO** ignore erros de `make analyze` ou `make test`
+- **NÃO** leia logs de comandos que passaram (desperdiça tokens)
+- **NÃO** prossiga com erros pendentes

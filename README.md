@@ -35,34 +35,35 @@ Unofficial Cloudflare management app built with Flutter.
 make deps
 make gen
 
-# Run tests
-make test
+# During development (quick feedback ~20s)
+make check
+
+# Before committing (full verification ~30s)
+make precommit
 
 # Build (choose platform)
 make android     # APK (arm64) + upload via tdl
 make linux       # Linux release
 make web         # Web release
-
-# Pre-commit check (REQUIRED before committing)
-make precommit
 ```
 
 ## Make Commands
 
-| Command           | Description                                    |
-| ----------------- | ---------------------------------------------- |
-| `make precommit`  | Full verification before commit (required)    |
-| `make android`    | Build APK (arm64) + upload via tdl             |
-| `make android-x64`| Build APK (x64 for emulator)                   |
-| `make linux`      | Build Linux release                            |
-| `make web`        | Build Web release                              |
-| `make test`       | Run tests                                      |
-| `make analyze`    | Static analysis                                |
-| `make deps`       | Install dependencies                           |
-| `make gen`        | Generate code (Freezed, Retrofit)              |
-| `make clean`      | Clean build artifacts                          |
-| `make install`    | Install on Linux (~/.local)                    |
-| `make uninstall`  | Uninstall from Linux                           |
+| Command           | Description                                    | Time   |
+| ----------------- | ---------------------------------------------- | ------ |
+| `make check`      | Quick validation (deps+gen+analyze+test)       | ~20s   |
+| `make precommit`  | Full verification (check+builds)               | ~30s   |
+| `make android`    | Build APK (arm64) + upload via tdl             | ~30s   |
+| `make android-x64`| Build APK (x64 for emulator)                   | ~30s   |
+| `make linux`      | Build Linux release                            | ~10s   |
+| `make web`        | Build Web release                              | ~20s   |
+| `make test`       | Run tests                                      | ~10s   |
+| `make analyze`    | Static analysis                                | ~3s    |
+| `make deps`       | Install dependencies                           | ~2s    |
+| `make gen`        | Generate code (Freezed, Retrofit)              | ~5s    |
+| `make clean`      | Clean build artifacts                          | ~2s    |
+| `make install`    | Install on Linux (~/.local)                    | -      |
+| `make uninstall`  | Uninstall from Linux                           | -      |
 
 ## CORS Strategy
 
