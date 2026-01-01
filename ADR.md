@@ -22,22 +22,6 @@ retrofit: 4.6.0  # Pinned - incompatibility with newer versions
 
 ---
 
-## ADR-002: Código gerado NÃO commitado
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: Arquivos `.g.dart` e `.freezed.dart` são gerados por build_runner.
-
-**Decisão**: 
-- Não commitar arquivos gerados (estão no .gitignore)
-- CI deve rodar `dart run build_runner build --delete-conflicting-outputs` antes de analyze/build
-- Desenvolvedor local deve rodar `./precommit.sh` antes de push
-
-**Consequência**: Repositório mais limpo, mas CI e local devem regenerar código.
-
----
-
 ## ADR-003: CORS Proxy apenas para Web
 
 **Status**: Aceito  
@@ -51,41 +35,6 @@ retrofit: 4.6.0  # Pinned - incompatibility with newer versions
 - Detecção via `kIsWeb` do Flutter
 
 **Consequência**: Manter proxy funcional para web. Mobile/desktop funcionam sem dependência externa.
-
----
-
-## ADR-004: flutter_secure_storage apenas para API Token
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: flutter_secure_storage usa Keychain (iOS), Keystore (Android), libsecret (Linux). É mais seguro mas mais lento.
-
-**Decisão**:
-- API Token → flutter_secure_storage (dados sensíveis)
-- Tema, idioma, zona selecionada → shared_preferences (dados não-sensíveis)
-
-**Consequência**: Performance melhor para preferências, segurança para credenciais.
-
----
-
-## ADR-005: Freezed 3.x com sealed classes
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: Freezed 3.x introduziu suporte a `sealed class` do Dart 3 para melhor pattern matching.
-
-**Decisão**: Usar sintaxe `sealed class` em todos os models Freezed.
-
-```dart
-@freezed
-sealed class Zone with _$Zone {
-  const factory Zone({...}) = _Zone;
-}
-```
-
-**Consequência**: Melhor suporte a pattern matching, exhaustiveness checking do compilador.
 
 ---
 
@@ -220,45 +169,6 @@ MapShapeLayer(
 
 ---
 
-## ADR-013: Estrutura feature-based
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: Projeto tem múltiplos domínios (auth, dns, analytics).
-
-**Decisão**: Estrutura de pastas feature-based:
-```
-lib/
-├── core/           # Shared code
-│   ├── api/
-│   ├── providers/
-│   ├── theme/
-│   └── widgets/
-├── features/
-│   ├── auth/       # Settings, token
-│   ├── dns/        # Records, settings
-│   └── analytics/  # Charts, data
-└── l10n/           # Translations
-```
-
-**Consequência**: Código organizado por domínio. Fácil navegação.
-
----
-
-## ADR-014: StatefulShellRoute para DNS tabs
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: Tabs DNS (Records, Analytics, Settings) devem preservar estado ao alternar.
-
-**Decisão**: Usar `StatefulShellRoute` do go_router.
-
-**Consequência**: Estado preservado entre tabs. Melhor UX.
-
----
-
 ## ADR-015: Makefile como gatekeeper (check + precommit)
 
 **Status**: Atualizado
@@ -286,19 +196,6 @@ Todos os comandos suprimem logs de sucesso: `cmd > /tmp/log 2>&1 || cat /tmp/log
 - Garantia completa antes de commit (`make precommit`)
 - Economia de tokens com supressão de logs
 - `precommit.sh` mantido como fallback (deprecated)
-
----
-
-## ADR-016: Cloudflare orange (#F38020) como primary color
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: App deve ter identidade visual alinhada com Cloudflare.
-
-**Decisão**: Usar `#F38020` como primary color no tema.
-
-**Consequência**: Consistência visual. Splash screen e ícones usam mesma cor.
 
 ---
 
@@ -344,25 +241,6 @@ Todos os comandos suprimem logs de sucesso: `cmd > /tmp/log 2>&1 || cat /tmp/log
 **Decisão**: Usar endpoint GraphQL (`/client/v4/graphql`) para analytics com query `dnsAnalyticsAdaptiveGroups`.
 
 **Consequência**: Dados ricos. Query única para 7 dimensões.
-
----
-
-## ADR-020: Internacionalização com ARB files
-
-**Status**: Aceito  
-**Data**: 2025-12-29
-
-**Contexto**: App deve suportar múltiplos idiomas.
-
-**Decisão**: Usar flutter_localizations + intl com arquivos ARB.
-
-```
-lib/l10n/
-├── app_en.arb  # English (default)
-└── app_pt.arb  # Portuguese
-```
-
-**Consequência**: Suporte oficial Flutter. Fácil adicionar idiomas.
 
 ---
 
@@ -647,4 +525,4 @@ make deps → sync-datacenters → pub get → código gerado
 
 ---
 
-_Última atualização: 2025-12-31 (ADR-022 expandido, ADR-024 e ADR-025 adicionados)_
+_Última atualização: 2026-01-01 (removidos ADRs triviais: 002, 004, 005, 013, 014, 016, 020)_
