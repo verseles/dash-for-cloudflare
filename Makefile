@@ -1,4 +1,4 @@
-.PHONY: all check precommit deps gen analyze test linux android android-x64 web clean install uninstall help sync-datacenters
+.PHONY: all check precommit deps gen analyze test linux android android-x64 web cf-pages clean install uninstall help sync-datacenters
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Dash for Cloudflare - Makefile
@@ -167,6 +167,11 @@ web:
 	@echo "  Output: $(WEB_PATH)/"
 	@du -sh $(WEB_PATH)
 
+# Cloudflare Pages build command (for CI)
+# Copy this output to Cloudflare Pages "Build command" field
+cf-pages:
+	@echo 'git clone --depth 1 -b stable https://github.com/flutter/flutter.git && export PATH="$$PATH:$$PWD/flutter/bin" && flutter pub get && dart run build_runner build --delete-conflicting-outputs && flutter build web --release'
+
 # Clean build artifacts
 clean:
 	@echo "Cleaning build artifacts..."
@@ -242,6 +247,7 @@ help:
 	@echo "    make android-x64 Build APK (x64 for emulator)"
 	@echo "    make linux       Build Linux release"
 	@echo "    make web         Build Web release"
+	@echo "    make cf-pages    Show build command for Cloudflare Pages CI"
 	@echo ""
 	@echo "  Development:"
 	@echo "    make deps             Install dependencies (+ sync data centers)"
