@@ -1,6 +1,6 @@
 {
     "name": "Dash for Cloudflare",
-    "short_name": "CF Dash",
+    "short_name": "Dash for CF",
     "description": "Dash for Cloudflare - DNS management, analytics, and settings",
     "start_url": ".",
     "display": "standalone",
