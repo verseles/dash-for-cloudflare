@@ -50,6 +50,9 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.8
 
+  # PWA (Web only)
+  pwa_install: ^0.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

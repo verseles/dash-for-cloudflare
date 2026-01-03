@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pwa_install/pwa_install.dart' hide LaunchMode;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/router/app_router.dart';
@@ -125,7 +126,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ),
       body: settingsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('${l10n.common_error}: $error')),
+        error: (error, _) =>
+            Center(child: Text('${l10n.common_error}: $error')),
         data: (settings) => ListView(
           padding: const EdgeInsets.all(16),
           children: [
@@ -197,7 +199,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         // Don't use canLaunchUrl - it can return false on Android 11+
                         // even when launchUrl would work
                         try {
-                          await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          await launchUrl(
+                            uri,
+                            mode: LaunchMode.externalApplication,
+                          );
                         } catch (e) {
                           // Fallback: try without mode specification
                           await launchUrl(uri);
@@ -332,6 +337,13 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
             const SizedBox(height: 16),
 
+            // PWA Install Card (web only)
+            if (kIsWeb && PWAInstall().installPromptEnabled)
+              _buildPwaInstallCard(context, l10n),
+
+            if (kIsWeb && PWAInstall().installPromptEnabled)
+              const SizedBox(height: 16),
+
             // Debug Card (only on non-web platforms)
             if (!kIsWeb) _buildDebugCard(context, l10n),
           ],
@@ -347,10 +359,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
 
     return IconButton(
-      icon: Icon(
-        Icons.content_paste,
-        color: Colors.green.shade600,
-      ),
+      icon: Icon(Icons.content_paste, color: Colors.green.shade600),
       tooltip: 'Paste from clipboard',
       onPressed: _pasteFromClipboard,
     );
@@ -427,6 +436,42 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
               subtitle: Text(l10n.settings_clearCacheDescription),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => _showClearCacheDialog(context, l10n),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPwaInstallCard(BuildContext context, AppLocalizations l10n) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.install_mobile,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  l10n.pwa_installApp,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.download),
+              title: Text(l10n.pwa_installApp),
+              subtitle: Text(l10n.pwa_installDescription),
+              trailing: FilledButton(
+                onPressed: () => PWAInstall().promptInstall_(),
+                child: Text(l10n.pwa_installApp),
+              ),
             ),
           ],
         ),

@@ -84,8 +84,8 @@ Description: Configurar window_manager, system tray e keyboard shortcuts
 Description: Configurar manifest, service worker, install prompt e headers
 - [x] 8.01 Configurar web/manifest.json com tema Cloudflare (note: manifest.json com tema Cloudflare configurado)
 - [x] 8.02 Flutter web usa flutter_service_worker.js automático (note: Service worker automático do Flutter)
-- [ ] 8.03 [DEFERRED] Implementar botão Instalar App no Settings
-- [ ] 8.04 [DEFERRED] Criar UpdateBanner para service worker updates
+- [x] 8.03 Implementar botão Instalar App no Settings (note: Card PWA Install com pwa_install package, só aparece quando disponível)
+- [x] 8.04 Criar UpdateBanner para service worker updates (note: js_interop para comunicação JS→Dart, banner com Riverpod provider)
 - [x] 8.05 Criar _headers file para Cloudflare Pages (note: _headers para Cloudflare Pages criado)
 
 ### Feature 9: Testes

@@ -108,7 +108,54 @@
       <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
-  <script src="flutter_bootstrap.js" async=""></script>
+  <script>
+  // PWA Install prompt (pwa_install package)
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+  window.promptInstall = async () => {
+    if (!deferredPrompt) return false;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    return outcome === 'accepted';
+  };
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+  });
+  window.getLaunchMode = () => {
+    return window.matchMedia('(display-mode: standalone)').matches ? 'standalone' : 'browser';
+  };
+
+  // Service Worker update detection (js_interop)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              if (window.flutterSwUpdate) window.flutterSwUpdate();
+            }
+          });
+        }
+      });
+    });
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
+  }
+  window.skipWaitingAndReload = () => {
+    navigator.serviceWorker.ready.then((registration) => {
+      if (registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+    });
+  };
+</script>
+<script src="flutter_bootstrap.js" async=""></script>
 
 
 </body></html>

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:pwa_install/pwa_install.dart';
 
 import 'l10n/app_localizations.dart';
 import 'core/router/app_router.dart';
@@ -9,10 +10,21 @@ import 'core/theme/app_theme.dart';
 import 'core/desktop/window_manager.dart';
 import 'core/logging/log_service.dart';
 import 'core/logging/log_level.dart';
+import 'core/pwa/pwa_update_service.dart';
+import 'core/pwa/update_banner.dart';
 import 'features/auth/providers/settings_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    PWAInstall().setup(
+      installCallback: () {
+        log.info('PWA installed', category: LogCategory.state);
+      },
+    );
+    PwaUpdateService.instance.initialize();
+  }
 
   // Initialize log service
   await LogService.instance.initialize();
@@ -67,6 +79,8 @@ class DashForCloudflareApp extends ConsumerWidget {
       ],
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
+      builder: (context, child) =>
+          UpdateBanner(child: child ?? const SizedBox.shrink()),
     );
   }
 }

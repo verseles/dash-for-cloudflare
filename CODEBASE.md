@@ -14,6 +14,7 @@ lib/
 │   ├── desktop/                 # Suporte desktop (window, tray, shortcuts)
 │   ├── logging/                 # Sistema de logs in-app
 │   ├── platform/                # Detecção de plataforma
+│   ├── pwa/                     # PWA support (install prompt, update banner)
 │   ├── providers/               # Providers globais (API, loading, data centers)
 │   ├── router/                  # Configuração go_router
 │   ├── theme/                   # Tema Material 3 (light/dark)
@@ -49,6 +50,20 @@ lib/
 | `interceptors/rate_limit_interceptor.dart` | Controle de rate limit |
 | `interceptors/logging_interceptor.dart` | Log de requests/responses |
 | `models/cloudflare_response.dart` | Wrapper de resposta Cloudflare |
+
+### PWA (`lib/core/pwa/`)
+
+| Arquivo | Responsabilidade |
+|---------|------------------|
+| `pwa_update_service.dart` | Singleton com js_interop para detectar SW updates |
+| `pwa_update_provider.dart` | StreamProvider que expõe estado de update disponível |
+| `update_banner.dart` | MaterialBanner "Nova versão disponível" com botão atualizar |
+
+**Fluxo:**
+1. JS detecta novo service worker → chama `window.notifyFlutterUpdate()`
+2. `PwaUpdateService` recebe via js_interop → emite no stream
+3. `pwaUpdateAvailableProvider` → UI mostra `UpdateBanner`
+4. Usuário clica → `reloadForUpdate()` → `skipWaiting()` + reload
 
 ### Desktop (`lib/core/desktop/`)
 
@@ -259,4 +274,4 @@ find lib -name "*_page.dart" -type f
 
 ---
 
-_Última atualização: 2025-12-31_
+_Última atualização: 2026-01-02_
