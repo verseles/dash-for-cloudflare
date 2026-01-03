@@ -86,31 +86,31 @@ flutter:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/icons/icon.png"
+  image_path: "assets/icons/icon-padded.png"
   min_sdk_android: 21
   adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/icons/icon.png"
+  adaptive_icon_foreground: "assets/icons/icon-padded.png"
   web:
     generate: true
-    image_path: "assets/icons/icon.png"
+    image_path: "assets/icons/icon-padded.png"
     background_color: "#FFFFFF"
     theme_color: "#F38020"
   windows:
     generate: true
-    image_path: "assets/icons/icon.png"
+    image_path: "assets/icons/icon-padded.png"
     icon_size: 48
   macos:
     generate: true
-    image_path: "assets/icons/icon.png"
+    image_path: "assets/icons/icon-padded.png"
 
 # Splash screen configuration
 flutter_native_splash:
   color: "#1a1a2e"
-  image: "assets/icons/icon.png"
+  image: "assets/icons/icon-padded.png"
   android: true
   ios: true
   web: true
   android_12:
     color: "#1a1a2e"
     icon_background_color: "#F38020"
-    image: "assets/icons/icon.png"
+    image: "assets/icons/icon-padded.png"
