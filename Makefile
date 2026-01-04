@@ -1,4 +1,4 @@
-.PHONY: all check precommit deps gen analyze test linux android android-x64 web cf-pages clean install uninstall help sync-datacenters
+.PHONY: all check precommit deps gen analyze test linux android android-x64 web cf-pages clean install uninstall help sync-datacenters icons
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Dash for Cloudflare - Makefile
@@ -106,6 +106,13 @@ deps: sync-datacenters
 	@echo "Installing dependencies..."
 	@flutter pub get $(RUN)
 	@echo "✓ Dependencies installed"
+
+# Regenerate app icons and splash screens
+icons:
+	@echo "Regenerating icons and splash..."
+	@dart run flutter_launcher_icons $(RUN)
+	@dart run flutter_native_splash:create $(RUN)
+	@echo "✓ Icons and splash regenerated"
 
 # Generate code (Freezed, Retrofit, JSON Serializable)
 gen:
@@ -253,6 +260,7 @@ help:
 	@echo "    make deps             Install dependencies (+ sync data centers)"
 	@echo "    make sync-datacenters Update Cloudflare data centers list"
 	@echo "    make gen              Generate code (Freezed, Retrofit)"
+	@echo "    make icons            Regenerate app icons and splash screens"
 	@echo "    make test        Run tests only"
 	@echo "    make analyze     Static analysis only"
 	@echo "    make clean       Clean build artifacts"
