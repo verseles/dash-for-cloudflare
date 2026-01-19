@@ -54,6 +54,14 @@ android {
             }
         }
     }
+
+    applicationVariants.all {
+        outputs.forEach { output ->
+            if (output is com.android.build.gradle.internal.api.BaseVariantOutputImpl) {
+                output.outputFileName = "dash-for-cf.apk"
+            }
+        }
+    }
 }
 
 flutter {

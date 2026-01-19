@@ -90,7 +90,6 @@ precommit: check
 	@echo ""
 	@echo "[6/6] Android Build..."
 	@flutter build apk --release --target-platform android-x64 $(RUN_LENIENT)
-	@if [ -f "$(APK_DIR)/app-release.apk" ]; then mv $(APK_DIR)/app-release.apk $(APK_PATH); fi
 	@if [ -f "$(APK_PATH)" ]; then echo "✓ Android build successful"; echo "  APK: $(APK_PATH)"; else echo "⚠ Android build skipped (missing Android SDK)"; fi
 	@echo ""
 	@echo "══════════════════════════════════════════════════════════════"
@@ -144,15 +143,18 @@ linux:
 android:
 	@echo "Building Android APK (arm64)..."
 	@flutter build apk --release --target-platform android-arm64 $(RUN)
-	@mv $(APK_DIR)/app-release.apk $(APK_PATH)
 	@echo "✓ Android build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
 	@echo ""
 	@if command -v tdl >/dev/null 2>&1; then \
 		echo "Uploading APK via tdl..."; \
-		tdl up -t 6 --path=$(APK_PATH); \
-		echo "✓ APK uploaded"; \
+		if tdl up -c 3305021517 -t 6 --path=$(APK_PATH); then \
+			echo "✓ APK uploaded"; \
+		else \
+			echo "✗ APK upload failed"; \
+			exit 1; \
+		fi \
 	else \
 		echo "ℹ tdl not found - skipping upload"; \
 	fi
@@ -161,7 +163,6 @@ android:
 android-x64:
 	@echo "Building Android APK (x64 for emulator)..."
 	@flutter build apk --release --target-platform android-x64 $(RUN)
-	@mv $(APK_DIR)/app-release.apk $(APK_PATH)
 	@echo "✓ Android x64 build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)

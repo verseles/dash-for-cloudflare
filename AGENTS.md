@@ -2,12 +2,12 @@
 
 **IMPORTANTE:** Sempre que iniciar qualquer sessão, leia TODOS os arquivos abaixo. Eles contêm regras e contexto essenciais para o trabalho.
 
-| Arquivo | Conteúdo |
-|---------|----------|
+| Arquivo        | Conteúdo                                                        |
+| -------------- | --------------------------------------------------------------- |
 | @./CODEBASE.md | **Mapa do código** - onde cada funcionalidade está implementada |
-| @./ADR.md | Decisões técnicas e arquiteturais |
-| @./README.md | Visão geral do projeto |
-| @./roadmap/roadmap.md | Tarefas e progresso |
+| @./ADR.md      | Decisões técnicas e arquiteturais                               |
+| @./README.md   | Visão geral do projeto                                          |
+| @./ROADMAP.md  | Tarefas e progresso                                             |
 
 As regras deste arquivo (AGENTS.md) são **obrigatórias** e devem ser seguidas rigorosamente.
 
@@ -31,21 +31,21 @@ As regras deste arquivo (AGENTS.md) são **obrigatórias** e devem ser seguidas 
 
 Use SEMPRE comandos make. Eles suprimem logs de sucesso para economizar tokens.
 
-| Comando           | Descrição                                    | Tempo   |
-| ----------------- | -------------------------------------------- | ------- |
-| `make check`      | Validação rápida (deps+gen+analyze+test)     | ~20s    |
-| `make precommit`  | Verificação completa (check+builds)          | ~30s    |
-| `make android`    | Build APK (arm64) + upload via tdl           | ~30s    |
-| `make android-x64`| Build APK (x64 para emulador)                | ~30s    |
-| `make linux`      | Build Linux release                          | ~10s    |
-| `make web`        | Build Web release                            | ~20s    |
-| `make test`       | Executar testes                              | ~10s    |
-| `make analyze`    | Análise estática                             | ~3s     |
-| `make deps`       | Instalar dependências                        | ~2s     |
-| `make gen`        | Gerar código (Freezed, Retrofit)             | ~5s     |
-| `make clean`      | Limpar artefatos de build                    | ~2s     |
-| `make install`    | Instalar no Linux (~/.local)                 | -       |
-| `make uninstall`  | Desinstalar do Linux                         | -       |
+| Comando            | Descrição                                | Tempo |
+| ------------------ | ---------------------------------------- | ----- |
+| `make check`       | Validação rápida (deps+gen+analyze+test) | ~20s  |
+| `make precommit`   | Verificação completa (check+builds)      | ~30s  |
+| `make android`     | Build APK (arm64) + upload via tdl       | ~30s  |
+| `make android-x64` | Build APK (x64 para emulador)            | ~30s  |
+| `make linux`       | Build Linux release                      | ~10s  |
+| `make web`         | Build Web release                        | ~20s  |
+| `make test`        | Executar testes                          | ~10s  |
+| `make analyze`     | Análise estática                         | ~3s   |
+| `make deps`        | Instalar dependências                    | ~2s   |
+| `make gen`         | Gerar código (Freezed, Retrofit)         | ~5s   |
+| `make clean`       | Limpar artefatos de build                | ~2s   |
+| `make install`     | Instalar no Linux (~/.local)             | -     |
+| `make uninstall`   | Desinstalar do Linux                     | -     |
 
 ### Fluxo de Trabalho
 
@@ -104,6 +104,7 @@ make gen          # Após alterar models Freezed/Retrofit
 ### Notificações
 
 12. **Chame `play_notification` nos seguintes casos:**
+
     - Ao finalizar um trabalho/tarefa grande
     - Ao finalizar um planejamento
     - Se ficar completamente preso sem solução (pare e aguarde resposta)

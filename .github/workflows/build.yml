@@ -183,9 +183,6 @@ jobs:
       - name: Build APK (arm64 only)
         run: flutter build apk --release --target-platform android-arm64
 
-      - name: Rename APK
-        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/dash-for-cf.apk
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
