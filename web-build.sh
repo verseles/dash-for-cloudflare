@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-FLUTTER_CACHE="node_modules/.cache/flutter"
+FLUTTER_CACHE=".cache/flutter"
 
 # Se não existe Flutter no cache, clonar
 if [ ! -f "$FLUTTER_CACHE/bin/flutter" ]; then
   echo "==> Downloading Flutter SDK (not in cache)..."
-  mkdir -p node_modules/.cache
+  mkdir -p .cache
   git clone --depth 1 -b stable https://github.com/flutter/flutter.git "$FLUTTER_CACHE"
 else
   echo "==> Using cached Flutter SDK"

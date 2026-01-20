@@ -5,5 +5,8 @@
   "description": "Flutter web app - package.json for Cloudflare Pages cache",
   "scripts": {
     "build": "./web-build.sh"
+  },
+  "dependencies": {
+    "gatsby": "5.0.0"
   }
 }
