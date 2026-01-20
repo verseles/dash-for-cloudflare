@@ -111,6 +111,12 @@ icons:
 	@echo "Regenerating icons and splash..."
 	@dart run flutter_launcher_icons $(RUN)
 	@dart run flutter_native_splash:create $(RUN)
+	@echo "Fixing Android adaptive icon XML (removing inset)..."
+	@echo '<?xml version="1.0" encoding="utf-8"?>' > android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+	@echo '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">' >> android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+	@echo '  <background android:drawable="@color/ic_launcher_background"/>' >> android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+	@echo '  <foreground android:drawable="@drawable/ic_launcher_foreground"/>' >> android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+	@echo '</adaptive-icon>' >> android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 	@echo "✓ Icons and splash regenerated"
 
 # Generate code (Freezed, Retrofit, JSON Serializable)
