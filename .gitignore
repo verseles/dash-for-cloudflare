@@ -103,3 +103,7 @@ playwright-report/
 
 # Local development
 serve.log
+
+# Eleventy output (wrapper for Cloudflare Pages cache)
+_site/
+node_modules/
