@@ -1,277 +1,148 @@
-# Codebase Map - Dash for Cloudflare
+# 🗺️ Codebase Map - Dash for Cloudflare
 
-> Mapa do código para navegação rápida. Consulte este arquivo para entender onde cada funcionalidade está implementada.
+> Mapa do código para navegação rápida e compreensão arquitetural. Consulte este arquivo para entender a organização do projeto e os padrões utilizados.
 
 ---
 
-## Estrutura de Diretórios
+## 📂 Estrutura de Diretórios
 
-```
+```text
 lib/
-├── main.dart                    # Entry point, inicialização, ProviderScope
-├── core/                        # Código compartilhado
-│   ├── api/                     # Cliente HTTP e configuração
-│   ├── desktop/                 # Suporte desktop (window, tray, shortcuts)
-│   ├── logging/                 # Sistema de logs in-app
-│   ├── platform/                # Detecção de plataforma
-│   ├── pwa/                     # PWA support (install prompt, update banner)
-│   ├── providers/               # Providers globais (API, loading, data centers)
-│   ├── router/                  # Configuração go_router
-│   ├── theme/                   # Tema Material 3 (light/dark)
-│   └── widgets/                 # Widgets reutilizáveis
-├── features/                    # Features por domínio
-│   ├── auth/                    # Autenticação e configurações
-│   ├── dns/                     # Gerenciamento DNS (records, settings, analytics)
-│   └── analytics/               # Analytics DNS (GraphQL)
-└── l10n/                        # Internacionalização (en, pt)
+├── 🚀 main.dart                # Entry point, inicialização e ProviderScope
+├── 🧠 core/                     # Código compartilhado e infraestrutura
+│   ├── 🌐 api/                  # Cliente HTTP, Interceptors e Modelos Base
+│   ├── 🏗️ constants/            # Constantes globais do app
+│   ├── 🖥️ desktop/              # Suporte nativo (Window, Tray, Shortcuts)
+│   ├── 🪵 logging/              # Sistema de logs in-app (Híbrido)
+│   ├── 📱 platform/             # Detecção e abstração de plataforma
+│   ├── 📦 providers/            # Providers globais (Dio, DataCenters)
+│   ├── 🌐 pwa/                  # Suporte PWA (Update notifications)
+│   ├── 🛣️ router/               # Configuração GoRouter e Navegação
+│   ├── 🎨 theme/                # Design System (Material 3)
+│   └── 🧩 widgets/              # Componentes UI reutilizáveis
+├── 🏗️ features/                # Módulos de negócio (Domain-driven)
+│   ├── 📊 analytics/            # DNS Analytics (GraphQL)
+│   ├── 🔐 auth/                 # Autenticação e Configurações
+│   └── 🌐 dns/                  # Gerenciamento de Zonas e Registros
+└── 🌍 l10n/                     # Internacionalização (en, pt)
 ```
 
 ---
 
-## Entry Point
+## 🚀 Entry Point
 
 | Arquivo | Responsabilidade |
 |---------|------------------|
-| `lib/main.dart` | Inicialização do app, LogService, DesktopWindowManager, error handlers, ProviderScope |
+| `lib/main.dart` | Inicialização do Flutter, `LogService`, `DesktopWindowManager`, handlers de erro globais e o `ProviderScope` do Riverpod. |
 
 ---
 
-## Core
+## 🧠 Core (Infraestrutura)
 
-### API (`lib/core/api/`)
+### 🌐 API (`lib/core/api/`)
 
-| Arquivo | Responsabilidade |
-|---------|------------------|
-| `api_config.dart` | URLs base (com/sem CORS proxy), validação de token |
-| `client/cloudflare_api.dart` | Interface Retrofit para REST API |
-| `client/cloudflare_graphql.dart` | Cliente GraphQL para analytics |
-| `interceptors/auth_interceptor.dart` | Injeta Bearer token em requests |
-| `interceptors/retry_interceptor.dart` | Retry automático em falhas |
-| `interceptors/rate_limit_interceptor.dart` | Controle de rate limit |
-| `interceptors/logging_interceptor.dart` | Log de requests/responses |
-| `models/cloudflare_response.dart` | Wrapper de resposta Cloudflare |
-
-### PWA (`lib/core/pwa/`)
+Utiliza **Retrofit** para REST e **GraphQL** para dados complexos.
 
 | Arquivo | Responsabilidade |
 |---------|------------------|
-| `pwa_update_service.dart` | Singleton com js_interop para detectar SW updates |
-| `pwa_update_provider.dart` | StreamProvider que expõe estado de update disponível |
-| `update_banner.dart` | MaterialBanner "Nova versão disponível" com botão atualizar |
+| `api_config.dart` | Gerenciamento de URLs (com/sem CORS proxy) e validação de tokens. |
+| `client/cloudflare_api.dart` | Interface Retrofit para a API REST v4 da Cloudflare. |
+| `client/cloudflare_graphql.dart` | Cliente manual para queries GraphQL de analytics. |
+| `interceptors/` | Pipeline de requests: `Auth`, `Retry`, `RateLimit` e `Logging`. |
+| `models/` | Wrappers genéricos de resposta e tratamento de erros da Cloudflare. |
 
-**Fluxo:**
-1. JS detecta novo service worker → chama `window.notifyFlutterUpdate()`
-2. `PwaUpdateService` recebe via js_interop → emite no stream
-3. `pwaUpdateAvailableProvider` → UI mostra `UpdateBanner`
-4. Usuário clica → `reloadForUpdate()` → `skipWaiting()` + reload
+### 🪵 Logging (`lib/core/logging/`)
 
-### Desktop (`lib/core/desktop/`)
+Sistema híbrido (Console + In-App UI + Arquivo Opcional) conforme **ADR-021**.
 
 | Arquivo | Responsabilidade |
 |---------|------------------|
-| `window_manager.dart` | Tamanho inicial (1200x800), mínimo (800x600) |
-| `tray_manager.dart` | System tray com menu (Show/Quit) |
-| `keyboard_shortcuts.dart` | Atalhos: Ctrl+S, Ctrl+N, F5, Ctrl+F |
+| `log_service.dart` | Singleton que centraliza todos os logs do sistema. |
+| `log_provider.dart` | StateNotifier que expõe logs para a UI em tempo real. |
+| `presentation/` | UI de visualização de logs para debug em produção. |
 
-### Logging (`lib/core/logging/`)
-
-| Arquivo | Responsabilidade |
-|---------|------------------|
-| `log_service.dart` | Singleton de logging, níveis, categorias |
-| `log_entry.dart` | Modelo de entrada de log |
-| `log_level.dart` | Enum de níveis e categorias |
-| `log_provider.dart` | Providers Riverpod para logs |
-| `presentation/debug_logs_page.dart` | UI de visualização de logs |
-
-### Providers Globais (`lib/core/providers/`)
+### 📦 Providers Globais (`lib/core/providers/`)
 
 | Arquivo | Provider | Responsabilidade |
 |---------|----------|------------------|
-| `api_providers.dart` | `dioProvider`, `cloudflareApiProvider`, `cloudflareGraphQLProvider` | Instâncias de API |
-| `loading_provider.dart` | `loadingProvider` | Estado de loading global |
-| `data_centers_provider.dart` | `dataCentersProvider` | Dados de data centers Cloudflare (IATA codes) |
-
-### Router (`lib/core/router/`)
-
-| Arquivo | Responsabilidade |
-|---------|------------------|
-| `app_router.dart` | Configuração go_router, rotas, redirects, StatefulShellRoute |
-
-**Rotas:**
-- `/settings` → SettingsPage (fora do shell)
-- `/debug-logs` → DebugLogsPage (fora do shell)
-- `/dns/records` → DnsRecordsPage (tab 1)
-- `/dns/analytics` → DnsAnalyticsPage (tab 2)
-- `/dns/settings` → DnsSettingsPage (tab 3)
-
-### Theme (`lib/core/theme/`)
-
-| Arquivo | Responsabilidade |
-|---------|------------------|
-| `app_theme.dart` | Temas light/dark, Material 3, cor primária Cloudflare (#F38020) |
-
-### Widgets (`lib/core/widgets/`)
-
-| Arquivo | Responsabilidade |
-|---------|------------------|
-| `main_layout.dart` | Layout principal com AppBar, Drawer, ZoneSelector |
-| `skeleton_loader.dart` | Skeleton loading animation |
-| `error_banner.dart` | Banner de erro reutilizável |
-| `empty_state.dart` | Estado vazio com ícone e mensagem |
-| `loading_overlay.dart` | Overlay de loading |
+| `api_providers.dart` | `dioProvider` | Instância configurada do Dio com interceptors. |
+| `data_centers_provider.dart` | `dataCentersProvider` | Mapeamento IATA codes → Coordenadas (ADR-008). |
+| `loading_provider.dart` | `loadingProvider` | Estado global de carregamento (busy state). |
 
 ---
 
-## Features
+## 🏗️ Features (Módulos de Negócio)
 
-### Auth (`lib/features/auth/`)
+### 🔐 Auth & Configs (`lib/features/auth/`)
 
-| Caminho | Arquivo | Responsabilidade |
-|---------|---------|------------------|
-| `models/` | `app_settings.dart` | Model Freezed: token, theme, locale, selectedZoneId |
-| `providers/` | `settings_provider.dart` | SettingsNotifier: SecureStorage (token), SharedPreferences (prefs) |
-| `presentation/pages/` | `settings_page.dart` | UI de configurações: token, tema, idioma |
+Gerencia o estado global do app e credenciais sensíveis.
 
-**Providers importantes:**
-- `settingsNotifierProvider` → Estado de configurações
-- `hasValidTokenProvider` → Bool se token é válido (40+ chars)
-- `currentThemeModeProvider` → ThemeMode atual
-- `currentLocaleProvider` → Locale atual
+*   **Models:** `AppSettings` (Freezed) com token, tema e idioma.
+*   **Storage:** Token armazenado via `FlutterSecureStorage` e preferências via `SharedPreferences`.
+*   **Providers:** `settingsNotifierProvider` centraliza a persistência e estado.
 
-### DNS (`lib/features/dns/`)
+### 🌐 DNS Management (`lib/features/dns/`)
 
-#### Models (`domain/models/`)
+O coração funcional do app. Implementa padrões de cache agressivos (**ADR-022**).
 
-| Arquivo | Models |
-|---------|--------|
-| `zone.dart` | `Zone`, `ZoneRegistrar` |
-| `dns_record.dart` | `DnsRecord`, `DnsRecordCreate` |
-| `dns_settings.dart` | `DnsSetting`, `DnsZoneSettings`, `DnssecDetails` |
+*   **Zones:** Lista de domínios com busca e seleção automática (**ADR-017**).
+*   **Records:** CRUD completo de registros DNS com **Optimistic Updates** para o Proxy Toggle.
+*   **Settings:** DNSSEC com polling inteligente e CNAME Flattening.
+*   **Preloading:** `tabPreloaderProvider` carrega dados em background ao trocar de zona (**ADR-024**).
 
-#### Providers (`providers/`)
+### 📊 Analytics (`lib/features/analytics/`)
 
-| Arquivo | Provider | Responsabilidade |
-|---------|----------|------------------|
-| `zone_provider.dart` | `zonesNotifierProvider` | Lista de zonas com cache (ADR-022) |
-| | `selectedZoneNotifierProvider` | Zona atualmente selecionada |
-| | `zoneFilterProvider` | Filtro de busca de zonas |
-| | `filteredZonesProvider` | Zonas filtradas |
-| `dns_records_provider.dart` | `dnsRecordsNotifierProvider` | CRUD de registros DNS com cache |
-| `dns_settings_provider.dart` | `dnsSettingsNotifierProvider` | DNSSEC, multi-provider, CNAME flattening |
-| `tab_preloader_provider.dart` | `tabPreloaderProvider` | Preload de abas ao mudar zona (ADR-024) |
+Visualização de dados via GraphQL e Syncfusion.
 
-**Padrões importantes:**
-- Cache com background refresh (ADR-022) para zones e records
-- Tab preloading ao mudar zona (ADR-024)
-- Race condition prevention com `_currentFetchId`
-- Optimistic updates para proxy toggle
-- DNSSEC polling duplo (3s + 2s)
-
-#### Presentation (`presentation/`)
-
-| Caminho | Arquivo | Responsabilidade |
-|---------|---------|------------------|
-| `pages/` | `dns_page.dart` | Container com BottomNavigationBar (3 tabs) |
-| | `dns_records_page.dart` | Lista de registros, filtros, busca, FAB |
-| | `dns_analytics_page.dart` | Gráficos de analytics |
-| | `dns_settings_page.dart` | DNSSEC toggle, detalhes, multi-provider |
-| `widgets/` | `dns_record_item.dart` | Item de registro com swipe-to-delete |
-| | `dns_record_edit_dialog.dart` | Dialog de criar/editar registro |
-| | `cloudflare_proxy_toggle.dart` | Toggle customizado (orange cloud) |
-| `widgets/charts/` | `analytics_time_series_chart.dart` | Gráfico de linha temporal |
-| | `analytics_bar_chart.dart` | Gráfico de barras |
-| | `analytics_doughnut_chart.dart` | Gráfico donut |
-| | `analytics_map_chart.dart` | Mapa mundi com markers |
-
-### Analytics (`lib/features/analytics/`)
-
-| Caminho | Arquivo | Responsabilidade |
-|---------|---------|------------------|
-| `domain/models/` | `analytics.dart` | `DnsAnalyticsData`, `AnalyticsGroup`, `AnalyticsTimeSeries` |
-| `providers/` | `analytics_provider.dart` | AnalyticsNotifier: fetch, time range, query names |
-
-**Time ranges disponíveis:** 30m, 6h, 12h, 24h, 7d, 30d
+*   **Charts:** Gráficos temporais (Line), distribuição (Donut) e geográficos (Maps).
+*   **Time Ranges:** Filtros pré-definidos (30m, 6h, 24h, 7d, 30d).
 
 ---
 
-## Internacionalização (`lib/l10n/`)
+## 🎨 Design System & UI
 
-| Arquivo | Responsabilidade |
-|---------|------------------|
-| `app_en.arb` | Strings em inglês (default) |
-| `app_pt.arb` | Strings em português |
-| `app_localizations.dart` | Gerado automaticamente |
+*   **Theme:** Material 3 puro com a paleta oficial da Cloudflare (`#F38020`).
+*   **Layout:** `MainLayout` fornece a estrutura de Shell com Drawer e ZoneSelector.
+*   **Widgets:** Componentes customizados como `CloudflareProxyToggle` (nuvem laranja/cinza) e `SkeletonLoader`.
 
 ---
 
-## Fluxo de Dados
+## 🔄 Fluxo de Dados (Unidirecional)
 
-```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   UI/Page   │ ──▶ │   Provider   │ ──▶ │  API Client │
-│             │ ◀── │  (Notifier)  │ ◀── │ (Retrofit)  │
-└─────────────┘     └──────────────┘     └─────────────┘
-                           │
-                           ▼
-                    ┌──────────────┐
-                    │    Model     │
-                    │  (Freezed)   │
-                    └──────────────┘
+```mermaid
+graph LR
+    UI[UI / Widgets] -- ref.read() --> Prov[Riverpod Provider]
+    Prov -- fetch/push --> API[Cloudflare API]
+    API -- response --> Prov
+    Prov -- state update --> UI
 ```
 
-1. **UI** observa providers via `ref.watch()`
-2. **Provider** mantém estado e lógica de negócio
-3. **API Client** faz requests HTTP (Retrofit/Dio)
-4. **Models** são imutáveis (Freezed com sealed classes)
+---
+
+## ⚠️ Pontos Críticos e ADRs
+
+| Conceito | Referência | Detalhe |
+|----------|------------|---------|
+| **CORS** | ADR-003 | Web usa proxy; Mobile/Desktop usa API direta. |
+| **Race Conditions** | ADR-007 | Uso de `_currentFetchId` para descartar respostas obsoletas. |
+| **Cache** | ADR-022 | Stale-While-Revalidate com persistência local. |
+| **Maps** | ADR-012 | Syncfusion SfMaps com markers customizados. |
 
 ---
 
-## Arquivos Gerados (não commitar)
-
-Padrão: `*.g.dart`, `*.freezed.dart`
-
-- Gerados por `build_runner`
-- Listados no `.gitignore`
-- Regenerar com `make gen`
-
----
-
-## Pontos de Atenção
-
-### Race Conditions
-- `dns_records_provider.dart:76` → `_currentFetchId` previne respostas stale
-
-### Optimistic Updates
-- `dns_records_provider.dart:267` → `updateProxy()` atualiza UI antes da API
-
-### Polling
-- `dns_settings_provider.dart:121-125` → DNSSEC polling duplo
-
-### CORS
-- `api_config.dart` → Web usa proxy, mobile/desktop usa API direta
-
-### Armazenamento
-- Token → `flutter_secure_storage` (criptografado)
-- Preferências → `shared_preferences` (não sensível)
-
----
-
-## Comandos Úteis para Navegação
+## 🛠️ Comandos de Navegação
 
 ```bash
-# Encontrar todos os providers
-grep -r "@riverpod" lib/ --include="*.dart" | grep -v ".g.dart"
+# Localizar todos os Notifiers (Lógica de Estado)
+grep -r "class .*Notifier" lib/features
 
-# Encontrar todos os models Freezed
-grep -r "@freezed" lib/ --include="*.dart" | grep -v ".freezed.dart"
+# Encontrar diálogos de edição/criação
+find lib -name "*_dialog.dart"
 
-# Encontrar endpoints da API
-grep -r "@GET\|@POST\|@PUT\|@PATCH\|@DELETE" lib/ --include="*.dart"
-
-# Encontrar páginas
-find lib -name "*_page.dart" -type f
+# Verificar rotas do sistema
+cat lib/core/router/app_router.dart
 ```
 
 ---
 
-_Última atualização: 2026-01-02_
+_Última atualização: 2026-01-19_
