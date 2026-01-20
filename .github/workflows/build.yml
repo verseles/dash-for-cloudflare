@@ -75,9 +75,11 @@ jobs:
           retention-days: 1
 
   build-web:
-    if: false  # DISABLED: Remove this line to re-enable
     needs: setup
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
 
     steps:
       - uses: actions/checkout@v4
@@ -110,12 +112,13 @@ jobs:
       - name: Build web
         run: flutter build web --release
 
-      - name: Upload web artifacts
-        uses: actions/upload-artifact@v4
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          name: web-build
-          path: build/web/
-          retention-days: 7
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build/web --project-name=dash-for-cf
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   build-android:
     needs: setup

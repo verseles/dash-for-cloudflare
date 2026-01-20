@@ -1,9 +1,0 @@
-{
-  "name": "dash-for-cloudflare",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Flutter web app with Eleventy wrapper for Cloudflare Pages cache",
-  "dependencies": {
-    "@11ty/eleventy": "^3.0.0"
-  }
-}
