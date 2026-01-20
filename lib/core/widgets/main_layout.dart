@@ -18,9 +18,12 @@ class MainLayout extends ConsumerWidget {
     // Activate tab preloader - listens to zone changes and preloads data
     ref.watch(tabPreloaderProvider);
 
+    final location = GoRouterState.of(context).matchedLocation;
+    final title = _getTitleForLocation(location);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DNS'),
+        title: Text(title),
         actions: [
           // Zone selector
           _ZoneSelector(),
@@ -30,6 +33,14 @@ class MainLayout extends ConsumerWidget {
       drawer: _buildDrawer(context, ref),
       body: child,
     );
+  }
+
+  String _getTitleForLocation(String location) {
+    if (location.startsWith('/dns')) return 'DNS';
+    if (location.startsWith('/analytics')) return 'Analytics';
+    if (location.startsWith('/settings')) return 'Settings';
+    if (location.startsWith('/debug-logs')) return 'Debug Logs';
+    return 'Cloudflare';
   }
 
   Widget _buildDrawer(BuildContext context, WidgetRef ref) {
@@ -65,7 +76,15 @@ class MainLayout extends ConsumerWidget {
             title: const Text('DNS'),
             onTap: () {
               Navigator.pop(context);
-              // Navigate handled by router
+              context.go(AppRoutes.dnsRecords);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.analytics),
+            title: const Text('Analytics'),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.analyticsWeb);
             },
           ),
           const Divider(),

@@ -9,6 +9,10 @@ import '../../features/dns/presentation/pages/dns_page.dart';
 import '../../features/dns/presentation/pages/dns_records_page.dart';
 import '../../features/dns/presentation/pages/dns_analytics_page.dart';
 import '../../features/dns/presentation/pages/dns_settings_page.dart';
+import '../../features/analytics/presentation/pages/analytics_page.dart';
+import '../../features/analytics/presentation/pages/web_analytics_page.dart';
+import '../../features/analytics/presentation/pages/security_analytics_page.dart';
+import '../../features/analytics/presentation/pages/performance_analytics_page.dart';
 import '../widgets/main_layout.dart';
 import '../logging/presentation/debug_logs_page.dart';
 
@@ -21,6 +25,10 @@ class AppRoutes {
   static const String dnsRecords = '/dns/records';
   static const String dnsAnalytics = '/dns/analytics';
   static const String dnsSettings = '/dns/settings';
+  static const String analytics = '/analytics';
+  static const String analyticsWeb = '/analytics/web';
+  static const String analyticsSecurity = '/analytics/security';
+  static const String analyticsPerformance = '/analytics/performance';
   static const String debugLogs = '/debug-logs';
 }
 
@@ -98,6 +106,40 @@ GoRouter appRouter(Ref ref) {
                   GoRoute(
                     path: AppRoutes.dnsSettings,
                     builder: (context, state) => const DnsSettingsPage(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Analytics shell with bottom navigation
+          StatefulShellRoute.indexedStack(
+            builder: (context, state, navigationShell) {
+              return AnalyticsPage(navigationShell: navigationShell);
+            },
+            branches: [
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.analyticsWeb,
+                    builder: (context, state) => const WebAnalyticsPage(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.analyticsSecurity,
+                    builder: (context, state) => const SecurityAnalyticsPage(),
+                  ),
+                ],
+              ),
+              StatefulShellBranch(
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.analyticsPerformance,
+                    builder: (context, state) =>
+                        const PerformanceAnalyticsPage(),
                   ),
                 ],
               ),

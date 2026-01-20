@@ -149,6 +149,7 @@ linux:
 android:
 	@echo "Building Android APK (arm64)..."
 	@flutter build apk --release --target-platform android-arm64 $(RUN)
+	@mv -f $(APK_DIR)/app-release.apk $(APK_PATH)
 	@echo "✓ Android build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
@@ -169,9 +170,11 @@ android:
 android-x64:
 	@echo "Building Android APK (x64 for emulator)..."
 	@flutter build apk --release --target-platform android-x64 $(RUN)
+	@mv -f $(APK_DIR)/app-release.apk $(APK_PATH)
 	@echo "✓ Android x64 build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
+
 
 # Web release build
 web:

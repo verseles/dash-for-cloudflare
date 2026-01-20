@@ -94,8 +94,10 @@ O coração funcional do app. Implementa padrões de cache agressivos (**ADR-022
 
 Visualização de dados via GraphQL e Syncfusion.
 
+*   **Dashboards:** Visão geral consolidada com abas **Web** (Tráfego), **Security** (Ameaças) e **Performance** (Cache).
+*   **DNS Analytics:** Analytics específico para queries DNS (dentro da aba DNS).
 *   **Charts:** Gráficos temporais (Line), distribuição (Donut) e geográficos (Maps).
-*   **Time Ranges:** Filtros pré-definidos (30m, 6h, 24h, 7d, 30d).
+*   **Shared Range:** Filtro de tempo sincronizado entre abas no dashboard principal.
 
 ---
 
