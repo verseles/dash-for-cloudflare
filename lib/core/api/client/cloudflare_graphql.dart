@@ -131,7 +131,7 @@ class CloudflareGraphQL {
           ) {
             count
             dimensions {
-              edgeResponseContentTypeName
+              clientRequestHTTPProtocol
             }
           }
           byBrowser: httpRequestsAdaptiveGroups(
@@ -141,7 +141,17 @@ class CloudflareGraphQL {
           ) {
             count
             dimensions {
-              uaBrowserFamily
+              clientRequestHTTPHost
+            }
+          }
+          byPath: httpRequestsAdaptiveGroups(
+            limit: 10,
+            filter: {datetime_geq: \$since, datetime_leq: \$until},
+            orderBy: [count_DESC]
+          ) {
+            count
+            dimensions {
+              clientRequestPath
             }
           }
         }
@@ -186,7 +196,7 @@ class CloudflareGraphQL {
           ) {
             count
             dimensions {
-              edgeResponseContentTypeName
+              edgeResponseStatus
               cacheStatus
             }
           }
@@ -372,6 +382,7 @@ class CloudflareGraphQL {
       byCountry: _parseAnalyticsGroups(zoneData['byCountry']),
       byContentType: _parseAnalyticsGroups(zoneData['byContentType']),
       byBrowser: _parseAnalyticsGroups(zoneData['byBrowser']),
+      byPath: _parseAnalyticsGroups(zoneData['byPath']),
     );
   }
 

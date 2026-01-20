@@ -36,6 +36,7 @@ sealed class WebAnalyticsData with _$WebAnalyticsData {
     @Default([]) List<AnalyticsGroup> byCountry,
     @Default([]) List<AnalyticsGroup> byContentType,
     @Default([]) List<AnalyticsGroup> byBrowser,
+    @Default([]) List<AnalyticsGroup> byPath,
   }) = _WebAnalyticsData;
 
   factory WebAnalyticsData.fromJson(Map<String, dynamic> json) =>

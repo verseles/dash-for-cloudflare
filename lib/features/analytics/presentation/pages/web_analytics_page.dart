@@ -152,15 +152,21 @@ class WebAnalyticsPage extends ConsumerWidget {
       ),
       AnalyticsMapChart(title: 'Requests by Country', groups: data.byCountry),
       AnalyticsBarChart(
-        title: 'Top Content Types',
+        title: 'Requests by Protocol',
         groups: data.byContentType,
-        dimensionKey: 'edgeResponseContentTypeName',
+        dimensionKey: 'clientRequestHTTPProtocol',
         horizontal: true,
       ),
       AnalyticsDoughnutChart(
-        title: 'Requests by Browser',
+        title: 'Requests by Host',
         groups: data.byBrowser,
-        dimensionKey: 'userAgentBrowserFamily',
+        dimensionKey: 'clientRequestHTTPHost',
+      ),
+      AnalyticsBarChart(
+        title: 'Top Paths',
+        groups: data.byPath,
+        dimensionKey: 'clientRequestPath',
+        horizontal: true,
       ),
     ];
 

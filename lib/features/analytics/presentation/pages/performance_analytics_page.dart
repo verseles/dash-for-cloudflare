@@ -74,9 +74,9 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       AnalyticsDoughnutChart(
-                        title: 'Cache Status by Content Type',
+                        title: 'Cache Status by HTTP Status',
                         groups: data.byContentType,
-                        dimensionKey: 'edgeResponseContentTypeName',
+                        dimensionKey: 'edgeResponseStatus',
                       ),
                     ]),
                   ),
