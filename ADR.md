@@ -525,4 +525,59 @@ make deps → sync-datacenters → pub get → código gerado
 
 ---
 
-_Última atualização: 2026-01-01 (removidos ADRs triviais: 002, 004, 005, 013, 014, 016, 020)_
+## ADR-026: Web Deploy via GitHub Actions (não Cloudflare Pages Build)
+
+**Status**: Aceito
+**Data**: 2026-01-20
+
+**Contexto**: Cloudflare Pages não suporta Flutter nativamente. O build baixava o Flutter SDK (~1.4GB) a cada deploy, levando ~3 minutos. Tentativas de usar cache do CF Pages (via wrapper Eleventy) falharam - o cache era salvo mas não restaurado.
+
+**Decisão**: Migrar build web para GitHub Actions com deploy via `wrangler pages deploy`:
+
+1. **Build**: GitHub Actions com `subosito/flutter-action` (cache nativo funciona)
+2. **Deploy**: `cloudflare/wrangler-action` faz upload direto para CF Pages
+3. **CF Pages**: Hook de build pausado (apenas recebe uploads)
+
+**Workflow** (`.github/workflows/build.yml`):
+```yaml
+build-web:
+  needs: setup
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        cache: true              # Cache do Flutter SDK
+    - run: flutter pub get
+    - run: flutter build web --release
+    - uses: cloudflare/wrangler-action@v3
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        command: pages deploy build/web --project-name=dash-for-cf
+```
+
+**Secrets necessários**:
+- `CLOUDFLARE_ACCOUNT_ID`: ID da conta Cloudflare
+- `CLOUDFLARE_API_TOKEN`: Token com permissão "Cloudflare Pages: Edit"
+
+**Configuração CF Pages**:
+- Settings → Builds & deployments → **Pause deployments**
+
+**Resultado**:
+| Métrica        | CF Pages Build | GitHub Actions |
+| -------------- | -------------- | -------------- |
+| Tempo (1º run) | ~3 min         | ~2 min         |
+| Tempo (cached) | ~3 min (sem cache) | **~1m48s**     |
+| Cache Flutter  | ❌ Não funciona | ✅ Funciona    |
+
+**Consequência**:
+- Builds mais rápidos com cache funcionando
+- Controle total do pipeline via YAML
+- Mesma URL de deploy: https://cf.dash.ad
+- Requer manter secrets do Cloudflare no GitHub
+
+---
+
+_Última atualização: 2026-01-20 (adicionado ADR-026: GitHub Actions deploy)_
