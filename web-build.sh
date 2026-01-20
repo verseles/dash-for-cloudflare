@@ -4,13 +4,10 @@ set -e
 # =============================================================================
 # Dash for Cloudflare - Web Build Script
 # =============================================================================
-# This script uses Eleventy as a wrapper to enable Cloudflare Pages build cache.
-# Cloudflare caches .cache/ directory for Eleventy projects.
-# We store Flutter SDK in .cache/flutter/ to benefit from this caching.
+# Eleventy is called from package.json before this script runs.
+# This enables Cloudflare Pages to detect Eleventy and cache .cache/ directory.
+# Flutter SDK is stored in .cache/flutter/ to benefit from this caching.
 # =============================================================================
-
-echo "==> Building Eleventy (to trigger Cloudflare cache)..."
-npx @11ty/eleventy --input=src --output=_site --quiet
 
 FLUTTER_CACHE=".cache/flutter"
 
