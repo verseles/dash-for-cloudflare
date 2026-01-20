@@ -1,0 +1,9 @@
+{
+  "name": "dash-for-cloudflare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flutter web app - package.json for Cloudflare Pages cache",
+  "scripts": {
+    "build": "./web-build.sh"
+  }
+}
