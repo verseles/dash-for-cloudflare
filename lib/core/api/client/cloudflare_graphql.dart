@@ -410,6 +410,9 @@ class CloudflareGraphQL {
     final totalRaw = zoneData['total'] as List?;
     final cachedRaw = zoneData['cached'] as List?;
 
+    log.debug('Performance: totalRaw has ${totalRaw?.length ?? 0} items');
+    log.debug('Performance: cachedRaw has ${cachedRaw?.length ?? 0} items');
+
     // Build a map of timestamp -> cached data for easy lookup
     final cachedMap = <String, Map<String, dynamic>>{};
     for (final item in cachedRaw ?? []) {
@@ -450,6 +453,11 @@ class CloudflareGraphQL {
       totalBytes += ts.bytes;
       cachedBytes += ts.cachedBytes;
     }
+
+    log.debug(
+      'Performance aggregated: requests=$totalRequests, bytes=$totalBytes, '
+      'cachedRequests=$cachedRequests, cachedBytes=$cachedBytes',
+    );
 
     return PerformanceAnalyticsData(
       totalRequests: totalRequests,

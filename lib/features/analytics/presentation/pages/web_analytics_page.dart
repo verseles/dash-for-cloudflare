@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../dns/providers/zone_provider.dart';
-import '../../../dns/presentation/widgets/charts/charts.dart';
+import '../../../dns/presentation/widgets/charts/analytics_bar_chart.dart';
+import '../../../dns/presentation/widgets/charts/analytics_doughnut_chart.dart';
 import '../../providers/web_analytics_provider.dart';
 import '../widgets/shared_analytics_time_range_selector.dart';
 import '../widgets/web_analytics_charts.dart';
@@ -150,7 +151,12 @@ class WebAnalyticsPage extends ConsumerWidget {
         groups: data.byStatus,
         dimensionKey: 'edgeResponseStatus',
       ),
-      AnalyticsMapChart(title: 'Requests by Country', groups: data.byCountry),
+      AnalyticsBarChart(
+        title: 'Requests by Country',
+        groups: data.byCountry,
+        dimensionKey: 'clientCountryName',
+        horizontal: true,
+      ),
       AnalyticsBarChart(
         title: 'Requests by Protocol',
         groups: data.byContentType,

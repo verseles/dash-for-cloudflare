@@ -163,7 +163,13 @@ class AnalyticsBarChart extends ConsumerWidget {
       }
     }
 
-    return value.toString();
+    // Truncate long paths/URLs to avoid messy chart labels
+    final label = value.toString();
+    if (dimensionKey == 'clientRequestPath' && label.length > 25) {
+      return '${label.substring(0, 22)}...';
+    }
+
+    return label;
   }
 
   String _formatNumber(int number) {
