@@ -10,6 +10,7 @@ void main() {
   setUpAll(() {
     registerFallbackValue(RequestOptions(path: ''));
     registerFallbackValue(DioException(requestOptions: RequestOptions(path: '')));
+    registerFallbackValue(Response<dynamic>(requestOptions: RequestOptions(path: '')));
   });
 
   group('RetryInterceptor', () {
