@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/dns_settings_provider.dart';
@@ -11,17 +12,18 @@ class DnsSettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
     final settingsAsync = ref.watch(dnsSettingsNotifierProvider);
 
     if (selectedZone == null) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.domain, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text('Select a zone to view settings'),
+            const Icon(Icons.domain, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(l10n.dns_selectZoneFirst),
           ],
         ),
       );
@@ -35,18 +37,18 @@ class DnsSettingsPage extends ConsumerWidget {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
-            Text('Error: $error'),
+            Text(l10n.error_prefix(error.toString())),
             const SizedBox(height: 16),
             FilledButton.icon(
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(l10n.common_retry),
               onPressed: () =>
                   ref.read(dnsSettingsNotifierProvider.notifier).refresh(),
             ),
           ],
         ),
       ),
-      data: (state) => _buildContent(context, ref, state, selectedZone),
+      data: (state) => _buildContent(context, ref, state, selectedZone, l10n),
     );
   }
 
@@ -55,19 +57,20 @@ class DnsSettingsPage extends ConsumerWidget {
     WidgetRef ref,
     DnsZoneSettingsState state,
     dynamic zone,
+    AppLocalizations l10n,
   ) {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
         // DNSSEC Card
-        _buildDnssecCard(context, ref, state, zone),
+        _buildDnssecCard(context, ref, state, zone, l10n),
         const SizedBox(height: 16),
 
         // Multi-provider DNS
         _buildSettingCard(
           context,
-          title: 'Multi-Provider DNS',
-          subtitle: 'Allow multiple DNS providers to be used for this zone',
+          title: l10n.dnsSettings_multiProviderDns,
+          subtitle: l10n.dnsSettings_multiProviderDescription,
           icon: Icons.dns,
           value: state.dnsSettings?.multiProvider ?? false,
           isLoading: state.isLoading,
@@ -80,11 +83,11 @@ class DnsSettingsPage extends ConsumerWidget {
         const SizedBox(height: 16),
 
         // CNAME Flattening
-        _buildCnameFlatteningCard(context, ref, state),
+        _buildCnameFlatteningCard(context, ref, state, l10n),
         const SizedBox(height: 16),
 
         // Email Security (placeholder)
-        _buildEmailSecurityCard(context),
+        _buildEmailSecurityCard(context, l10n),
       ],
     );
   }
@@ -94,6 +97,7 @@ class DnsSettingsPage extends ConsumerWidget {
     WidgetRef ref,
     DnsZoneSettingsState state,
     dynamic zone,
+    AppLocalizations l10n,
   ) {
     final dnssec = state.dnssec;
     final status = dnssec?.status ?? 'disabled';
@@ -106,22 +110,22 @@ class DnsSettingsPage extends ConsumerWidget {
       case 'active':
         statusIcon = Icons.check_circle;
         statusColor = Colors.green;
-        statusText = 'DNSSEC is active';
+        statusText = l10n.dnsSettings_dnssecActive;
         break;
       case 'pending':
         statusIcon = Icons.hourglass_top;
         statusColor = Colors.orange;
-        statusText = 'DNSSEC pending activation';
+        statusText = l10n.dnsSettings_dnssecPending;
         break;
       case 'pending-disabled':
         statusIcon = Icons.hourglass_top;
         statusColor = Colors.orange;
-        statusText = 'DNSSEC pending deactivation';
+        statusText = l10n.dnsSettings_dnssecPendingDisable;
         break;
       default:
         statusIcon = Icons.shield_outlined;
         statusColor = Colors.grey;
-        statusText = 'DNSSEC is disabled';
+        statusText = l10n.dnsSettings_dnssecDisabled;
     }
 
     return Card(
@@ -137,7 +141,10 @@ class DnsSettingsPage extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: 8),
-                Text('DNSSEC', style: Theme.of(context).textTheme.titleMedium),
+                Text(
+                  l10n.dnsSettings_dnssec,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
                 const Spacer(),
                 if (state.isLoading)
                   const SizedBox(
@@ -159,7 +166,7 @@ class DnsSettingsPage extends ConsumerWidget {
 
             if (status == 'disabled') ...[
               Text(
-                'Enable DNSSEC to add an extra layer of authentication to your DNS records.',
+                l10n.dnsSettings_dnssecDescription,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 12),
@@ -169,19 +176,19 @@ class DnsSettingsPage extends ConsumerWidget {
                     : () => ref
                           .read(dnsSettingsNotifierProvider.notifier)
                           .toggleDnssec(enable: true),
-                child: const Text('Enable DNSSEC'),
+                child: Text(l10n.dnsSettings_enableDnssec),
               ),
             ],
 
             if (status == 'pending' && dnssec != null) ...[
               if (zone?.registrar?.name?.toLowerCase() == 'cloudflare') ...[
                 Text(
-                  'DS record will be added automatically since you\'re using Cloudflare as your registrar.',
+                  l10n.dnsSettings_dnssecPendingCf,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ] else ...[
                 Text(
-                  'Copy the DS record below and add it to your domain registrar.',
+                  l10n.dnsSettings_addDsToRegistrar,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 8),
@@ -210,8 +217,8 @@ class DnsSettingsPage extends ConsumerWidget {
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: dnssec.ds!));
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('DS record copied!'),
+                              SnackBar(
+                                content: Text(l10n.dnsSettings_dsRecordCopied),
                               ),
                             );
                           },
@@ -227,7 +234,7 @@ class DnsSettingsPage extends ConsumerWidget {
                     : () => ref
                           .read(dnsSettingsNotifierProvider.notifier)
                           .toggleDnssec(enable: false),
-                child: const Text('Cancel'),
+                child: Text(l10n.common_cancel),
               ),
             ],
 
@@ -237,8 +244,8 @@ class DnsSettingsPage extends ConsumerWidget {
                   Expanded(
                     child: SwitchListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text('Multi-signer DNSSEC'),
-                      subtitle: const Text('Allow multiple DNSSEC signers'),
+                      title: Text(l10n.dnsSettings_multiSignerDnssec),
+                      subtitle: Text(l10n.dnsSettings_multiSignerDescription),
                       value: dnssec?.dnssecMultiSigner ?? false,
                       onChanged: state.isLoading
                           ? null
@@ -254,8 +261,8 @@ class DnsSettingsPage extends ConsumerWidget {
                 children: [
                   TextButton.icon(
                     icon: const Icon(Icons.info_outline, size: 16),
-                    label: const Text('View Details'),
-                    onPressed: () => _showDnssecDetails(context, dnssec),
+                    label: Text(l10n.dnsSettings_viewDetails),
+                    onPressed: () => _showDnssecDetails(context, dnssec, l10n),
                   ),
                   const Spacer(),
                   OutlinedButton(
@@ -264,8 +271,8 @@ class DnsSettingsPage extends ConsumerWidget {
                     ),
                     onPressed: state.isLoading
                         ? null
-                        : () => _confirmDisableDnssec(context, ref),
-                    child: const Text('Disable'),
+                        : () => _confirmDisableDnssec(context, ref, l10n),
+                    child: Text(l10n.common_disable),
                   ),
                 ],
               ),
@@ -273,7 +280,7 @@ class DnsSettingsPage extends ConsumerWidget {
 
             if (status == 'pending-disabled') ...[
               Text(
-                'DNSSEC is being disabled. This may take some time.',
+                l10n.dnsSettings_dnssecPendingDisable,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 12),
@@ -283,7 +290,7 @@ class DnsSettingsPage extends ConsumerWidget {
                     : () => ref
                           .read(dnsSettingsNotifierProvider.notifier)
                           .toggleDnssec(enable: true),
-                child: const Text('Cancel Deactivation'),
+                child: Text(l10n.dnsSettings_cancelDeactivation),
               ),
             ],
           ],
@@ -316,6 +323,7 @@ class DnsSettingsPage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     DnsZoneSettingsState state,
+    AppLocalizations l10n,
   ) {
     final value = state.cnameFlattening ?? 'flatten_at_root';
 
@@ -333,25 +341,31 @@ class DnsSettingsPage extends ConsumerWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'CNAME Flattening',
+                  l10n.dnsSettings_cnameFlattening,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
             const SizedBox(height: 8),
             Text(
-              'Flatten CNAMEs to A/AAAA records to improve performance',
+              l10n.dnsSettings_cnameFlatteningDescription,
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 16),
             SegmentedButton<String>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: 'flatten_at_root',
-                  label: Text('Root only'),
+                  label: Text(l10n.common_rootOnly),
                 ),
-                ButtonSegment(value: 'flatten_all', label: Text('All')),
-                ButtonSegment(value: 'flatten_none', label: Text('None')),
+                ButtonSegment(
+                  value: 'flatten_all',
+                  label: Text(l10n.common_all),
+                ),
+                ButtonSegment(
+                  value: 'flatten_none',
+                  label: Text(l10n.common_none),
+                ),
               ],
               selected: {value},
               onSelectionChanged: state.isLoading
@@ -368,62 +382,102 @@ class DnsSettingsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildEmailSecurityCard(BuildContext context) {
+  Widget _buildEmailSecurityCard(BuildContext context, AppLocalizations l10n) {
     return Card(
       child: ListTile(
         leading: Icon(
           Icons.email,
           color: Theme.of(context).colorScheme.primary,
         ),
-        title: const Text('Email Security'),
-        subtitle: const Text('Configure email authentication records'),
+        title: Text(l10n.dnsSettings_emailSecurity),
+        subtitle: Text(l10n.dnsSettings_emailSecurityDescription),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(
-                'Work in progress. This feature will be available soon!',
-              ),
-            ),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.common_workInProgress)));
         },
       ),
     );
   }
 
-  void _showDnssecDetails(BuildContext context, dynamic dnssec) {
+  void _showDnssecDetails(
+    BuildContext context,
+    dynamic dnssec,
+    AppLocalizations l10n,
+  ) {
     if (dnssec == null) return;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('DNSSEC Details'),
+        title: Text(l10n.dnssecDetails_title),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildDetailRow(context, 'DS Record', dnssec.ds),
-              _buildDetailRow(context, 'Digest', dnssec.digest),
-              _buildDetailRow(context, 'Digest Type', dnssec.digestType),
-              _buildDetailRow(context, 'Algorithm', dnssec.algorithm),
-              _buildDetailRow(context, 'Public Key', dnssec.publicKey),
-              _buildDetailRow(context, 'Key Tag', dnssec.keyTag?.toString()),
-              _buildDetailRow(context, 'Flags', dnssec.flags?.toString()),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_dsRecord,
+                dnssec.ds,
+                l10n,
+              ),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_digest,
+                dnssec.digest,
+                l10n,
+              ),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_digestType,
+                dnssec.digestType,
+                l10n,
+              ),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_algorithm,
+                dnssec.algorithm,
+                l10n,
+              ),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_publicKey,
+                dnssec.publicKey,
+                l10n,
+              ),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_keyTag,
+                dnssec.keyTag?.toString(),
+                l10n,
+              ),
+              _buildDetailRow(
+                context,
+                l10n.dnssecDetails_flags,
+                dnssec.flags?.toString(),
+                l10n,
+              ),
             ],
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
+            child: Text(l10n.common_close),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildDetailRow(BuildContext context, String label, String? value) {
+  Widget _buildDetailRow(
+    BuildContext context,
+    String label,
+    String? value,
+    AppLocalizations l10n,
+  ) {
     if (value == null || value.isEmpty) return const SizedBox.shrink();
 
     return Padding(
@@ -438,7 +492,7 @@ class DnsSettingsPage extends ConsumerWidget {
               Clipboard.setData(ClipboardData(text: value));
               ScaffoldMessenger.of(
                 context,
-              ).showSnackBar(SnackBar(content: Text('$label copied!')));
+              ).showSnackBar(SnackBar(content: Text(l10n.common_copied)));
             },
             child: Container(
               width: double.infinity,
@@ -468,19 +522,20 @@ class DnsSettingsPage extends ConsumerWidget {
     );
   }
 
-  void _confirmDisableDnssec(BuildContext context, WidgetRef ref) {
+  void _confirmDisableDnssec(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Disable DNSSEC?'),
-        content: const Text(
-          'Disabling DNSSEC will remove the extra layer of authentication from your DNS records. '
-          'You will need to remove the DS record from your registrar.',
-        ),
+        title: Text(l10n.dnsSettings_disableDnssecTitle),
+        content: Text(l10n.dnsSettings_dnssecDescription),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l10n.common_cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: Colors.red),
@@ -490,7 +545,7 @@ class DnsSettingsPage extends ConsumerWidget {
                   .read(dnsSettingsNotifierProvider.notifier)
                   .toggleDnssec(enable: false);
             },
-            child: const Text('Disable'),
+            child: Text(l10n.common_disable),
           ),
         ],
       ),

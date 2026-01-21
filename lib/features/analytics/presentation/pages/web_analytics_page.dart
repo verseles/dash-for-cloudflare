@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../dns/providers/zone_provider.dart';
 import '../../../dns/presentation/widgets/charts/analytics_bar_chart.dart';
@@ -14,17 +15,18 @@ class WebAnalyticsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
     final webAnalyticsAsync = ref.watch(webAnalyticsNotifierProvider);
 
     if (selectedZone == null) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.domain, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text('Select a zone to view analytics'),
+            const Icon(Icons.domain, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(l10n.analytics_selectZone),
           ],
         ),
       );
@@ -52,11 +54,11 @@ class WebAnalyticsPage extends ConsumerWidget {
                         color: Colors.red,
                       ),
                       const SizedBox(height: 16),
-                      Text('Error: $error'),
+                      Text(l10n.error_prefix(error.toString())),
                       const SizedBox(height: 16),
                       FilledButton.icon(
                         icon: const Icon(Icons.refresh),
-                        label: const Text('Retry'),
+                        label: Text(l10n.common_retry),
                         onPressed: () => ref
                             .read(webAnalyticsNotifierProvider.notifier)
                             .refresh(),
@@ -67,8 +69,8 @@ class WebAnalyticsPage extends ConsumerWidget {
               ),
               data: (data) {
                 if (data == null) {
-                  return const SliverFillRemaining(
-                    child: Center(child: Text('No data available')),
+                  return SliverFillRemaining(
+                    child: Center(child: Text(l10n.common_noData)),
                   );
                 }
 
@@ -76,12 +78,12 @@ class WebAnalyticsPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      _buildOverviewCards(context, data),
+                      _buildOverviewCards(context, data, l10n),
                       const SizedBox(height: 16),
                       SizedBox(
                         height: 300,
                         child: WebTimeSeriesChart(
-                          title: 'Requests',
+                          title: l10n.analytics_requests,
                           timeSeries: data.timeSeries,
                           valueMapper: (ts) => ts.requests,
                           unit: 'requests',
@@ -91,7 +93,7 @@ class WebAnalyticsPage extends ConsumerWidget {
                       SizedBox(
                         height: 300,
                         child: WebTimeSeriesChart(
-                          title: 'Bandwidth',
+                          title: l10n.analytics_bandwidth,
                           timeSeries: data.timeSeries,
                           valueMapper: (ts) => ts.bytes,
                           unit: 'bytes',
@@ -99,7 +101,7 @@ class WebAnalyticsPage extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      _buildGridCharts(context, data),
+                      _buildGridCharts(context, data, l10n),
                     ]),
                   ),
                 );
@@ -111,12 +113,16 @@ class WebAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildOverviewCards(BuildContext context, var data) {
+  Widget _buildOverviewCards(
+    BuildContext context,
+    var data,
+    AppLocalizations l10n,
+  ) {
     return Row(
       children: [
         Expanded(
           child: _StatCard(
-            title: 'Requests',
+            title: l10n.analytics_requests,
             value: _formatNumber(data.totalRequests),
             icon: Icons.swap_vert,
             color: Colors.orange,
@@ -125,7 +131,7 @@ class WebAnalyticsPage extends ConsumerWidget {
         const SizedBox(width: 8),
         Expanded(
           child: _StatCard(
-            title: 'Bandwidth',
+            title: l10n.analytics_bandwidth,
             value: _formatBytes(data.totalBytes),
             icon: Icons.speed,
             color: Colors.blue,
@@ -134,7 +140,7 @@ class WebAnalyticsPage extends ConsumerWidget {
         const SizedBox(width: 8),
         Expanded(
           child: _StatCard(
-            title: 'Unique Visitors',
+            title: l10n.analytics_uniqueVisitors,
             value: _formatNumber(data.totalVisits),
             icon: Icons.people,
             color: Colors.green,
@@ -144,33 +150,40 @@ class WebAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildGridCharts(BuildContext context, var data) {
+  Widget _buildGridCharts(
+    BuildContext context,
+    var data,
+    AppLocalizations l10n,
+  ) {
     final isWide = MediaQuery.of(context).size.width > 600;
 
     final charts = [
       AnalyticsDoughnutChart(
-        title: 'Requests by Status',
+        title: l10n.analytics_requestsByStatus,
         groups: data.byStatus,
         dimensionKey: 'edgeResponseStatus',
       ),
-      CountryTrafficList(title: 'Requests by Country', groups: data.byCountry),
+      CountryTrafficList(
+        title: l10n.analytics_requestsByCountry,
+        groups: data.byCountry,
+      ),
       GeographicHeatMap(
-        title: 'Geographic Distribution',
+        title: l10n.analytics_geographicDistribution,
         groups: data.byCountry,
       ),
       AnalyticsBarChart(
-        title: 'Requests by Protocol',
+        title: l10n.analytics_requestsByProtocol,
         groups: data.byContentType,
         dimensionKey: 'clientRequestHTTPProtocol',
         horizontal: true,
       ),
       AnalyticsDoughnutChart(
-        title: 'Requests by Host',
+        title: l10n.analytics_requestsByHost,
         groups: data.byBrowser,
         dimensionKey: 'clientRequestHTTPHost',
       ),
       AnalyticsBarChart(
-        title: 'Top Paths',
+        title: l10n.analytics_topPaths,
         groups: data.byPath,
         dimensionKey: 'clientRequestPath',
         horizontal: true,

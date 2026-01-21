@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../analytics/providers/analytics_provider.dart';
@@ -11,17 +12,18 @@ class DnsAnalyticsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
     final analyticsState = ref.watch(analyticsNotifierProvider);
 
     if (selectedZone == null) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.domain, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text('Select a zone to view analytics'),
+            const Icon(Icons.domain, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(l10n.analytics_selectZone),
           ],
         ),
       );
@@ -55,11 +57,11 @@ class DnsAnalyticsPage extends ConsumerWidget {
                         color: Colors.red,
                       ),
                       const SizedBox(height: 16),
-                      Text('Error: ${analyticsState.error}'),
+                      Text(l10n.error_prefix(analyticsState.error!)),
                       const SizedBox(height: 16),
                       FilledButton.icon(
                         icon: const Icon(Icons.refresh),
-                        label: const Text('Retry'),
+                        label: Text(l10n.common_retry),
                         onPressed: () => ref
                             .read(analyticsNotifierProvider.notifier)
                             .fetchAnalytics(),
@@ -80,11 +82,11 @@ class DnsAnalyticsPage extends ConsumerWidget {
                         color: Colors.grey,
                       ),
                       const SizedBox(height: 16),
-                      const Text('No analytics data'),
+                      Text(l10n.analytics_noData),
                       const SizedBox(height: 16),
                       FilledButton.icon(
                         icon: const Icon(Icons.refresh),
-                        label: const Text('Load Analytics'),
+                        label: Text(l10n.analytics_loadAnalytics),
                         onPressed: () => ref
                             .read(analyticsNotifierProvider.notifier)
                             .fetchAnalytics(),
@@ -99,18 +101,18 @@ class DnsAnalyticsPage extends ConsumerWidget {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     // Overview card
-                    _buildOverviewCard(context, ref, analyticsState),
+                    _buildOverviewCard(context, ref, analyticsState, l10n),
                     const SizedBox(height: 16),
 
                     // Stats row
-                    _buildStatsRow(context, analyticsState),
+                    _buildStatsRow(context, analyticsState, l10n),
                     const SizedBox(height: 16),
 
                     // Time series chart (full width)
                     SizedBox(
                       height: 300,
                       child: AnalyticsTimeSeriesChart(
-                        title: 'Queries Over Time',
+                        title: l10n.analytics_queriesOverTime,
                         timeSeries: analyticsState.data!.timeSeries,
                         byQueryNameTimeSeries:
                             analyticsState.selectedQueryNames.isNotEmpty
@@ -121,7 +123,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
                     const SizedBox(height: 16),
 
                     // Charts grid
-                    _buildChartsGrid(context, analyticsState),
+                    _buildChartsGrid(context, analyticsState, l10n),
                   ]),
                 ),
               ),
@@ -164,6 +166,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
     AnalyticsState state,
+    AppLocalizations l10n,
   ) {
     final data = state.data!;
 
@@ -176,7 +179,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
             Row(
               children: [
                 Text(
-                  'Total Queries',
+                  l10n.analytics_totalQueries,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const Spacer(),
@@ -191,7 +194,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Top Query Names',
+              l10n.analytics_topQueryNames,
               style: Theme.of(context).textTheme.labelMedium,
             ),
             const SizedBox(height: 8),
@@ -220,7 +223,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
               const SizedBox(height: 8),
               TextButton.icon(
                 icon: const Icon(Icons.clear, size: 16),
-                label: const Text('Clear selection'),
+                label: Text(l10n.analytics_clearSelection),
                 onPressed: () {
                   ref
                       .read(analyticsNotifierProvider.notifier)
@@ -234,7 +237,11 @@ class DnsAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatsRow(BuildContext context, AnalyticsState state) {
+  Widget _buildStatsRow(
+    BuildContext context,
+    AnalyticsState state,
+    AppLocalizations l10n,
+  ) {
     final data = state.data!;
 
     return Row(
@@ -246,7 +253,10 @@ class DnsAnalyticsPage extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Total', style: Theme.of(context).textTheme.labelMedium),
+                  Text(
+                    l10n.analytics_total,
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     _formatNumber(data.total),
@@ -268,7 +278,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Query Types',
+                    l10n.analytics_queryTypes,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   const SizedBox(height: 4),
@@ -292,7 +302,7 @@ class DnsAnalyticsPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Data Centers',
+                    l10n.analytics_dataCenters,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                   const SizedBox(height: 4),
@@ -311,42 +321,46 @@ class DnsAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildChartsGrid(BuildContext context, AnalyticsState state) {
+  Widget _buildChartsGrid(
+    BuildContext context,
+    AnalyticsState state,
+    AppLocalizations l10n,
+  ) {
     final data = state.data!;
     final isWide = MediaQuery.of(context).size.width > 600;
 
     final charts = <Widget>[
       AnalyticsDoughnutChart(
-        title: 'Queries by Data Center',
+        title: l10n.analytics_queriesByDataCenter,
         groups: data.byDataCenter,
         dimensionKey: 'coloName',
       ),
       AnalyticsMapChart(
-        title: 'Queries by Location',
+        title: l10n.analytics_queriesByLocation,
         groups: data.byDataCenter,
       ),
       AnalyticsBarChart(
-        title: 'Queries by Record Type',
+        title: l10n.analytics_queriesByRecordType,
         groups: data.byQueryType,
         dimensionKey: 'queryType',
       ),
       AnalyticsDoughnutChart(
-        title: 'Queries by Response Code',
+        title: l10n.analytics_queriesByResponseCode,
         groups: data.byResponseCode,
         dimensionKey: 'responseCode',
       ),
       AnalyticsDoughnutChart(
-        title: 'Queries by IP Version',
+        title: l10n.analytics_queriesByIpVersion,
         groups: data.byIpVersion,
         dimensionKey: 'ipVersion',
       ),
       AnalyticsDoughnutChart(
-        title: 'Queries by Protocol',
+        title: l10n.analytics_queriesByProtocol,
         groups: data.byProtocol,
         dimensionKey: 'protocol',
       ),
       AnalyticsBarChart(
-        title: 'Top Query Names',
+        title: l10n.analytics_topQueryNamesChart,
         groups: data.byQueryName,
         dimensionKey: 'queryName',
         horizontal: true,

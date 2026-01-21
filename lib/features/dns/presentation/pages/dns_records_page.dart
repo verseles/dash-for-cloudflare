@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/dns_records_provider.dart';
@@ -27,17 +28,18 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
     final recordsAsync = ref.watch(dnsRecordsNotifierProvider);
 
     if (selectedZone == null) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.domain, size: 64, color: Colors.grey),
-            SizedBox(height: 16),
-            Text('Select a zone to view DNS records'),
+            const Icon(Icons.domain, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(l10n.dns_selectZoneFirst),
           ],
         ),
       );
@@ -51,34 +53,38 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
           children: [
             const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
-            Text('Error: $error'),
+            Text(l10n.error_prefix(error.toString())),
             const SizedBox(height: 16),
             FilledButton.icon(
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(l10n.common_retry),
               onPressed: () =>
                   ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
             ),
           ],
         ),
       ),
-      data: (state) => _buildContent(context, state),
+      data: (state) => _buildContent(context, state, l10n),
     );
   }
 
-  Widget _buildContent(BuildContext context, DnsRecordsState state) {
+  Widget _buildContent(
+    BuildContext context,
+    DnsRecordsState state,
+    AppLocalizations l10n,
+  ) {
     final filteredRecords = state.filteredRecords;
 
     return Scaffold(
       body: Column(
         children: [
           // Filter chips
-          _buildFilterBar(context, state),
+          _buildFilterBar(context, state, l10n),
 
           // Record list
           Expanded(
             child: filteredRecords.isEmpty
-                ? _buildEmptyState(state)
+                ? _buildEmptyState(state, l10n)
                 : RefreshIndicator(
                     onRefresh: () =>
                         ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
@@ -108,13 +114,17 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showEditDialog(null),
-        tooltip: 'Add DNS record',
+        tooltip: l10n.dns_addRecord,
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildFilterBar(BuildContext context, DnsRecordsState state) {
+  Widget _buildFilterBar(
+    BuildContext context,
+    DnsRecordsState state,
+    AppLocalizations l10n,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -126,7 +136,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
               child: Row(
                 children: [
                   FilterChip(
-                    label: const Text('All'),
+                    label: Text(l10n.common_all),
                     selected: state.activeFilter == 'All',
                     onSelected: (_) => ref
                         .read(dnsRecordsNotifierProvider.notifier)
@@ -162,7 +172,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                     controller: _searchController,
                     autofocus: true,
                     decoration: InputDecoration(
-                      hintText: 'Search...',
+                      hintText: l10n.dns_searchRecords,
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -195,7 +205,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
     );
   }
 
-  Widget _buildEmptyState(DnsRecordsState state) {
+  Widget _buildEmptyState(DnsRecordsState state, AppLocalizations l10n) {
     final hasFilters =
         state.activeFilter != 'All' || state.searchQuery.isNotEmpty;
 
@@ -210,9 +220,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
           ),
           const SizedBox(height: 16),
           Text(
-            hasFilters
-                ? 'No records match your filters'
-                : 'No DNS records found',
+            hasFilters ? l10n.dns_noRecordsMatch : l10n.dns_noRecords,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           if (hasFilters) ...[
@@ -223,7 +231,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                 _searchController.clear();
                 setState(() => _isSearchExpanded = false);
               },
-              child: const Text('Clear filters'),
+              child: Text(l10n.common_clearFilters),
             ),
           ],
         ],
@@ -290,6 +298,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
   }
 
   Future<void> _deleteRecord(String recordId) async {
+    final l10n = AppLocalizations.of(context);
     try {
       await ref
           .read(dnsRecordsNotifierProvider.notifier)
@@ -297,27 +306,28 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text('Record deleted')));
+        ).showSnackBar(SnackBar(content: Text(l10n.dns_recordDeleted)));
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.error_prefix(e.toString()))),
+        );
       }
     }
   }
 
   Future<void> _toggleProxy(String recordId, bool value) async {
+    final l10n = AppLocalizations.of(context);
     try {
       await ref
           .read(dnsRecordsNotifierProvider.notifier)
           .updateProxy(recordId, value);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.error_prefix(e.toString()))),
+        );
       }
     }
   }

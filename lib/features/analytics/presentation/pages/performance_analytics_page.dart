@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../dns/providers/zone_provider.dart';
 import '../../../dns/presentation/widgets/charts/charts.dart';
@@ -11,11 +12,12 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
     final performanceAsync = ref.watch(performanceAnalyticsNotifierProvider);
 
     if (selectedZone == null) {
-      return const Center(child: Text('Select a zone to view analytics'));
+      return Center(child: Text(l10n.analytics_selectZone));
     }
 
     return Scaffold(
@@ -30,12 +32,12 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
                 child: Center(child: CircularProgressIndicator()),
               ),
               error: (error, stack) => SliverFillRemaining(
-                child: Center(child: Text('Error: $error')),
+                child: Center(child: Text(l10n.error_prefix(error.toString()))),
               ),
               data: (data) {
                 if (data == null) {
-                  return const SliverFillRemaining(
-                    child: Center(child: Text('No data available')),
+                  return SliverFillRemaining(
+                    child: Center(child: Text(l10n.common_noData)),
                   );
                 }
 
@@ -49,12 +51,17 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      _buildSummary(context, cacheHitRatio, bandwidthSaved),
+                      _buildSummary(
+                        context,
+                        cacheHitRatio,
+                        bandwidthSaved,
+                        l10n,
+                      ),
                       const SizedBox(height: 16),
                       SizedBox(
                         height: 300,
                         child: PerformanceTimeSeriesChart(
-                          title: 'Requests (Cache vs Origin)',
+                          title: l10n.analytics_requestsCacheVsOrigin,
                           timeSeries: data.timeSeries,
                           valueMapper: (ts) => ts.requests,
                           cachedValueMapper: (ts) => ts.cachedRequests,
@@ -65,7 +72,7 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
                       SizedBox(
                         height: 300,
                         child: PerformanceTimeSeriesChart(
-                          title: 'Bandwidth (Cache vs Origin)',
+                          title: l10n.analytics_bandwidthCacheVsOrigin,
                           timeSeries: data.timeSeries,
                           valueMapper: (ts) => ts.bytes,
                           cachedValueMapper: (ts) => ts.cachedBytes,
@@ -74,7 +81,7 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       AnalyticsDoughnutChart(
-                        title: 'Cache Status by HTTP Status',
+                        title: l10n.analytics_cacheStatusByHttpStatus,
                         groups: data.byContentType,
                         dimensionKey: 'edgeResponseStatus',
                       ),
@@ -89,7 +96,12 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildSummary(BuildContext context, double ratio, int saved) {
+  Widget _buildSummary(
+    BuildContext context,
+    double ratio,
+    int saved,
+    AppLocalizations l10n,
+  ) {
     return Row(
       children: [
         Expanded(
@@ -98,9 +110,9 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text(
-                    'Cache Hit Ratio',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  Text(
+                    l10n.analytics_cacheHitRatio,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -123,9 +135,9 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  const Text(
-                    'Bandwidth Saved',
-                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  Text(
+                    l10n.analytics_bandwidthSaved,
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                   const SizedBox(height: 8),
                   Text(

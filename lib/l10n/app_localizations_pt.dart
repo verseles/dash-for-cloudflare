@@ -61,13 +61,46 @@ class AppLocalizationsPt extends AppLocalizations {
       'Em desenvolvimento. Esta funcionalidade estará disponível em breve!';
 
   @override
+  String get common_clearSearch => 'Limpar busca';
+
+  @override
+  String get common_clearFilters => 'Limpar filtros';
+
+  @override
+  String get common_all => 'Todos';
+
+  @override
+  String get common_none => 'Nenhum';
+
+  @override
+  String get common_proxy => 'Proxy';
+
+  @override
+  String get common_rootOnly => 'Apenas raiz';
+
+  @override
+  String get common_disable => 'Desabilitar';
+
+  @override
   String get menu_dns => 'DNS';
+
+  @override
+  String get menu_analytics => 'Estatísticas';
 
   @override
   String get menu_settings => 'Configurações';
 
   @override
   String get menu_about => 'Sobre';
+
+  @override
+  String get menu_debugLogs => 'Logs de Depuração';
+
+  @override
+  String get menu_selectZone => 'Selecionar Zona';
+
+  @override
+  String get menu_noZones => 'Nenhuma zona';
 
   @override
   String get tabs_records => 'Registros';
@@ -77,6 +110,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get tabs_settings => 'Configurações';
+
+  @override
+  String get tabs_web => 'Web';
+
+  @override
+  String get tabs_security => 'Segurança';
+
+  @override
+  String get tabs_cache => 'Cache';
 
   @override
   String get zone_selectZone => 'Selecionar zona';
@@ -152,6 +194,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get dns_recordDeletedUndo => 'Registro excluído. Toque para desfazer.';
+
+  @override
+  String get dns_deleteRecordConfirmTitle => 'Excluir Registro?';
+
+  @override
+  String dns_deleteRecordConfirmMessage(String name) {
+    return 'Tem certeza que deseja excluir \"$name\"?';
+  }
 
   @override
   String get record_type => 'Tipo';
@@ -267,6 +317,72 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_topQueryNamesChart => 'Principais Nomes Consultados';
 
   @override
+  String get analytics_requests => 'Requisições';
+
+  @override
+  String get analytics_bandwidth => 'Largura de Banda';
+
+  @override
+  String get analytics_uniqueVisitors => 'Visitantes Únicos';
+
+  @override
+  String get analytics_requestsByStatus => 'Requisições por Status';
+
+  @override
+  String get analytics_requestsByCountry => 'Requisições por País';
+
+  @override
+  String get analytics_geographicDistribution => 'Distribuição Geográfica';
+
+  @override
+  String get analytics_requestsByProtocol => 'Requisições por Protocolo';
+
+  @override
+  String get analytics_requestsByHost => 'Requisições por Host';
+
+  @override
+  String get analytics_topPaths => 'Principais Caminhos';
+
+  @override
+  String get analytics_threatsStopped => 'Ameaças Bloqueadas';
+
+  @override
+  String get analytics_totalThreatsBlocked => 'Total de Ameaças Bloqueadas';
+
+  @override
+  String get analytics_actionsTaken => 'Ações Tomadas';
+
+  @override
+  String get analytics_threatsByCountry => 'Ameaças por País';
+
+  @override
+  String get analytics_topThreatSources => 'Principais Fontes de Ameaças';
+
+  @override
+  String get analytics_threatOrigins => 'Origem das Ameaças';
+
+  @override
+  String get analytics_cacheHitRatio => 'Taxa de Acerto do Cache';
+
+  @override
+  String get analytics_bandwidthSaved => 'Largura de Banda Economizada';
+
+  @override
+  String get analytics_requestsCacheVsOrigin => 'Requisições (Cache vs Origem)';
+
+  @override
+  String get analytics_bandwidthCacheVsOrigin =>
+      'Largura de Banda (Cache vs Origem)';
+
+  @override
+  String get analytics_cacheStatusByHttpStatus =>
+      'Status do Cache por Status HTTP';
+
+  @override
+  String get analytics_securityRequiresPaidPlan =>
+      'As Estatísticas de Segurança requerem um plano Cloudflare pago (Pro ou superior).';
+
+  @override
   String get dnsSettings_title => 'Configurações DNS';
 
   @override
@@ -361,6 +477,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get dnsSettings_configureEmail => 'Configurar';
+
+  @override
+  String get dnsSettings_disableDnssecTitle => 'Desabilitar DNSSEC?';
+
+  @override
+  String get dnsSettings_cancelDeactivation => 'Cancelar Desativação';
 
   @override
   String get dnssecDetails_title => 'Detalhes DNSSEC';
@@ -497,6 +619,11 @@ class AppLocalizationsPt extends AppLocalizations {
       'Erro no servidor. Por favor, tente novamente mais tarde.';
 
   @override
+  String error_prefix(String message) {
+    return 'Erro: $message';
+  }
+
+  @override
   String get pwa_updateAvailable => 'Uma nova versão está disponível';
 
   @override
@@ -558,4 +685,49 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_goToDnsManagement => 'Ir para Gerenciamento DNS';
+
+  @override
+  String get debugLogs_title => 'Logs de Depuração';
+
+  @override
+  String get debugLogs_copyAll => 'Copiar Todos';
+
+  @override
+  String get debugLogs_saveToFile => 'Salvar em Arquivo';
+
+  @override
+  String get debugLogs_shareAsText => 'Compartilhar como Texto';
+
+  @override
+  String get debugLogs_shareAsFile => 'Compartilhar como Arquivo';
+
+  @override
+  String get debugLogs_clearLogs => 'Limpar Logs';
+
+  @override
+  String get debugLogs_logsCopied =>
+      'Logs copiados para a área de transferência';
+
+  @override
+  String debugLogs_savedTo(String path) {
+    return 'Salvo em $path';
+  }
+
+  @override
+  String debugLogs_failedToSave(String error) {
+    return 'Falha ao salvar: $error';
+  }
+
+  @override
+  String debugLogs_failedToShare(String error) {
+    return 'Falha ao compartilhar: $error';
+  }
+
+  @override
+  String debugLogs_copyTimeRange(String timeRange) {
+    return 'Copiar $timeRange';
+  }
+
+  @override
+  String get debugLogs_logEntryCopied => 'Entrada de log copiada';
 }

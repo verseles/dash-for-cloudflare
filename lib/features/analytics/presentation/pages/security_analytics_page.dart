@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/models/analytics.dart';
 import '../../../dns/providers/zone_provider.dart';
@@ -14,11 +15,12 @@ class SecurityAnalyticsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
     final securityAsync = ref.watch(securityAnalyticsNotifierProvider);
 
     if (selectedZone == null) {
-      return const Center(child: Text('Select a zone to view analytics'));
+      return Center(child: Text(l10n.analytics_selectZone));
     }
 
     return Scaffold(
@@ -57,8 +59,8 @@ class SecurityAnalyticsPage extends ConsumerWidget {
                           const SizedBox(height: 16),
                           Text(
                             isRestricted
-                                ? 'Security Analytics requires a paid Cloudflare plan (Pro or higher).'
-                                : 'Error: $error',
+                                ? l10n.analytics_securityRequiresPaidPlan
+                                : l10n.error_prefix(error.toString()),
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
@@ -77,7 +79,7 @@ class SecurityAnalyticsPage extends ConsumerWidget {
                                 )
                                 .refresh(),
                             icon: const Icon(Icons.refresh),
-                            label: const Text('Retry'),
+                            label: Text(l10n.common_retry),
                           ),
                         ],
                       ),
@@ -87,8 +89,8 @@ class SecurityAnalyticsPage extends ConsumerWidget {
               },
               data: (data) {
                 if (data == null) {
-                  return const SliverFillRemaining(
-                    child: Center(child: Text('No data available')),
+                  return SliverFillRemaining(
+                    child: Center(child: Text(l10n.common_noData)),
                   );
                 }
 
@@ -96,7 +98,7 @@ class SecurityAnalyticsPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(16),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      _buildSummary(context, data.totalThreats),
+                      _buildSummary(context, data.totalThreats, l10n),
                       const SizedBox(height: 16),
                       // Reuse WebTimeSeriesChart by adapting SecurityTimeSeries to WebTimeSeries (internally)
                       // or just mapping manually.
@@ -104,7 +106,7 @@ class SecurityAnalyticsPage extends ConsumerWidget {
                       SizedBox(
                         height: 300,
                         child: WebTimeSeriesChart(
-                          title: 'Threats Stopped',
+                          title: l10n.analytics_threatsStopped,
                           timeSeries: data.timeSeries
                               .map(
                                 (s) => WebTimeSeries(
@@ -119,7 +121,7 @@ class SecurityAnalyticsPage extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      _buildGridCharts(context, data),
+                      _buildGridCharts(context, data, l10n),
                     ]),
                   ),
                 );
@@ -131,7 +133,7 @@ class SecurityAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildSummary(BuildContext context, int total) {
+  Widget _buildSummary(BuildContext context, int total, AppLocalizations l10n) {
     return Card(
       color: Colors.red.withValues(alpha: 0.1),
       child: Padding(
@@ -139,7 +141,7 @@ class SecurityAnalyticsPage extends ConsumerWidget {
         child: Column(
           children: [
             Text(
-              'Total Threats Blocked',
+              l10n.analytics_totalThreatsBlocked,
               style: Theme.of(
                 context,
               ).textTheme.titleMedium?.copyWith(color: Colors.red),
@@ -158,22 +160,32 @@ class SecurityAnalyticsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildGridCharts(BuildContext context, SecurityAnalyticsData data) {
+  Widget _buildGridCharts(
+    BuildContext context,
+    SecurityAnalyticsData data,
+    AppLocalizations l10n,
+  ) {
     final isWide = MediaQuery.of(context).size.width > 600;
 
     final charts = [
       AnalyticsBarChart(
-        title: 'Actions Taken',
+        title: l10n.analytics_actionsTaken,
         groups: data.byAction,
         dimensionKey: 'action',
       ),
-      CountryTrafficList(title: 'Threats by Country', groups: data.byCountry),
+      CountryTrafficList(
+        title: l10n.analytics_threatsByCountry,
+        groups: data.byCountry,
+      ),
       AnalyticsDoughnutChart(
-        title: 'Top Threat Sources',
+        title: l10n.analytics_topThreatSources,
         groups: data.bySource,
         dimensionKey: 'source',
       ),
-      GeographicHeatMap(title: 'Threat Origins', groups: data.byCountry),
+      GeographicHeatMap(
+        title: l10n.analytics_threatOrigins,
+        groups: data.byCountry,
+      ),
     ];
 
     if (isWide) {

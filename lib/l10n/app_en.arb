@@ -21,14 +21,28 @@
   "common_retry": "Retry",
   "common_save": "Save",
   "common_workInProgress": "Work in progress. This feature will be available soon!",
+  "common_clearSearch": "Clear search",
+  "common_clearFilters": "Clear filters",
+  "common_all": "All",
+  "common_none": "None",
+  "common_proxy": "Proxy",
+  "common_rootOnly": "Root only",
+  "common_disable": "Disable",
 
   "menu_dns": "DNS",
+  "menu_analytics": "Analytics",
   "menu_settings": "Settings",
   "menu_about": "About",
+  "menu_debugLogs": "Debug Logs",
+  "menu_selectZone": "Select Zone",
+  "menu_noZones": "No zones",
 
   "tabs_records": "Records",
   "tabs_analytics": "Analytics",
   "tabs_settings": "Settings",
+  "tabs_web": "Web",
+  "tabs_security": "Security",
+  "tabs_cache": "Cache",
 
   "zone_selectZone": "Select a zone",
   "zone_searchZones": "Search zones...",
@@ -63,6 +77,16 @@
   "dns_recordSaved": "Record saved successfully",
   "dns_recordDeleted": "Record deleted successfully",
   "dns_recordDeletedUndo": "Record deleted. Tap to undo.",
+  "dns_deleteRecordConfirmTitle": "Delete Record?",
+  "dns_deleteRecordConfirmMessage": "Are you sure you want to delete \"{name}\"?",
+  "@dns_deleteRecordConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "www.example.com"
+      }
+    }
+  },
 
   "record_type": "Type",
   "record_name": "Name",
@@ -102,6 +126,27 @@
   "analytics_queriesByIpVersion": "Queries by IP Version",
   "analytics_queriesByProtocol": "Queries by Protocol",
   "analytics_topQueryNamesChart": "Top Query Names",
+  "analytics_requests": "Requests",
+  "analytics_bandwidth": "Bandwidth",
+  "analytics_uniqueVisitors": "Unique Visitors",
+  "analytics_requestsByStatus": "Requests by Status",
+  "analytics_requestsByCountry": "Requests by Country",
+  "analytics_geographicDistribution": "Geographic Distribution",
+  "analytics_requestsByProtocol": "Requests by Protocol",
+  "analytics_requestsByHost": "Requests by Host",
+  "analytics_topPaths": "Top Paths",
+  "analytics_threatsStopped": "Threats Stopped",
+  "analytics_totalThreatsBlocked": "Total Threats Blocked",
+  "analytics_actionsTaken": "Actions Taken",
+  "analytics_threatsByCountry": "Threats by Country",
+  "analytics_topThreatSources": "Top Threat Sources",
+  "analytics_threatOrigins": "Threat Origins",
+  "analytics_cacheHitRatio": "Cache Hit Ratio",
+  "analytics_bandwidthSaved": "Bandwidth Saved",
+  "analytics_requestsCacheVsOrigin": "Requests (Cache vs Origin)",
+  "analytics_bandwidthCacheVsOrigin": "Bandwidth (Cache vs Origin)",
+  "analytics_cacheStatusByHttpStatus": "Cache Status by HTTP Status",
+  "analytics_securityRequiresPaidPlan": "Security Analytics requires a paid Cloudflare plan (Pro or higher).",
 
   "dnsSettings_title": "DNS Settings",
   "dnsSettings_dnssec": "DNSSEC",
@@ -132,6 +177,8 @@
   "dnsSettings_emailSecurity": "Email Security",
   "dnsSettings_emailSecurityDescription": "Configure DMARC, SPF, and DKIM records for email authentication",
   "dnsSettings_configureEmail": "Configure",
+  "dnsSettings_disableDnssecTitle": "Disable DNSSEC?",
+  "dnsSettings_cancelDeactivation": "Cancel Deactivation",
 
   "dnssecDetails_title": "DNSSEC Details",
   "dnssecDetails_dsRecord": "DS Record",
@@ -184,6 +231,15 @@
   "error_notFound": "Resource not found",
   "error_rateLimited": "Too many requests. Please try again later.",
   "error_serverError": "Server error. Please try again later.",
+  "error_prefix": "Error: {message}",
+  "@error_prefix": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Something went wrong"
+      }
+    }
+  },
 
   "pwa_updateAvailable": "A new version is available",
   "pwa_updateNow": "Update Now",
@@ -204,5 +260,50 @@
   "settings_saveLogsToFile": "Save logs to file",
   "settings_saveLogsDescription": "Persists logs for later analysis",
   "settings_viewDebugLogs": "View Debug Logs",
-  "settings_goToDnsManagement": "Go to DNS Management"
+  "settings_goToDnsManagement": "Go to DNS Management",
+
+  "debugLogs_title": "Debug Logs",
+  "debugLogs_copyAll": "Copy All",
+  "debugLogs_saveToFile": "Save to File",
+  "debugLogs_shareAsText": "Share as Text",
+  "debugLogs_shareAsFile": "Share as File",
+  "debugLogs_clearLogs": "Clear Logs",
+  "debugLogs_logsCopied": "Logs copied to clipboard",
+  "debugLogs_savedTo": "Saved to {path}",
+  "@debugLogs_savedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String",
+        "example": "/path/to/file.log"
+      }
+    }
+  },
+  "debugLogs_failedToSave": "Failed to save: {error}",
+  "@debugLogs_failedToSave": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "debugLogs_failedToShare": "Failed to share: {error}",
+  "@debugLogs_failedToShare": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "debugLogs_copyTimeRange": "Copy {timeRange}",
+  "@debugLogs_copyTimeRange": {
+    "placeholders": {
+      "timeRange": {
+        "type": "String",
+        "example": "Last 5 minutes"
+      }
+    }
+  },
+  "debugLogs_logEntryCopied": "Log entry copied"
 }

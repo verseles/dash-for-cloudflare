@@ -200,11 +200,59 @@ abstract class AppLocalizations {
   /// **'Work in progress. This feature will be available soon!'**
   String get common_workInProgress;
 
+  /// No description provided for @common_clearSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get common_clearSearch;
+
+  /// No description provided for @common_clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get common_clearFilters;
+
+  /// No description provided for @common_all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get common_all;
+
+  /// No description provided for @common_none.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get common_none;
+
+  /// No description provided for @common_proxy.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy'**
+  String get common_proxy;
+
+  /// No description provided for @common_rootOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Root only'**
+  String get common_rootOnly;
+
+  /// No description provided for @common_disable.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable'**
+  String get common_disable;
+
   /// No description provided for @menu_dns.
   ///
   /// In en, this message translates to:
   /// **'DNS'**
   String get menu_dns;
+
+  /// No description provided for @menu_analytics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get menu_analytics;
 
   /// No description provided for @menu_settings.
   ///
@@ -217,6 +265,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About'**
   String get menu_about;
+
+  /// No description provided for @menu_debugLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Logs'**
+  String get menu_debugLogs;
+
+  /// No description provided for @menu_selectZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Zone'**
+  String get menu_selectZone;
+
+  /// No description provided for @menu_noZones.
+  ///
+  /// In en, this message translates to:
+  /// **'No zones'**
+  String get menu_noZones;
 
   /// No description provided for @tabs_records.
   ///
@@ -235,6 +301,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get tabs_settings;
+
+  /// No description provided for @tabs_web.
+  ///
+  /// In en, this message translates to:
+  /// **'Web'**
+  String get tabs_web;
+
+  /// No description provided for @tabs_security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get tabs_security;
+
+  /// No description provided for @tabs_cache.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache'**
+  String get tabs_cache;
 
   /// No description provided for @zone_selectZone.
   ///
@@ -379,6 +463,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Record deleted. Tap to undo.'**
   String get dns_recordDeletedUndo;
+
+  /// No description provided for @dns_deleteRecordConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Record?'**
+  String get dns_deleteRecordConfirmTitle;
+
+  /// No description provided for @dns_deleteRecordConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{name}\"?'**
+  String dns_deleteRecordConfirmMessage(String name);
 
   /// No description provided for @record_type.
   ///
@@ -602,6 +698,132 @@ abstract class AppLocalizations {
   /// **'Top Query Names'**
   String get analytics_topQueryNamesChart;
 
+  /// No description provided for @analytics_requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get analytics_requests;
+
+  /// No description provided for @analytics_bandwidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Bandwidth'**
+  String get analytics_bandwidth;
+
+  /// No description provided for @analytics_uniqueVisitors.
+  ///
+  /// In en, this message translates to:
+  /// **'Unique Visitors'**
+  String get analytics_uniqueVisitors;
+
+  /// No description provided for @analytics_requestsByStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests by Status'**
+  String get analytics_requestsByStatus;
+
+  /// No description provided for @analytics_requestsByCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests by Country'**
+  String get analytics_requestsByCountry;
+
+  /// No description provided for @analytics_geographicDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Geographic Distribution'**
+  String get analytics_geographicDistribution;
+
+  /// No description provided for @analytics_requestsByProtocol.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests by Protocol'**
+  String get analytics_requestsByProtocol;
+
+  /// No description provided for @analytics_requestsByHost.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests by Host'**
+  String get analytics_requestsByHost;
+
+  /// No description provided for @analytics_topPaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Paths'**
+  String get analytics_topPaths;
+
+  /// No description provided for @analytics_threatsStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Threats Stopped'**
+  String get analytics_threatsStopped;
+
+  /// No description provided for @analytics_totalThreatsBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Threats Blocked'**
+  String get analytics_totalThreatsBlocked;
+
+  /// No description provided for @analytics_actionsTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions Taken'**
+  String get analytics_actionsTaken;
+
+  /// No description provided for @analytics_threatsByCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Threats by Country'**
+  String get analytics_threatsByCountry;
+
+  /// No description provided for @analytics_topThreatSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Threat Sources'**
+  String get analytics_topThreatSources;
+
+  /// No description provided for @analytics_threatOrigins.
+  ///
+  /// In en, this message translates to:
+  /// **'Threat Origins'**
+  String get analytics_threatOrigins;
+
+  /// No description provided for @analytics_cacheHitRatio.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache Hit Ratio'**
+  String get analytics_cacheHitRatio;
+
+  /// No description provided for @analytics_bandwidthSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Bandwidth Saved'**
+  String get analytics_bandwidthSaved;
+
+  /// No description provided for @analytics_requestsCacheVsOrigin.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests (Cache vs Origin)'**
+  String get analytics_requestsCacheVsOrigin;
+
+  /// No description provided for @analytics_bandwidthCacheVsOrigin.
+  ///
+  /// In en, this message translates to:
+  /// **'Bandwidth (Cache vs Origin)'**
+  String get analytics_bandwidthCacheVsOrigin;
+
+  /// No description provided for @analytics_cacheStatusByHttpStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache Status by HTTP Status'**
+  String get analytics_cacheStatusByHttpStatus;
+
+  /// No description provided for @analytics_securityRequiresPaidPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Security Analytics requires a paid Cloudflare plan (Pro or higher).'**
+  String get analytics_securityRequiresPaidPlan;
+
   /// No description provided for @dnsSettings_title.
   ///
   /// In en, this message translates to:
@@ -775,6 +997,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Configure'**
   String get dnsSettings_configureEmail;
+
+  /// No description provided for @dnsSettings_disableDnssecTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable DNSSEC?'**
+  String get dnsSettings_disableDnssecTitle;
+
+  /// No description provided for @dnsSettings_cancelDeactivation.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Deactivation'**
+  String get dnsSettings_cancelDeactivation;
 
   /// No description provided for @dnssecDetails_title.
   ///
@@ -1022,6 +1256,12 @@ abstract class AppLocalizations {
   /// **'Server error. Please try again later.'**
   String get error_serverError;
 
+  /// No description provided for @error_prefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String error_prefix(String message);
+
   /// No description provided for @pwa_updateAvailable.
   ///
   /// In en, this message translates to:
@@ -1135,6 +1375,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to DNS Management'**
   String get settings_goToDnsManagement;
+
+  /// No description provided for @debugLogs_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Logs'**
+  String get debugLogs_title;
+
+  /// No description provided for @debugLogs_copyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy All'**
+  String get debugLogs_copyAll;
+
+  /// No description provided for @debugLogs_saveToFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to File'**
+  String get debugLogs_saveToFile;
+
+  /// No description provided for @debugLogs_shareAsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as Text'**
+  String get debugLogs_shareAsText;
+
+  /// No description provided for @debugLogs_shareAsFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Share as File'**
+  String get debugLogs_shareAsFile;
+
+  /// No description provided for @debugLogs_clearLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Logs'**
+  String get debugLogs_clearLogs;
+
+  /// No description provided for @debugLogs_logsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs copied to clipboard'**
+  String get debugLogs_logsCopied;
+
+  /// No description provided for @debugLogs_savedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to {path}'**
+  String debugLogs_savedTo(String path);
+
+  /// No description provided for @debugLogs_failedToSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save: {error}'**
+  String debugLogs_failedToSave(String error);
+
+  /// No description provided for @debugLogs_failedToShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to share: {error}'**
+  String debugLogs_failedToShare(String error);
+
+  /// No description provided for @debugLogs_copyTimeRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy {timeRange}'**
+  String debugLogs_copyTimeRange(String timeRange);
+
+  /// No description provided for @debugLogs_logEntryCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Log entry copied'**
+  String get debugLogs_logEntryCopied;
 }
 
 class _AppLocalizationsDelegate

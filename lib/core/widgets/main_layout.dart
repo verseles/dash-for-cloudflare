@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,11 +16,12 @@ class MainLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     // Activate tab preloader - listens to zone changes and preloads data
     ref.watch(tabPreloaderProvider);
 
     final location = GoRouterState.of(context).matchedLocation;
-    final title = _getTitleForLocation(location);
+    final title = _getTitleForLocation(location, l10n);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,20 +32,24 @@ class MainLayout extends ConsumerWidget {
           const SizedBox(width: 8),
         ],
       ),
-      drawer: _buildDrawer(context, ref),
+      drawer: _buildDrawer(context, ref, l10n),
       body: child,
     );
   }
 
-  String _getTitleForLocation(String location) {
-    if (location.startsWith('/dns')) return 'DNS';
-    if (location.startsWith('/analytics')) return 'Analytics';
-    if (location.startsWith('/settings')) return 'Settings';
-    if (location.startsWith('/debug-logs')) return 'Debug Logs';
+  String _getTitleForLocation(String location, AppLocalizations l10n) {
+    if (location.startsWith('/dns')) return l10n.menu_dns;
+    if (location.startsWith('/analytics')) return l10n.menu_analytics;
+    if (location.startsWith('/settings')) return l10n.menu_settings;
+    if (location.startsWith('/debug-logs')) return l10n.menu_debugLogs;
     return 'Cloudflare';
   }
 
-  Widget _buildDrawer(BuildContext context, WidgetRef ref) {
+  Widget _buildDrawer(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -63,7 +69,7 @@ class MainLayout extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Dash for Cloudflare',
+                  l10n.appTitle,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onPrimaryContainer,
                   ),
@@ -73,7 +79,7 @@ class MainLayout extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.dns),
-            title: const Text('DNS'),
+            title: Text(l10n.menu_dns),
             onTap: () {
               Navigator.pop(context);
               context.go(AppRoutes.dnsRecords);
@@ -81,7 +87,7 @@ class MainLayout extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.analytics),
-            title: const Text('Analytics'),
+            title: Text(l10n.menu_analytics),
             onTap: () {
               Navigator.pop(context);
               context.go(AppRoutes.analyticsWeb);
@@ -90,7 +96,7 @@ class MainLayout extends ConsumerWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            title: Text(l10n.menu_settings),
             onTap: () {
               Navigator.pop(context);
               context.go(AppRoutes.settings);
@@ -98,7 +104,7 @@ class MainLayout extends ConsumerWidget {
           ),
           ListTile(
             leading: const Icon(Icons.bug_report),
-            title: const Text('Debug Logs'),
+            title: Text(l10n.menu_debugLogs),
             onTap: () {
               Navigator.pop(context);
               context.push(AppRoutes.debugLogs);
@@ -114,6 +120,7 @@ class MainLayout extends ConsumerWidget {
 class _ZoneSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
     final zonesAsync = ref.watch(zonesNotifierProvider);
     final selectedZone = ref.watch(selectedZoneNotifierProvider);
 
@@ -126,17 +133,17 @@ class _ZoneSelector extends ConsumerWidget {
       error: (error, _) => IconButton(
         icon: const Icon(Icons.error_outline),
         onPressed: () => ref.read(zonesNotifierProvider.notifier).refresh(),
-        tooltip: 'Error loading zones. Tap to retry.',
+        tooltip: l10n.error_network,
       ),
       data: (state) {
         final zones = state.zones;
         if (zones.isEmpty) {
-          return const Text('No zones');
+          return Text(l10n.menu_noZones);
         }
 
         return InkWell(
           borderRadius: BorderRadius.circular(8),
-          onTap: () => _showZoneDialog(context, ref, zones, selectedZone),
+          onTap: () => _showZoneDialog(context, ref, zones, selectedZone, l10n),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Row(
@@ -145,7 +152,7 @@ class _ZoneSelector extends ConsumerWidget {
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 200),
                   child: Text(
-                    selectedZone?.name ?? 'Select zone',
+                    selectedZone?.name ?? l10n.zone_selectZone,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
@@ -164,6 +171,7 @@ class _ZoneSelector extends ConsumerWidget {
     WidgetRef ref,
     List<Zone> zones,
     Zone? selectedZone,
+    AppLocalizations l10n,
   ) {
     final searchController = TextEditingController();
     var filteredZones = zones;
@@ -174,7 +182,7 @@ class _ZoneSelector extends ConsumerWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: const Text('Select Zone'),
+              title: Text(l10n.menu_selectZone),
               contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
               content: SizedBox(
                 width: 400,
@@ -188,10 +196,10 @@ class _ZoneSelector extends ConsumerWidget {
                       child: TextField(
                         controller: searchController,
                         autofocus: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Search zones...',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(),
+                        decoration: InputDecoration(
+                          hintText: l10n.zone_searchZones,
+                          prefixIcon: const Icon(Icons.search),
+                          border: const OutlineInputBorder(),
                           isDense: true,
                         ),
                         onChanged: (value) {
@@ -245,7 +253,7 @@ class _ZoneSelector extends ConsumerWidget {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(),
-                  child: const Text('Cancel'),
+                  child: Text(l10n.common_cancel),
                 ),
               ],
             );
