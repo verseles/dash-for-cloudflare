@@ -85,7 +85,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get menu_dns => 'DNS';
 
   @override
-  String get menu_analytics => 'Estatísticas';
+  String get menu_analytics => 'Analytics';
 
   @override
   String get menu_settings => 'Configurações';
@@ -106,7 +106,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tabs_records => 'Registros';
 
   @override
-  String get tabs_analytics => 'Estatísticas';
+  String get tabs_analytics => 'Analytics';
 
   @override
   String get tabs_settings => 'Configurações';
@@ -243,7 +243,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get record_dnsOnlyTooltip => 'Somente DNS (sem proxy)';
 
   @override
-  String get analytics_title => 'Estatísticas DNS';
+  String get analytics_title => 'Analytics DNS';
 
   @override
   String get analytics_selectZone =>
@@ -320,7 +320,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_requests => 'Requisições';
 
   @override
-  String get analytics_bandwidth => 'Largura de Banda';
+  String get analytics_bandwidth => 'Banda';
 
   @override
   String get analytics_uniqueVisitors => 'Visitantes Únicos';
@@ -362,21 +362,19 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_threatOrigins => 'Origem das Ameaças';
 
   @override
-  String get analytics_cacheHitRatio => 'Taxa de Acerto do Cache';
+  String get analytics_cacheHitRatio => 'Hits de Cache';
 
   @override
-  String get analytics_bandwidthSaved => 'Largura de Banda Economizada';
+  String get analytics_bandwidthSaved => 'Banda Economizada';
 
   @override
-  String get analytics_requestsCacheVsOrigin => 'Requisições (Cache vs Origem)';
+  String get analytics_requestsCacheVsOrigin => 'Requisições (Cache vs Origin)';
 
   @override
-  String get analytics_bandwidthCacheVsOrigin =>
-      'Largura de Banda (Cache vs Origem)';
+  String get analytics_bandwidthCacheVsOrigin => 'Banda (Cache vs Origin)';
 
   @override
-  String get analytics_cacheStatusByHttpStatus =>
-      'Status do Cache por Status HTTP';
+  String get analytics_cacheStatusByHttpStatus => 'Cache por Status HTTP';
 
   @override
   String get analytics_securityRequiresPaidPlan =>
@@ -730,4 +728,84 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get debugLogs_logEntryCopied => 'Entrada de log copiada';
+
+  @override
+  String get debugLogs_timeRange => 'Período:';
+
+  @override
+  String get debugLogs_filter => 'Filtro:';
+
+  @override
+  String debugLogs_entries(int count) {
+    return '$count entradas';
+  }
+
+  @override
+  String get debugLogs_noLogsInRange => 'Nenhum log neste período';
+
+  @override
+  String get debugLogs_tryLongerRange => 'Tente selecionar um período maior';
+
+  @override
+  String get debugLogs_autoScrollOn => 'Auto-scroll LIGADO';
+
+  @override
+  String get debugLogs_autoScrollOff => 'Auto-scroll DESLIGADO';
+
+  @override
+  String get dnsRecord_createTitle => 'Criar Registro DNS';
+
+  @override
+  String get dnsRecord_editTitle => 'Editar Registro DNS';
+
+  @override
+  String get dnsRecord_recordCreated => 'Registro criado';
+
+  @override
+  String get dnsRecord_recordUpdated => 'Registro atualizado';
+
+  @override
+  String get dnsRecord_ttlAuto => 'Auto';
+
+  @override
+  String get dnsRecord_ttl2min => '2 minutos';
+
+  @override
+  String get dnsRecord_ttl5min => '5 minutos';
+
+  @override
+  String get dnsRecord_ttl10min => '10 minutos';
+
+  @override
+  String get dnsRecord_ttl15min => '15 minutos';
+
+  @override
+  String get dnsRecord_ttl30min => '30 minutos';
+
+  @override
+  String get dnsRecord_ttl1hour => '1 hora';
+
+  @override
+  String get dnsRecord_ttl2hours => '2 horas';
+
+  @override
+  String get dnsRecord_ttl5hours => '5 horas';
+
+  @override
+  String get dnsRecord_ttl12hours => '12 horas';
+
+  @override
+  String get dnsRecord_ttl1day => '1 dia';
+
+  @override
+  String get dnsRecord_enterValue => 'Digite o valor';
+
+  @override
+  String emptyState_noResultsFor(String query) {
+    return 'Nenhum resultado para \"$query\"';
+  }
+
+  @override
+  String get emptyState_tryAdjustingSearch =>
+      'Tente ajustar os termos de busca';
 }

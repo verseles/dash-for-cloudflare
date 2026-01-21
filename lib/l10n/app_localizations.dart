@@ -1447,6 +1447,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log entry copied'**
   String get debugLogs_logEntryCopied;
+
+  /// No description provided for @debugLogs_timeRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Range:'**
+  String get debugLogs_timeRange;
+
+  /// No description provided for @debugLogs_filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter:'**
+  String get debugLogs_filter;
+
+  /// No description provided for @debugLogs_entries.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries'**
+  String debugLogs_entries(int count);
+
+  /// No description provided for @debugLogs_noLogsInRange.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs in this time range'**
+  String get debugLogs_noLogsInRange;
+
+  /// No description provided for @debugLogs_tryLongerRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Try selecting a longer time range'**
+  String get debugLogs_tryLongerRange;
+
+  /// No description provided for @debugLogs_autoScrollOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-scroll ON'**
+  String get debugLogs_autoScrollOn;
+
+  /// No description provided for @debugLogs_autoScrollOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-scroll OFF'**
+  String get debugLogs_autoScrollOff;
+
+  /// No description provided for @dnsRecord_createTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create DNS Record'**
+  String get dnsRecord_createTitle;
+
+  /// No description provided for @dnsRecord_editTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit DNS Record'**
+  String get dnsRecord_editTitle;
+
+  /// No description provided for @dnsRecord_recordCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Record created'**
+  String get dnsRecord_recordCreated;
+
+  /// No description provided for @dnsRecord_recordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Record updated'**
+  String get dnsRecord_recordUpdated;
+
+  /// No description provided for @dnsRecord_ttlAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get dnsRecord_ttlAuto;
+
+  /// No description provided for @dnsRecord_ttl2min.
+  ///
+  /// In en, this message translates to:
+  /// **'2 minutes'**
+  String get dnsRecord_ttl2min;
+
+  /// No description provided for @dnsRecord_ttl5min.
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes'**
+  String get dnsRecord_ttl5min;
+
+  /// No description provided for @dnsRecord_ttl10min.
+  ///
+  /// In en, this message translates to:
+  /// **'10 minutes'**
+  String get dnsRecord_ttl10min;
+
+  /// No description provided for @dnsRecord_ttl15min.
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes'**
+  String get dnsRecord_ttl15min;
+
+  /// No description provided for @dnsRecord_ttl30min.
+  ///
+  /// In en, this message translates to:
+  /// **'30 minutes'**
+  String get dnsRecord_ttl30min;
+
+  /// No description provided for @dnsRecord_ttl1hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get dnsRecord_ttl1hour;
+
+  /// No description provided for @dnsRecord_ttl2hours.
+  ///
+  /// In en, this message translates to:
+  /// **'2 hours'**
+  String get dnsRecord_ttl2hours;
+
+  /// No description provided for @dnsRecord_ttl5hours.
+  ///
+  /// In en, this message translates to:
+  /// **'5 hours'**
+  String get dnsRecord_ttl5hours;
+
+  /// No description provided for @dnsRecord_ttl12hours.
+  ///
+  /// In en, this message translates to:
+  /// **'12 hours'**
+  String get dnsRecord_ttl12hours;
+
+  /// No description provided for @dnsRecord_ttl1day.
+  ///
+  /// In en, this message translates to:
+  /// **'1 day'**
+  String get dnsRecord_ttl1day;
+
+  /// No description provided for @dnsRecord_enterValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter value'**
+  String get dnsRecord_enterValue;
+
+  /// No description provided for @emptyState_noResultsFor.
+  ///
+  /// In en, this message translates to:
+  /// **'No results for \"{query}\"'**
+  String emptyState_noResultsFor(String query);
+
+  /// No description provided for @emptyState_tryAdjustingSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Try adjusting your search terms'**
+  String get emptyState_tryAdjustingSearch;
 }
 
 class _AppLocalizationsDelegate

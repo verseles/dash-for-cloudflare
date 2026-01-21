@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/models/dns_record.dart';
 import '../../providers/dns_records_provider.dart';
 import '../../providers/zone_provider.dart';
@@ -29,18 +30,18 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
   bool get _isNew => widget.record == null;
   bool get _canProxy => ['A', 'AAAA', 'CNAME'].contains(_type);
 
-  static const _ttlOptions = [
-    (label: 'Auto', value: 1),
-    (label: '2 minutes', value: 120),
-    (label: '5 minutes', value: 300),
-    (label: '10 minutes', value: 600),
-    (label: '15 minutes', value: 900),
-    (label: '30 minutes', value: 1800),
-    (label: '1 hour', value: 3600),
-    (label: '2 hours', value: 7200),
-    (label: '5 hours', value: 18000),
-    (label: '12 hours', value: 43200),
-    (label: '1 day', value: 86400),
+  List<({String label, int value})> _getTtlOptions(AppLocalizations l10n) => [
+    (label: l10n.dnsRecord_ttlAuto, value: 1),
+    (label: l10n.dnsRecord_ttl2min, value: 120),
+    (label: l10n.dnsRecord_ttl5min, value: 300),
+    (label: l10n.dnsRecord_ttl10min, value: 600),
+    (label: l10n.dnsRecord_ttl15min, value: 900),
+    (label: l10n.dnsRecord_ttl30min, value: 1800),
+    (label: l10n.dnsRecord_ttl1hour, value: 3600),
+    (label: l10n.dnsRecord_ttl2hours, value: 7200),
+    (label: l10n.dnsRecord_ttl5hours, value: 18000),
+    (label: l10n.dnsRecord_ttl12hours, value: 43200),
+    (label: l10n.dnsRecord_ttl1day, value: 86400),
   ];
 
   static const _contentPlaceholders = {
@@ -77,6 +78,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isSaving = true);
+    final l10n = AppLocalizations.of(context);
 
     try {
       final zone = ref.read(selectedZoneNotifierProvider);
@@ -100,14 +102,21 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_isNew ? 'Record created' : 'Record updated')),
+          SnackBar(
+            content: Text(
+              _isNew
+                  ? l10n.dnsRecord_recordCreated
+                  : l10n.dnsRecord_recordUpdated,
+            ),
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        final l10nErr = AppLocalizations.of(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10nErr.error_prefix(e.toString()))),
+        );
       }
     } finally {
       if (mounted) {
@@ -118,8 +127,13 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final ttlOptions = _getTtlOptions(l10n);
+
     return AlertDialog(
-      title: Text(_isNew ? 'Create DNS Record' : 'Edit DNS Record'),
+      title: Text(
+        _isNew ? l10n.dnsRecord_createTitle : l10n.dnsRecord_editTitle,
+      ),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -130,7 +144,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
               // Type dropdown
               DropdownButtonFormField<String>(
                 initialValue: _type,
-                decoration: const InputDecoration(labelText: 'Type'),
+                decoration: InputDecoration(labelText: l10n.record_type),
                 items: recordTypes
                     .map(
                       (type) =>
@@ -153,13 +167,13 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
               // Name field
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  hintText: 'e.g., www or @ for root',
+                decoration: InputDecoration(
+                  labelText: l10n.record_name,
+                  hintText: l10n.record_nameHint,
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Name is required';
+                    return l10n.record_nameRequired;
                   }
                   return null;
                 },
@@ -170,13 +184,14 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
               TextFormField(
                 controller: _contentController,
                 decoration: InputDecoration(
-                  labelText: 'Content',
-                  hintText: _contentPlaceholders[_type] ?? 'Enter value',
+                  labelText: l10n.record_content,
+                  hintText:
+                      _contentPlaceholders[_type] ?? l10n.dnsRecord_enterValue,
                 ),
                 maxLines: _type == 'TXT' ? 3 : 1,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Content is required';
+                    return l10n.record_contentRequired;
                   }
                   return null;
                 },
@@ -186,8 +201,8 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
               // TTL dropdown
               DropdownButtonFormField<int>(
                 initialValue: _ttl,
-                decoration: const InputDecoration(labelText: 'TTL'),
-                items: _ttlOptions
+                decoration: InputDecoration(labelText: l10n.record_ttl),
+                items: ttlOptions
                     .map(
                       (option) => DropdownMenuItem(
                         value: option.value,
@@ -207,7 +222,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
               if (_canProxy) ...[
                 Row(
                   children: [
-                    const Text('Proxy'),
+                    Text(l10n.common_proxy),
                     const Spacer(),
                     CloudflareProxyToggle(
                       value: _proxied,
@@ -224,7 +239,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
       actions: [
         TextButton(
           onPressed: _isSaving ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(l10n.common_cancel),
         ),
         FilledButton(
           onPressed: _isSaving ? null : _save,
@@ -234,7 +249,7 @@ class _DnsRecordEditDialogState extends ConsumerState<DnsRecordEditDialog> {
                   height: 16,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Text(_isNew ? 'Create' : 'Save'),
+              : Text(_isNew ? l10n.common_create : l10n.common_save),
         ),
       ],
     );

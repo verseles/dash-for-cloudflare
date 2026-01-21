@@ -98,10 +98,11 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           _justPasted = true;
           _clipboardHasValidToken = false; // Hide button after paste
         });
+        final l10n = AppLocalizations.of(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Token pasted from clipboard'),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(l10n.settings_tokenPastedFromClipboard),
+            duration: const Duration(seconds: 2),
           ),
         );
       }

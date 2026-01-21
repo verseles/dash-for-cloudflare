@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/models/dns_record.dart';
 import '../../../../core/theme/app_theme.dart';
 import 'cloudflare_proxy_toggle.dart';
@@ -179,22 +180,23 @@ class DnsRecordItem extends StatelessWidget {
   }
 
   Future<bool> _confirmDelete(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Record?'),
-        content: Text('Are you sure you want to delete "${record.name}"?'),
+        title: Text(l10n.dns_deleteRecordConfirmTitle),
+        content: Text(l10n.dns_deleteRecordConfirmMessage(record.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.common_cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: Text(l10n.common_delete),
           ),
         ],
       ),

@@ -305,5 +305,48 @@
       }
     }
   },
-  "debugLogs_logEntryCopied": "Log entry copied"
+  "debugLogs_logEntryCopied": "Log entry copied",
+  "debugLogs_timeRange": "Time Range:",
+  "debugLogs_filter": "Filter:",
+  "debugLogs_entries": "{count} entries",
+  "@debugLogs_entries": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "debugLogs_noLogsInRange": "No logs in this time range",
+  "debugLogs_tryLongerRange": "Try selecting a longer time range",
+  "debugLogs_autoScrollOn": "Auto-scroll ON",
+  "debugLogs_autoScrollOff": "Auto-scroll OFF",
+
+  "dnsRecord_createTitle": "Create DNS Record",
+  "dnsRecord_editTitle": "Edit DNS Record",
+  "dnsRecord_recordCreated": "Record created",
+  "dnsRecord_recordUpdated": "Record updated",
+  "dnsRecord_ttlAuto": "Auto",
+  "dnsRecord_ttl2min": "2 minutes",
+  "dnsRecord_ttl5min": "5 minutes",
+  "dnsRecord_ttl10min": "10 minutes",
+  "dnsRecord_ttl15min": "15 minutes",
+  "dnsRecord_ttl30min": "30 minutes",
+  "dnsRecord_ttl1hour": "1 hour",
+  "dnsRecord_ttl2hours": "2 hours",
+  "dnsRecord_ttl5hours": "5 hours",
+  "dnsRecord_ttl12hours": "12 hours",
+  "dnsRecord_ttl1day": "1 day",
+  "dnsRecord_enterValue": "Enter value",
+
+  "emptyState_noResultsFor": "No results for \"{query}\"",
+  "@emptyState_noResultsFor": {
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "search term"
+      }
+    }
+  },
+  "emptyState_tryAdjustingSearch": "Try adjusting your search terms"
 }

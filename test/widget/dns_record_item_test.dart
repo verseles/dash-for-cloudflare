@@ -1,6 +1,8 @@
 import 'package:cf/features/dns/domain/models/dns_record.dart';
 import 'package:cf/features/dns/presentation/widgets/dns_record_item.dart';
+import 'package:cf/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -36,6 +38,13 @@ void main() {
       ValueChanged<bool>? onProxyToggle,
     }) {
       return MaterialApp(
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: DnsRecordItem(
             record: record,

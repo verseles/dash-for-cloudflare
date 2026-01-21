@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 /// Empty state placeholder
 class EmptyState extends StatelessWidget {
   const EmptyState({
@@ -110,13 +112,13 @@ class EmptySearchState extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'No results for "$query"',
+              AppLocalizations.of(context).emptyState_noResultsFor(query),
               style: Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              'Try adjusting your search terms',
+              AppLocalizations.of(context).emptyState_tryAdjustingSearch,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -124,7 +126,10 @@ class EmptySearchState extends StatelessWidget {
             ),
             if (onClear != null) ...[
               const SizedBox(height: 16),
-              TextButton(onPressed: onClear, child: const Text('Clear search')),
+              TextButton(
+                onPressed: onClear,
+                child: Text(AppLocalizations.of(context).common_clearSearch),
+              ),
             ],
           ],
         ),

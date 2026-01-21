@@ -717,4 +717,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get debugLogs_logEntryCopied => 'Log entry copied';
+
+  @override
+  String get debugLogs_timeRange => 'Time Range:';
+
+  @override
+  String get debugLogs_filter => 'Filter:';
+
+  @override
+  String debugLogs_entries(int count) {
+    return '$count entries';
+  }
+
+  @override
+  String get debugLogs_noLogsInRange => 'No logs in this time range';
+
+  @override
+  String get debugLogs_tryLongerRange => 'Try selecting a longer time range';
+
+  @override
+  String get debugLogs_autoScrollOn => 'Auto-scroll ON';
+
+  @override
+  String get debugLogs_autoScrollOff => 'Auto-scroll OFF';
+
+  @override
+  String get dnsRecord_createTitle => 'Create DNS Record';
+
+  @override
+  String get dnsRecord_editTitle => 'Edit DNS Record';
+
+  @override
+  String get dnsRecord_recordCreated => 'Record created';
+
+  @override
+  String get dnsRecord_recordUpdated => 'Record updated';
+
+  @override
+  String get dnsRecord_ttlAuto => 'Auto';
+
+  @override
+  String get dnsRecord_ttl2min => '2 minutes';
+
+  @override
+  String get dnsRecord_ttl5min => '5 minutes';
+
+  @override
+  String get dnsRecord_ttl10min => '10 minutes';
+
+  @override
+  String get dnsRecord_ttl15min => '15 minutes';
+
+  @override
+  String get dnsRecord_ttl30min => '30 minutes';
+
+  @override
+  String get dnsRecord_ttl1hour => '1 hour';
+
+  @override
+  String get dnsRecord_ttl2hours => '2 hours';
+
+  @override
+  String get dnsRecord_ttl5hours => '5 hours';
+
+  @override
+  String get dnsRecord_ttl12hours => '12 hours';
+
+  @override
+  String get dnsRecord_ttl1day => '1 day';
+
+  @override
+  String get dnsRecord_enterValue => 'Enter value';
+
+  @override
+  String emptyState_noResultsFor(String query) {
+    return 'No results for \"$query\"';
+  }
+
+  @override
+  String get emptyState_tryAdjustingSearch => 'Try adjusting your search terms';
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 /// Error banner displayed at top of content
 class ErrorBanner extends StatelessWidget {
   const ErrorBanner({
@@ -98,7 +100,7 @@ class ErrorMessage extends StatelessWidget {
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
               ),
-              child: const Text('Retry'),
+              child: Text(AppLocalizations.of(context).common_retry),
             ),
         ],
       ),
