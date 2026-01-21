@@ -23,7 +23,7 @@ class RetryInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     final statusCode = err.response?.statusCode;
-    final shouldRetry = _shouldRetry(statusCode);
+    final shouldRetry = _shouldRetry(err);
     final retryCount = err.requestOptions.extra['retryCount'] as int? ?? 0;
 
     if (shouldRetry && retryCount < maxRetries) {
@@ -59,7 +59,15 @@ class RetryInterceptor extends Interceptor {
     handler.next(err);
   }
 
-  bool _shouldRetry(int? statusCode) {
+  bool _shouldRetry(DioException err) {
+    if (err.type == DioExceptionType.connectionTimeout ||
+        err.type == DioExceptionType.sendTimeout ||
+        err.type == DioExceptionType.receiveTimeout ||
+        err.type == DioExceptionType.connectionError) {
+      return true;
+    }
+
+    final statusCode = err.response?.statusCode;
     if (statusCode == null) return false;
     // Retry on rate limit (429) or server errors (5xx)
     return statusCode == 429 || (statusCode >= 500 && statusCode < 600);
