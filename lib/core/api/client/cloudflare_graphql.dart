@@ -178,7 +178,7 @@ class CloudflareGraphQL {
           }
           cached: httpRequestsAdaptiveGroups(
             limit: 1000,
-            filter: {datetime_geq: \$since, datetime_leq: \$until, cacheStatus: "hit"},
+            filter: {datetime_geq: \$since, datetime_leq: \$until, cacheStatus_in: ["hit", "stale", "revalidated", "updating"]},
             orderBy: [datetimeFifteenMinutes_ASC]
           ) {
             count
@@ -425,14 +425,16 @@ class CloudflareGraphQL {
       final map = item as Map<String, dynamic>;
       final sum = map['sum'] as Map<String, dynamic>? ?? {};
       final ts = (map['dimensions'] as Map?)?['ts'] as String? ?? '';
-      final count = map['count'] as int? ?? 0;
-      final bytes = sum['edgeResponseBytes'] as int? ?? 0;
+      // Use num?.toInt() to handle both int and double from GraphQL
+      final count = (map['count'] as num?)?.toInt() ?? 0;
+      final bytes = (sum['edgeResponseBytes'] as num?)?.toInt() ?? 0;
 
       // Get cached data for this timestamp
       final cachedItem = cachedMap[ts];
-      final cachedCount = cachedItem?['count'] as int? ?? 0;
+      final cachedCount = (cachedItem?['count'] as num?)?.toInt() ?? 0;
       final cachedSum = cachedItem?['sum'] as Map<String, dynamic>? ?? {};
-      final cachedBytesValue = cachedSum['edgeResponseBytes'] as int? ?? 0;
+      final cachedBytesValue =
+          (cachedSum['edgeResponseBytes'] as num?)?.toInt() ?? 0;
 
       return PerformanceTimeSeries(
         timestamp: ts,

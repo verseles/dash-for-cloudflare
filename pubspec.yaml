@@ -35,6 +35,9 @@ dependencies:
   syncfusion_flutter_charts: ^29.2.4
   syncfusion_flutter_maps: ^29.2.4
 
+  # SVG Support (for country flags)
+  flutter_svg: ^2.0.17
+
   # Internationalization
   intl: ^0.20.2
 

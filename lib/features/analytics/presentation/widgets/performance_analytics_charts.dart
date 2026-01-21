@@ -3,6 +3,23 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../domain/models/analytics.dart';
 
+/// Formats bytes into human-readable format (KB, MB, GB, TB)
+String _formatBytesForAxis(num bytes) {
+  if (bytes >= 1024 * 1024 * 1024 * 1024) {
+    return '${(bytes / (1024 * 1024 * 1024 * 1024)).toStringAsFixed(1)} TB';
+  }
+  if (bytes >= 1024 * 1024 * 1024) {
+    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
+  }
+  if (bytes >= 1024 * 1024) {
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+  }
+  if (bytes >= 1024) {
+    return '${(bytes / 1024).toStringAsFixed(1)} KB';
+  }
+  return '${bytes.toInt()} B';
+}
+
 class PerformanceTimeSeriesChart extends StatelessWidget {
   const PerformanceTimeSeriesChart({
     super.key,
@@ -48,8 +65,16 @@ class PerformanceTimeSeriesChart extends StatelessWidget {
                   majorGridLines: const MajorGridLines(width: 0),
                   labelStyle: const TextStyle(fontSize: 10),
                 ),
-                primaryYAxis: const NumericAxis(
-                  majorGridLines: MajorGridLines(dashArray: [5, 5]),
+                primaryYAxis: NumericAxis(
+                  majorGridLines: const MajorGridLines(dashArray: [5, 5]),
+                  axisLabelFormatter: unit == 'bytes'
+                      ? (AxisLabelRenderDetails details) {
+                          return ChartAxisLabel(
+                            _formatBytesForAxis(details.value),
+                            details.textStyle,
+                          );
+                        }
+                      : null,
                 ),
                 legend: const Legend(
                   isVisible: true,

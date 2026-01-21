@@ -79,19 +79,41 @@ Future<void> fetch() async {
 
 ---
 
-## ADR-008: DataCentersProvider com fallback local
+## ADR-008: Local-First Data Pattern (DataCenters + Countries)
 
-**Status**: Aceito  
-**Data**: 2025-12-29
+**Status**: Atualizado  
+**Data**: 2026-01-20
 
-**Contexto**: Dados de data centers Cloudflare (IATA codes → lat/lng) precisam estar disponíveis offline.
+**Contexto**: Dados de referência (data centers Cloudflare, países) precisam estar disponíveis offline e carregar instantaneamente.
 
-**Decisão**:
-1. Carregar `assets/data/cloudflare-iata-full.json` imediatamente (fallback)
+**Decisão**: Implementar padrão Local-First:
+1. Carregar dados do asset local imediatamente (fallback)
 2. Buscar versão atualizada do CDN em background
-3. Suportar ambos formatos JSON (object e array)
+3. Atualizar state quando CDN responder
 
-**Consequência**: App funciona offline. Dados atualizados quando online.
+**Implementações**:
+
+| Provider | Asset Local | CDN |
+|----------|-------------|-----|
+| `DataCentersNotifier` | `assets/data/cloudflare-iata-full.json` | GitHub raw |
+| `CountryNotifier` | `assets/data/countries.json` | flagcdn.com/en/codes.json |
+
+**Padrão de código**:
+```dart
+@override
+FutureOr<Map<String, T>> build() async {
+  final localData = await _loadFromAsset();
+  if (!_hasFetched) {
+    unawaited(_fetchFromCdn());
+  }
+  return localData;
+}
+```
+
+**Consequência**: 
+- App funciona offline
+- UI carrega instantaneamente com dados locais
+- Dados atualizados quando online (background refresh)
 
 ---
 
@@ -580,4 +602,4 @@ build-web:
 
 ---
 
-_Última atualização: 2026-01-20 (adicionado ADR-026: GitHub Actions deploy)_
+_Última atualização: 2026-01-20 (atualizado ADR-008: Local-First Pattern para Countries)_

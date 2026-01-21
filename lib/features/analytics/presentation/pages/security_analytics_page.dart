@@ -6,6 +6,8 @@ import '../../../dns/presentation/widgets/charts/charts.dart';
 import '../../providers/security_analytics_provider.dart';
 import '../widgets/shared_analytics_time_range_selector.dart';
 import '../widgets/web_analytics_charts.dart';
+import '../widgets/country_traffic_list.dart';
+import '../widgets/geographic_heat_map.dart';
 
 class SecurityAnalyticsPage extends ConsumerWidget {
   const SecurityAnalyticsPage({super.key});
@@ -165,12 +167,13 @@ class SecurityAnalyticsPage extends ConsumerWidget {
         groups: data.byAction,
         dimensionKey: 'action',
       ),
-      AnalyticsMapChart(title: 'Threats by Country', groups: data.byCountry),
+      CountryTrafficList(title: 'Threats by Country', groups: data.byCountry),
       AnalyticsDoughnutChart(
         title: 'Top Threat Sources',
         groups: data.bySource,
         dimensionKey: 'source',
       ),
+      GeographicHeatMap(title: 'Threat Origins', groups: data.byCountry),
     ];
 
     if (isWide) {

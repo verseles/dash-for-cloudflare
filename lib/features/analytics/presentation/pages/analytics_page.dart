@@ -20,8 +20,8 @@ class AnalyticsPage extends StatelessWidget {
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.web_outlined),
-            selectedIcon: Icon(Icons.web),
+            icon: Icon(Icons.public_outlined),
+            selectedIcon: Icon(Icons.public),
             label: 'Web',
           ),
           NavigationDestination(
@@ -30,9 +30,9 @@ class AnalyticsPage extends StatelessWidget {
             label: 'Security',
           ),
           NavigationDestination(
-            icon: Icon(Icons.speed_outlined),
-            selectedIcon: Icon(Icons.speed),
-            label: 'Performance',
+            icon: Icon(Icons.cached_outlined),
+            selectedIcon: Icon(Icons.cached),
+            label: 'Cache',
           ),
         ],
       ),

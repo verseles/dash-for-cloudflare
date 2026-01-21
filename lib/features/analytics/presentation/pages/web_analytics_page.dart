@@ -6,6 +6,8 @@ import '../../../dns/presentation/widgets/charts/analytics_doughnut_chart.dart';
 import '../../providers/web_analytics_provider.dart';
 import '../widgets/shared_analytics_time_range_selector.dart';
 import '../widgets/web_analytics_charts.dart';
+import '../widgets/country_traffic_list.dart';
+import '../widgets/geographic_heat_map.dart';
 
 class WebAnalyticsPage extends ConsumerWidget {
   const WebAnalyticsPage({super.key});
@@ -151,11 +153,10 @@ class WebAnalyticsPage extends ConsumerWidget {
         groups: data.byStatus,
         dimensionKey: 'edgeResponseStatus',
       ),
-      AnalyticsBarChart(
-        title: 'Requests by Country',
+      CountryTrafficList(title: 'Requests by Country', groups: data.byCountry),
+      GeographicHeatMap(
+        title: 'Geographic Distribution',
         groups: data.byCountry,
-        dimensionKey: 'clientCountryName',
-        horizontal: true,
       ),
       AnalyticsBarChart(
         title: 'Requests by Protocol',
