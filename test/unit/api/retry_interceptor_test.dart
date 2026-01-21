@@ -7,6 +7,11 @@ class MockDio extends Mock implements Dio {}
 class MockErrorInterceptorHandler extends Mock implements ErrorInterceptorHandler {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(RequestOptions(path: ''));
+    registerFallbackValue(DioException(requestOptions: RequestOptions(path: '')));
+  });
+
   group('RetryInterceptor', () {
     late RetryInterceptor interceptor;
     late MockDio mockDio;
@@ -20,8 +25,6 @@ void main() {
         maxRetries: 2,
         baseDelayMs: 1, // Short delay for testing
       );
-
-      registerFallbackValue(RequestOptions(path: ''));
     });
 
     test('retries on 429', () async {
@@ -34,14 +37,16 @@ void main() {
         ),
       );
 
-      when(() => mockDio.fetch(any())).thenAnswer(
+      // Stub fetch to return a success response
+      when(() => mockDio.fetch<dynamic>(any())).thenAnswer(
         (_) async => Response(requestOptions: options, statusCode: 200),
       );
 
       await interceptor.onError(err, mockHandler);
 
-      verify(() => mockDio.fetch(any())).called(1);
+      verify(() => mockDio.fetch<dynamic>(any())).called(1);
       verify(() => mockHandler.resolve(any())).called(1);
+      verifyNever(() => mockHandler.next(any()));
     });
 
     test('retries on 500', () async {
@@ -54,14 +59,15 @@ void main() {
         ),
       );
 
-      when(() => mockDio.fetch(any())).thenAnswer(
+      when(() => mockDio.fetch<dynamic>(any())).thenAnswer(
         (_) async => Response(requestOptions: options, statusCode: 200),
       );
 
       await interceptor.onError(err, mockHandler);
 
-      verify(() => mockDio.fetch(any())).called(1);
+      verify(() => mockDio.fetch<dynamic>(any())).called(1);
       verify(() => mockHandler.resolve(any())).called(1);
+      verifyNever(() => mockHandler.next(any()));
     });
 
     test('retries on connection timeout', () async {
@@ -71,14 +77,15 @@ void main() {
         type: DioExceptionType.connectionTimeout,
       );
 
-      when(() => mockDio.fetch(any())).thenAnswer(
+      when(() => mockDio.fetch<dynamic>(any())).thenAnswer(
         (_) async => Response(requestOptions: options, statusCode: 200),
       );
 
       await interceptor.onError(err, mockHandler);
 
-      verify(() => mockDio.fetch(any())).called(1);
+      verify(() => mockDio.fetch<dynamic>(any())).called(1);
       verify(() => mockHandler.resolve(any())).called(1);
+      verifyNever(() => mockHandler.next(any()));
     });
   });
 }
