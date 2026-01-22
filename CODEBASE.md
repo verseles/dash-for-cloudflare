@@ -104,10 +104,10 @@ Visualização de dados via GraphQL e Syncfusion.
 
 Gerenciamento de projetos Cloudflare Pages (account-level).
 
-*   **Models:** `PagesProject` (com BuildConfig, PagesSource), `PagesDeployment` (com stages/triggers).
-*   **Providers:** `PagesProjectsNotifier` (cache ADR-022), `PagesDeploymentsNotifier` (family), `RollbackNotifier`.
+*   **Models:** `PagesProject` (com BuildConfig, PagesSource), `PagesDeployment` (com stages/triggers), `DeploymentLogEntry` (logs de build).
+*   **Providers:** `PagesProjectsNotifier` (cache ADR-022), `PagesDeploymentsNotifier` (family), `RollbackNotifier`, `RetryNotifier`, `DeploymentLogsNotifier` (polling 3s).
 *   **Account Context:** `AccountsNotifier` + `selectedAccountIdProvider` (Pages são recursos de conta, não zona).
-*   **UI:** `PagesListPage` (cards com status), `PagesProjectPage` (detalhes/deployments), `DeploymentDetailsPage` (stages/rollback).
+*   **UI:** `PagesListPage` (cards com status), `PagesProjectPage` (detalhes/deployments), `DeploymentDetailsPage` (stages/logs/rollback).
 
 ---
 

@@ -385,5 +385,16 @@
   "pages_retryConfirmTitle": "Retry Deployment",
   "pages_retryConfirmMessage": "Are you sure you want to retry this deployment? This will start a new build with the same configuration.",
   "pages_retrySuccess": "Deployment retry started",
-  "pages_autoDeployPaused": "Auto-deploy paused"
+  "pages_autoDeployPaused": "Auto-deploy paused",
+  "pages_buildLogs": "Build Logs",
+  "pages_noLogs": "No logs available",
+  "pages_autoScrollOn": "Auto-scroll enabled",
+  "pages_autoScrollOff": "Auto-scroll disabled",
+  "pages_logCount": "{current} of {total} lines",
+  "@pages_logCount": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  }
 }

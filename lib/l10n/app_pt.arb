@@ -294,5 +294,16 @@
   "pages_retryConfirmTitle": "Repetir Deployment",
   "pages_retryConfirmMessage": "Tem certeza que deseja repetir este deployment? Isso iniciará um novo build com a mesma configuração.",
   "pages_retrySuccess": "Deploy reiniciado",
-  "pages_autoDeployPaused": "Auto-deploy pausado"
+  "pages_autoDeployPaused": "Auto-deploy pausado",
+  "pages_buildLogs": "Logs do Build",
+  "pages_noLogs": "Nenhum log disponível",
+  "pages_autoScrollOn": "Auto-scroll ativado",
+  "pages_autoScrollOff": "Auto-scroll desativado",
+  "pages_logCount": "{current} de {total} linhas",
+  "@pages_logCount": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  }
 }

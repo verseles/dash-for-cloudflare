@@ -105,4 +105,7 @@ extension PagesDeploymentStatus on PagesDeployment {
 
   bool get isProduction => environment == 'production';
   bool get isPreview => environment == 'preview';
+
+  /// Check if deployment is currently building (any stage is active)
+  bool get isBuilding => status == 'building' || status == 'queued';
 }

@@ -1765,6 +1765,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Auto-deploy paused'**
   String get pages_autoDeployPaused;
+
+  /// No description provided for @pages_buildLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Logs'**
+  String get pages_buildLogs;
+
+  /// No description provided for @pages_noLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs available'**
+  String get pages_noLogs;
+
+  /// No description provided for @pages_autoScrollOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-scroll enabled'**
+  String get pages_autoScrollOn;
+
+  /// No description provided for @pages_autoScrollOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-scroll disabled'**
+  String get pages_autoScrollOff;
+
+  /// No description provided for @pages_logCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total} lines'**
+  String pages_logCount(int current, int total);
 }
 
 class _AppLocalizationsDelegate

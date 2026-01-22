@@ -8,6 +8,7 @@ import '../../../features/dns/domain/models/dns_record.dart';
 import '../../../features/dns/domain/models/dns_settings.dart';
 import '../../../features/pages/domain/models/pages_project.dart';
 import '../../../features/pages/domain/models/pages_deployment.dart';
+import '../../../features/pages/domain/models/deployment_log.dart';
 
 part 'cloudflare_api.g.dart';
 
@@ -183,6 +184,16 @@ abstract class CloudflareApi {
     '/accounts/{accountId}/pages/projects/{projectName}/deployments/{deploymentId}/retry',
   )
   Future<CloudflareResponse<PagesDeployment>> retryDeployment(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Path('deploymentId') String deploymentId,
+  );
+
+  /// Get deployment build logs
+  @GET(
+    '/accounts/{accountId}/pages/projects/{projectName}/deployments/{deploymentId}/history/logs',
+  )
+  Future<CloudflareResponse<DeploymentLogsResponse>> getDeploymentLogs(
     @Path('accountId') String accountId,
     @Path('projectName') String projectName,
     @Path('deploymentId') String deploymentId,

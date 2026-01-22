@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../providers/pages_provider.dart';
 import '../../domain/models/pages_deployment.dart';
+import '../../domain/models/deployment_log.dart';
 import '../../../../l10n/app_localizations.dart';
 
 /// Deployment details page with stages and rollback action
@@ -58,6 +59,15 @@ class DeploymentDetailsPage extends ConsumerWidget {
 
             // Stages
             _buildStagesSection(context, deployment, l10n),
+
+            const SizedBox(height: 24),
+
+            // Build logs section
+            _BuildLogsSection(
+              projectName: projectName,
+              deploymentId: deploymentId,
+              deployment: deployment,
+            ),
 
             const SizedBox(height: 24),
 
@@ -528,5 +538,210 @@ class _StageItem extends StatelessWidget {
       default:
         return Icons.radio_button_unchecked;
     }
+  }
+}
+
+/// Build logs section with terminal-style display
+class _BuildLogsSection extends ConsumerStatefulWidget {
+  const _BuildLogsSection({
+    required this.projectName,
+    required this.deploymentId,
+    required this.deployment,
+  });
+
+  final String projectName;
+  final String deploymentId;
+  final PagesDeployment deployment;
+
+  @override
+  ConsumerState<_BuildLogsSection> createState() => _BuildLogsSectionState();
+}
+
+class _BuildLogsSectionState extends ConsumerState<_BuildLogsSection> {
+  final ScrollController _scrollController = ScrollController();
+  bool _autoScroll = true;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+
+    final logsParams = DeploymentLogsParams(
+      projectName: widget.projectName,
+      deploymentId: widget.deploymentId,
+    );
+
+    final logsState = ref.watch(deploymentLogsNotifierProvider(logsParams));
+
+    // Start/stop polling based on deployment status
+    ref.listen(deploymentLogsNotifierProvider(logsParams), (prev, next) {
+      if (_autoScroll && next.logs.isNotEmpty) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_scrollController.hasClients) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+            );
+          }
+        });
+      }
+    });
+
+    // Control polling based on deployment status
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final notifier = ref.read(
+        deploymentLogsNotifierProvider(logsParams).notifier,
+      );
+      if (widget.deployment.isBuilding && !logsState.isPolling) {
+        notifier.startPolling();
+      } else if (!widget.deployment.isBuilding && logsState.isPolling) {
+        notifier.stopPolling();
+      }
+    });
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header with refresh button
+        Row(
+          children: [
+            Text(
+              l10n.pages_buildLogs,
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
+            if (logsState.isPolling)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              ),
+            IconButton(
+              icon: const Icon(Icons.refresh, size: 20),
+              onPressed: logsState.isLoading
+                  ? null
+                  : () => ref
+                        .read(
+                          deploymentLogsNotifierProvider(logsParams).notifier,
+                        )
+                        .refresh(),
+              tooltip: l10n.common_refresh,
+            ),
+            IconButton(
+              icon: Icon(
+                _autoScroll ? Icons.vertical_align_bottom : Icons.expand,
+                size: 20,
+              ),
+              onPressed: () => setState(() => _autoScroll = !_autoScroll),
+              tooltip: _autoScroll
+                  ? l10n.pages_autoScrollOn
+                  : l10n.pages_autoScrollOff,
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        // Terminal-style log viewer
+        Container(
+          height: 300,
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1E1E),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: theme.colorScheme.outlineVariant),
+          ),
+          child: logsState.isLoading && logsState.logs.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(color: Colors.white54),
+                )
+              : logsState.error != null && logsState.logs.isEmpty
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      logsState.error!,
+                      style: const TextStyle(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              : logsState.logs.isEmpty
+              ? Center(
+                  child: Text(
+                    l10n.pages_noLogs,
+                    style: const TextStyle(color: Colors.white54),
+                  ),
+                )
+              : ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.all(12),
+                  itemCount: logsState.logs.length,
+                  itemBuilder: (context, index) {
+                    final log = logsState.logs[index];
+                    return _LogLine(log: log);
+                  },
+                ),
+        ),
+
+        // Log count
+        if (logsState.logs.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              l10n.pages_logCount(logsState.logs.length, logsState.total),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+/// Individual log line with syntax highlighting
+class _LogLine extends StatelessWidget {
+  const _LogLine({required this.log});
+
+  final DeploymentLogEntry log;
+
+  @override
+  Widget build(BuildContext context) {
+    Color textColor = Colors.white70;
+
+    if (log.isError) {
+      textColor = Colors.redAccent;
+    } else if (log.isWarning) {
+      textColor = Colors.orangeAccent;
+    } else if (log.isSuccess) {
+      textColor = Colors.greenAccent;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: Text(
+        log.line,
+        style: TextStyle(
+          fontFamily: 'monospace',
+          fontSize: 12,
+          color: textColor,
+          height: 1.4,
+        ),
+      ),
+    );
   }
 }

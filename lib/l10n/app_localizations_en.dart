@@ -884,4 +884,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pages_autoDeployPaused => 'Auto-deploy paused';
+
+  @override
+  String get pages_buildLogs => 'Build Logs';
+
+  @override
+  String get pages_noLogs => 'No logs available';
+
+  @override
+  String get pages_autoScrollOn => 'Auto-scroll enabled';
+
+  @override
+  String get pages_autoScrollOff => 'Auto-scroll disabled';
+
+  @override
+  String pages_logCount(int current, int total) {
+    return '$current of $total lines';
+  }
 }

@@ -896,4 +896,21 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get pages_autoDeployPaused => 'Auto-deploy pausado';
+
+  @override
+  String get pages_buildLogs => 'Logs do Build';
+
+  @override
+  String get pages_noLogs => 'Nenhum log disponível';
+
+  @override
+  String get pages_autoScrollOn => 'Auto-scroll ativado';
+
+  @override
+  String get pages_autoScrollOff => 'Auto-scroll desativado';
+
+  @override
+  String pages_logCount(int current, int total) {
+    return '$current de $total linhas';
+  }
 }

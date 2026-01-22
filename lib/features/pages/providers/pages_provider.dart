@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/pages_project.dart';
 import '../domain/models/pages_deployment.dart';
+import '../domain/models/deployment_log.dart';
 import '../../auth/providers/account_provider.dart';
 import '../../auth/providers/settings_provider.dart';
 import '../../../core/providers/api_providers.dart';
@@ -419,5 +420,150 @@ class SelectedProjectNotifier extends _$SelectedProjectNotifier {
 
   void clear() {
     state = null;
+  }
+}
+
+// ==================== DEPLOYMENT LOGS ====================
+
+/// Parameters for fetching deployment logs
+class DeploymentLogsParams {
+  const DeploymentLogsParams({
+    required this.projectName,
+    required this.deploymentId,
+  });
+
+  final String projectName;
+  final String deploymentId;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DeploymentLogsParams &&
+          runtimeType == other.runtimeType &&
+          projectName == other.projectName &&
+          deploymentId == other.deploymentId;
+
+  @override
+  int get hashCode => projectName.hashCode ^ deploymentId.hashCode;
+}
+
+/// State for deployment logs with polling support
+class DeploymentLogsState {
+  const DeploymentLogsState({
+    this.logs = const [],
+    this.isLoading = false,
+    this.error,
+    this.isPolling = false,
+    this.total = 0,
+  });
+
+  final List<DeploymentLogEntry> logs;
+  final bool isLoading;
+  final String? error;
+  final bool isPolling;
+  final int total;
+
+  DeploymentLogsState copyWith({
+    List<DeploymentLogEntry>? logs,
+    bool? isLoading,
+    String? error,
+    bool? isPolling,
+    int? total,
+  }) {
+    return DeploymentLogsState(
+      logs: logs ?? this.logs,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+      isPolling: isPolling ?? this.isPolling,
+      total: total ?? this.total,
+    );
+  }
+}
+
+/// Provider for deployment logs with automatic polling during active builds
+@riverpod
+class DeploymentLogsNotifier extends _$DeploymentLogsNotifier {
+  Timer? _pollingTimer;
+  static const _pollingInterval = Duration(seconds: 3);
+
+  @override
+  DeploymentLogsState build(DeploymentLogsParams params) {
+    // Clean up timer when provider is disposed
+    ref.onDispose(() {
+      _pollingTimer?.cancel();
+    });
+
+    // Start fetching logs
+    _fetchLogs();
+
+    return const DeploymentLogsState(isLoading: true);
+  }
+
+  Future<void> _fetchLogs() async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) {
+      state = state.copyWith(isLoading: false, error: 'No account selected');
+      return;
+    }
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getDeploymentLogs(
+        accountId,
+        params.projectName,
+        params.deploymentId,
+      );
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Failed to fetch logs';
+        state = state.copyWith(isLoading: false, error: error);
+        return;
+      }
+
+      final logsResponse = response.result!;
+      state = state.copyWith(
+        logs: logsResponse.data,
+        total: logsResponse.total,
+        isLoading: false,
+        error: null,
+      );
+
+      log.stateChange(
+        'DeploymentLogsNotifier',
+        'Fetched ${logsResponse.data.length} log entries',
+      );
+    } catch (e, stack) {
+      log.error('DeploymentLogsNotifier: Error', error: e, stackTrace: stack);
+      state = state.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+  /// Start polling for new logs (call when deployment is building)
+  void startPolling() {
+    if (_pollingTimer != null) return;
+
+    state = state.copyWith(isPolling: true);
+    _pollingTimer = Timer.periodic(_pollingInterval, (_) {
+      _fetchLogs();
+    });
+
+    log.stateChange('DeploymentLogsNotifier', 'Started polling');
+  }
+
+  /// Stop polling (call when deployment completes or fails)
+  void stopPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = null;
+    state = state.copyWith(isPolling: false);
+
+    log.stateChange('DeploymentLogsNotifier', 'Stopped polling');
+  }
+
+  /// Refresh logs manually
+  Future<void> refresh() async {
+    state = state.copyWith(isLoading: true);
+    await _fetchLogs();
   }
 }
