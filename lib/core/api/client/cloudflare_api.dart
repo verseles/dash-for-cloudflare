@@ -2,9 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../models/cloudflare_response.dart';
+import '../../../features/auth/domain/models/account.dart';
 import '../../../features/dns/domain/models/zone.dart';
 import '../../../features/dns/domain/models/dns_record.dart';
 import '../../../features/dns/domain/models/dns_settings.dart';
+import '../../../features/pages/domain/models/pages_project.dart';
+import '../../../features/pages/domain/models/pages_deployment.dart';
 
 part 'cloudflare_api.g.dart';
 
@@ -12,6 +15,15 @@ part 'cloudflare_api.g.dart';
 @RestApi()
 abstract class CloudflareApi {
   factory CloudflareApi(Dio dio, {String baseUrl}) = _CloudflareApi;
+
+  // ============== ACCOUNTS ==============
+
+  /// Get all accounts the token has access to
+  @GET('/accounts')
+  Future<CloudflareResponse<List<Account>>> getAccounts({
+    @Query('per_page') int perPage = 100,
+    @Query('page') int page = 1,
+  });
 
   // ============== ZONES ==============
 
@@ -116,5 +128,53 @@ abstract class CloudflareApi {
   Future<CloudflareResponse<DnsZoneSettings>> updateDnsZoneSettings(
     @Path('zoneId') String zoneId,
     @Body() Map<String, dynamic> data,
+  );
+
+  // ============== PAGES PROJECTS ==============
+
+  /// Get all Pages projects for an account
+  @GET('/accounts/{accountId}/pages/projects')
+  Future<CloudflareResponse<List<PagesProject>>> getPagesProjects(
+    @Path('accountId') String accountId, {
+    @Query('per_page') int perPage = 50,
+    @Query('page') int page = 1,
+  });
+
+  /// Get a single Pages project by name
+  @GET('/accounts/{accountId}/pages/projects/{projectName}')
+  Future<CloudflareResponse<PagesProject>> getPagesProject(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+  );
+
+  // ============== PAGES DEPLOYMENTS ==============
+
+  /// Get all deployments for a Pages project
+  @GET('/accounts/{accountId}/pages/projects/{projectName}/deployments')
+  Future<CloudflareResponse<List<PagesDeployment>>> getPagesDeployments(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName, {
+    @Query('per_page') int perPage = 25,
+    @Query('page') int page = 1,
+  });
+
+  /// Get a single deployment
+  @GET(
+    '/accounts/{accountId}/pages/projects/{projectName}/deployments/{deploymentId}',
+  )
+  Future<CloudflareResponse<PagesDeployment>> getPagesDeployment(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Path('deploymentId') String deploymentId,
+  );
+
+  /// Rollback to a specific deployment
+  @POST(
+    '/accounts/{accountId}/pages/projects/{projectName}/deployments/{deploymentId}/rollback',
+  )
+  Future<CloudflareResponse<PagesDeployment>> rollbackDeployment(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Path('deploymentId') String deploymentId,
   );
 }

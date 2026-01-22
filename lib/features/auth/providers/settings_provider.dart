@@ -16,6 +16,7 @@ const String _tokenKey = 'cloudflare_api_token';
 const String _themeModeKey = 'theme_mode';
 const String _localeKey = 'locale';
 const String _selectedZoneIdKey = 'selected_zone_id';
+const String _selectedAccountIdKey = 'selected_account_id';
 
 /// Provider for FlutterSecureStorage
 @riverpod
@@ -56,6 +57,7 @@ class SettingsNotifier extends _$SettingsNotifier {
       final themeModeStr = _prefs?.getString(_themeModeKey) ?? 'system';
       final locale = _prefs?.getString(_localeKey) ?? 'en';
       final selectedZoneId = _prefs?.getString(_selectedZoneIdKey);
+      final selectedAccountId = _prefs?.getString(_selectedAccountIdKey);
 
       final themeMode = switch (themeModeStr) {
         'light' => ThemeMode.light,
@@ -73,9 +75,14 @@ class SettingsNotifier extends _$SettingsNotifier {
         themeMode: themeMode,
         locale: locale,
         selectedZoneId: selectedZoneId,
+        selectedAccountId: selectedAccountId,
       );
     } catch (e, stack) {
-      log.error('SettingsNotifier: Failed to load settings', error: e, stackTrace: stack);
+      log.error(
+        'SettingsNotifier: Failed to load settings',
+        error: e,
+        stackTrace: stack,
+      );
       rethrow;
     }
   }
@@ -88,12 +95,19 @@ class SettingsNotifier extends _$SettingsNotifier {
         log.stateChange('SettingsNotifier', 'API token cleared');
       } else {
         await _secureStorage.write(key: _tokenKey, value: token);
-        log.stateChange('SettingsNotifier', 'API token updated (length: ${token.length})');
+        log.stateChange(
+          'SettingsNotifier',
+          'API token updated (length: ${token.length})',
+        );
       }
 
       state = AsyncData(state.value!.copyWith(cloudflareApiToken: token));
     } catch (e, stack) {
-      log.error('SettingsNotifier: Failed to save API token', error: e, stackTrace: stack);
+      log.error(
+        'SettingsNotifier: Failed to save API token',
+        error: e,
+        stackTrace: stack,
+      );
       rethrow;
     }
   }
@@ -128,6 +142,16 @@ class SettingsNotifier extends _$SettingsNotifier {
       await _prefs?.setString(_selectedZoneIdKey, zoneId);
     }
     state = AsyncData(state.value!.copyWith(selectedZoneId: zoneId));
+  }
+
+  /// Save selected account ID
+  Future<void> setSelectedAccountId(String? accountId) async {
+    if (accountId == null) {
+      await _prefs?.remove(_selectedAccountIdKey);
+    } else {
+      await _prefs?.setString(_selectedAccountIdKey, accountId);
+    }
+    state = AsyncData(state.value!.copyWith(selectedAccountId: accountId));
   }
 
   /// Check if user has a valid token

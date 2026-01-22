@@ -1,0 +1,353 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../domain/models/pages_project.dart';
+import '../domain/models/pages_deployment.dart';
+import '../../auth/providers/account_provider.dart';
+import '../../auth/providers/settings_provider.dart';
+import '../../../core/providers/api_providers.dart';
+import '../../../core/logging/log_service.dart';
+import '../../../core/logging/log_level.dart';
+
+part 'pages_provider.g.dart';
+
+/// Cache expiration duration (3 days)
+const _cacheMaxAge = Duration(days: 3);
+
+// ==================== PROJECTS STATE ====================
+
+/// State for pages projects with cache metadata
+class PagesProjectsState {
+  const PagesProjectsState({
+    this.projects = const [],
+    this.isFromCache = false,
+    this.isRefreshing = false,
+    this.cachedAt,
+  });
+
+  final List<PagesProject> projects;
+  final bool isFromCache;
+  final bool isRefreshing;
+  final DateTime? cachedAt;
+
+  PagesProjectsState copyWith({
+    List<PagesProject>? projects,
+    bool? isFromCache,
+    bool? isRefreshing,
+    DateTime? cachedAt,
+  }) {
+    return PagesProjectsState(
+      projects: projects ?? this.projects,
+      isFromCache: isFromCache ?? this.isFromCache,
+      isRefreshing: isRefreshing ?? this.isRefreshing,
+      cachedAt: cachedAt ?? this.cachedAt,
+    );
+  }
+}
+
+// ==================== PROJECTS NOTIFIER ====================
+
+/// Provider for fetching and caching Pages projects (ADR-022 pattern)
+@riverpod
+class PagesProjectsNotifier extends _$PagesProjectsNotifier {
+  SharedPreferences? _prefs;
+  int _currentFetchId = 0;
+
+  String get _cacheKey => 'pages_projects_cache_${_accountId ?? ""}';
+  String get _cacheTimeKey => 'pages_projects_cache_time_${_accountId ?? ""}';
+
+  String? get _accountId => ref.read(selectedAccountIdProvider);
+
+  @override
+  FutureOr<PagesProjectsState> build() async {
+    // Watch for account changes
+    final accountId = ref.watch(selectedAccountIdProvider);
+    if (accountId == null) {
+      return const PagesProjectsState();
+    }
+
+    // Propagate account errors
+    final accountsState = ref.watch(accountsNotifierProvider);
+    if (accountsState.hasError) {
+      throw accountsState.error!;
+    }
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try to load from cache first
+    final cachedState = await _loadFromCache();
+    if (cachedState != null) {
+      unawaited(_refreshInBackground(cachedState));
+      return cachedState;
+    }
+
+    return _fetchProjects();
+  }
+
+  Future<PagesProjectsState?> _loadFromCache() async {
+    try {
+      final cachedJson = _prefs?.getString(_cacheKey);
+      final cachedTimeStr = _prefs?.getString(_cacheTimeKey);
+
+      if (cachedJson == null || cachedTimeStr == null) return null;
+
+      final cachedTime = DateTime.parse(cachedTimeStr);
+      final age = DateTime.now().difference(cachedTime);
+
+      if (age > _cacheMaxAge) {
+        log.info(
+          'PagesProjectsNotifier: Cache expired (${age.inDays} days old)',
+          category: LogCategory.state,
+        );
+        return null;
+      }
+
+      final List<dynamic> projectsJson =
+          json.decode(cachedJson) as List<dynamic>;
+      final projects = projectsJson
+          .map((e) => PagesProject.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      log.info(
+        'PagesProjectsNotifier: Loaded ${projects.length} projects from cache',
+        category: LogCategory.state,
+      );
+
+      return PagesProjectsState(
+        projects: projects,
+        isFromCache: true,
+        cachedAt: cachedTime,
+      );
+    } catch (e, stack) {
+      log.error(
+        'PagesProjectsNotifier: Cache error',
+        error: e,
+        stackTrace: stack,
+      );
+      return null;
+    }
+  }
+
+  Future<void> _saveToCache(List<PagesProject> projects) async {
+    try {
+      final projectsJson = projects.map((p) => p.toJson()).toList();
+      await _prefs?.setString(_cacheKey, json.encode(projectsJson));
+      await _prefs?.setString(_cacheTimeKey, DateTime.now().toIso8601String());
+      log.info(
+        'PagesProjectsNotifier: Saved ${projects.length} projects to cache',
+        category: LogCategory.state,
+      );
+    } catch (e) {
+      log.warning(
+        'PagesProjectsNotifier: Failed to save cache',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<void> _refreshInBackground(PagesProjectsState currentState) async {
+    state = AsyncData(currentState.copyWith(isRefreshing: true));
+
+    try {
+      final freshState = await _fetchProjectsFromApi();
+      state = AsyncData(freshState);
+    } catch (e) {
+      log.warning(
+        'PagesProjectsNotifier: Background refresh failed',
+        details: e.toString(),
+      );
+      state = AsyncData(currentState.copyWith(isRefreshing: false));
+    }
+  }
+
+  Future<PagesProjectsState> _fetchProjects() async {
+    return _fetchProjectsFromApi();
+  }
+
+  Future<PagesProjectsState> _fetchProjectsFromApi() async {
+    final fetchId = ++_currentFetchId;
+    final accountId = ref.read(selectedAccountIdProvider);
+
+    if (accountId == null) {
+      return const PagesProjectsState();
+    }
+
+    log.stateChange(
+      'PagesProjectsNotifier',
+      'Fetching projects for account $accountId',
+    );
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getPagesProjects(accountId);
+
+      // Race condition check (ADR-007)
+      if (_currentFetchId != fetchId) {
+        log.info(
+          'PagesProjectsNotifier: Discarding stale response',
+          category: LogCategory.state,
+        );
+        return state.valueOrNull ?? const PagesProjectsState();
+      }
+
+      if (!response.success || response.result == null) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Failed to fetch projects';
+        throw Exception(error);
+      }
+
+      final projects = response.result!;
+      log.stateChange(
+        'PagesProjectsNotifier',
+        'Fetched ${projects.length} projects',
+      );
+
+      unawaited(_saveToCache(projects));
+
+      return PagesProjectsState(
+        projects: projects,
+        isFromCache: false,
+        cachedAt: DateTime.now(),
+      );
+    } catch (e, stack) {
+      log.error('PagesProjectsNotifier: Error', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<void> refresh() async {
+    log.stateChange('PagesProjectsNotifier', 'Refreshing projects');
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(_fetchProjects);
+  }
+}
+
+// ==================== DEPLOYMENTS NOTIFIER ====================
+
+/// Provider for fetching deployments of a specific project
+@riverpod
+class PagesDeploymentsNotifier extends _$PagesDeploymentsNotifier {
+  int _currentFetchId = 0;
+
+  @override
+  FutureOr<List<PagesDeployment>> build(String projectName) async {
+    final accountId = ref.watch(selectedAccountIdProvider);
+    if (accountId == null) return [];
+
+    return _fetchDeployments(accountId, projectName);
+  }
+
+  Future<List<PagesDeployment>> _fetchDeployments(
+    String accountId,
+    String projectName,
+  ) async {
+    final fetchId = ++_currentFetchId;
+
+    log.stateChange(
+      'PagesDeploymentsNotifier',
+      'Fetching deployments for $projectName',
+    );
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getPagesDeployments(accountId, projectName);
+
+      if (_currentFetchId != fetchId) {
+        return state.valueOrNull ?? [];
+      }
+
+      if (!response.success || response.result == null) {
+        throw Exception('Failed to fetch deployments');
+      }
+
+      return response.result!;
+    } catch (e, stack) {
+      log.error('PagesDeploymentsNotifier: Error', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<void> refresh() async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => _fetchDeployments(accountId, projectName),
+    );
+  }
+}
+
+// ==================== ROLLBACK ACTION ====================
+
+/// Provider for rollback action
+@riverpod
+class RollbackNotifier extends _$RollbackNotifier {
+  @override
+  FutureOr<void> build() async {}
+
+  Future<bool> rollback({
+    required String projectName,
+    required String deploymentId,
+  }) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) {
+      throw Exception('No account selected');
+    }
+
+    state = const AsyncLoading();
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.rollbackDeployment(
+        accountId,
+        projectName,
+        deploymentId,
+      );
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Rollback failed';
+        throw Exception(error);
+      }
+
+      log.stateChange(
+        'RollbackNotifier',
+        'Rollback successful for $projectName to $deploymentId',
+      );
+
+      // Refresh projects and deployments after rollback
+      ref.invalidate(pagesProjectsNotifierProvider);
+      ref.invalidate(pagesDeploymentsNotifierProvider(projectName));
+
+      state = const AsyncData(null);
+      return true;
+    } catch (e, stack) {
+      log.error('RollbackNotifier: Error', error: e, stackTrace: stack);
+      state = AsyncError(e, stack);
+      return false;
+    }
+  }
+}
+
+// ==================== SELECTED PROJECT ====================
+
+/// Provider for the currently selected project (for navigation)
+@riverpod
+class SelectedProjectNotifier extends _$SelectedProjectNotifier {
+  @override
+  PagesProject? build() => null;
+
+  void select(PagesProject project) {
+    state = project;
+  }
+
+  void clear() {
+    state = null;
+  }
+}

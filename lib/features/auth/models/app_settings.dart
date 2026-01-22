@@ -39,6 +39,7 @@ sealed class AppSettings with _$AppSettings {
     @ThemeModeConverter() @Default(ThemeMode.system) ThemeMode themeMode,
     @Default('en') String locale,
     String? selectedZoneId,
+    String? selectedAccountId,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>
