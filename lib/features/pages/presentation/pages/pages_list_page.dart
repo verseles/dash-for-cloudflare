@@ -6,8 +6,6 @@ import 'package:intl/intl.dart';
 import '../../providers/pages_provider.dart';
 import '../../domain/models/pages_project.dart';
 import '../../domain/models/pages_deployment.dart';
-import '../../../auth/providers/account_provider.dart';
-import '../../../auth/domain/models/account.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
 
@@ -18,61 +16,12 @@ class PagesListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final projectsAsync = ref.watch(pagesProjectsNotifierProvider);
-    final selectedAccount = ref.watch(selectedAccountNotifierProvider);
-    final accountsAsync = ref.watch(accountsNotifierProvider);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.pages_title),
-        centerTitle: true,
-        actions: [
-          // Account selector
-          accountsAsync.when(
-            loading: () => const SizedBox.shrink(),
-            error: (_, __) => const SizedBox.shrink(),
-            data: (state) {
-              if (state.accounts.length <= 1) return const SizedBox.shrink();
-              return PopupMenuButton<Account>(
-                icon: const Icon(Icons.account_circle_outlined),
-                tooltip: l10n.pages_selectAccount,
-                onSelected: (account) {
-                  ref
-                      .read(selectedAccountNotifierProvider.notifier)
-                      .selectAccount(account);
-                },
-                itemBuilder: (context) => state.accounts
-                    .map(
-                      (account) => PopupMenuItem(
-                        value: account,
-                        child: Row(
-                          children: [
-                            if (account.id == selectedAccount?.id)
-                              Icon(
-                                Icons.check,
-                                size: 18,
-                                color: theme.colorScheme.primary,
-                              )
-                            else
-                              const SizedBox(width: 18),
-                            const SizedBox(width: 8),
-                            Expanded(child: Text(account.name)),
-                          ],
-                        ),
-                      ),
-                    )
-                    .toList(),
-              );
-            },
-          ),
-        ],
-      ),
-      body: projectsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => _buildError(context, ref, error, l10n),
-        data: (state) => _buildProjectsList(context, ref, state, l10n),
-      ),
+    return projectsAsync.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => _buildError(context, ref, error, l10n),
+      data: (state) => _buildProjectsList(context, ref, state, l10n),
     );
   }
 

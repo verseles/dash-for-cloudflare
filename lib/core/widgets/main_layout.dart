@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import '../../features/dns/providers/zone_provider.dart';
 import '../../features/dns/providers/tab_preloader_provider.dart';
 import '../../features/dns/domain/models/zone.dart';
+import '../../features/auth/providers/account_provider.dart';
+import '../../features/auth/domain/models/account.dart';
 import '../router/app_router.dart';
 
 /// Main layout with AppBar and optional Drawer
@@ -22,13 +24,14 @@ class MainLayout extends ConsumerWidget {
 
     final location = GoRouterState.of(context).matchedLocation;
     final title = _getTitleForLocation(location, l10n);
+    final isPagesRoute = location.startsWith('/pages');
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: [
-          // Zone selector
-          _ZoneSelector(),
+          // Show AccountSelector for Pages routes, ZoneSelector otherwise
+          if (isPagesRoute) _AccountSelector() else _ZoneSelector(),
           const SizedBox(width: 8),
         ],
       ),
@@ -302,6 +305,89 @@ class _StatusBadge extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
+    );
+  }
+}
+
+/// Account selector dropdown for Pages routes
+class _AccountSelector extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final accountsAsync = ref.watch(accountsNotifierProvider);
+    final selectedAccount = ref.watch(selectedAccountNotifierProvider);
+
+    return accountsAsync.when(
+      loading: () => const SizedBox(
+        width: 24,
+        height: 24,
+        child: CircularProgressIndicator(strokeWidth: 2),
+      ),
+      error: (error, _) => IconButton(
+        icon: const Icon(Icons.error_outline),
+        onPressed: () => ref.read(accountsNotifierProvider.notifier).refresh(),
+        tooltip: l10n.error_network,
+      ),
+      data: (state) {
+        final accounts = state.accounts;
+        if (accounts.isEmpty) {
+          return const Text('No accounts');
+        }
+
+        return PopupMenuButton<Account>(
+          tooltip: l10n.pages_selectAccount,
+          onSelected: (account) {
+            ref
+                .read(selectedAccountNotifierProvider.notifier)
+                .selectAccount(account);
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.account_circle_outlined,
+                  size: 20,
+                  color: theme.colorScheme.onSurface,
+                ),
+                const SizedBox(width: 4),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 150),
+                  child: Text(
+                    selectedAccount?.name ?? l10n.pages_selectAccount,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                ),
+                const Icon(Icons.arrow_drop_down),
+              ],
+            ),
+          ),
+          itemBuilder: (context) => accounts
+              .map(
+                (account) => PopupMenuItem(
+                  value: account,
+                  child: Row(
+                    children: [
+                      if (account.id == selectedAccount?.id)
+                        Icon(
+                          Icons.check,
+                          size: 18,
+                          color: theme.colorScheme.primary,
+                        )
+                      else
+                        const SizedBox(width: 18),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(account.name)),
+                    ],
+                  ),
+                ),
+              )
+              .toList(),
+        );
+      },
     );
   }
 }
