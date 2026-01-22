@@ -217,7 +217,6 @@ Todos os comandos suprimem logs de sucesso: `cmd > /tmp/log 2>&1 || cat /tmp/log
 - Feedback rápido durante desenvolvimento (`make check`)
 - Garantia completa antes de commit (`make precommit`)
 - Economia de tokens com supressão de logs
-- `precommit.sh` mantido como fallback (deprecated)
 
 ---
 

@@ -134,9 +134,8 @@ make gen          # Após alterar models Freezed/Retrofit
 
 ---
 
-## Não Fazer
+### Não Fazer
 
-- **NÃO** use `./precommit.sh` (use `make precommit`)
 - **NÃO** use comandos Flutter/Dart diretos (use `make`)
 - **NÃO** faça push sem o usuário ter pedido na sessão atual
 - **NÃO** ignore erros de `make analyze` ou `make test`
