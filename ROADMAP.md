@@ -46,7 +46,8 @@ _New features and improvements to be planned._
 - [ ] Page rules management  
 - [ ] SSL/TLS settings
 - [ ] Caching settings
-- [ ] Workers management
+- [~] Pages management (Feature 12)
+- [ ] Workers management (Feature 13)
 
 ### UX Improvements
 - [ ] Onboarding flow for new users
@@ -67,3 +68,30 @@ Description: Nova seção de Analytics consolidada com abas Web, Security e Perf
 - [x] 11.06 Implementar UI da aba Performance (Cache Analytics)
 - [x] 11.07 Implementar UI da aba Security (Firewall Analytics) com fallback para planos free
 - [x] 11.08 Corrigir erros de schema GraphQL (Web/Performance) e access denied (Security)
+
+### Feature 12: Cloudflare Pages Management
+Description: Gerenciamento de projetos Pages com listagem, detalhes, deployments e rollback. (Visit file ROADMAP.feat12.md for full research details)
+- [ ] 12.01 Criar modelos Freezed: PagesProject, PagesDeployment, BuildConfig, DeploymentStage
+- [ ] 12.02 Adicionar endpoints ao CloudflareApi (Retrofit) para Pages
+- [ ] 12.03 Criar PagesProvider com cache e state management (Riverpod)
+- [ ] 12.04 Implementar tela de listagem de projetos (cards com status, last deploy)
+- [ ] 12.05 Implementar tela de detalhes do projeto (tabs: Deployments, Domains)
+- [ ] 12.06 Implementar visualização de deployment (logs, preview URL, commit info)
+- [ ] 12.07 Implementar ação de rollback com confirmação
+- [ ] 12.08 Adicionar navegação no Drawer/BottomNav (ícone: web_asset)
+- [ ] 12.09 Localização (i18n) completa EN/PT
+- [ ] 12.10 Testes unitários (models, providers) e widget tests
+
+### Feature 13: Cloudflare Workers Management
+Description: Gerenciamento de Workers/Scripts com listagem, detalhes, routes e triggers. (Visit file ROADMAP.feat13.md for full research details)
+- [ ] 13.01 Criar modelos Freezed: Worker, WorkerRoute, WorkerSchedule, WorkerBinding
+- [ ] 13.02 Adicionar endpoints ao CloudflareApi (Retrofit) para Workers
+- [ ] 13.03 Criar WorkersProvider com cache e state management (Riverpod)
+- [ ] 13.04 Implementar tela de listagem de workers (cards com routes/triggers)
+- [ ] 13.05 Implementar tela de detalhes do worker (tabs: Triggers, Bindings)
+- [ ] 13.06 Implementar visualização de routes (patterns, zone associada)
+- [ ] 13.07 Implementar visualização de cron triggers
+- [ ] 13.08 Implementar visualização de bindings (KV, R2, D1, DO - read-only)
+- [ ] 13.09 Adicionar navegação no Drawer/BottomNav (ícone: code)
+- [ ] 13.10 Localização (i18n) completa EN/PT
+- [ ] 13.11 Testes unitários (models, providers) e widget tests
