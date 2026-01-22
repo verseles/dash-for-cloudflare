@@ -57,6 +57,8 @@ sealed class PagesSourceConfig with _$PagesSourceConfig {
     @JsonKey(name: 'production_branch') String? productionBranch,
     @JsonKey(name: 'pr_comments_enabled') bool? prCommentsEnabled,
     @JsonKey(name: 'deployments_enabled') bool? deploymentsEnabled,
+    @JsonKey(name: 'production_deployments_enabled')
+    bool? productionDeploymentsEnabled,
   }) = _PagesSourceConfig;
 
   factory PagesSourceConfig.fromJson(Map<String, dynamic> json) =>
@@ -68,12 +70,37 @@ extension PagesProjectExtension on PagesProject {
   /// Production URL (subdomain.pages.dev)
   String get productionUrl => 'https://$subdomain.pages.dev';
 
+  /// Primary URL: custom domain if available, otherwise pages.dev
+  String get primaryUrl {
+    final customDomain = domains
+        .where((d) => !d.endsWith('.pages.dev'))
+        .firstOrNull;
+    return customDomain != null ? 'https://$customDomain' : productionUrl;
+  }
+
+  /// Check if auto-deploy is paused (either preview or production)
+  bool get isAutoDeployPaused =>
+      hasGitSource &&
+      (source?.config?.deploymentsEnabled == false ||
+          source?.config?.productionDeploymentsEnabled == false);
+
   /// Check if project has custom domains
   bool get hasCustomDomains =>
       domains.isNotEmpty && domains.any((d) => !d.endsWith('.pages.dev'));
 
-  /// Get the last deployment status
-  String? get lastDeploymentStatus => latestDeployment?.status;
+  /// Get the effective deployment for status display.
+  /// Uses canonical_deployment when latest_deployment was skipped.
+  PagesDeployment? get effectiveDeployment {
+    // If latest deployment was skipped, use canonical (the one actually serving)
+    if (latestDeployment?.isSkipped == true) {
+      return canonicalDeployment;
+    }
+    // Otherwise use latest, falling back to canonical
+    return latestDeployment ?? canonicalDeployment;
+  }
+
+  /// Get the last deployment status (uses effective deployment)
+  String? get lastDeploymentStatus => effectiveDeployment?.status;
 
   /// Check if connected to a git repo
   bool get hasGitSource => source?.type == 'github' || source?.type == 'gitlab';

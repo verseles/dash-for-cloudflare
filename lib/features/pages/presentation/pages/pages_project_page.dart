@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../providers/pages_provider.dart';
 import '../../domain/models/pages_project.dart';
@@ -38,8 +39,9 @@ class PagesProjectPage extends ConsumerWidget {
             IconButton(
               icon: const Icon(Icons.open_in_new),
               tooltip: l10n.pages_openInBrowser,
-              onPressed: () {
-                // TODO: Launch URL
+              onPressed: () async {
+                final url = Uri.parse(project.primaryUrl);
+                await launchUrl(url, mode: LaunchMode.externalApplication);
               },
             ),
         ],
@@ -83,27 +85,64 @@ class PagesProjectPage extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     final theme = Theme.of(context);
+    final primaryUrl = project.primaryUrl;
 
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Production URL
-          Row(
-            children: [
-              Icon(Icons.link, size: 18, color: theme.colorScheme.primary),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  project.productionUrl,
-                  style: theme.textTheme.bodyMedium?.copyWith(
+          // Production URL (clickable)
+          InkWell(
+            onTap: () async {
+              final url = Uri.parse(primaryUrl);
+              await launchUrl(url, mode: LaunchMode.externalApplication);
+            },
+            borderRadius: BorderRadius.circular(4),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  Icon(Icons.link, size: 18, color: theme.colorScheme.primary),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      primaryUrl,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.primary,
+                        decoration: TextDecoration.underline,
+                        decorationColor: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.open_in_new,
+                    size: 16,
                     color: theme.colorScheme.primary,
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
+
+          // Auto-deploy paused chip
+          if (project.isAutoDeployPaused) ...[
+            const SizedBox(height: 8),
+            Chip(
+              avatar: Icon(
+                Icons.pause_circle,
+                size: 18,
+                color: theme.colorScheme.onErrorContainer,
+              ),
+              label: Text(l10n.pages_autoDeployPaused),
+              backgroundColor: theme.colorScheme.errorContainer,
+              labelStyle: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onErrorContainer,
+              ),
+              padding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+          ],
 
           // Source info
           if (project.hasGitSource && project.source?.config != null) ...[
@@ -390,6 +429,8 @@ class _DeploymentTile extends StatelessWidget {
       case 'building':
       case 'queued':
         return Colors.orange;
+      case 'skipped':
+        return Colors.grey;
       default:
         return Colors.grey;
     }
@@ -405,6 +446,8 @@ class _DeploymentTile extends StatelessWidget {
         return Icons.sync;
       case 'queued':
         return Icons.hourglass_empty;
+      case 'skipped':
+        return Icons.skip_next;
       default:
         return Icons.help_outline;
     }
@@ -420,6 +463,8 @@ class _DeploymentTile extends StatelessWidget {
         return l10n.pages_statusBuilding;
       case 'queued':
         return l10n.pages_statusQueued;
+      case 'skipped':
+        return l10n.pages_statusSkipped;
       default:
         return l10n.pages_statusUnknown;
     }

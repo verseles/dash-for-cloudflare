@@ -230,6 +230,88 @@ void main() {
       expect(project.hasGitSource, false);
     });
 
+    test('primaryUrl returns custom domain when available', () {
+      final project = PagesProject(
+        id: 'proj123',
+        name: 'my-site',
+        subdomain: 'my-site-abc',
+        createdOn: DateTime.utc(2025, 1, 15),
+        domains: ['example.com', 'my-site-abc.pages.dev'],
+      );
+
+      expect(project.primaryUrl, 'https://example.com');
+    });
+
+    test('primaryUrl returns pages.dev when no custom domain', () {
+      final project = PagesProject(
+        id: 'proj123',
+        name: 'my-site',
+        subdomain: 'my-site-abc',
+        createdOn: DateTime.utc(2025, 1, 15),
+        domains: ['my-site-abc.pages.dev'],
+      );
+
+      expect(project.primaryUrl, 'https://my-site-abc.pages.dev');
+    });
+
+    test('primaryUrl returns pages.dev when domains empty', () {
+      final project = PagesProject(
+        id: 'proj123',
+        name: 'my-site',
+        subdomain: 'my-site-abc',
+        createdOn: DateTime.utc(2025, 1, 15),
+      );
+
+      expect(project.primaryUrl, 'https://my-site-abc.pages.dev');
+    });
+
+    test(
+      'isAutoDeployPaused returns true when deploymentsEnabled is false',
+      () {
+        final project = PagesProject(
+          id: 'proj123',
+          name: 'my-site',
+          subdomain: 'my-site-abc',
+          createdOn: DateTime.utc(2025, 1, 15),
+          source: const PagesSource(
+            type: 'github',
+            config: PagesSourceConfig(deploymentsEnabled: false),
+          ),
+        );
+
+        expect(project.isAutoDeployPaused, true);
+      },
+    );
+
+    test(
+      'isAutoDeployPaused returns false when deploymentsEnabled is true',
+      () {
+        final project = PagesProject(
+          id: 'proj123',
+          name: 'my-site',
+          subdomain: 'my-site-abc',
+          createdOn: DateTime.utc(2025, 1, 15),
+          source: const PagesSource(
+            type: 'github',
+            config: PagesSourceConfig(deploymentsEnabled: true),
+          ),
+        );
+
+        expect(project.isAutoDeployPaused, false);
+      },
+    );
+
+    test('isAutoDeployPaused returns false when no source', () {
+      final project = PagesProject(
+        id: 'proj123',
+        name: 'my-site',
+        subdomain: 'my-site-abc',
+        createdOn: DateTime.utc(2025, 1, 15),
+      );
+
+      expect(project.isAutoDeployPaused, false);
+    });
+
     test('lastDeploymentStatus returns status from latest deployment', () {
       final project = PagesProject(
         id: 'proj123',

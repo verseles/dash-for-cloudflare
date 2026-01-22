@@ -181,34 +181,52 @@ class PagesProjectsNotifier extends _$PagesProjectsNotifier {
 
     try {
       final api = ref.read(cloudflareApiProvider);
-      final response = await api.getPagesProjects(accountId);
 
-      // Race condition check (ADR-007)
-      if (_currentFetchId != fetchId) {
-        log.info(
-          'PagesProjectsNotifier: Discarding stale response',
-          category: LogCategory.state,
+      // Fetch all pages (API returns max 10 per page)
+      final allProjects = <PagesProject>[];
+      int currentPage = 1;
+      int totalPages = 1;
+
+      do {
+        final response = await api.getPagesProjects(
+          accountId,
+          page: currentPage,
         );
-        return state.valueOrNull ?? const PagesProjectsState();
-      }
 
-      if (!response.success || response.result == null) {
-        final error = response.errors.isNotEmpty
-            ? response.errors.first.message
-            : 'Failed to fetch projects';
-        throw Exception(error);
-      }
+        // Race condition check (ADR-007)
+        if (_currentFetchId != fetchId) {
+          log.info(
+            'PagesProjectsNotifier: Discarding stale response',
+            category: LogCategory.state,
+          );
+          return state.valueOrNull ?? const PagesProjectsState();
+        }
 
-      final projects = response.result!;
+        if (!response.success || response.result == null) {
+          final error = response.errors.isNotEmpty
+              ? response.errors.first.message
+              : 'Failed to fetch projects';
+          throw Exception(error);
+        }
+
+        allProjects.addAll(response.result!);
+
+        // Update pagination info
+        if (response.resultInfo != null) {
+          totalPages = response.resultInfo!.totalPages;
+        }
+        currentPage++;
+      } while (currentPage <= totalPages);
+
       log.stateChange(
         'PagesProjectsNotifier',
-        'Fetched ${projects.length} projects',
+        'Fetched ${allProjects.length} projects',
       );
 
-      unawaited(_saveToCache(projects));
+      unawaited(_saveToCache(allProjects));
 
       return PagesProjectsState(
-        projects: projects,
+        projects: allProjects,
         isFromCache: false,
         cachedAt: DateTime.now(),
       );
@@ -328,6 +346,59 @@ class RollbackNotifier extends _$RollbackNotifier {
       return true;
     } catch (e, stack) {
       log.error('RollbackNotifier: Error', error: e, stackTrace: stack);
+      state = AsyncError(e, stack);
+      return false;
+    }
+  }
+}
+
+// ==================== RETRY ACTION ====================
+
+/// Provider for retry deployment action
+@riverpod
+class RetryNotifier extends _$RetryNotifier {
+  @override
+  FutureOr<void> build() async {}
+
+  Future<bool> retry({
+    required String projectName,
+    required String deploymentId,
+  }) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) {
+      throw Exception('No account selected');
+    }
+
+    state = const AsyncLoading();
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.retryDeployment(
+        accountId,
+        projectName,
+        deploymentId,
+      );
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Retry failed';
+        throw Exception(error);
+      }
+
+      log.stateChange(
+        'RetryNotifier',
+        'Retry successful for $projectName deployment $deploymentId',
+      );
+
+      // Refresh projects and deployments after retry
+      ref.invalidate(pagesProjectsNotifierProvider);
+      ref.invalidate(pagesDeploymentsNotifierProvider(projectName));
+
+      state = const AsyncData(null);
+      return true;
+    } catch (e, stack) {
+      log.error('RetryNotifier: Error', error: e, stackTrace: stack);
       state = AsyncError(e, stack);
       return false;
     }

@@ -827,6 +827,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pages_statusQueued => 'Queued';
 
   @override
+  String get pages_statusSkipped => 'Skipped';
+
+  @override
   String get pages_statusUnknown => 'Unknown';
 
   @override
@@ -865,4 +868,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pages_rollbackSuccess => 'Rollback successful';
+
+  @override
+  String get pages_retry => 'Retry';
+
+  @override
+  String get pages_retryConfirmTitle => 'Retry Deployment';
+
+  @override
+  String get pages_retryConfirmMessage =>
+      'Are you sure you want to retry this deployment? This will start a new build with the same configuration.';
+
+  @override
+  String get pages_retrySuccess => 'Deployment retry started';
+
+  @override
+  String get pages_autoDeployPaused => 'Auto-deploy paused';
 }

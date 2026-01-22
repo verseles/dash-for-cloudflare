@@ -49,6 +49,9 @@ class LoggingInterceptor extends Interceptor {
         '│ ❌ ERROR: ${err.response?.statusCode ?? 'N/A'} ${err.requestOptions.uri}',
       );
       debugPrint('│ 📝 Message: ${err.message}');
+      debugPrint(
+        '│ 🔑 Auth Header: ${err.requestOptions.headers['Authorization']?.toString().substring(0, 20) ?? 'none'}...',
+      );
       if (err.response?.data != null) {
         debugPrint('│ 📦 Response: ${err.response?.data}');
       }

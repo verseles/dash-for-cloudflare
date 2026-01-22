@@ -1652,6 +1652,12 @@ abstract class AppLocalizations {
   /// **'Queued'**
   String get pages_statusQueued;
 
+  /// No description provided for @pages_statusSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get pages_statusSkipped;
+
   /// No description provided for @pages_statusUnknown.
   ///
   /// In en, this message translates to:
@@ -1729,6 +1735,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rollback successful'**
   String get pages_rollbackSuccess;
+
+  /// No description provided for @pages_retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get pages_retry;
+
+  /// No description provided for @pages_retryConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry Deployment'**
+  String get pages_retryConfirmTitle;
+
+  /// No description provided for @pages_retryConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to retry this deployment? This will start a new build with the same configuration.'**
+  String get pages_retryConfirmMessage;
+
+  /// No description provided for @pages_retrySuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Deployment retry started'**
+  String get pages_retrySuccess;
+
+  /// No description provided for @pages_autoDeployPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-deploy paused'**
+  String get pages_autoDeployPaused;
 }
 
 class _AppLocalizationsDelegate

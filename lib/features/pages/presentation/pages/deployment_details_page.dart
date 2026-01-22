@@ -61,11 +61,96 @@ class DeploymentDetailsPage extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Rollback button (only for production deployments)
-            if (deployment.isProduction)
-              _buildRollbackButton(context, ref, deployment, l10n),
+            // Action buttons
+            _buildActionButtons(context, ref, deployment, l10n),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildActionButtons(
+    BuildContext context,
+    WidgetRef ref,
+    PagesDeployment deployment,
+    AppLocalizations l10n,
+  ) {
+    final retryState = ref.watch(retryNotifierProvider);
+    final rollbackState = ref.watch(rollbackNotifierProvider);
+
+    return Row(
+      children: [
+        // Retry button (for all deployments)
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: retryState.isLoading
+                ? null
+                : () => _showRetryDialog(context, ref, deployment, l10n),
+            icon: retryState.isLoading
+                ? const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.refresh),
+            label: Text(l10n.pages_retry),
+          ),
+        ),
+
+        // Rollback button (only for production deployments)
+        if (deployment.isProduction) ...[
+          const SizedBox(width: 12),
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: rollbackState.isLoading
+                  ? null
+                  : () => _showRollbackDialog(context, ref, deployment, l10n),
+              icon: rollbackState.isLoading
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.history),
+              label: Text(l10n.pages_rollback),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  void _showRetryDialog(
+    BuildContext context,
+    WidgetRef ref,
+    PagesDeployment deployment,
+    AppLocalizations l10n,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.pages_retryConfirmTitle),
+        content: Text(l10n.pages_retryConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.common_cancel),
+          ),
+          FilledButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              final success = await ref
+                  .read(retryNotifierProvider.notifier)
+                  .retry(projectName: projectName, deploymentId: deploymentId);
+              if (success && context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.pages_retrySuccess)),
+                );
+              }
+            },
+            child: Text(l10n.pages_retry),
+          ),
+        ],
       ),
     );
   }
@@ -256,32 +341,6 @@ class DeploymentDetailsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildRollbackButton(
-    BuildContext context,
-    WidgetRef ref,
-    PagesDeployment deployment,
-    AppLocalizations l10n,
-  ) {
-    final rollbackState = ref.watch(rollbackNotifierProvider);
-
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton.icon(
-        onPressed: rollbackState.isLoading
-            ? null
-            : () => _showRollbackDialog(context, ref, deployment, l10n),
-        icon: rollbackState.isLoading
-            ? const SizedBox(
-                width: 18,
-                height: 18,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : const Icon(Icons.history),
-        label: Text(l10n.pages_rollback),
-      ),
-    );
-  }
-
   void _showRollbackDialog(
     BuildContext context,
     WidgetRef ref,
@@ -329,6 +388,8 @@ class DeploymentDetailsPage extends ConsumerWidget {
       case 'building':
       case 'queued':
         return Colors.orange;
+      case 'skipped':
+        return Colors.grey;
       default:
         return Colors.grey;
     }
@@ -344,6 +405,8 @@ class DeploymentDetailsPage extends ConsumerWidget {
         return Icons.sync;
       case 'queued':
         return Icons.hourglass_empty;
+      case 'skipped':
+        return Icons.skip_next;
       default:
         return Icons.help_outline;
     }
@@ -359,6 +422,8 @@ class DeploymentDetailsPage extends ConsumerWidget {
         return l10n.pages_statusBuilding;
       case 'queued':
         return l10n.pages_statusQueued;
+      case 'skipped':
+        return l10n.pages_statusSkipped;
       default:
         return l10n.pages_statusUnknown;
     }

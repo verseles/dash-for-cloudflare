@@ -839,6 +839,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_statusQueued => 'Na fila';
 
   @override
+  String get pages_statusSkipped => 'Ignorado';
+
+  @override
   String get pages_statusUnknown => 'Desconhecido';
 
   @override
@@ -877,4 +880,20 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get pages_rollbackSuccess => 'Rollback realizado com sucesso';
+
+  @override
+  String get pages_retry => 'Repetir';
+
+  @override
+  String get pages_retryConfirmTitle => 'Repetir Deployment';
+
+  @override
+  String get pages_retryConfirmMessage =>
+      'Tem certeza que deseja repetir este deployment? Isso iniciará um novo build com a mesma configuração.';
+
+  @override
+  String get pages_retrySuccess => 'Deploy reiniciado';
+
+  @override
+  String get pages_autoDeployPaused => 'Auto-deploy pausado';
 }

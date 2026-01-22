@@ -50,11 +50,19 @@ class RateLimitInterceptor extends Interceptor {
     if (err.response != null) {
       _extractRateLimitHeaders(err.response!.headers);
 
+      // Log full error details including response body
+      final responseBody = err.response?.data?.toString() ?? 'no body';
+      final authHeader = err.requestOptions.headers['Authorization']
+          ?.toString();
+      final authPrefix = authHeader != null && authHeader.length > 15
+          ? '${authHeader.substring(0, 15)}...'
+          : authHeader ?? 'none';
+
       log.apiError(
         err.requestOptions.method,
         err.requestOptions.path,
         statusCode: err.response?.statusCode,
-        error: err.message,
+        error: 'Auth: $authPrefix | Body: $responseBody',
       );
     } else {
       log.apiError(

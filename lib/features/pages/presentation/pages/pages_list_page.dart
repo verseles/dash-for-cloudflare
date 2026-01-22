@@ -105,9 +105,9 @@ class _ProjectCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final dateFormat = DateFormat.yMMMd().add_Hm();
 
-    // Get deployment status
-    final latestDeployment = project.latestDeployment;
-    final status = latestDeployment?.status ?? 'unknown';
+    // Get deployment status (uses effectiveDeployment to handle skipped deploys)
+    final deployment = project.effectiveDeployment;
+    final status = deployment?.status ?? 'unknown';
     final statusColor = _getStatusColor(status, theme);
     final statusIcon = _getStatusIcon(status);
 
@@ -145,7 +145,7 @@ class _ProjectCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
+                      color: statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
@@ -175,7 +175,7 @@ class _ProjectCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      project.productionUrl,
+                      project.primaryUrl,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.primary,
                       ),
@@ -188,7 +188,7 @@ class _ProjectCard extends StatelessWidget {
               const SizedBox(height: 8),
 
               // Last deployment info
-              if (latestDeployment != null) ...[
+              if (deployment != null) ...[
                 Row(
                   children: [
                     Icon(
@@ -199,7 +199,7 @@ class _ProjectCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       l10n.pages_lastDeployment(
-                        dateFormat.format(latestDeployment.createdOn.toLocal()),
+                        dateFormat.format(deployment.createdOn.toLocal()),
                       ),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
@@ -250,6 +250,8 @@ class _ProjectCard extends StatelessWidget {
       case 'building':
       case 'queued':
         return Colors.orange;
+      case 'skipped':
+        return Colors.grey;
       default:
         return Colors.grey;
     }
@@ -265,6 +267,8 @@ class _ProjectCard extends StatelessWidget {
         return Icons.sync;
       case 'queued':
         return Icons.hourglass_empty;
+      case 'skipped':
+        return Icons.skip_next;
       default:
         return Icons.help_outline;
     }
@@ -280,6 +284,8 @@ class _ProjectCard extends StatelessWidget {
         return l10n.pages_statusBuilding;
       case 'queued':
         return l10n.pages_statusQueued;
+      case 'skipped':
+        return l10n.pages_statusSkipped;
       default:
         return l10n.pages_statusUnknown;
     }

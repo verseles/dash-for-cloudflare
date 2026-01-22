@@ -17,6 +17,7 @@ sealed class PagesDeployment with _$PagesDeployment {
     @Default([]) List<DeploymentStage> stages,
     @JsonKey(name: 'created_on') required DateTime createdOn,
     @JsonKey(name: 'modified_on') DateTime? modifiedOn,
+    @JsonKey(name: 'is_skipped') @Default(false) bool isSkipped,
   }) = _PagesDeployment;
 
   factory PagesDeployment.fromJson(Map<String, dynamic> json) =>
@@ -70,25 +71,34 @@ extension DeploymentStageStatus on DeploymentStage {
   bool get isFailed => status == 'failure';
   bool get isQueued => status == 'queued';
   bool get isSkipped => status == 'skipped';
+  bool get isIdle => status == 'idle';
 }
 
 /// Extension to get overall deployment status
 extension PagesDeploymentStatus on PagesDeployment {
-  /// Returns the current status of the deployment based on stages
+  /// Returns the current status of the deployment based on stages.
+  /// Handles ad_hoc deploys where intermediate stages remain idle.
   String get status {
+    // Check if deployment was explicitly skipped by Cloudflare
+    if (isSkipped) return 'skipped';
+
     if (stages.isEmpty) return 'unknown';
 
-    // Check for any failed stage
+    // Check for any failed stage first
     if (stages.any((s) => s.isFailed)) return 'failure';
 
-    // Check for any active stage
+    // Get the deploy stage (final stage) - this is the authoritative status
+    final deployStage = stages.where((s) => s.name == 'deploy').firstOrNull;
+
+    // If deploy stage is success, the whole deployment is success
+    // (even if earlier stages are idle/skipped for ad_hoc deploys)
+    if (deployStage?.isSuccess == true) return 'success';
+
+    // Check for any active stage (still building/deploying)
     if (stages.any((s) => s.isActive)) return 'building';
 
-    // Check if all stages are success
-    if (stages.every((s) => s.isSuccess || s.isSkipped)) return 'success';
-
-    // Check if still queued
-    if (stages.first.isQueued) return 'queued';
+    // If deploy stage hasn't started but no failures, it's still queued/pending
+    if (deployStage?.isIdle == true || deployStage == null) return 'queued';
 
     return 'unknown';
   }

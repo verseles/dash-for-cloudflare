@@ -367,6 +367,7 @@
   "pages_statusFailed": "Failed",
   "pages_statusBuilding": "Building",
   "pages_statusQueued": "Queued",
+  "pages_statusSkipped": "Skipped",
   "pages_statusUnknown": "Unknown",
   "pages_openInBrowser": "Open in browser",
   "pages_deployments": "Deployments",
@@ -379,5 +380,10 @@
   "pages_rollback": "Rollback",
   "pages_rollbackConfirmTitle": "Rollback Deployment",
   "pages_rollbackConfirmMessage": "Are you sure you want to rollback to this deployment? This will make this deployment the current production version.",
-  "pages_rollbackSuccess": "Rollback successful"
+  "pages_rollbackSuccess": "Rollback successful",
+  "pages_retry": "Retry",
+  "pages_retryConfirmTitle": "Retry Deployment",
+  "pages_retryConfirmMessage": "Are you sure you want to retry this deployment? This will start a new build with the same configuration.",
+  "pages_retrySuccess": "Deployment retry started",
+  "pages_autoDeployPaused": "Auto-deploy paused"
 }

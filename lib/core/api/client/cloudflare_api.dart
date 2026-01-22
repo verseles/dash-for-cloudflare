@@ -132,11 +132,11 @@ abstract class CloudflareApi {
 
   // ============== PAGES PROJECTS ==============
 
-  /// Get all Pages projects for an account
+  /// Get Pages projects for an account (paginated, max 10 per page)
+  /// Note: Pages API only accepts page parameter, per_page is fixed at 10
   @GET('/accounts/{accountId}/pages/projects')
   Future<CloudflareResponse<List<PagesProject>>> getPagesProjects(
     @Path('accountId') String accountId, {
-    @Query('per_page') int perPage = 50,
     @Query('page') int page = 1,
   });
 
@@ -173,6 +173,16 @@ abstract class CloudflareApi {
     '/accounts/{accountId}/pages/projects/{projectName}/deployments/{deploymentId}/rollback',
   )
   Future<CloudflareResponse<PagesDeployment>> rollbackDeployment(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Path('deploymentId') String deploymentId,
+  );
+
+  /// Retry a deployment
+  @POST(
+    '/accounts/{accountId}/pages/projects/{projectName}/deployments/{deploymentId}/retry',
+  )
+  Future<CloudflareResponse<PagesDeployment>> retryDeployment(
     @Path('accountId') String accountId,
     @Path('projectName') String projectName,
     @Path('deploymentId') String deploymentId,

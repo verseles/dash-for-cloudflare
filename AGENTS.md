@@ -15,15 +15,14 @@ As regras deste arquivo (AGENTS.md) são **obrigatórias** e devem ser seguidas 
 
 ## Referência Rápida
 
-| Campo               | Valor                                                     |
-| ------------------- | --------------------------------------------------------- |
-| **Nome**            | Dash for Cloudflare                                       |
-| **Package ID**      | `ad.dash.cf`                                              |
-| **Web URL**         | `cf.dash.ad`                                              |
-| **Plataformas**     | Android, iOS, Web, Linux, macOS, Windows                  |
-| **Plataformas Dev** | Android, Linux                                            |
-| **Repositório**     | github.com/verseles/dash-for-cloudflare                   |
-| **Branch Vue**      | `old_vue` (projeto original que foi migrado para Flutter) |
+| Campo               | Valor                                    |
+| ------------------- | ---------------------------------------- |
+| **Nome**            | Dash for Cloudflare                      |
+| **Package ID**      | `ad.dash.cf`                             |
+| **Web URL**         | `cf.dash.ad`                             |
+| **Plataformas**     | Android, iOS, Web, Linux, macOS, Windows |
+| **Plataformas Dev** | Android, Linux                           |
+| **Repositório**     | github.com/verseles/dash-for-cloudflare  |
 
 ---
 
@@ -59,6 +58,7 @@ make precommit
 # Para builds específicas:
 make android      # Build + upload para Telegram
 make linux        # Build Linux
+make web          # Build Web
 
 # Após alterar dependências ou models:
 make deps         # Após alterar pubspec.yaml
@@ -79,7 +79,7 @@ make gen          # Após alterar models Freezed/Retrofit
 
 4. **Push só se já pedido na sessão.** Não faça push automaticamente, apenas se o usuário já pediu pelo menos uma vez na conversa atual.
 
-5. **`make android` após push bem-sucedido.** Envia APK via tdl para o celular do usuário testar.
+5. **`make android` após push bem-sucedido.** Envia APK via tdl para o celular do usuário testar, sempre faça esse e avise o usuário que já pode testar no celular.
 
 6. **Se `make analyze` ou `make test` falhar, corrija TODOS os erros.** Não prossiga com erros pendentes.
 
@@ -91,11 +91,9 @@ make gen          # Após alterar models Freezed/Retrofit
 
 9. **Refatoração livre.** Projeto não está em produção, não precisa de compatibilidade com versões anteriores.
 
-10. **Para features grandes, crie branch.** Use `feature/nome`. Após PR aprovado, retorne para main.
-
 ### Web Search
 
-11. **Use web search com frequência:**
+10. **Use web search com frequência:**
     - Para confirmar métodos eficientes/modernos
     - Para resolver erros quando ficar preso
     - Aguarde 1 segundo entre pesquisas (evitar rate limit)
@@ -103,8 +101,7 @@ make gen          # Após alterar models Freezed/Retrofit
 
 ### Notificações
 
-12. **Chame `play_notification` nos seguintes casos:**
-
+11. **Chame `play_notification` nos seguintes casos:**
     - Ao finalizar um trabalho/tarefa grande
     - Ao finalizar um planejamento
     - Se ficar completamente preso sem solução (pare e aguarde resposta)
@@ -113,24 +110,22 @@ make gen          # Após alterar models Freezed/Retrofit
 
 ### Logs
 
-13. **Makefile auto-detecta TTY.** Comandos make suprimem output automaticamente para agentes e mostram output completo para usuários no terminal. Para comandos fora do make:
+12. **Makefile auto-detecta TTY.** Comandos make suprimem output automaticamente para agentes e mostram output completo para usuários no terminal. Para comandos fora do make:
     ```bash
     cmd > /tmp/cmd.log 2>&1 || cat /tmp/cmd.log
     ```
 
 ### Documentação
 
-14. **Atualize AGENTS.md quando mudanças o afetarem.** Novas regras, comandos, fluxos ou convenções devem ser refletidos aqui.
+13. **Atualize AGENTS.md quando mudanças o afetarem.** Novas regras, comandos, fluxos ou convenções devem ser refletidos aqui.
 
-15. **Adicione ou atualize ADR.md para decisões técnicas relevantes.** Novo ADR quando: escolher biblioteca/abordagem, resolver problema arquitetural, tomar decisão que afete desenvolvimento futuro. Atualize ADR existente quando a decisão mudar.
+14. **Adicione ou atualize ADR.md para decisões técnicas relevantes.** Novo ADR quando: escolher biblioteca/abordagem, resolver problema arquitetural, tomar decisão que afete desenvolvimento futuro. Atualize ADR existente quando a decisão mudar.
 
-16. **Atualize CODEBASE.md antes do commit se criar/mover/renomear arquivos significativos.** Manter o mapa do código atualizado para navegação rápida.
+15. **Atualize CODEBASE.md antes do commit se criar/mover/renomear arquivos significativos.** Manter o mapa do código atualizado para navegação rápida.
 
 ### Referências
 
-17. **Branch `old_vue` para consultar projeto original.** Sempre que mencionado "projeto Vue" ou "projeto antigo".
-
-18. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
+16. **Testar no emulador:** `flutter run` ou instale APK de `make android-x64`.
 
 ---
 
