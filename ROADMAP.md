@@ -46,7 +46,7 @@ _New features and improvements to be planned._
 - [ ] Page rules management  
 - [ ] SSL/TLS settings
 - [ ] Caching settings
-- [~] Pages management (Feature 12)
+- [x] Pages management (Feature 12)
 - [ ] Workers management (Feature 13)
 
 ### UX Improvements
@@ -71,16 +71,16 @@ Description: Nova seção de Analytics consolidada com abas Web, Security e Perf
 
 ### Feature 12: Cloudflare Pages Management
 Description: Gerenciamento de projetos Pages com listagem, detalhes, deployments e rollback. (Visit file ROADMAP.feat12.md for full research details)
-- [ ] 12.01 Criar modelos Freezed: PagesProject, PagesDeployment, BuildConfig, DeploymentStage
-- [ ] 12.02 Adicionar endpoints ao CloudflareApi (Retrofit) para Pages
-- [ ] 12.03 Criar PagesProvider com cache e state management (Riverpod)
-- [ ] 12.04 Implementar tela de listagem de projetos (cards com status, last deploy)
-- [ ] 12.05 Implementar tela de detalhes do projeto (tabs: Deployments, Domains)
-- [ ] 12.06 Implementar visualização de deployment (logs, preview URL, commit info)
-- [ ] 12.07 Implementar ação de rollback com confirmação
-- [ ] 12.08 Adicionar navegação no Drawer/BottomNav (ícone: web_asset)
-- [ ] 12.09 Localização (i18n) completa EN/PT
-- [ ] 12.10 Testes unitários (models, providers) e widget tests
+- [x] 12.01 Criar modelos Freezed: PagesProject, PagesDeployment, BuildConfig, DeploymentStage
+- [x] 12.02 Adicionar endpoints ao CloudflareApi (Retrofit) para Pages
+- [x] 12.03 Criar PagesProvider com cache e state management (Riverpod)
+- [x] 12.04 Implementar tela de listagem de projetos (cards com status, last deploy)
+- [x] 12.05 Implementar tela de detalhes do projeto (tabs: Deployments, Domains)
+- [x] 12.06 Implementar visualização de deployment (logs, preview URL, commit info)
+- [x] 12.07 Implementar ação de rollback com confirmação
+- [x] 12.08 Adicionar navegação no Drawer/BottomNav (ícone: web_asset)
+- [x] 12.09 Localização (i18n) completa EN/PT
+- [x] 12.10 Testes unitários (models, providers) e widget tests
 
 ### Feature 13: Cloudflare Workers Management
 Description: Gerenciamento de Workers/Scripts com listagem, detalhes, routes e triggers. (Visit file ROADMAP.feat13.md for full research details)

@@ -22,8 +22,9 @@ lib/
 │   └── 🧩 widgets/              # Componentes UI reutilizáveis
 ├── 🏗️ features/                # Módulos de negócio (Domain-driven)
 │   ├── 📊 analytics/            # DNS Analytics (GraphQL)
-│   ├── 🔐 auth/                 # Autenticação e Configurações
-│   └── 🌐 dns/                  # Gerenciamento de Zonas e Registros
+│   ├── 🔐 auth/                 # Autenticação, Configurações e Accounts
+│   ├── 🌐 dns/                  # Gerenciamento de Zonas e Registros
+│   └── 📄 pages/                # Cloudflare Pages (Projects, Deployments)
 └── 🌍 l10n/                     # Internacionalização (en, pt)
 ```
 
@@ -98,6 +99,15 @@ Visualização de dados via GraphQL e Syncfusion.
 *   **DNS Analytics:** Analytics específico para queries DNS (dentro da aba DNS).
 *   **Charts:** Gráficos temporais (Line), distribuição (Donut) e geográficos (Maps).
 *   **Shared Range:** Filtro de tempo sincronizado entre abas no dashboard principal.
+
+### 📄 Pages Management (`lib/features/pages/`)
+
+Gerenciamento de projetos Cloudflare Pages (account-level).
+
+*   **Models:** `PagesProject` (com BuildConfig, PagesSource), `PagesDeployment` (com stages/triggers).
+*   **Providers:** `PagesProjectsNotifier` (cache ADR-022), `PagesDeploymentsNotifier` (family), `RollbackNotifier`.
+*   **Account Context:** `AccountsNotifier` + `selectedAccountIdProvider` (Pages são recursos de conta, não zona).
+*   **UI:** `PagesListPage` (cards com status), `PagesProjectPage` (detalhes/deployments), `DeploymentDetailsPage` (stages/rollback).
 
 ---
 
