@@ -254,6 +254,12 @@ abstract class AppLocalizations {
   /// **'Analytics'**
   String get menu_analytics;
 
+  /// No description provided for @menu_pages.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages'**
+  String get menu_pages;
+
   /// No description provided for @menu_settings.
   ///
   /// In en, this message translates to:
@@ -1597,6 +1603,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try adjusting your search terms'**
   String get emptyState_tryAdjustingSearch;
+
+  /// No description provided for @pages_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages'**
+  String get pages_title;
+
+  /// No description provided for @pages_selectAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Select account'**
+  String get pages_selectAccount;
+
+  /// No description provided for @pages_noProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'No Pages projects found'**
+  String get pages_noProjects;
+
+  /// No description provided for @pages_lastDeployment.
+  ///
+  /// In en, this message translates to:
+  /// **'Last deployed: {date}'**
+  String pages_lastDeployment(String date);
+
+  /// No description provided for @pages_statusSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get pages_statusSuccess;
+
+  /// No description provided for @pages_statusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get pages_statusFailed;
+
+  /// No description provided for @pages_statusBuilding.
+  ///
+  /// In en, this message translates to:
+  /// **'Building'**
+  String get pages_statusBuilding;
+
+  /// No description provided for @pages_statusQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Queued'**
+  String get pages_statusQueued;
+
+  /// No description provided for @pages_statusUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get pages_statusUnknown;
+
+  /// No description provided for @pages_openInBrowser.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in browser'**
+  String get pages_openInBrowser;
+
+  /// No description provided for @pages_deployments.
+  ///
+  /// In en, this message translates to:
+  /// **'Deployments'**
+  String get pages_deployments;
+
+  /// No description provided for @pages_noDeployments.
+  ///
+  /// In en, this message translates to:
+  /// **'No deployments found'**
+  String get pages_noDeployments;
+
+  /// No description provided for @pages_production.
+  ///
+  /// In en, this message translates to:
+  /// **'Production'**
+  String get pages_production;
+
+  /// No description provided for @pages_preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get pages_preview;
+
+  /// No description provided for @pages_deploymentDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Deployment Details'**
+  String get pages_deploymentDetails;
+
+  /// No description provided for @pages_commitInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Commit Information'**
+  String get pages_commitInfo;
+
+  /// No description provided for @pages_buildStages.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Stages'**
+  String get pages_buildStages;
+
+  /// No description provided for @pages_rollback.
+  ///
+  /// In en, this message translates to:
+  /// **'Rollback'**
+  String get pages_rollback;
+
+  /// No description provided for @pages_rollbackConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rollback Deployment'**
+  String get pages_rollbackConfirmTitle;
+
+  /// No description provided for @pages_rollbackConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to rollback to this deployment? This will make this deployment the current production version.'**
+  String get pages_rollbackConfirmMessage;
+
+  /// No description provided for @pages_rollbackSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Rollback successful'**
+  String get pages_rollbackSuccess;
 }
 
 class _AppLocalizationsDelegate

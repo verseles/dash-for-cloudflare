@@ -31,6 +31,7 @@
 
   "menu_dns": "DNS",
   "menu_analytics": "Analytics",
+  "menu_pages": "Pages",
   "menu_settings": "Settings",
   "menu_about": "About",
   "menu_debugLogs": "Debug Logs",
@@ -348,5 +349,35 @@
       }
     }
   },
-  "emptyState_tryAdjustingSearch": "Try adjusting your search terms"
+  "emptyState_tryAdjustingSearch": "Try adjusting your search terms",
+
+  "pages_title": "Pages",
+  "pages_selectAccount": "Select account",
+  "pages_noProjects": "No Pages projects found",
+  "pages_lastDeployment": "Last deployed: {date}",
+  "@pages_lastDeployment": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jan 1, 2024 12:00"
+      }
+    }
+  },
+  "pages_statusSuccess": "Success",
+  "pages_statusFailed": "Failed",
+  "pages_statusBuilding": "Building",
+  "pages_statusQueued": "Queued",
+  "pages_statusUnknown": "Unknown",
+  "pages_openInBrowser": "Open in browser",
+  "pages_deployments": "Deployments",
+  "pages_noDeployments": "No deployments found",
+  "pages_production": "Production",
+  "pages_preview": "Preview",
+  "pages_deploymentDetails": "Deployment Details",
+  "pages_commitInfo": "Commit Information",
+  "pages_buildStages": "Build Stages",
+  "pages_rollback": "Rollback",
+  "pages_rollbackConfirmTitle": "Rollback Deployment",
+  "pages_rollbackConfirmMessage": "Are you sure you want to rollback to this deployment? This will make this deployment the current production version.",
+  "pages_rollbackSuccess": "Rollback successful"
 }

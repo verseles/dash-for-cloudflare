@@ -28,6 +28,7 @@
 
   "menu_dns": "DNS",
   "menu_analytics": "Analytics",
+  "menu_pages": "Pages",
   "menu_settings": "Configurações",
   "menu_about": "Sobre",
   "menu_debugLogs": "Logs de Depuração",
@@ -265,5 +266,27 @@
   "dnsRecord_enterValue": "Digite o valor",
 
   "emptyState_noResultsFor": "Nenhum resultado para \"{query}\"",
-  "emptyState_tryAdjustingSearch": "Tente ajustar os termos de busca"
+  "emptyState_tryAdjustingSearch": "Tente ajustar os termos de busca",
+
+  "pages_title": "Pages",
+  "pages_selectAccount": "Selecionar conta",
+  "pages_noProjects": "Nenhum projeto Pages encontrado",
+  "pages_lastDeployment": "Último deploy: {date}",
+  "pages_statusSuccess": "Sucesso",
+  "pages_statusFailed": "Falhou",
+  "pages_statusBuilding": "Compilando",
+  "pages_statusQueued": "Na fila",
+  "pages_statusUnknown": "Desconhecido",
+  "pages_openInBrowser": "Abrir no navegador",
+  "pages_deployments": "Deployments",
+  "pages_noDeployments": "Nenhum deployment encontrado",
+  "pages_production": "Produção",
+  "pages_preview": "Preview",
+  "pages_deploymentDetails": "Detalhes do Deployment",
+  "pages_commitInfo": "Informações do Commit",
+  "pages_buildStages": "Etapas do Build",
+  "pages_rollback": "Rollback",
+  "pages_rollbackConfirmTitle": "Rollback do Deployment",
+  "pages_rollbackConfirmMessage": "Tem certeza que deseja fazer rollback para este deployment? Isso tornará este deployment a versão de produção atual.",
+  "pages_rollbackSuccess": "Rollback realizado com sucesso"
 }

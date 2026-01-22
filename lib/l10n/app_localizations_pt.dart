@@ -88,6 +88,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get menu_analytics => 'Analytics';
 
   @override
+  String get menu_pages => 'Pages';
+
+  @override
   String get menu_settings => 'Configurações';
 
   @override
@@ -808,4 +811,70 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get emptyState_tryAdjustingSearch =>
       'Tente ajustar os termos de busca';
+
+  @override
+  String get pages_title => 'Pages';
+
+  @override
+  String get pages_selectAccount => 'Selecionar conta';
+
+  @override
+  String get pages_noProjects => 'Nenhum projeto Pages encontrado';
+
+  @override
+  String pages_lastDeployment(String date) {
+    return 'Último deploy: $date';
+  }
+
+  @override
+  String get pages_statusSuccess => 'Sucesso';
+
+  @override
+  String get pages_statusFailed => 'Falhou';
+
+  @override
+  String get pages_statusBuilding => 'Compilando';
+
+  @override
+  String get pages_statusQueued => 'Na fila';
+
+  @override
+  String get pages_statusUnknown => 'Desconhecido';
+
+  @override
+  String get pages_openInBrowser => 'Abrir no navegador';
+
+  @override
+  String get pages_deployments => 'Deployments';
+
+  @override
+  String get pages_noDeployments => 'Nenhum deployment encontrado';
+
+  @override
+  String get pages_production => 'Produção';
+
+  @override
+  String get pages_preview => 'Preview';
+
+  @override
+  String get pages_deploymentDetails => 'Detalhes do Deployment';
+
+  @override
+  String get pages_commitInfo => 'Informações do Commit';
+
+  @override
+  String get pages_buildStages => 'Etapas do Build';
+
+  @override
+  String get pages_rollback => 'Rollback';
+
+  @override
+  String get pages_rollbackConfirmTitle => 'Rollback do Deployment';
+
+  @override
+  String get pages_rollbackConfirmMessage =>
+      'Tem certeza que deseja fazer rollback para este deployment? Isso tornará este deployment a versão de produção atual.';
+
+  @override
+  String get pages_rollbackSuccess => 'Rollback realizado com sucesso';
 }

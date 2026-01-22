@@ -40,6 +40,7 @@ class MainLayout extends ConsumerWidget {
   String _getTitleForLocation(String location, AppLocalizations l10n) {
     if (location.startsWith('/dns')) return l10n.menu_dns;
     if (location.startsWith('/analytics')) return l10n.menu_analytics;
+    if (location.startsWith('/pages')) return l10n.menu_pages;
     if (location.startsWith('/settings')) return l10n.menu_settings;
     if (location.startsWith('/debug-logs')) return l10n.menu_debugLogs;
     return 'Cloudflare';
@@ -91,6 +92,14 @@ class MainLayout extends ConsumerWidget {
             onTap: () {
               Navigator.pop(context);
               context.go(AppRoutes.analyticsWeb);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.web_asset),
+            title: Text(l10n.menu_pages),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.pages);
             },
           ),
           const Divider(),

@@ -13,6 +13,9 @@ import '../../features/analytics/presentation/pages/analytics_page.dart';
 import '../../features/analytics/presentation/pages/web_analytics_page.dart';
 import '../../features/analytics/presentation/pages/security_analytics_page.dart';
 import '../../features/analytics/presentation/pages/performance_analytics_page.dart';
+import '../../features/pages/presentation/pages/pages_list_page.dart';
+import '../../features/pages/presentation/pages/pages_project_page.dart';
+import '../../features/pages/presentation/pages/deployment_details_page.dart';
 import '../widgets/main_layout.dart';
 import '../logging/presentation/debug_logs_page.dart';
 
@@ -29,6 +32,9 @@ class AppRoutes {
   static const String analyticsWeb = '/analytics/web';
   static const String analyticsSecurity = '/analytics/security';
   static const String analyticsPerformance = '/analytics/performance';
+  static const String pages = '/pages';
+  static const String pagesProject = 'pagesProject';
+  static const String pagesDeployment = 'pagesDeployment';
   static const String debugLogs = '/debug-logs';
 }
 
@@ -140,6 +146,37 @@ GoRouter appRouter(Ref ref) {
                     path: AppRoutes.analyticsPerformance,
                     builder: (context, state) =>
                         const PerformanceAnalyticsPage(),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          // Pages routes
+          GoRoute(
+            path: AppRoutes.pages,
+            builder: (context, state) => const PagesListPage(),
+            routes: [
+              GoRoute(
+                path: ':projectName',
+                name: AppRoutes.pagesProject,
+                builder: (context, state) {
+                  final projectName = state.pathParameters['projectName']!;
+                  return PagesProjectPage(projectName: projectName);
+                },
+                routes: [
+                  GoRoute(
+                    path: 'deployment/:deploymentId',
+                    name: AppRoutes.pagesDeployment,
+                    builder: (context, state) {
+                      final projectName = state.pathParameters['projectName']!;
+                      final deploymentId =
+                          state.pathParameters['deploymentId']!;
+                      return DeploymentDetailsPage(
+                        projectName: projectName,
+                        deploymentId: deploymentId,
+                      );
+                    },
                   ),
                 ],
               ),

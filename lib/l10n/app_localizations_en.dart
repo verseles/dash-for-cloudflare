@@ -88,6 +88,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menu_analytics => 'Analytics';
 
   @override
+  String get menu_pages => 'Pages';
+
+  @override
   String get menu_settings => 'Settings';
 
   @override
@@ -796,4 +799,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyState_tryAdjustingSearch => 'Try adjusting your search terms';
+
+  @override
+  String get pages_title => 'Pages';
+
+  @override
+  String get pages_selectAccount => 'Select account';
+
+  @override
+  String get pages_noProjects => 'No Pages projects found';
+
+  @override
+  String pages_lastDeployment(String date) {
+    return 'Last deployed: $date';
+  }
+
+  @override
+  String get pages_statusSuccess => 'Success';
+
+  @override
+  String get pages_statusFailed => 'Failed';
+
+  @override
+  String get pages_statusBuilding => 'Building';
+
+  @override
+  String get pages_statusQueued => 'Queued';
+
+  @override
+  String get pages_statusUnknown => 'Unknown';
+
+  @override
+  String get pages_openInBrowser => 'Open in browser';
+
+  @override
+  String get pages_deployments => 'Deployments';
+
+  @override
+  String get pages_noDeployments => 'No deployments found';
+
+  @override
+  String get pages_production => 'Production';
+
+  @override
+  String get pages_preview => 'Preview';
+
+  @override
+  String get pages_deploymentDetails => 'Deployment Details';
+
+  @override
+  String get pages_commitInfo => 'Commit Information';
+
+  @override
+  String get pages_buildStages => 'Build Stages';
+
+  @override
+  String get pages_rollback => 'Rollback';
+
+  @override
+  String get pages_rollbackConfirmTitle => 'Rollback Deployment';
+
+  @override
+  String get pages_rollbackConfirmMessage =>
+      'Are you sure you want to rollback to this deployment? This will make this deployment the current production version.';
+
+  @override
+  String get pages_rollbackSuccess => 'Rollback successful';
 }
