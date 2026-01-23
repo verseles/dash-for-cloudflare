@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,25 +11,59 @@ import '../../domain/models/pages_deployment.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
 
-/// Pages projects list screen
-class PagesListPage extends ConsumerWidget {
+/// Pages projects list screen with auto-refresh when builds are active
+class PagesListPage extends ConsumerStatefulWidget {
   const PagesListPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PagesListPage> createState() => _PagesListPageState();
+}
+
+class _PagesListPageState extends ConsumerState<PagesListPage> {
+  Timer? _pollingTimer;
+  static const _pollingInterval = Duration(seconds: 5);
+
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
+  void _updatePolling(List<PagesProject> projects) {
+    final hasActiveBuilds = projects.any((p) {
+      final deployment = p.effectiveDeployment;
+      return deployment != null && deployment.isBuilding;
+    });
+
+    if (hasActiveBuilds && _pollingTimer == null) {
+      // Start polling
+      _pollingTimer = Timer.periodic(_pollingInterval, (_) {
+        ref.read(pagesProjectsNotifierProvider.notifier).refresh();
+      });
+    } else if (!hasActiveBuilds && _pollingTimer != null) {
+      // Stop polling
+      _pollingTimer?.cancel();
+      _pollingTimer = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final projectsAsync = ref.watch(pagesProjectsNotifierProvider);
 
+    // Update polling based on current state
+    projectsAsync.whenData((state) => _updatePolling(state.projects));
+
     return projectsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => _buildError(context, ref, error, l10n),
-      data: (state) => _buildProjectsList(context, ref, state, l10n),
+      error: (error, stack) => _buildError(context, error, l10n),
+      data: (state) => _buildProjectsList(context, state, l10n),
     );
   }
 
   Widget _buildError(
     BuildContext context,
-    WidgetRef ref,
     Object error,
     AppLocalizations l10n,
   ) {
@@ -62,7 +98,6 @@ class PagesListPage extends ConsumerWidget {
 
   Widget _buildProjectsList(
     BuildContext context,
-    WidgetRef ref,
     PagesProjectsState state,
     AppLocalizations l10n,
   ) {

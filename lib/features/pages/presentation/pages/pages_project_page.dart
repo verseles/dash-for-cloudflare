@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,20 +12,56 @@ import '../../domain/models/pages_deployment.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
 
-/// Pages project details page with deployments list
-class PagesProjectPage extends ConsumerWidget {
+/// Pages project details page with deployments list and auto-refresh
+class PagesProjectPage extends ConsumerStatefulWidget {
   const PagesProjectPage({super.key, required this.projectName});
 
   final String projectName;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PagesProjectPage> createState() => _PagesProjectPageState();
+}
+
+class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
+  Timer? _pollingTimer;
+  static const _pollingInterval = Duration(seconds: 5);
+
+  String get projectName => widget.projectName;
+
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
+  void _updatePolling(List<PagesDeployment> deployments) {
+    final hasActiveBuilds = deployments.any((d) => d.isBuilding);
+
+    if (hasActiveBuilds && _pollingTimer == null) {
+      // Start polling
+      _pollingTimer = Timer.periodic(_pollingInterval, (_) {
+        ref
+            .read(pagesDeploymentsNotifierProvider(projectName).notifier)
+            .refresh();
+      });
+    } else if (!hasActiveBuilds && _pollingTimer != null) {
+      // Stop polling
+      _pollingTimer?.cancel();
+      _pollingTimer = null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final deploymentsAsync = ref.watch(
       pagesDeploymentsNotifierProvider(projectName),
     );
     final projectsState = ref.watch(pagesProjectsNotifierProvider);
+
+    // Update polling based on current state
+    deploymentsAsync.whenData(_updatePolling);
 
     // Find project from state
     final project = projectsState.valueOrNull?.projects
@@ -69,9 +107,9 @@ class PagesProjectPage extends ConsumerWidget {
           Expanded(
             child: deploymentsAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => _buildError(context, ref, error, l10n),
+              error: (error, _) => _buildError(context, error, l10n),
               data: (deployments) =>
-                  _buildDeploymentsList(context, ref, deployments, l10n),
+                  _buildDeploymentsList(context, deployments, l10n),
             ),
           ),
         ],
@@ -212,7 +250,6 @@ class PagesProjectPage extends ConsumerWidget {
 
   Widget _buildError(
     BuildContext context,
-    WidgetRef ref,
     Object error,
     AppLocalizations l10n,
   ) {
@@ -242,7 +279,6 @@ class PagesProjectPage extends ConsumerWidget {
 
   Widget _buildDeploymentsList(
     BuildContext context,
-    WidgetRef ref,
     List<PagesDeployment> deployments,
     AppLocalizations l10n,
   ) {

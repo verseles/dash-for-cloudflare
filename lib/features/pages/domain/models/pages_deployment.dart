@@ -80,7 +80,8 @@ extension PagesDeploymentStatus on PagesDeployment {
   /// Handles ad_hoc deploys where intermediate stages remain idle.
   String get status {
     // Check if deployment was explicitly skipped by Cloudflare
-    if (isSkipped) return 'skipped';
+    // Access the model field directly (not the stage extension)
+    if (isSkipped == true) return 'skipped';
 
     if (stages.isEmpty) return 'unknown';
 
@@ -96,6 +97,10 @@ extension PagesDeploymentStatus on PagesDeployment {
 
     // Check for any active stage (still building/deploying)
     if (stages.any((s) => s.isActive)) return 'building';
+
+    // If ALL stages are idle and deploy didn't succeed, it was likely skipped
+    // This handles cases where is_skipped might not be set but all stages are idle
+    if (stages.every((s) => s.isIdle)) return 'skipped';
 
     // If deploy stage hasn't started but no failures, it's still queued/pending
     if (deployStage?.isIdle == true || deployStage == null) return 'queued';
