@@ -30,6 +30,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get common_create => 'Criar';
 
   @override
+  String get common_add => 'Adicionar';
+
+  @override
   String get common_delete => 'Excluir';
 
   @override
@@ -913,4 +916,75 @@ class AppLocalizationsPt extends AppLocalizations {
   String pages_logCount(int current, int total) {
     return '$current de $total linhas';
   }
+
+  @override
+  String get pages_customDomains => 'Domínios Customizados';
+
+  @override
+  String get pages_addDomain => 'Adicionar Domínio';
+
+  @override
+  String get pages_deleteDomainConfirmTitle => 'Excluir Domínio Customizado?';
+
+  @override
+  String pages_deleteDomainConfirmMessage(String domain) {
+    return 'Tem certeza que deseja excluir \"$domain\"? Isso irá desconectá-lo do seu projeto Pages.';
+  }
+
+  @override
+  String get pages_buildSettings => 'Configurações de Build';
+
+  @override
+  String get pages_buildCommand => 'Comando de Build';
+
+  @override
+  String get pages_outputDirectory => 'Diretório de Saída';
+
+  @override
+  String get pages_rootDirectory => 'Diretório Raiz';
+
+  @override
+  String get pages_environmentVariables => 'Variáveis de Ambiente';
+
+  @override
+  String get pages_productionEnv => 'Ambiente de Produção';
+
+  @override
+  String get pages_previewEnv => 'Ambiente de Preview';
+
+  @override
+  String get pages_addVariable => 'Adicionar Variável';
+
+  @override
+  String get pages_variableName => 'Nome';
+
+  @override
+  String get pages_variableValue => 'Valor';
+
+  @override
+  String get pages_secret => 'Secreta';
+
+  @override
+  String get pages_plainText => 'Texto Plano';
+
+  @override
+  String get pages_compatibilityDate => 'Data de Compatibilidade';
+
+  @override
+  String get pages_compatibilityFlags => 'Flags de Compatibilidade';
+
+  @override
+  String get pages_saveSettings => 'Salvar Configurações';
+
+  @override
+  String get pages_settingsUpdated => 'Configurações atualizadas com sucesso';
+
+  @override
+  String get pages_domainAdded => 'Domínio adicionado com sucesso';
+
+  @override
+  String get pages_domainDeleted => 'Domínio excluído com sucesso';
+
+  @override
+  String get pages_domainNameHint => 'exemplo.com';
 }

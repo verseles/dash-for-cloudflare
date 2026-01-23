@@ -140,6 +140,12 @@ abstract class AppLocalizations {
   /// **'Create'**
   String get common_create;
 
+  /// No description provided for @common_add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get common_add;
+
   /// No description provided for @common_delete.
   ///
   /// In en, this message translates to:
@@ -1795,6 +1801,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{current} of {total} lines'**
   String pages_logCount(int current, int total);
+
+  /// No description provided for @pages_customDomains.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Domains'**
+  String get pages_customDomains;
+
+  /// No description provided for @pages_addDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Domain'**
+  String get pages_addDomain;
+
+  /// No description provided for @pages_deleteDomainConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Custom Domain?'**
+  String get pages_deleteDomainConfirmTitle;
+
+  /// No description provided for @pages_deleteDomainConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{domain}\"? This will disconnect it from your Pages project.'**
+  String pages_deleteDomainConfirmMessage(String domain);
+
+  /// No description provided for @pages_buildSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Settings'**
+  String get pages_buildSettings;
+
+  /// No description provided for @pages_buildCommand.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Command'**
+  String get pages_buildCommand;
+
+  /// No description provided for @pages_outputDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Output Directory'**
+  String get pages_outputDirectory;
+
+  /// No description provided for @pages_rootDirectory.
+  ///
+  /// In en, this message translates to:
+  /// **'Root Directory'**
+  String get pages_rootDirectory;
+
+  /// No description provided for @pages_environmentVariables.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment Variables'**
+  String get pages_environmentVariables;
+
+  /// No description provided for @pages_productionEnv.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Environment'**
+  String get pages_productionEnv;
+
+  /// No description provided for @pages_previewEnv.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview Environment'**
+  String get pages_previewEnv;
+
+  /// No description provided for @pages_addVariable.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Variable'**
+  String get pages_addVariable;
+
+  /// No description provided for @pages_variableName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get pages_variableName;
+
+  /// No description provided for @pages_variableValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get pages_variableValue;
+
+  /// No description provided for @pages_secret.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret'**
+  String get pages_secret;
+
+  /// No description provided for @pages_plainText.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain Text'**
+  String get pages_plainText;
+
+  /// No description provided for @pages_compatibilityDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Compatibility Date'**
+  String get pages_compatibilityDate;
+
+  /// No description provided for @pages_compatibilityFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'Compatibility Flags'**
+  String get pages_compatibilityFlags;
+
+  /// No description provided for @pages_saveSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Settings'**
+  String get pages_saveSettings;
+
+  /// No description provided for @pages_settingsUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings updated successfully'**
+  String get pages_settingsUpdated;
+
+  /// No description provided for @pages_domainAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain added successfully'**
+  String get pages_domainAdded;
+
+  /// No description provided for @pages_domainDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain deleted successfully'**
+  String get pages_domainDeleted;
+
+  /// No description provided for @pages_domainNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'example.com'**
+  String get pages_domainNameHint;
 }
 
 class _AppLocalizationsDelegate

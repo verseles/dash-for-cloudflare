@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class AnalyticsPage extends StatelessWidget {
   const AnalyticsPage({super.key, required this.navigationShell});
@@ -20,18 +21,18 @@ class AnalyticsPage extends StatelessWidget {
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.public_outlined),
-            selectedIcon: Icon(Icons.public),
+            icon: Icon(Symbols.public, fill: 0),
+            selectedIcon: Icon(Symbols.public, fill: 1),
             label: 'Web',
           ),
           NavigationDestination(
-            icon: Icon(Icons.security_outlined),
-            selectedIcon: Icon(Icons.security),
+            icon: Icon(Symbols.security, fill: 0),
+            selectedIcon: Icon(Symbols.security, fill: 1),
             label: 'Security',
           ),
           NavigationDestination(
-            icon: Icon(Icons.cached_outlined),
-            selectedIcon: Icon(Icons.cached),
+            icon: Icon(Symbols.cached, fill: 0),
+            selectedIcon: Icon(Symbols.cached, fill: 1),
             label: 'Cache',
           ),
         ],

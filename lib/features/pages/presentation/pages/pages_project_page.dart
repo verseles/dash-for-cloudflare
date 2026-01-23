@@ -9,8 +9,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../providers/pages_provider.dart';
 import '../../domain/models/pages_project.dart';
 import '../../domain/models/pages_deployment.dart';
+import '../widgets/pages_domains_tab.dart';
+import '../widgets/pages_settings_tab.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 /// Pages project details page with deployments list and auto-refresh
 class PagesProjectPage extends ConsumerStatefulWidget {
@@ -54,7 +57,6 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     final deploymentsAsync = ref.watch(
       pagesDeploymentsNotifierProvider(projectName),
     );
@@ -68,52 +70,93 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
         .where((p) => p.name == projectName)
         .firstOrNull;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(projectName),
-        centerTitle: true,
-        actions: [
-          if (project != null)
-            IconButton(
-              icon: const Icon(Icons.open_in_new),
-              tooltip: l10n.pages_openInBrowser,
-              onPressed: () async {
-                final url = Uri.parse(project.primaryUrl);
-                await launchUrl(url, mode: LaunchMode.externalApplication);
-              },
-            ),
-        ],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Project info header
-          if (project != null) _buildProjectHeader(context, project, l10n),
-
-          const Divider(height: 1),
-
-          // Deployments section
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-            child: Text(
-              l10n.pages_deployments,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(projectName),
+          centerTitle: true,
+          actions: [
+            if (project != null)
+              IconButton(
+                icon: const Icon(Symbols.open_in_new),
+                tooltip: l10n.pages_openInBrowser,
+                onPressed: () async {
+                  final url = Uri.parse(project.primaryUrl);
+                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                },
               ),
-            ),
+          ],
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                icon: const Icon(Symbols.rocket_launch),
+                text: l10n.pages_deployments,
+              ),
+              Tab(
+                icon: const Icon(Symbols.language),
+                text: l10n.pages_customDomains,
+              ),
+              Tab(
+                icon: const Icon(Symbols.settings),
+                text: l10n.tabs_settings,
+              ),
+            ],
           ),
+        ),
+        body: project == null
+            ? const Center(child: CircularProgressIndicator())
+            : TabBarView(
+                children: [
+                  // DEPLOYMENTS TAB
+                  _buildDeploymentsTab(context, project, deploymentsAsync, l10n),
 
-          // Deployments list
-          Expanded(
-            child: deploymentsAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => _buildError(context, error, l10n),
-              data: (deployments) =>
-                  _buildDeploymentsList(context, deployments, l10n),
-            ),
-          ),
-        ],
+                  // DOMAINS TAB
+                  PagesDomainsTab(project: project),
+
+                  // SETTINGS TAB
+                  PagesSettingsTab(project: project),
+                ],
+              ),
       ),
+    );
+  }
+
+  Widget _buildDeploymentsTab(
+    BuildContext context,
+    PagesProject project,
+    AsyncValue<List<PagesDeployment>> deploymentsAsync,
+    AppLocalizations l10n,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Project info header
+        _buildProjectHeader(context, project, l10n),
+
+        const Divider(height: 1),
+
+        // Deployments section
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            l10n.pages_deployments,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ),
+
+        // Deployments list
+        Expanded(
+          child: deploymentsAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, _) => _buildError(context, error, l10n),
+            data: (deployments) =>
+                _buildDeploymentsList(context, deployments, l10n),
+          ),
+        ),
+      ],
     );
   }
 
@@ -141,7 +184,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Row(
                 children: [
-                  Icon(Icons.link, size: 18, color: theme.colorScheme.primary),
+                  Icon(Symbols.link, size: 18, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -154,7 +197,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
                     ),
                   ),
                   Icon(
-                    Icons.open_in_new,
+                    Symbols.open_in_new,
                     size: 16,
                     color: theme.colorScheme.primary,
                   ),
@@ -168,7 +211,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
             const SizedBox(height: 8),
             Chip(
               avatar: Icon(
-                Icons.pause_circle,
+                Symbols.pause_circle,
                 size: 18,
                 color: theme.colorScheme.onErrorContainer,
               ),
@@ -188,7 +231,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
             Row(
               children: [
                 Icon(
-                  Icons.code,
+                  Symbols.code,
                   size: 18,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -226,7 +269,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
             Row(
               children: [
                 Icon(
-                  Icons.terminal,
+                  Symbols.terminal,
                   size: 18,
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -258,7 +301,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.error_outline,
+            Symbols.error,
             size: 48,
             color: Theme.of(context).colorScheme.error,
           ),
@@ -269,7 +312,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
             onPressed: () => ref
                 .read(pagesDeploymentsNotifierProvider(projectName).notifier)
                 .refresh(),
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Symbols.refresh),
             label: Text(l10n.common_retry),
           ),
         ],
@@ -287,7 +330,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.cloud_off, size: 48, color: Colors.grey),
+            const Icon(Symbols.cloud_off, size: 48, color: Colors.grey),
             const SizedBox(height: 16),
             Text(l10n.pages_noDeployments),
           ],
@@ -411,7 +454,7 @@ class _DeploymentTile extends StatelessWidget {
                 children: [
                   if (branch != null) ...[
                     Icon(
-                      Icons.account_tree,
+                      Symbols.account_tree,
                       size: 14,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -426,7 +469,7 @@ class _DeploymentTile extends StatelessWidget {
                   ],
                   if (commitHash != null) ...[
                     Icon(
-                      Icons.commit,
+                      Symbols.commit,
                       size: 14,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -475,17 +518,17 @@ class _DeploymentTile extends StatelessWidget {
   IconData _getStatusIcon(String status) {
     switch (status) {
       case 'success':
-        return Icons.check_circle;
+        return Symbols.check_circle;
       case 'failure':
-        return Icons.error;
+        return Symbols.error;
       case 'building':
-        return Icons.sync;
+        return Symbols.sync;
       case 'queued':
-        return Icons.hourglass_empty;
+        return Symbols.hourglass_empty;
       case 'skipped':
-        return Icons.skip_next;
+        return Symbols.skip_next;
       default:
-        return Icons.help_outline;
+        return Symbols.help;
     }
   }
 

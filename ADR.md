@@ -653,4 +653,44 @@ class _PageState extends ConsumerState<Page> {
 
 ---
 
-_Última atualização: 2026-01-22 (adicionado ADR-027: Auto-Polling para Pages)_
+## ADR-028: Migração para Material Symbols
+
+**Status**: Aceito
+**Data**: 2026-01-23
+
+**Contexto**: O conjunto de ícones padrão `Material Icons` é limitado em termos de personalização visual (weight, fill, grade). Para um visual mais moderno e alinhado com o Material 3 avançado, era necessária uma biblioteca mais flexível.
+
+**Decisão**: Substituir todos os ícones pela biblioteca `material_symbols_icons`.
+
+**Padrões estabelecidos**:
+1. Usar a classe `Symbols` em vez de `Icons`.
+2. Para Bottom Navigation e abas, usar `fill: 0` para o estado inativo e `fill: 1` para o estado selecionado.
+3. Ícones principais definidos:
+   - DNS: `graph_3`
+   - Analytics: `finance_mode`
+   - Pages: `electric_bolt`
+   - Settings: `settings`
+
+**Consequência**: Consistência visual aprimorada e maior controle sobre a expressividade dos ícones sem aumentar o tamanho do bundle significativamente.
+
+---
+
+## ADR-029: Persistência da Última Rota Visitada
+
+**Status**: Aceito
+**Data**: 2026-01-23
+
+**Contexto**: Usuários que alternam entre DNS, Analytics e Pages frequentemente perdiam o contexto ao fechar o app, sempre retornando para a tela inicial (DNS).
+
+**Decisão**: Implementar persistência automática da última rota visitada.
+
+**Implementação**:
+1. Adicionado campo `lastVisitedRoute` ao modelo `AppSettings`.
+2. `AppRouter` utiliza um listener no `GoRouter` para disparar atualizações de configuração sempre que a rota muda.
+3. Na inicialização, o `initialLocation` do router é extraído das configurações salvas.
+
+**Consequência**: Melhoria significativa na UX e continuidade do fluxo de trabalho do usuário.
+
+---
+
+_Última atualização: 2026-01-23 (adicionado ADR-028 e ADR-029)_

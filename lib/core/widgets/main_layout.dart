@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -66,10 +67,9 @@ class MainLayout extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(
-                  Icons.cloud,
+                const Icon(
+                  Symbols.cloud,
                   size: 48,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -82,7 +82,7 @@ class MainLayout extends ConsumerWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.dns),
+            leading: const Icon(Symbols.graph_3),
             title: Text(l10n.menu_dns),
             onTap: () {
               Navigator.pop(context);
@@ -90,7 +90,7 @@ class MainLayout extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.analytics),
+            leading: const Icon(Symbols.finance_mode),
             title: Text(l10n.menu_analytics),
             onTap: () {
               Navigator.pop(context);
@@ -98,7 +98,7 @@ class MainLayout extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.web_asset),
+            leading: const Icon(Symbols.electric_bolt),
             title: Text(l10n.menu_pages),
             onTap: () {
               Navigator.pop(context);
@@ -107,7 +107,7 @@ class MainLayout extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            leading: const Icon(Icons.settings),
+            leading: const Icon(Symbols.settings),
             title: Text(l10n.menu_settings),
             onTap: () {
               Navigator.pop(context);
@@ -115,7 +115,7 @@ class MainLayout extends ConsumerWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.bug_report),
+            leading: const Icon(Symbols.bug_report),
             title: Text(l10n.menu_debugLogs),
             onTap: () {
               Navigator.pop(context);
@@ -238,8 +238,8 @@ class _ZoneSelector extends ConsumerWidget {
                           return ListTile(
                             leading: Icon(
                               isSelected
-                                  ? Icons.check_circle
-                                  : Icons.circle_outlined,
+                                  ? Symbols.check_circle
+                                  : Symbols.circle,
                               color: isSelected
                                   ? Theme.of(context).colorScheme.primary
                                   : null,
@@ -348,7 +348,7 @@ class _AccountSelector extends ConsumerWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.account_circle_outlined,
+                  Symbols.account_circle,
                   size: 20,
                   color: theme.colorScheme.onSurface,
                 ),

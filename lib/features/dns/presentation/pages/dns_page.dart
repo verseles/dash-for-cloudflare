@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 /// DNS page container with bottom navigation
 class DnsPage extends StatelessWidget {
@@ -21,18 +22,18 @@ class DnsPage extends StatelessWidget {
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.dns_outlined),
-            selectedIcon: Icon(Icons.dns),
+            icon: Icon(Symbols.graph_3, fill: 0),
+            selectedIcon: Icon(Symbols.graph_3, fill: 1),
             label: 'Records',
           ),
           NavigationDestination(
-            icon: Icon(Icons.analytics_outlined),
-            selectedIcon: Icon(Icons.analytics),
+            icon: Icon(Symbols.finance_mode, fill: 0),
+            selectedIcon: Icon(Symbols.finance_mode, fill: 1),
             label: 'Analytics',
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
+            icon: Icon(Symbols.settings, fill: 0),
+            selectedIcon: Icon(Symbols.settings, fill: 1),
             label: 'Settings',
           ),
         ],

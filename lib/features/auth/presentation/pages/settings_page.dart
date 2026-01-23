@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pwa_install/pwa_install.dart' hide LaunchMode;
@@ -120,7 +121,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: Text(l10n.settings_title),
         leading: hasValidToken
             ? IconButton(
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Symbols.arrow_back),
                 onPressed: () => context.go(AppRoutes.dnsRecords),
               )
             : null,
@@ -142,7 +143,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     Row(
                       children: [
                         Icon(
-                          Icons.key,
+                          Symbols.key,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 8),
@@ -167,15 +168,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                             IconButton(
                               icon: Icon(
                                 _obscureToken
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                    ? Symbols.visibility
+                                    : Symbols.visibility_off,
                               ),
                               onPressed: () => setState(
                                 () => _obscureToken = !_obscureToken,
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.save),
+                              icon: const Icon(Symbols.save),
                               onPressed: _validateAndSaveToken,
                             ),
                           ],
@@ -193,7 +194,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     ),
                     const SizedBox(height: 8),
                     TextButton.icon(
-                      icon: const Icon(Icons.open_in_new, size: 16),
+                      icon: const Icon(Symbols.open_in_new, size: 16),
                       label: Text(l10n.settings_createTokenOnCloudflare),
                       onPressed: () async {
                         final uri = Uri.parse(_cloudflareTokenUrl);
@@ -216,7 +217,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       SizedBox(
                         width: double.infinity,
                         child: FilledButton.icon(
-                          icon: const Icon(Icons.dns),
+                          icon: const Icon(Symbols.graph_3),
                           label: Text(l10n.settings_goToDnsManagement),
                           onPressed: () => context.go(AppRoutes.dnsRecords),
                         ),
@@ -239,7 +240,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     Row(
                       children: [
                         Icon(
-                          Icons.palette,
+                          Symbols.palette,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 8),
@@ -254,17 +255,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       segments: [
                         ButtonSegment(
                           value: ThemeMode.light,
-                          icon: const Icon(Icons.light_mode),
+                          icon: const Icon(Symbols.light_mode),
                           label: Text(l10n.settings_themeLight),
                         ),
                         ButtonSegment(
                           value: ThemeMode.system,
-                          icon: const Icon(Icons.brightness_auto),
+                          icon: const Icon(Symbols.brightness_auto),
                           label: Text(l10n.settings_themeSystem),
                         ),
                         ButtonSegment(
                           value: ThemeMode.dark,
-                          icon: const Icon(Icons.dark_mode),
+                          icon: const Icon(Symbols.dark_mode),
                           label: Text(l10n.settings_themeDark),
                         ),
                       ],
@@ -292,7 +293,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     Row(
                       children: [
                         Icon(
-                          Icons.language,
+                          Symbols.language,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(width: 8),
@@ -360,7 +361,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
 
     return IconButton(
-      icon: Icon(Icons.content_paste, color: Colors.green.shade600),
+      icon: Icon(Symbols.content_paste, color: Colors.green.shade600),
       tooltip: 'Paste from clipboard',
       onPressed: _pasteFromClipboard,
     );
@@ -378,7 +379,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             Row(
               children: [
                 Icon(
-                  Icons.bug_report,
+                  Symbols.bug_report,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: 8),
@@ -399,9 +400,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
             const SizedBox(height: 8),
             ListTile(
-              leading: const Icon(Icons.article_outlined),
+              leading: const Icon(Symbols.article),
               title: Text(l10n.settings_viewDebugLogs),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(Symbols.chevron_right),
               onTap: () => context.push(AppRoutes.debugLogs),
             ),
           ],
@@ -420,7 +421,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             Row(
               children: [
                 Icon(
-                  Icons.storage,
+                  Symbols.storage,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: 8),
@@ -432,10 +433,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
             const SizedBox(height: 16),
             ListTile(
-              leading: const Icon(Icons.delete_outline),
+              leading: const Icon(Symbols.delete),
               title: Text(l10n.settings_clearCache),
               subtitle: Text(l10n.settings_clearCacheDescription),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(Symbols.chevron_right),
               onTap: () => _showClearCacheDialog(context, l10n),
             ),
           ],
@@ -454,7 +455,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             Row(
               children: [
                 Icon(
-                  Icons.install_mobile,
+                  Symbols.install_mobile,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(width: 8),
@@ -466,7 +467,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
             const SizedBox(height: 16),
             ListTile(
-              leading: const Icon(Icons.download),
+              leading: const Icon(Symbols.download),
               title: Text(l10n.pwa_installApp),
               subtitle: Text(l10n.pwa_installDescription),
               trailing: FilledButton(

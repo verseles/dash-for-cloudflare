@@ -14,6 +14,7 @@ sealed class PagesProject with _$PagesProject {
     @Default([]) List<String> domains,
     @JsonKey(name: 'created_on') required DateTime createdOn,
     @JsonKey(name: 'build_config') BuildConfig? buildConfig,
+    @JsonKey(name: 'deployment_configs') DeploymentConfigs? deploymentConfigs,
     @JsonKey(name: 'source') PagesSource? source,
     @JsonKey(name: 'latest_deployment') PagesDeployment? latestDeployment,
     @JsonKey(name: 'canonical_deployment') PagesDeployment? canonicalDeployment,
@@ -21,6 +22,42 @@ sealed class PagesProject with _$PagesProject {
 
   factory PagesProject.fromJson(Map<String, dynamic> json) =>
       _$PagesProjectFromJson(json);
+}
+
+/// Deployment configurations (production/preview)
+@freezed
+sealed class DeploymentConfigs with _$DeploymentConfigs {
+  const factory DeploymentConfigs({
+    required DeploymentConfig production,
+    required DeploymentConfig preview,
+  }) = _DeploymentConfigs;
+
+  factory DeploymentConfigs.fromJson(Map<String, dynamic> json) =>
+      _$DeploymentConfigsFromJson(json);
+}
+
+/// Configuration for a specific deployment environment
+@freezed
+sealed class DeploymentConfig with _$DeploymentConfig {
+  const factory DeploymentConfig({
+    @JsonKey(name: 'env_vars') Map<String, EnvVar>? envVars,
+    @JsonKey(name: 'compatibility_date') String? compatibilityDate,
+    @JsonKey(name: 'compatibility_flags') List<String>? compatibilityFlags,
+  }) = _DeploymentConfig;
+
+  factory DeploymentConfig.fromJson(Map<String, dynamic> json) =>
+      _$DeploymentConfigFromJson(json);
+}
+
+/// Environment variable model
+@freezed
+sealed class EnvVar with _$EnvVar {
+  const factory EnvVar({
+    required String value,
+    String? type, // e.g. "plain_text" or "secret"
+  }) = _EnvVar;
+
+  factory EnvVar.fromJson(Map<String, dynamic> json) => _$EnvVarFromJson(json);
 }
 
 /// Build configuration for a Pages project

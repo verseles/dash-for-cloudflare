@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,7 +38,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.domain, size: 64, color: Colors.grey),
+            const Icon(Symbols.domain, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
             Text(l10n.dns_selectZoneFirst),
           ],
@@ -51,12 +52,12 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const Icon(Symbols.error, size: 64, color: Colors.red),
             const SizedBox(height: 16),
             Text(l10n.error_prefix(error.toString())),
             const SizedBox(height: 16),
             FilledButton.icon(
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(Symbols.refresh),
               label: Text(l10n.common_retry),
               onPressed: () =>
                   ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
@@ -115,7 +116,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showEditDialog(null),
         tooltip: l10n.dns_addRecord,
-        child: const Icon(Icons.add),
+        child: const Icon(Symbols.add),
       ),
     );
   }
@@ -179,7 +180,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                         vertical: 8,
                       ),
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.close, size: 18),
+                        icon: const Icon(Symbols.close, size: 18),
                         onPressed: () {
                           setState(() => _isSearchExpanded = false);
                           _searchController.clear();
@@ -196,7 +197,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                     },
                   )
                 : IconButton(
-                    icon: const Icon(Icons.search),
+                    icon: const Icon(Symbols.search),
                     onPressed: () => setState(() => _isSearchExpanded = true),
                   ),
           ),
@@ -214,7 +215,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            hasFilters ? Icons.filter_alt_off : Icons.dns_outlined,
+            hasFilters ? Symbols.filter_alt_off : Symbols.graph_3,
             size: 64,
             color: Colors.grey,
           ),

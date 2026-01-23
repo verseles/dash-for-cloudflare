@@ -55,6 +55,7 @@ dependencies:
 
   # PWA (Web only)
   pwa_install: ^0.0.4
+  material_symbols_icons: ^4.2892.0
 
 dev_dependencies:
   flutter_test:

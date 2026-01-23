@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -74,7 +75,7 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.error_outline,
+              Symbols.error,
               size: 64,
               color: Theme.of(context).colorScheme.error,
             ),
@@ -87,7 +88,7 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
             FilledButton.icon(
               onPressed: () =>
                   ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
-              icon: const Icon(Icons.refresh),
+              icon: const Icon(Symbols.refresh),
               label: Text(l10n.common_retry),
             ),
           ],
@@ -106,7 +107,7 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.web_asset_off, size: 64, color: Colors.grey),
+            const Icon(Symbols.electric_bolt, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
             Text(l10n.pages_noProjects),
           ],
@@ -164,7 +165,7 @@ class _ProjectCard extends StatelessWidget {
               // Header: Name + Status
               Row(
                 children: [
-                  const Icon(Icons.web_asset, size: 24),
+                  const Icon(Symbols.electric_bolt, size: 24),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -206,7 +207,7 @@ class _ProjectCard extends StatelessWidget {
               // Production URL
               Row(
                 children: [
-                  Icon(Icons.link, size: 16, color: theme.colorScheme.primary),
+                  Icon(Symbols.link, size: 16, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -227,7 +228,7 @@ class _ProjectCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.schedule,
+                      Symbols.schedule,
                       size: 16,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -250,7 +251,7 @@ class _ProjectCard extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.public,
+                      Symbols.public,
                       size: 16,
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -295,17 +296,17 @@ class _ProjectCard extends StatelessWidget {
   IconData _getStatusIcon(String status) {
     switch (status) {
       case 'success':
-        return Icons.check_circle;
+        return Symbols.check_circle;
       case 'failure':
-        return Icons.error;
+        return Symbols.error;
       case 'building':
-        return Icons.sync;
+        return Symbols.sync;
       case 'queued':
-        return Icons.hourglass_empty;
+        return Symbols.hourglass_empty;
       case 'skipped':
-        return Icons.skip_next;
+        return Symbols.skip_next;
       default:
-        return Icons.help_outline;
+        return Symbols.help;
     }
   }
 

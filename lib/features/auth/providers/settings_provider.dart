@@ -17,6 +17,7 @@ const String _themeModeKey = 'theme_mode';
 const String _localeKey = 'locale';
 const String _selectedZoneIdKey = 'selected_zone_id';
 const String _selectedAccountIdKey = 'selected_account_id';
+const String _lastVisitedRouteKey = 'last_visited_route';
 
 /// Provider for FlutterSecureStorage
 @riverpod
@@ -58,6 +59,7 @@ class SettingsNotifier extends _$SettingsNotifier {
       final locale = _prefs?.getString(_localeKey) ?? 'en';
       final selectedZoneId = _prefs?.getString(_selectedZoneIdKey);
       final selectedAccountId = _prefs?.getString(_selectedAccountIdKey);
+      final lastVisitedRoute = _prefs?.getString(_lastVisitedRouteKey);
 
       final themeMode = switch (themeModeStr) {
         'light' => ThemeMode.light,
@@ -76,6 +78,7 @@ class SettingsNotifier extends _$SettingsNotifier {
         locale: locale,
         selectedZoneId: selectedZoneId,
         selectedAccountId: selectedAccountId,
+        lastVisitedRoute: lastVisitedRoute,
       );
     } catch (e, stack) {
       log.error(
@@ -154,6 +157,13 @@ class SettingsNotifier extends _$SettingsNotifier {
     state = AsyncData(state.value!.copyWith(selectedAccountId: accountId));
   }
 
+  /// Save last visited route
+  Future<void> setLastVisitedRoute(String? route) async {
+    if (route == null || route == '/') return;
+    await _prefs?.setString(_lastVisitedRouteKey, route);
+    state = AsyncData(state.value!.copyWith(lastVisitedRoute: route));
+  }
+
   /// Check if user has a valid token
   bool get hasValidToken {
     final token = state.valueOrNull?.cloudflareApiToken;
@@ -188,4 +198,11 @@ bool hasValidToken(Ref ref) {
   final settings = ref.watch(settingsNotifierProvider);
   final token = settings.valueOrNull?.cloudflareApiToken;
   return ApiConfig.isValidToken(token);
+}
+
+/// Convenient provider for last visited route
+@riverpod
+String? currentLastVisitedRoute(Ref ref) {
+  final settings = ref.watch(settingsNotifierProvider);
+  return settings.valueOrNull?.lastVisitedRoute;
 }

@@ -46,10 +46,12 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 @riverpod
 GoRouter appRouter(Ref ref) {
   final hasValidToken = ref.watch(hasValidTokenProvider);
+  final lastVisitedRoute = ref.read(currentLastVisitedRouteProvider);
+  final initialLocation = lastVisitedRoute ?? AppRoutes.dnsRecords;
 
-  return GoRouter(
+  final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.dnsRecords,
+    initialLocation: initialLocation,
     debugLogDiagnostics: true,
     redirect: (context, state) {
       final isSettingsRoute = state.matchedLocation == AppRoutes.settings;
@@ -60,9 +62,9 @@ GoRouter appRouter(Ref ref) {
         return AppRoutes.settings;
       }
 
-      // If on root, redirect to DNS records
+      // If on root, redirect to initial location (last visited or DNS records)
       if (state.matchedLocation == '/') {
-        return AppRoutes.dnsRecords;
+        return initialLocation;
       }
 
       return null;
@@ -186,4 +188,18 @@ GoRouter appRouter(Ref ref) {
       ),
     ],
   );
+
+  // Persist last visited route
+  router.routerDelegate.addListener(() {
+    final location =
+        router.routerDelegate.currentConfiguration.last.matchedLocation;
+    if (hasValidToken &&
+        location != AppRoutes.settings &&
+        location != AppRoutes.debugLogs &&
+        location != '/') {
+      ref.read(settingsNotifierProvider.notifier).setLastVisitedRoute(location);
+    }
+  });
+
+  return router;
 }

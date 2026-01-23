@@ -102,20 +102,25 @@ Visualização de dados via GraphQL e Syncfusion.
 
 ### 📄 Pages Management (`lib/features/pages/`)
 
-Gerenciamento de projetos Cloudflare Pages (account-level).
+Gerenciamento completo de projetos Cloudflare Pages (account-level).
 
-*   **Models:** `PagesProject` (com BuildConfig, PagesSource), `PagesDeployment` (com stages/triggers), `DeploymentLogEntry` (logs de build).
-*   **Providers:** `PagesProjectsNotifier` (cache ADR-022), `PagesDeploymentsNotifier` (family), `RollbackNotifier`, `RetryNotifier`, `DeploymentLogsNotifier` (polling 3s).
-*   **Account Context:** `AccountsNotifier` + `selectedAccountIdProvider` (Pages são recursos de conta, não zona).
-*   **UI:** `PagesListPage` (cards com status), `PagesProjectPage` (detalhes/deployments), `DeploymentDetailsPage` (stages/logs/rollback).
+*   **Models:** `PagesProject` (BuildConfig, DeploymentConfigs, EnvVars), `PagesDeployment`, `PagesDomain`, `DeploymentLogEntry`.
+*   **Providers:** `PagesProjectsNotifier` (cache ADR-022), `PagesDomainsNotifier` (CRUD domínios), `PagesSettingsNotifier` (PATCH configs), `DeploymentLogsNotifier` (polling).
+*   **Account Context:** Vinculado ao `selectedAccountIdProvider`.
+*   **UI:** 
+    *   `PagesListPage`: Lista de projetos com busca.
+    *   `PagesProjectPage`: Interface com abas (Deployments, Custom Domains, Settings).
+    *   `PagesSettingsTab`: Edição de builds e variáveis de ambiente (ADR-027 polling feedback).
 
 ---
 
 ## 🎨 Design System & UI
 
+*   **Icons:** Migrado integralmente para **Material Symbols** (`package:material_symbols_icons`) conforme **ADR-028**.
 *   **Theme:** Material 3 puro com a paleta oficial da Cloudflare (`#F38020`).
-*   **Layout:** `MainLayout` fornece a estrutura de Shell com Drawer e ZoneSelector.
-*   **Widgets:** Componentes customizados como `CloudflareProxyToggle` (nuvem laranja/cinza) e `SkeletonLoader`.
+*   **Layout:** `MainLayout` fornece a estrutura de Shell com Drawer e BottomNav persistente.
+*   **Persistence:** Rota atual persistida em `AppSettings` conforme **ADR-029**.
+*   **Widgets:** Componentes customizados como `CloudflareProxyToggle` e `SkeletonLoader`.
 
 ---
 
@@ -157,4 +162,4 @@ cat lib/core/router/app_router.dart
 
 ---
 
-_Última atualização: 2026-01-19_
+_Última atualização: 2026-01-23_

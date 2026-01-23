@@ -8,6 +8,7 @@ import '../../../features/dns/domain/models/dns_record.dart';
 import '../../../features/dns/domain/models/dns_settings.dart';
 import '../../../features/pages/domain/models/pages_project.dart';
 import '../../../features/pages/domain/models/pages_deployment.dart';
+import '../../../features/pages/domain/models/pages_domain.dart';
 import '../../../features/pages/domain/models/deployment_log.dart';
 
 part 'cloudflare_api.g.dart';
@@ -197,5 +198,38 @@ abstract class CloudflareApi {
     @Path('accountId') String accountId,
     @Path('projectName') String projectName,
     @Path('deploymentId') String deploymentId,
+  );
+
+  // ============== PAGES PROJECTS MANAGEMENT ==============
+
+  /// Update a Pages project (build_config, deployment_configs, etc.)
+  @PATCH('/accounts/{accountId}/pages/projects/{projectName}')
+  Future<CloudflareResponse<PagesProject>> patchPagesProject(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Body() Map<String, dynamic> data,
+  );
+
+  /// Get custom domains for a Pages project
+  @GET('/accounts/{accountId}/pages/projects/{projectName}/domains')
+  Future<CloudflareResponse<List<PagesDomain>>> getPagesDomains(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+  );
+
+  /// Add a custom domain to a Pages project
+  @POST('/accounts/{accountId}/pages/projects/{projectName}/domains')
+  Future<CloudflareResponse<PagesDomain>> addPagesDomain(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Body() Map<String, dynamic> data,
+  );
+
+  /// Delete a custom domain from a Pages project
+  @DELETE('/accounts/{accountId}/pages/projects/{projectName}/domains/{domainName}')
+  Future<CloudflareResponse<DeleteResponse>> deletePagesDomain(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+    @Path('domainName') String domainName,
   );
 }

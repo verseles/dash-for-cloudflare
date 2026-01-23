@@ -19,6 +19,8 @@ spec: |
 | **8. PWA** | manifest, service worker, install prompt, _headers | `7e86061` | - |
 | **9. Tests** | 129 tests: models (79), API (8), interceptors (13), widgets (29) | `f997c92` | - |
 | **10. Build & Deploy** | Icons, splash, APK, Linux, Web, CI/CD GitHub Actions | `6cf983e`, `678b974` | ADR-025 (Data Centers Sync), ADR-026 (GitHub Actions Deploy) |
+| **11. Analytics Dashboard** | Web, Security and Performance tabs with shared time range | `4f7fd75`, `452f58a` | ADR-023 (Analytics Preload) |
+| **12. Pages Management** | Account-level project list, deployments, logs and rollback | `be82bef`, `f67d99a` | ADR-027 (Auto-polling) |
 
 ## Deferred Items
 
@@ -57,30 +59,6 @@ _New features and improvements to be planned._
 ---
 
 ## Current Sprint
-
-### Feature 11: Main Analytics Dashboard
-Description: Nova seção de Analytics consolidada com abas Web, Security e Performance.
-- [x] 11.01 Criar modelos de dados Web, Security e Performance com Freezed
-- [x] 11.02 Implementar queries GraphQL para tráfego, segurança e cache
-- [x] 11.03 Configurar rotas e navegação no Drawer e BottomNav
-- [x] 11.04 Criar SharedAnalyticsTimeRangeProvider para sincronizar filtros
-- [x] 11.05 Implementar UI da aba Web (Traffic Analytics)
-- [x] 11.06 Implementar UI da aba Performance (Cache Analytics)
-- [x] 11.07 Implementar UI da aba Security (Firewall Analytics) com fallback para planos free
-- [x] 11.08 Corrigir erros de schema GraphQL (Web/Performance) e access denied (Security)
-
-### Feature 12: Cloudflare Pages Management
-Description: Gerenciamento de projetos Pages com listagem, detalhes, deployments e rollback. (Visit file ROADMAP.feat12.md for full research details)
-- [x] 12.01 Criar modelos Freezed: PagesProject, PagesDeployment, BuildConfig, DeploymentStage
-- [x] 12.02 Adicionar endpoints ao CloudflareApi (Retrofit) para Pages
-- [x] 12.03 Criar PagesProvider com cache e state management (Riverpod)
-- [x] 12.04 Implementar tela de listagem de projetos (cards com status, last deploy)
-- [x] 12.05 Implementar tela de detalhes do projeto (tabs: Deployments, Domains)
-- [x] 12.06 Implementar visualização de deployment (logs, preview URL, commit info)
-- [x] 12.07 Implementar ação de rollback com confirmação
-- [x] 12.08 Adicionar navegação no Drawer/BottomNav (ícone: web_asset)
-- [x] 12.09 Localização (i18n) completa EN/PT
-- [x] 12.10 Testes unitários (models, providers) e widget tests
 
 ### Feature 13: Cloudflare Workers Management
 Description: Gerenciamento de Workers/Scripts com listagem, detalhes, routes e triggers. (Visit file ROADMAP.feat13.md for full research details)

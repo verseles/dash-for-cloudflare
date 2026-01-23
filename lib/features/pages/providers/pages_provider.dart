@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/pages_project.dart';
 import '../domain/models/pages_deployment.dart';
+import '../domain/models/pages_domain.dart';
 import '../domain/models/deployment_log.dart';
 import '../../auth/providers/account_provider.dart';
 import '../../auth/providers/settings_provider.dart';
@@ -565,5 +566,168 @@ class DeploymentLogsNotifier extends _$DeploymentLogsNotifier {
   Future<void> refresh() async {
     state = state.copyWith(isLoading: true);
     await _fetchLogs();
+  }
+}
+
+// ==================== DOMAINS NOTIFIER ====================
+
+/// Provider for managing project custom domains
+@riverpod
+class PagesDomainsNotifier extends _$PagesDomainsNotifier {
+  @override
+  FutureOr<List<PagesDomain>> build(String projectName) async {
+    final accountId = ref.watch(selectedAccountIdProvider);
+    if (accountId == null) return [];
+
+    return _fetchDomains(accountId, projectName);
+  }
+
+  Future<List<PagesDomain>> _fetchDomains(
+    String accountId,
+    String projectName,
+  ) async {
+    log.stateChange(
+      'PagesDomainsNotifier',
+      'Fetching domains for $projectName',
+    );
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getPagesDomains(accountId, projectName);
+
+      if (!response.success || response.result == null) {
+        throw Exception('Failed to fetch domains');
+      }
+
+      return response.result!;
+    } catch (e, stack) {
+      log.error('PagesDomainsNotifier: Error', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<void> addDomain(String domainName) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.addPagesDomain(
+        accountId,
+        projectName,
+        {'name': domainName},
+      );
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Failed to add domain';
+        throw Exception(error);
+      }
+
+      // Refresh list
+      ref.invalidateSelf();
+      // Also refresh project to update domain list
+      ref.invalidate(pagesProjectsNotifierProvider);
+    } catch (e, stack) {
+      log.error('PagesDomainsNotifier: Add Error', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteDomain(String domainName) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.deletePagesDomain(
+        accountId,
+        projectName,
+        domainName,
+      );
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Failed to delete domain';
+        throw Exception(error);
+      }
+
+      // Refresh list
+      ref.invalidateSelf();
+      // Also refresh project to update domain list
+      ref.invalidate(pagesProjectsNotifierProvider);
+    } catch (e, stack) {
+      log.error(
+        'PagesDomainsNotifier: Delete Error',
+        error: e,
+        stackTrace: stack,
+      );
+      rethrow;
+    }
+  }
+
+  Future<void> refresh() async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(
+      () => _fetchDomains(accountId, projectName),
+    );
+  }
+}
+
+// ==================== SETTINGS NOTIFIER ====================
+
+/// Provider for updating project settings (build, env vars)
+@riverpod
+class PagesSettingsNotifier extends _$PagesSettingsNotifier {
+  @override
+  FutureOr<void> build() async {}
+
+  Future<bool> updateProject({
+    required String projectName,
+    Map<String, dynamic>? buildConfig,
+    Map<String, dynamic>? deploymentConfigs,
+  }) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return false;
+
+    state = const AsyncLoading();
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final data = <String, dynamic>{};
+      if (buildConfig != null) data['build_config'] = buildConfig;
+      if (deploymentConfigs != null) {
+        data['deployment_configs'] = deploymentConfigs;
+      }
+
+      final response = await api.patchPagesProject(accountId, projectName, data);
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Failed to update project settings';
+        throw Exception(error);
+      }
+
+      log.stateChange(
+        'PagesSettingsNotifier',
+        'Updated settings for $projectName',
+      );
+
+      // Refresh projects list to update local state
+      ref.invalidate(pagesProjectsNotifierProvider);
+
+      state = const AsyncData(null);
+      return true;
+    } catch (e, stack) {
+      log.error('PagesSettingsNotifier: Error', error: e, stackTrace: stack);
+      state = AsyncError(e, stack);
+      return false;
+    }
   }
 }

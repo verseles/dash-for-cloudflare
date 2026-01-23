@@ -40,6 +40,7 @@ sealed class AppSettings with _$AppSettings {
     @Default('en') String locale,
     String? selectedZoneId,
     String? selectedAccountId,
+    String? lastVisitedRoute,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

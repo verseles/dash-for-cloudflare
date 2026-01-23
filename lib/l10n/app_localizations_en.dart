@@ -30,6 +30,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_create => 'Create';
 
   @override
+  String get common_add => 'Add';
+
+  @override
   String get common_delete => 'Delete';
 
   @override
@@ -901,4 +904,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String pages_logCount(int current, int total) {
     return '$current of $total lines';
   }
+
+  @override
+  String get pages_customDomains => 'Custom Domains';
+
+  @override
+  String get pages_addDomain => 'Add Domain';
+
+  @override
+  String get pages_deleteDomainConfirmTitle => 'Delete Custom Domain?';
+
+  @override
+  String pages_deleteDomainConfirmMessage(String domain) {
+    return 'Are you sure you want to delete \"$domain\"? This will disconnect it from your Pages project.';
+  }
+
+  @override
+  String get pages_buildSettings => 'Build Settings';
+
+  @override
+  String get pages_buildCommand => 'Build Command';
+
+  @override
+  String get pages_outputDirectory => 'Output Directory';
+
+  @override
+  String get pages_rootDirectory => 'Root Directory';
+
+  @override
+  String get pages_environmentVariables => 'Environment Variables';
+
+  @override
+  String get pages_productionEnv => 'Production Environment';
+
+  @override
+  String get pages_previewEnv => 'Preview Environment';
+
+  @override
+  String get pages_addVariable => 'Add Variable';
+
+  @override
+  String get pages_variableName => 'Name';
+
+  @override
+  String get pages_variableValue => 'Value';
+
+  @override
+  String get pages_secret => 'Secret';
+
+  @override
+  String get pages_plainText => 'Plain Text';
+
+  @override
+  String get pages_compatibilityDate => 'Compatibility Date';
+
+  @override
+  String get pages_compatibilityFlags => 'Compatibility Flags';
+
+  @override
+  String get pages_saveSettings => 'Save Settings';
+
+  @override
+  String get pages_settingsUpdated => 'Settings updated successfully';
+
+  @override
+  String get pages_domainAdded => 'Domain added successfully';
+
+  @override
+  String get pages_domainDeleted => 'Domain deleted successfully';
+
+  @override
+  String get pages_domainNameHint => 'example.com';
 }

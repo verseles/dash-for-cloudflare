@@ -8,6 +8,7 @@
   "common_copy": "Copiar",
   "common_copyFailed": "Falha ao copiar",
   "common_create": "Criar",
+  "common_add": "Adicionar",
   "common_delete": "Excluir",
   "common_edit": "Editar",
   "common_error": "Erro",
@@ -305,5 +306,33 @@
       "current": { "type": "int" },
       "total": { "type": "int" }
     }
-  }
+  },
+  "pages_customDomains": "Domínios Customizados",
+  "pages_addDomain": "Adicionar Domínio",
+  "pages_deleteDomainConfirmTitle": "Excluir Domínio Customizado?",
+  "pages_deleteDomainConfirmMessage": "Tem certeza que deseja excluir \"{domain}\"? Isso irá desconectá-lo do seu projeto Pages.",
+  "@pages_deleteDomainConfirmMessage": {
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "pages_buildSettings": "Configurações de Build",
+  "pages_buildCommand": "Comando de Build",
+  "pages_outputDirectory": "Diretório de Saída",
+  "pages_rootDirectory": "Diretório Raiz",
+  "pages_environmentVariables": "Variáveis de Ambiente",
+  "pages_productionEnv": "Ambiente de Produção",
+  "pages_previewEnv": "Ambiente de Preview",
+  "pages_addVariable": "Adicionar Variável",
+  "pages_variableName": "Nome",
+  "pages_variableValue": "Valor",
+  "pages_secret": "Secreta",
+  "pages_plainText": "Texto Plano",
+  "pages_compatibilityDate": "Data de Compatibilidade",
+  "pages_compatibilityFlags": "Flags de Compatibilidade",
+  "pages_saveSettings": "Salvar Configurações",
+  "pages_settingsUpdated": "Configurações atualizadas com sucesso",
+  "pages_domainAdded": "Domínio adicionado com sucesso",
+  "pages_domainDeleted": "Domínio excluído com sucesso",
+  "pages_domainNameHint": "exemplo.com"
 }
