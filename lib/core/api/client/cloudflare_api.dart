@@ -10,6 +10,11 @@ import '../../../features/pages/domain/models/pages_project.dart';
 import '../../../features/pages/domain/models/pages_deployment.dart';
 import '../../../features/pages/domain/models/pages_domain.dart';
 import '../../../features/pages/domain/models/deployment_log.dart';
+import '../../../features/workers/domain/models/worker.dart';
+import '../../../features/workers/domain/models/worker_settings.dart';
+import '../../../features/workers/domain/models/worker_route.dart';
+import '../../../features/workers/domain/models/worker_schedule.dart';
+import '../../../features/workers/domain/models/worker_domain.dart';
 
 part 'cloudflare_api.g.dart';
 
@@ -231,5 +236,85 @@ abstract class CloudflareApi {
     @Path('accountId') String accountId,
     @Path('projectName') String projectName,
     @Path('domainName') String domainName,
+  );
+
+  // ============== WORKERS SCRIPTS ==============
+
+  /// Get all Workers scripts for an account
+  @GET('/accounts/{accountId}/workers/scripts')
+  Future<CloudflareResponse<List<Worker>>> getWorkersScripts(
+    @Path('accountId') String accountId,
+  );
+
+  /// Get settings for a specific Worker script
+  @GET('/accounts/{accountId}/workers/scripts/{scriptName}/settings')
+  Future<CloudflareResponse<WorkerSettings>> getWorkerSettings(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+  );
+
+  /// Get Schedules (cron triggers) for a specific Worker script
+  @GET('/accounts/{accountId}/workers/scripts/{scriptName}/schedules')
+  Future<CloudflareResponse<WorkerSchedulesResponse>> getWorkerSchedules(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+  );
+
+  /// Update Worker script settings (bindings, etc.)
+  @PATCH('/accounts/{accountId}/workers/scripts/{scriptName}/settings')
+  Future<CloudflareResponse<WorkerSettings>> patchWorkerSettings(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+    @Body() Map<String, dynamic> data,
+  );
+
+  /// Create or update a Worker secret
+  @PUT('/accounts/{accountId}/workers/scripts/{scriptName}/secrets')
+  Future<CloudflareResponse<WorkerBinding>> updateWorkerSecret(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+    @Body() Map<String, dynamic> data,
+  );
+
+  /// Get all Workers custom domains for an account
+  @GET('/accounts/{accountId}/workers/domains')
+  Future<CloudflareResponse<List<WorkerDomain>>> getWorkerDomains(
+    @Path('accountId') String accountId,
+  );
+
+  /// Attach or update a Workers custom domain
+  @PUT('/accounts/{accountId}/workers/domains')
+  Future<CloudflareResponse<WorkerDomain>> attachWorkerDomain(
+    @Path('accountId') String accountId,
+    @Body() Map<String, dynamic> data,
+  );
+
+  /// Detach a Workers custom domain
+  @DELETE('/accounts/{accountId}/workers/domains/{domainId}')
+  Future<CloudflareResponse<DeleteResponse>> detachWorkerDomain(
+    @Path('accountId') String accountId,
+    @Path('domainId') String domainId,
+  );
+
+  // ============== WORKERS ROUTES ==============
+
+  /// Get all Workers routes for a specific zone
+  @GET('/zones/{zoneId}/workers/routes')
+  Future<CloudflareResponse<List<WorkerRoute>>> getWorkerRoutes(
+    @Path('zoneId') String zoneId,
+  );
+
+  /// Create a new Workers route for a specific zone
+  @POST('/zones/{zoneId}/workers/routes')
+  Future<CloudflareResponse<WorkerRoute>> createWorkerRoute(
+    @Path('zoneId') String zoneId,
+    @Body() Map<String, dynamic> data,
+  );
+
+  /// Delete a Workers route
+  @DELETE('/zones/{zoneId}/workers/routes/{routeId}')
+  Future<CloudflareResponse<DeleteResponse>> deleteWorkerRoute(
+    @Path('zoneId') String zoneId,
+    @Path('routeId') String routeId,
   );
 }

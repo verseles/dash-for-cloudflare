@@ -13,6 +13,7 @@ import '../widgets/pages_domains_tab.dart';
 import '../widgets/pages_settings_tab.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/widgets/error_view.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 /// Pages project details page with deployments list and auto-refresh
@@ -151,7 +152,12 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
         Expanded(
           child: deploymentsAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, _) => _buildError(context, error, l10n),
+            error: (error, _) => CloudflareErrorView(
+              error: error,
+              onRetry: () => ref
+                  .read(pagesDeploymentsNotifierProvider(projectName).notifier)
+                  .refresh(),
+            ),
             data: (deployments) =>
                 _buildDeploymentsList(context, deployments, l10n),
           ),
@@ -286,35 +292,6 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
               ],
             ),
           ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildError(
-    BuildContext context,
-    Object error,
-    AppLocalizations l10n,
-  ) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Symbols.error,
-            size: 48,
-            color: Theme.of(context).colorScheme.error,
-          ),
-          const SizedBox(height: 16),
-          Text(l10n.error_prefix(error.toString())),
-          const SizedBox(height: 16),
-          FilledButton.icon(
-            onPressed: () => ref
-                .read(pagesDeploymentsNotifierProvider(projectName).notifier)
-                .refresh(),
-            icon: const Icon(Symbols.refresh),
-            label: Text(l10n.common_retry),
-          ),
         ],
       ),
     );

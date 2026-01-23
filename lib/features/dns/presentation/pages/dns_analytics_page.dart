@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../analytics/providers/analytics_provider.dart';
 import '../../providers/zone_provider.dart';
 import '../widgets/charts/charts.dart';
+import '../../../../core/widgets/error_view.dart';
 
 /// DNS Analytics page with Syncfusion charts
 class DnsAnalyticsPage extends ConsumerWidget {
@@ -47,27 +48,11 @@ class DnsAnalyticsPage extends ConsumerWidget {
               )
             else if (analyticsState.error != null)
               SliverFillRemaining(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        size: 64,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(l10n.error_prefix(analyticsState.error!)),
-                      const SizedBox(height: 16),
-                      FilledButton.icon(
-                        icon: const Icon(Icons.refresh),
-                        label: Text(l10n.common_retry),
-                        onPressed: () => ref
-                            .read(analyticsNotifierProvider.notifier)
-                            .fetchAnalytics(),
-                      ),
-                    ],
-                  ),
+                child: CloudflareErrorView(
+                  error: analyticsState.error!,
+                  onRetry: () => ref
+                      .read(analyticsNotifierProvider.notifier)
+                      .fetchAnalytics(),
                 ),
               )
             else if (analyticsState.data == null)

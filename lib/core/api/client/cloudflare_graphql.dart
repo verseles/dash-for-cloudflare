@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import '../../../features/analytics/domain/models/analytics.dart';
+import '../../../features/workers/domain/models/worker_analytics.dart';
 import '../../logging/log_service.dart';
 
 /// GraphQL client for Cloudflare Analytics API.
@@ -247,6 +248,31 @@ class CloudflareGraphQL {
             count
             dimensions {
               source
+            }
+          }
+        }
+      }
+    }
+  ''';
+
+  static const String _workerAnalyticsQuery = '''
+    query GetWorkerAnalytics(\$accountTag: String!, \$scriptName: String!, \$since: DateTime!, \$until: DateTime!) {
+      viewer {
+        accounts(filter: {accountTag: \$accountTag}) {
+          timeSeries: workersInvocationsAdaptive(
+            limit: 1000,
+            filter: {scriptName: \$scriptName, datetime_geq: \$since, datetime_leq: \$until},
+            orderBy: [datetimeFifteenMinutes_ASC]
+          ) {
+            sum {
+              requests
+              errors
+            }
+            max {
+              cpuTime
+            }
+            dimensions {
+              ts: datetimeFifteenMinutes
             }
           }
         }
@@ -512,6 +538,45 @@ class CloudflareGraphQL {
       byCountry: _parseAnalyticsGroups(zoneData['byCountry']),
       bySource: _parseAnalyticsGroups(zoneData['bySource']),
     );
+  }
+
+  /// Fetch Worker analytics data
+  Future<WorkerAnalyticsData?> fetchWorkerAnalytics({
+    required String accountId,
+    required String scriptName,
+    required DateTime since,
+    required DateTime until,
+  }) async {
+    final result = await _executeQuery<Map<String, dynamic>>(_workerAnalyticsQuery, {
+      'accountTag': accountId,
+      'scriptName': scriptName,
+      'since': since.toUtc().toIso8601String(),
+      'until': until.toUtc().toIso8601String(),
+    });
+
+    if (result == null) return null;
+
+    final accounts = result['viewer']?['accounts'] as List?;
+    if (accounts == null || accounts.isEmpty) return null;
+
+    final accountData = accounts[0] as Map<String, dynamic>;
+    final timeSeriesRaw = accountData['timeSeries'] as List?;
+
+    final timeSeries = (timeSeriesRaw ?? []).map((item) {
+      final map = item as Map<String, dynamic>;
+      final sum = map['sum'] as Map<String, dynamic>? ?? {};
+      final max = map['max'] as Map<String, dynamic>? ?? {};
+      final dimensions = map['dimensions'] as Map<String, dynamic>? ?? {};
+
+      return WorkerTimeSeries(
+        timestamp: dimensions['ts'] as String? ?? '',
+        requests: (sum['requests'] as num?)?.toInt() ?? 0,
+        errors: (sum['errors'] as num?)?.toInt() ?? 0,
+        cpuTimeMax: (max['cpuTime'] as num?)?.toInt() ?? 0,
+      );
+    }).toList();
+
+    return WorkerAnalyticsData(timeSeries: timeSeries);
   }
 
   /// Fetch time series for a specific query name

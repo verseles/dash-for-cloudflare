@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'Pages'**
   String get menu_pages;
 
+  /// No description provided for @menu_workers.
+  ///
+  /// In en, this message translates to:
+  /// **'Workers'**
+  String get menu_workers;
+
   /// No description provided for @menu_settings.
   ///
   /// In en, this message translates to:
@@ -1274,6 +1280,36 @@ abstract class AppLocalizations {
   /// **'Error: {message}'**
   String error_prefix(String message);
 
+  /// No description provided for @error_copyError.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Error Details'**
+  String get error_copyError;
+
+  /// No description provided for @error_permissionsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions Required'**
+  String get error_permissionsRequired;
+
+  /// No description provided for @error_permissionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Your API token doesn\'t have the necessary permissions to access this resource. Please check your token settings on Cloudflare.'**
+  String get error_permissionsDescription;
+
+  /// No description provided for @error_checkCloudflareDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Cloudflare Dashboard'**
+  String get error_checkCloudflareDashboard;
+
+  /// No description provided for @error_commonPermissionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Commonly required permissions:'**
+  String get error_commonPermissionsTitle;
+
   /// No description provided for @pwa_updateAvailable.
   ///
   /// In en, this message translates to:
@@ -1939,6 +1975,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'example.com'**
   String get pages_domainNameHint;
+
+  /// No description provided for @workers_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Workers'**
+  String get workers_title;
+
+  /// No description provided for @workers_noWorkers.
+  ///
+  /// In en, this message translates to:
+  /// **'No Workers scripts found'**
+  String get workers_noWorkers;
+
+  /// No description provided for @workers_searchWorkers.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Workers...'**
+  String get workers_searchWorkers;
+
+  /// No description provided for @workers_lastModified.
+  ///
+  /// In en, this message translates to:
+  /// **'Last modified: {date}'**
+  String workers_lastModified(String date);
+
+  /// No description provided for @workers_tabs_overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get workers_tabs_overview;
+
+  /// No description provided for @workers_tabs_triggers.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers'**
+  String get workers_tabs_triggers;
+
+  /// No description provided for @workers_tabs_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get workers_tabs_settings;
+
+  /// No description provided for @workers_metrics_requests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get workers_metrics_requests;
+
+  /// No description provided for @workers_metrics_errors.
+  ///
+  /// In en, this message translates to:
+  /// **'Exceptions'**
+  String get workers_metrics_errors;
+
+  /// No description provided for @workers_metrics_cpuTime.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU Time'**
+  String get workers_metrics_cpuTime;
+
+  /// No description provided for @workers_metrics_noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No metrics available for this period'**
+  String get workers_metrics_noData;
+
+  /// No description provided for @workers_triggers_customDomains.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Domains'**
+  String get workers_triggers_customDomains;
+
+  /// No description provided for @workers_triggers_routes.
+  ///
+  /// In en, this message translates to:
+  /// **'Routes'**
+  String get workers_triggers_routes;
+
+  /// No description provided for @workers_triggers_addRoute.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Route'**
+  String get workers_triggers_addRoute;
+
+  /// No description provided for @workers_triggers_addDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Custom Domain'**
+  String get workers_triggers_addDomain;
+
+  /// No description provided for @workers_triggers_routePattern.
+  ///
+  /// In en, this message translates to:
+  /// **'Route Pattern'**
+  String get workers_triggers_routePattern;
+
+  /// No description provided for @workers_triggers_routePatternHint.
+  ///
+  /// In en, this message translates to:
+  /// **'example.com/*'**
+  String get workers_triggers_routePatternHint;
+
+  /// No description provided for @workers_triggers_deleteRouteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this route?'**
+  String get workers_triggers_deleteRouteConfirm;
+
+  /// No description provided for @workers_triggers_deleteDomainConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to detach this custom domain?'**
+  String get workers_triggers_deleteDomainConfirm;
+
+  /// No description provided for @workers_triggers_routeAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Route added successfully'**
+  String get workers_triggers_routeAdded;
+
+  /// No description provided for @workers_triggers_routeDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Route deleted successfully'**
+  String get workers_triggers_routeDeleted;
+
+  /// No description provided for @workers_triggers_domainAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain attached successfully'**
+  String get workers_triggers_domainAdded;
+
+  /// No description provided for @workers_triggers_domainDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain detached successfully'**
+  String get workers_triggers_domainDeleted;
+
+  /// No description provided for @workers_triggers_cron.
+  ///
+  /// In en, this message translates to:
+  /// **'Cron Triggers'**
+  String get workers_triggers_cron;
+
+  /// No description provided for @workers_triggers_noRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'No routes configured for this zone'**
+  String get workers_triggers_noRoutes;
+
+  /// No description provided for @workers_triggers_noSchedules.
+  ///
+  /// In en, this message translates to:
+  /// **'No cron triggers configured'**
+  String get workers_triggers_noSchedules;
+
+  /// No description provided for @workers_settings_bindings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bindings'**
+  String get workers_settings_bindings;
+
+  /// No description provided for @workers_settings_variables.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment Variables'**
+  String get workers_settings_variables;
+
+  /// No description provided for @workers_settings_compatibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Compatibility'**
+  String get workers_settings_compatibility;
+
+  /// No description provided for @workers_settings_usageModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage Model'**
+  String get workers_settings_usageModel;
+
+  /// No description provided for @workers_bindings_kv.
+  ///
+  /// In en, this message translates to:
+  /// **'KV Namespace'**
+  String get workers_bindings_kv;
+
+  /// No description provided for @workers_bindings_r2.
+  ///
+  /// In en, this message translates to:
+  /// **'R2 Bucket'**
+  String get workers_bindings_r2;
+
+  /// No description provided for @workers_bindings_d1.
+  ///
+  /// In en, this message translates to:
+  /// **'D1 Database'**
+  String get workers_bindings_d1;
+
+  /// No description provided for @workers_bindings_do.
+  ///
+  /// In en, this message translates to:
+  /// **'Durable Object'**
+  String get workers_bindings_do;
+
+  /// No description provided for @workers_bindings_service.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get workers_bindings_service;
+
+  /// No description provided for @workers_bindings_queue.
+  ///
+  /// In en, this message translates to:
+  /// **'Queue'**
+  String get workers_bindings_queue;
+
+  /// No description provided for @workers_settings_addBinding.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Binding'**
+  String get workers_settings_addBinding;
+
+  /// No description provided for @workers_settings_updateSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Secret'**
+  String get workers_settings_updateSecret;
+
+  /// No description provided for @workers_settings_secretValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret Value'**
+  String get workers_settings_secretValue;
+
+  /// No description provided for @workers_settings_secretHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter secret value (write-only)'**
+  String get workers_settings_secretHint;
 }
 
 class _AppLocalizationsDelegate

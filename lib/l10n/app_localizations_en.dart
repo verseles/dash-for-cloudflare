@@ -94,6 +94,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menu_pages => 'Pages';
 
   @override
+  String get menu_workers => 'Workers';
+
+  @override
   String get menu_settings => 'Settings';
 
   @override
@@ -620,6 +623,22 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get error_copyError => 'Copy Error Details';
+
+  @override
+  String get error_permissionsRequired => 'Permissions Required';
+
+  @override
+  String get error_permissionsDescription =>
+      'Your API token doesn\'t have the necessary permissions to access this resource. Please check your token settings on Cloudflare.';
+
+  @override
+  String get error_checkCloudflareDashboard => 'Check Cloudflare Dashboard';
+
+  @override
+  String get error_commonPermissionsTitle => 'Commonly required permissions:';
+
+  @override
   String get pwa_updateAvailable => 'A new version is available';
 
   @override
@@ -975,4 +994,128 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pages_domainNameHint => 'example.com';
+
+  @override
+  String get workers_title => 'Workers';
+
+  @override
+  String get workers_noWorkers => 'No Workers scripts found';
+
+  @override
+  String get workers_searchWorkers => 'Search Workers...';
+
+  @override
+  String workers_lastModified(String date) {
+    return 'Last modified: $date';
+  }
+
+  @override
+  String get workers_tabs_overview => 'Overview';
+
+  @override
+  String get workers_tabs_triggers => 'Triggers';
+
+  @override
+  String get workers_tabs_settings => 'Settings';
+
+  @override
+  String get workers_metrics_requests => 'Requests';
+
+  @override
+  String get workers_metrics_errors => 'Exceptions';
+
+  @override
+  String get workers_metrics_cpuTime => 'CPU Time';
+
+  @override
+  String get workers_metrics_noData => 'No metrics available for this period';
+
+  @override
+  String get workers_triggers_customDomains => 'Custom Domains';
+
+  @override
+  String get workers_triggers_routes => 'Routes';
+
+  @override
+  String get workers_triggers_addRoute => 'Add Route';
+
+  @override
+  String get workers_triggers_addDomain => 'Add Custom Domain';
+
+  @override
+  String get workers_triggers_routePattern => 'Route Pattern';
+
+  @override
+  String get workers_triggers_routePatternHint => 'example.com/*';
+
+  @override
+  String get workers_triggers_deleteRouteConfirm =>
+      'Are you sure you want to delete this route?';
+
+  @override
+  String get workers_triggers_deleteDomainConfirm =>
+      'Are you sure you want to detach this custom domain?';
+
+  @override
+  String get workers_triggers_routeAdded => 'Route added successfully';
+
+  @override
+  String get workers_triggers_routeDeleted => 'Route deleted successfully';
+
+  @override
+  String get workers_triggers_domainAdded => 'Domain attached successfully';
+
+  @override
+  String get workers_triggers_domainDeleted => 'Domain detached successfully';
+
+  @override
+  String get workers_triggers_cron => 'Cron Triggers';
+
+  @override
+  String get workers_triggers_noRoutes => 'No routes configured for this zone';
+
+  @override
+  String get workers_triggers_noSchedules => 'No cron triggers configured';
+
+  @override
+  String get workers_settings_bindings => 'Bindings';
+
+  @override
+  String get workers_settings_variables => 'Environment Variables';
+
+  @override
+  String get workers_settings_compatibility => 'Compatibility';
+
+  @override
+  String get workers_settings_usageModel => 'Usage Model';
+
+  @override
+  String get workers_bindings_kv => 'KV Namespace';
+
+  @override
+  String get workers_bindings_r2 => 'R2 Bucket';
+
+  @override
+  String get workers_bindings_d1 => 'D1 Database';
+
+  @override
+  String get workers_bindings_do => 'Durable Object';
+
+  @override
+  String get workers_bindings_service => 'Service';
+
+  @override
+  String get workers_bindings_queue => 'Queue';
+
+  @override
+  String get workers_settings_addBinding => 'Add Binding';
+
+  @override
+  String get workers_settings_updateSecret => 'Update Secret';
+
+  @override
+  String get workers_settings_secretValue => 'Secret Value';
+
+  @override
+  String get workers_settings_secretHint => 'Enter secret value (write-only)';
 }

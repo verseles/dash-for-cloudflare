@@ -110,6 +110,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
   }
 
+  void _copyRequiredPermissions(BuildContext context, AppLocalizations l10n) {
+    const permissions = '''
+Required Cloudflare API Token Permissions:
+- Account.Account Settings (Read)
+- Account.Cloudflare Pages (Read/Edit)
+- Account.Workers Scripts (Read/Edit)
+- Account.Workers KV Storage (Read)
+- Zone.Zone (Read)
+- Zone.DNS (Read/Edit)
+- Zone.Analytics (Read)
+''';
+    Clipboard.setData(const ClipboardData(text: permissions));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.common_copied)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -193,23 +210,30 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    TextButton.icon(
-                      icon: const Icon(Symbols.open_in_new, size: 16),
-                      label: Text(l10n.settings_createTokenOnCloudflare),
-                      onPressed: () async {
-                        final uri = Uri.parse(_cloudflareTokenUrl);
-                        // Don't use canLaunchUrl - it can return false on Android 11+
-                        // even when launchUrl would work
-                        try {
-                          await launchUrl(
-                            uri,
-                            mode: LaunchMode.externalApplication,
-                          );
-                        } catch (e) {
-                          // Fallback: try without mode specification
-                          await launchUrl(uri);
-                        }
-                      },
+                    Row(
+                      children: [
+                        TextButton.icon(
+                          icon: const Icon(Symbols.open_in_new, size: 16),
+                          label: Text(l10n.settings_createTokenOnCloudflare),
+                          onPressed: () async {
+                            final uri = Uri.parse(_cloudflareTokenUrl);
+                            try {
+                              await launchUrl(
+                                uri,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            } catch (e) {
+                              await launchUrl(uri);
+                            }
+                          },
+                        ),
+                        const Spacer(),
+                        TextButton.icon(
+                          icon: const Icon(Symbols.content_copy, size: 16),
+                          label: Text(l10n.common_copy),
+                          onPressed: () => _copyRequiredPermissions(context, l10n),
+                        ),
+                      ],
                     ),
                     // Go to DNS button (inside token card when valid)
                     if (hasValidToken) ...[

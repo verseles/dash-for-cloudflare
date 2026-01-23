@@ -9,6 +9,7 @@ import '../widgets/shared_analytics_time_range_selector.dart';
 import '../widgets/web_analytics_charts.dart';
 import '../widgets/country_traffic_list.dart';
 import '../widgets/geographic_heat_map.dart';
+import '../../../../core/widgets/error_view.dart';
 
 class WebAnalyticsPage extends ConsumerWidget {
   const WebAnalyticsPage({super.key});
@@ -44,27 +45,11 @@ class WebAnalyticsPage extends ConsumerWidget {
                 child: Center(child: CircularProgressIndicator()),
               ),
               error: (error, stack) => SliverFillRemaining(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error_outline,
-                        size: 64,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(l10n.error_prefix(error.toString())),
-                      const SizedBox(height: 16),
-                      FilledButton.icon(
-                        icon: const Icon(Icons.refresh),
-                        label: Text(l10n.common_retry),
-                        onPressed: () => ref
-                            .read(webAnalyticsNotifierProvider.notifier)
-                            .refresh(),
-                      ),
-                    ],
-                  ),
+                child: CloudflareErrorView(
+                  error: error,
+                  onRetry: () => ref
+                      .read(webAnalyticsNotifierProvider.notifier)
+                      .refresh(),
                 ),
               ),
               data: (data) {

@@ -9,6 +9,7 @@ import '../widgets/shared_analytics_time_range_selector.dart';
 import '../widgets/web_analytics_charts.dart';
 import '../widgets/country_traffic_list.dart';
 import '../widgets/geographic_heat_map.dart';
+import '../../../../core/widgets/error_view.dart';
 
 class SecurityAnalyticsPage extends ConsumerWidget {
   const SecurityAnalyticsPage({super.key});
@@ -34,59 +35,14 @@ class SecurityAnalyticsPage extends ConsumerWidget {
               loading: () => const SliverFillRemaining(
                 child: Center(child: CircularProgressIndicator()),
               ),
-              error: (error, stack) {
-                final errorStr = error.toString();
-                final isRestricted =
-                    errorStr.contains('UPGRADE_REQUIRED') ||
-                    errorStr.contains('not available') ||
-                    errorStr.contains('permission') ||
-                    errorStr.contains('access to the path');
-
-                return SliverFillRemaining(
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(32),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            isRestricted
-                                ? Icons.lock_outline
-                                : Icons.error_outline,
-                            size: 64,
-                            color: isRestricted ? Colors.orange : Colors.red,
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            isRestricted
-                                ? l10n.analytics_securityRequiresPaidPlan
-                                : l10n.error_prefix(error.toString()),
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          if (isRestricted) ...[
-                            const SizedBox(height: 12),
-                            const Text(
-                              'Firewall events adaptive groups are not available on Free plans.',
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                          const SizedBox(height: 24),
-                          FilledButton.icon(
-                            onPressed: () => ref
-                                .read(
-                                  securityAnalyticsNotifierProvider.notifier,
-                                )
-                                .refresh(),
-                            icon: const Icon(Icons.refresh),
-                            label: Text(l10n.common_retry),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+              error: (error, stack) => SliverFillRemaining(
+                child: CloudflareErrorView(
+                  error: error,
+                  onRetry: () => ref
+                      .read(securityAnalyticsNotifierProvider.notifier)
+                      .refresh(),
+                ),
+              ),
               data: (data) {
                 if (data == null) {
                   return SliverFillRemaining(

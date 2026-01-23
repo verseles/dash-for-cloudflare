@@ -11,6 +11,7 @@ import '../../domain/models/pages_project.dart';
 import '../../domain/models/pages_deployment.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
+import '../../../../core/widgets/error_view.dart';
 
 /// Pages projects list screen with auto-refresh when builds are active
 class PagesListPage extends ConsumerStatefulWidget {
@@ -58,42 +59,11 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
 
     return projectsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => _buildError(context, error, l10n),
-      data: (state) => _buildProjectsList(context, state, l10n),
-    );
-  }
-
-  Widget _buildError(
-    BuildContext context,
-    Object error,
-    AppLocalizations l10n,
-  ) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Symbols.error,
-              size: 64,
-              color: Theme.of(context).colorScheme.error,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.error_prefix(error.toString()),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            FilledButton.icon(
-              onPressed: () =>
-                  ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
-              icon: const Icon(Symbols.refresh),
-              label: Text(l10n.common_retry),
-            ),
-          ],
-        ),
+      error: (error, stack) => CloudflareErrorView(
+        error: error,
+        onRetry: () => ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
       ),
+      data: (state) => _buildProjectsList(context, state, l10n),
     );
   }
 

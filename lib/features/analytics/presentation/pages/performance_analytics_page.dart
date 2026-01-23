@@ -6,6 +6,7 @@ import '../../../dns/presentation/widgets/charts/charts.dart';
 import '../../providers/performance_analytics_provider.dart';
 import '../widgets/shared_analytics_time_range_selector.dart';
 import '../widgets/performance_analytics_charts.dart';
+import '../../../../core/widgets/error_view.dart';
 
 class PerformanceAnalyticsPage extends ConsumerWidget {
   const PerformanceAnalyticsPage({super.key});
@@ -32,7 +33,12 @@ class PerformanceAnalyticsPage extends ConsumerWidget {
                 child: Center(child: CircularProgressIndicator()),
               ),
               error: (error, stack) => SliverFillRemaining(
-                child: Center(child: Text(l10n.error_prefix(error.toString()))),
+                child: CloudflareErrorView(
+                  error: error,
+                  onRetry: () => ref
+                      .read(performanceAnalyticsNotifierProvider.notifier)
+                      .refresh(),
+                ),
               ),
               data: (data) {
                 if (data == null) {

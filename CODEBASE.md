@@ -24,7 +24,8 @@ lib/
 │   ├── 📊 analytics/            # DNS Analytics (GraphQL)
 │   ├── 🔐 auth/                 # Autenticação, Configurações e Accounts
 │   ├── 🌐 dns/                  # Gerenciamento de Zonas e Registros
-│   └── 📄 pages/                # Cloudflare Pages (Projects, Deployments)
+│   ├── 📄 pages/                # Cloudflare Pages (Projects, Deployments)
+│   └── 👷 workers/              # Cloudflare Workers (Scripts, Routes, Triggers)
 └── 🌍 l10n/                     # Internacionalização (en, pt)
 ```
 
@@ -111,6 +112,20 @@ Gerenciamento completo de projetos Cloudflare Pages (account-level).
     *   `PagesListPage`: Lista de projetos com busca.
     *   `PagesProjectPage`: Interface com abas (Deployments, Custom Domains, Settings).
     *   `PagesSettingsTab`: Edição de builds e variáveis de ambiente (ADR-027 polling feedback).
+
+### 👷 Workers Management (`lib/features/workers/`)
+
+Gerenciamento completo de scripts Cloudflare Workers (account-level).
+
+*   **Models:** `Worker`, `WorkerSettings`, `WorkerBinding`, `WorkerRoute`, `WorkerSchedule`, `WorkerAnalyticsData`.
+*   **Providers:** `WorkersNotifier` (listagem), `WorkerDetailsNotifier` (configurações), `WorkerSchedulesNotifier` (cron), `WorkerMetricsNotifier` (GraphQL analytics), `WorkerRoutesNotifier` (rotas por zona).
+*   **Account Context:** Vinculado ao `selectedAccountIdProvider`.
+*   **UI:** 
+    *   `WorkersListPage`: Lista de scripts com busca e handlers.
+    *   `WorkerDetailsPage`: Interface com abas (Overview, Triggers, Settings).
+    *   `WorkerOverviewTab`: Gráficos de tráfego e CPU.
+    *   `WorkerTriggersTab`: Gerenciamento de rotas e cron triggers.
+    *   `WorkerSettingsTab`: Visualização de bindings e configurações.
 
 ---
 

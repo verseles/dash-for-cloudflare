@@ -30,6 +30,7 @@
   "menu_dns": "DNS",
   "menu_analytics": "Analytics",
   "menu_pages": "Pages",
+  "menu_workers": "Workers",
   "menu_settings": "Configurações",
   "menu_about": "Sobre",
   "menu_debugLogs": "Logs de Depuração",
@@ -207,6 +208,11 @@
   "error_rateLimited": "Muitas requisições. Por favor, tente novamente mais tarde.",
   "error_serverError": "Erro no servidor. Por favor, tente novamente mais tarde.",
   "error_prefix": "Erro: {message}",
+  "error_copyError": "Copiar Detalhes do Erro",
+  "error_permissionsRequired": "Permissões Necessárias",
+  "error_permissionsDescription": "Seu token de API não possui as permissões necessárias para acessar este recurso. Por favor, verifique as configurações do seu token na Cloudflare.",
+  "error_checkCloudflareDashboard": "Verificar Painel da Cloudflare",
+  "error_commonPermissionsTitle": "Permissões comumente necessárias:",
 
   "pwa_updateAvailable": "Uma nova versão está disponível",
   "pwa_updateNow": "Atualizar Agora",
@@ -307,6 +313,19 @@
       "total": { "type": "int" }
     }
   },
+
+  "workers_title": "Workers",
+  "workers_noWorkers": "Nenhum script de Workers encontrado",
+  "workers_searchWorkers": "Buscar Workers...",
+  "workers_lastModified": "Última modificação: {date}",
+  "@workers_lastModified": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jan 1, 2024 12:00"
+      }
+    }
+  },
   "pages_customDomains": "Domínios Customizados",
   "pages_addDomain": "Adicionar Domínio",
   "pages_deleteDomainConfirmTitle": "Excluir Domínio Customizado?",
@@ -334,5 +353,42 @@
   "pages_settingsUpdated": "Configurações atualizadas com sucesso",
   "pages_domainAdded": "Domínio adicionado com sucesso",
   "pages_domainDeleted": "Domínio excluído com sucesso",
-  "pages_domainNameHint": "exemplo.com"
+  "pages_domainNameHint": "exemplo.com",
+
+  "workers_tabs_overview": "Visão Geral",
+  "workers_tabs_triggers": "Gatilhos",
+  "workers_tabs_settings": "Configurações",
+  "workers_metrics_requests": "Requisições",
+  "workers_metrics_errors": "Exceções",
+  "workers_metrics_cpuTime": "Tempo de CPU",
+  "workers_metrics_noData": "Sem métricas para este período",
+  "workers_triggers_customDomains": "Domínios Customizados",
+  "workers_triggers_routes": "Rotas",
+  "workers_triggers_addRoute": "Adicionar Rota",
+  "workers_triggers_addDomain": "Adicionar Domínio Customizado",
+  "workers_triggers_routePattern": "Padrão da Rota",
+  "workers_triggers_routePatternHint": "exemplo.com/*",
+  "workers_triggers_deleteRouteConfirm": "Tem certeza que deseja excluir esta rota?",
+  "workers_triggers_deleteDomainConfirm": "Tem certeza que deseja desconectar este domínio customizado?",
+  "workers_triggers_routeAdded": "Rota adicionada com sucesso",
+  "workers_triggers_routeDeleted": "Rota excluída com sucesso",
+  "workers_triggers_domainAdded": "Domínio conectado com sucesso",
+  "workers_triggers_domainDeleted": "Domínio desconectado com sucesso",
+  "workers_triggers_cron": "Cron Triggers",
+  "workers_triggers_noRoutes": "Nenhuma rota configurada para esta zona",
+  "workers_triggers_noSchedules": "Nenhum agendamento configurado",
+  "workers_settings_bindings": "Bindings",
+  "workers_settings_variables": "Variáveis de Ambiente",
+  "workers_settings_compatibility": "Compatibilidade",
+  "workers_settings_usageModel": "Modelo de Uso",
+  "workers_bindings_kv": "KV Namespace",
+  "workers_bindings_r2": "R2 Bucket",
+  "workers_bindings_d1": "D1 Database",
+  "workers_bindings_do": "Durable Object",
+  "workers_bindings_service": "Serviço",
+  "workers_bindings_queue": "Fila",
+  "workers_settings_addBinding": "Adicionar Binding",
+  "workers_settings_updateSecret": "Atualizar Segredo",
+  "workers_settings_secretValue": "Valor do Segredo",
+  "workers_settings_secretHint": "Digite o valor do segredo (somente escrita)"
 }

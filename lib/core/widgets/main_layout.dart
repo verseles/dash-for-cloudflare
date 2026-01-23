@@ -25,14 +25,15 @@ class MainLayout extends ConsumerWidget {
 
     final location = GoRouterState.of(context).matchedLocation;
     final title = _getTitleForLocation(location, l10n);
-    final isPagesRoute = location.startsWith('/pages');
+    final isAccountLevelRoute =
+        location.startsWith('/pages') || location.startsWith('/workers');
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
         actions: [
-          // Show AccountSelector for Pages routes, ZoneSelector otherwise
-          if (isPagesRoute) _AccountSelector() else _ZoneSelector(),
+          // Show AccountSelector for Pages/Workers routes, ZoneSelector otherwise
+          if (isAccountLevelRoute) _AccountSelector() else _ZoneSelector(),
           const SizedBox(width: 8),
         ],
       ),
@@ -45,6 +46,7 @@ class MainLayout extends ConsumerWidget {
     if (location.startsWith('/dns')) return l10n.menu_dns;
     if (location.startsWith('/analytics')) return l10n.menu_analytics;
     if (location.startsWith('/pages')) return l10n.menu_pages;
+    if (location.startsWith('/workers')) return l10n.menu_workers;
     if (location.startsWith('/settings')) return l10n.menu_settings;
     if (location.startsWith('/debug-logs')) return l10n.menu_debugLogs;
     return 'Cloudflare';
@@ -103,6 +105,17 @@ class MainLayout extends ConsumerWidget {
             onTap: () {
               Navigator.pop(context);
               context.go(AppRoutes.pages);
+            },
+          ),
+          ListTile(
+            leading: const RotatedBox(
+              quarterTurns: 3,
+              child: Icon(Symbols.layers),
+            ),
+            title: Text(l10n.menu_workers),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.workers);
             },
           ),
           const Divider(),

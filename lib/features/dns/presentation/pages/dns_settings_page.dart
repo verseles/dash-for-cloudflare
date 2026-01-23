@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/dns_settings_provider.dart';
 import '../../providers/zone_provider.dart';
+import '../../../../core/widgets/error_view.dart';
 
 /// DNS Settings page for DNSSEC, multi-provider, etc.
 class DnsSettingsPage extends ConsumerWidget {
@@ -31,22 +32,9 @@ class DnsSettingsPage extends ConsumerWidget {
 
     return settingsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, _) => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, size: 64, color: Colors.red),
-            const SizedBox(height: 16),
-            Text(l10n.error_prefix(error.toString())),
-            const SizedBox(height: 16),
-            FilledButton.icon(
-              icon: const Icon(Icons.refresh),
-              label: Text(l10n.common_retry),
-              onPressed: () =>
-                  ref.read(dnsSettingsNotifierProvider.notifier).refresh(),
-            ),
-          ],
-        ),
+      error: (error, _) => CloudflareErrorView(
+        error: error,
+        onRetry: () => ref.read(dnsSettingsNotifierProvider.notifier).refresh(),
       ),
       data: (state) => _buildContent(context, ref, state, selectedZone, l10n),
     );

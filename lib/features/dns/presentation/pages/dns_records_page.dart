@@ -8,6 +8,7 @@ import '../../providers/zone_provider.dart';
 import '../widgets/dns_record_item.dart';
 import '../widgets/dns_record_edit_dialog.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/error_view.dart';
 
 /// DNS Records page with list and filters
 class DnsRecordsPage extends ConsumerStatefulWidget {
@@ -48,22 +49,9 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
 
     return recordsAsync.when(
       loading: () => _buildSkeletonList(),
-      error: (error, _) => Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Symbols.error, size: 64, color: Colors.red),
-            const SizedBox(height: 16),
-            Text(l10n.error_prefix(error.toString())),
-            const SizedBox(height: 16),
-            FilledButton.icon(
-              icon: const Icon(Symbols.refresh),
-              label: Text(l10n.common_retry),
-              onPressed: () =>
-                  ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
-            ),
-          ],
-        ),
+      error: (error, _) => CloudflareErrorView(
+        error: error,
+        onRetry: () => ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
       ),
       data: (state) => _buildContent(context, state, l10n),
     );

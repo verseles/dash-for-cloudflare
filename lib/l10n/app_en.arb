@@ -33,6 +33,7 @@
   "menu_dns": "DNS",
   "menu_analytics": "Analytics",
   "menu_pages": "Pages",
+  "menu_workers": "Workers",
   "menu_settings": "Settings",
   "menu_about": "About",
   "menu_debugLogs": "Debug Logs",
@@ -242,6 +243,11 @@
       }
     }
   },
+  "error_copyError": "Copy Error Details",
+  "error_permissionsRequired": "Permissions Required",
+  "error_permissionsDescription": "Your API token doesn't have the necessary permissions to access this resource. Please check your token settings on Cloudflare.",
+  "error_checkCloudflareDashboard": "Check Cloudflare Dashboard",
+  "error_commonPermissionsTitle": "Commonly required permissions:",
 
   "pwa_updateAvailable": "A new version is available",
   "pwa_updateNow": "Update Now",
@@ -425,5 +431,55 @@
   "pages_settingsUpdated": "Settings updated successfully",
   "pages_domainAdded": "Domain added successfully",
   "pages_domainDeleted": "Domain deleted successfully",
-  "pages_domainNameHint": "example.com"
-}
+  "pages_domainNameHint": "example.com",
+
+  "workers_title": "Workers",
+  "workers_noWorkers": "No Workers scripts found",
+  "workers_searchWorkers": "Search Workers...",
+  "workers_lastModified": "Last modified: {date}",
+  "@workers_lastModified": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jan 1, 2024 12:00"
+      }
+    }
+  },
+  "workers_tabs_overview": "Overview",
+  "workers_tabs_triggers": "Triggers",
+  "workers_tabs_settings": "Settings",
+  "workers_metrics_requests": "Requests",
+  "workers_metrics_errors": "Exceptions",
+  "workers_metrics_cpuTime": "CPU Time",
+  "workers_metrics_noData": "No metrics available for this period",
+  "workers_triggers_customDomains": "Custom Domains",
+  "workers_triggers_routes": "Routes",
+  "workers_triggers_addRoute": "Add Route",
+  "workers_triggers_addDomain": "Add Custom Domain",
+  "workers_triggers_routePattern": "Route Pattern",
+  "workers_triggers_routePatternHint": "example.com/*",
+  "workers_triggers_deleteRouteConfirm": "Are you sure you want to delete this route?",
+  "workers_triggers_deleteDomainConfirm": "Are you sure you want to detach this custom domain?",
+  "workers_triggers_routeAdded": "Route added successfully",
+  "workers_triggers_routeDeleted": "Route deleted successfully",
+  "workers_triggers_domainAdded": "Domain attached successfully",
+  "workers_triggers_domainDeleted": "Domain detached successfully",
+  "workers_triggers_cron": "Cron Triggers",
+  "workers_triggers_noRoutes": "No routes configured for this zone",
+  "workers_triggers_noSchedules": "No cron triggers configured",
+  "workers_settings_bindings": "Bindings",
+  "workers_settings_variables": "Environment Variables",
+  "workers_settings_compatibility": "Compatibility",
+  "workers_settings_usageModel": "Usage Model",
+  "workers_bindings_kv": "KV Namespace",
+  "workers_bindings_r2": "R2 Bucket",
+  "workers_bindings_d1": "D1 Database",
+  "workers_bindings_do": "Durable Object",
+  "workers_bindings_service": "Service",
+    "workers_bindings_queue": "Queue",
+    "workers_settings_addBinding": "Add Binding",
+    "workers_settings_updateSecret": "Update Secret",
+    "workers_settings_secretValue": "Secret Value",
+    "workers_settings_secretHint": "Enter secret value (write-only)"
+  }
+  

@@ -16,6 +16,8 @@ import '../../features/analytics/presentation/pages/performance_analytics_page.d
 import '../../features/pages/presentation/pages/pages_list_page.dart';
 import '../../features/pages/presentation/pages/pages_project_page.dart';
 import '../../features/pages/presentation/pages/deployment_details_page.dart';
+import '../../features/workers/presentation/pages/workers_list_page.dart';
+import '../../features/workers/presentation/pages/worker_details_page.dart';
 import '../widgets/main_layout.dart';
 import '../logging/presentation/debug_logs_page.dart';
 
@@ -35,6 +37,8 @@ class AppRoutes {
   static const String pages = '/pages';
   static const String pagesProject = 'pagesProject';
   static const String pagesDeployment = 'pagesDeployment';
+  static const String workers = '/workers';
+  static const String workerDetails = 'workerDetails';
   static const String debugLogs = '/debug-logs';
 }
 
@@ -181,6 +185,22 @@ GoRouter appRouter(Ref ref) {
                     },
                   ),
                 ],
+              ),
+            ],
+          ),
+
+          // Workers routes
+          GoRoute(
+            path: AppRoutes.workers,
+            builder: (context, state) => const WorkersListPage(),
+            routes: [
+              GoRoute(
+                path: ':workerName',
+                name: AppRoutes.workerDetails,
+                builder: (context, state) {
+                  final workerName = state.pathParameters['workerName']!;
+                  return WorkerDetailsPage(workerName: workerName);
+                },
               ),
             ],
           ),
