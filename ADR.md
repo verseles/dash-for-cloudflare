@@ -601,4 +601,56 @@ build-web:
 
 ---
 
-_Última atualização: 2026-01-20 (atualizado ADR-008: Local-First Pattern para Countries)_
+## ADR-027: Auto-Polling para Estados Transitórios (Pages)
+
+**Status**: Aceito
+**Data**: 2026-01-22
+
+**Contexto**: Deployments de Pages passam por estados transitórios (queued, building). Usuário precisa ver atualização sem refresh manual.
+
+**Decisão**: Implementar polling condicional que:
+1. Inicia automaticamente quando há items em estado ativo (building/queued)
+2. Para automaticamente quando todos items completam
+3. Usa Timer com intervalo de 5 segundos (balance entre responsividade e rate limit)
+
+**Implementação**:
+```dart
+class _PageState extends ConsumerState<Page> {
+  Timer? _pollingTimer;
+  static const _pollingInterval = Duration(seconds: 5);
+
+  void _updatePolling(List<Item> items) {
+    final hasActive = items.any((i) => i.isBuilding);
+    
+    if (hasActive && _pollingTimer == null) {
+      _pollingTimer = Timer.periodic(_pollingInterval, (_) {
+        ref.read(provider.notifier).refresh();
+      });
+    } else if (!hasActive && _pollingTimer != null) {
+      _pollingTimer?.cancel();
+      _pollingTimer = null;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+}
+```
+
+**Aplicações**:
+- `PagesListPage`: Polling quando projeto tem deploy ativo
+- `PagesProjectPage`: Polling quando deployment está building/queued
+- `DeploymentLogsNotifier`: Polling de logs a cada 3s durante build
+
+**Consequência**:
+- UX responsiva sem refresh manual
+- Timer cleanup no dispose evita memory leaks
+- Polling para automaticamente (não desperdiça recursos)
+- Rate limit respeitado (5s é conservador)
+
+---
+
+_Última atualização: 2026-01-22 (adicionado ADR-027: Auto-Polling para Pages)_
