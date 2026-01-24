@@ -245,17 +245,92 @@ class PagesProjectsNotifier extends _$PagesProjectsNotifier {
   }
 }
 
+// ==================== PROJECT DETAILS NOTIFIER ====================
+
+/// Provider for fetching a single project's details
+@riverpod
+class PagesProjectDetailsNotifier extends _$PagesProjectDetailsNotifier {
+  SharedPreferences? _prefs;
+  String _cacheKey(String projectName) => 'pages_project_details_cache_$projectName';
+
+  @override
+  FutureOr<PagesProject> build(String projectName) async {
+    final accountId = ref.watch(selectedAccountIdProvider);
+    if (accountId == null) throw Exception('No account selected');
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey(projectName));
+    if (cached != null) {
+      try {
+        final project = PagesProject.fromJson(json.decode(cached) as Map<String, dynamic>);
+        unawaited(_fetchProject(accountId, projectName)); // Refresh in bg
+        return project;
+      } catch (_) {}
+    }
+
+    return _fetchProject(accountId, projectName);
+  }
+
+  Future<PagesProject> _fetchProject(String accountId, String projectName) async {
+    log.stateChange('PagesProjectDetailsNotifier', 'Fetching details for $projectName');
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.getPagesProject(accountId, projectName);
+
+      if (!response.success || response.result == null) {
+        throw Exception('Failed to fetch project details');
+      }
+
+      final project = response.result!;
+      await _prefs?.setString(_cacheKey(projectName), json.encode(project.toJson()));
+      
+      state = AsyncData(project);
+      return project;
+    } catch (e, stack) {
+      log.error('PagesProjectDetailsNotifier: Error', error: e, stackTrace: stack);
+      rethrow;
+    }
+  }
+
+  Future<void> refresh() async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetchProject(accountId, projectName));
+  }
+}
+
 // ==================== DEPLOYMENTS NOTIFIER ====================
 
 /// Provider for fetching deployments of a specific project
 @riverpod
 class PagesDeploymentsNotifier extends _$PagesDeploymentsNotifier {
   int _currentFetchId = 0;
+  SharedPreferences? _prefs;
+
+  String _cacheKey(String projectName) => 'pages_deployments_cache_$projectName';
 
   @override
   FutureOr<List<PagesDeployment>> build(String projectName) async {
     final accountId = ref.watch(selectedAccountIdProvider);
     if (accountId == null) return [];
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey(projectName));
+    if (cached != null) {
+      try {
+        final List<dynamic> jsonList = json.decode(cached) as List<dynamic>;
+        final deployments = jsonList
+            .map((e) => PagesDeployment.fromJson(e as Map<String, dynamic>))
+            .toList();
+        unawaited(_fetchDeployments(accountId, projectName)); // Refresh in bg
+        return deployments;
+      } catch (_) {}
+    }
 
     return _fetchDeployments(accountId, projectName);
   }
@@ -283,7 +358,14 @@ class PagesDeploymentsNotifier extends _$PagesDeploymentsNotifier {
         throw Exception('Failed to fetch deployments');
       }
 
-      return response.result!;
+      final deployments = response.result!;
+      await _prefs?.setString(
+        _cacheKey(projectName),
+        json.encode(deployments.map((d) => d.toJson()).toList()),
+      );
+
+      state = AsyncData(deployments);
+      return deployments;
     } catch (e, stack) {
       log.error('PagesDeploymentsNotifier: Error', error: e, stackTrace: stack);
       rethrow;
@@ -574,10 +656,28 @@ class DeploymentLogsNotifier extends _$DeploymentLogsNotifier {
 /// Provider for managing project custom domains
 @riverpod
 class PagesDomainsNotifier extends _$PagesDomainsNotifier {
+  SharedPreferences? _prefs;
+  String _cacheKey(String projectName) => 'pages_domains_cache_$projectName';
+
   @override
   FutureOr<List<PagesDomain>> build(String projectName) async {
     final accountId = ref.watch(selectedAccountIdProvider);
     if (accountId == null) return [];
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey(projectName));
+    if (cached != null) {
+      try {
+        final List<dynamic> jsonList = json.decode(cached) as List<dynamic>;
+        final domains = jsonList
+            .map((e) => PagesDomain.fromJson(e as Map<String, dynamic>))
+            .toList();
+        unawaited(_fetchDomains(accountId, projectName)); // Refresh in bg
+        return domains;
+      } catch (_) {}
+    }
 
     return _fetchDomains(accountId, projectName);
   }
@@ -599,7 +699,14 @@ class PagesDomainsNotifier extends _$PagesDomainsNotifier {
         throw Exception('Failed to fetch domains');
       }
 
-      return response.result!;
+      final domains = response.result!;
+      await _prefs?.setString(
+        _cacheKey(projectName),
+        json.encode(domains.map((d) => d.toJson()).toList()),
+      );
+
+      state = AsyncData(domains);
+      return domains;
     } catch (e, stack) {
       log.error('PagesDomainsNotifier: Error', error: e, stackTrace: stack);
       rethrow;
@@ -624,6 +731,9 @@ class PagesDomainsNotifier extends _$PagesDomainsNotifier {
             : 'Failed to add domain';
         throw Exception(error);
       }
+
+      // Clear cache
+      await _prefs?.remove('pages_domains_cache_$projectName');
 
       // Refresh list
       ref.invalidateSelf();
@@ -653,6 +763,9 @@ class PagesDomainsNotifier extends _$PagesDomainsNotifier {
             : 'Failed to delete domain';
         throw Exception(error);
       }
+
+      // Clear cache
+      await _prefs?.remove('pages_domains_cache_$projectName');
 
       // Refresh list
       ref.invalidateSelf();
@@ -684,8 +797,12 @@ class PagesDomainsNotifier extends _$PagesDomainsNotifier {
 /// Provider for updating project settings (build, env vars)
 @riverpod
 class PagesSettingsNotifier extends _$PagesSettingsNotifier {
+  SharedPreferences? _prefs;
+
   @override
-  FutureOr<void> build() async {}
+  FutureOr<void> build() async {
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+  }
 
   Future<bool> updateProject({
     required String projectName,
@@ -697,13 +814,39 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
 
     state = const AsyncLoading();
 
+    // Recursive helper to remove nulls from maps, but PRESERVE them in env_vars
+    Map<String, dynamic> removeNulls(Map<String, dynamic> map, {bool isEnvVars = false}) {
+      final result = <String, dynamic>{};
+      map.forEach((key, value) {
+        if (value != null) {
+          if (value is Map<String, dynamic>) {
+            // Check if this sub-map is an env_vars container
+            final nextIsEnvVars = key == 'env_vars';
+            result[key] = removeNulls(value, isEnvVars: nextIsEnvVars);
+          } else if (value is Map) {
+            result[key] = removeNulls(Map<String, dynamic>.from(value), isEnvVars: key == 'env_vars');
+          } else {
+            result[key] = value;
+          }
+        } else if (isEnvVars) {
+          // Keep null value only if we are inside an env_vars map
+          result[key] = null;
+        }
+      });
+      return result;
+    }
+
     try {
       final api = ref.read(cloudflareApiProvider);
-      final data = <String, dynamic>{};
-      if (buildConfig != null) data['build_config'] = buildConfig;
+      final rawData = <String, dynamic>{};
+      if (buildConfig != null) rawData['build_config'] = buildConfig;
       if (deploymentConfigs != null) {
-        data['deployment_configs'] = deploymentConfigs;
+        rawData['deployment_configs'] = deploymentConfigs;
       }
+
+      final data = removeNulls(rawData);
+
+      log.info('PagesSettingsNotifier: updateProject payload for $projectName: ${json.encode(data)}', category: LogCategory.api);
 
       final response = await api.patchPagesProject(accountId, projectName, data);
 
@@ -711,6 +854,7 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
         final error = response.errors.isNotEmpty
             ? response.errors.first.message
             : 'Failed to update project settings';
+        log.error('PagesSettingsNotifier: API Error Response: ${response.errors}', details: error);
         throw Exception(error);
       }
 
@@ -719,8 +863,16 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
         'Updated settings for $projectName',
       );
 
+      // Clear main project list cache
+      final accountIdForCache = ref.read(selectedAccountIdProvider) ?? "";
+      await _prefs?.remove('pages_projects_cache_$accountIdForCache');
+      
+      // Clear specific project details cache
+      await _prefs?.remove('pages_project_details_cache_$projectName');
+
       // Refresh projects list to update local state
       ref.invalidate(pagesProjectsNotifierProvider);
+      ref.invalidate(pagesProjectDetailsNotifierProvider(projectName));
 
       state = const AsyncData(null);
       return true;

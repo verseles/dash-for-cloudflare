@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -21,19 +23,22 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   // Local state for environment variables (plain_text only)
   Map<String, String>? _localVariables;
   bool _isInitialized = false;
+  bool _isSaving = false;
 
   void _initializeLocalState(WorkerSettings settings) {
-    if (_isInitialized) return;
-    
     final vars = <String, String>{};
     for (final b in settings.bindings) {
       if (b.type == 'plain_text' && b.text != null) {
         vars[b.name] = b.text!;
       }
     }
-    _localVariables = vars;
-    _isInitialized = true;
+    setState(() {
+      _localVariables = vars;
+      _isInitialized = true;
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,24 +46,47 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     final settingsAsync = ref.watch(workerDetailsNotifierProvider(widget.worker.id));
     final actionState = ref.watch(workerSettingsActionNotifierProvider);
 
+    // Sync local state when provider data changes (background refresh)
+    ref.listen(workerDetailsNotifierProvider(widget.worker.id), (prev, next) {
+      if (next.hasValue && !_hasChanges(next.value!) && !_isSaving) {
+        _initializeLocalState(next.value!);
+      }
+    });
+
     return settingsAsync.when(
+      skipLoadingOnRefresh: true,
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, _) => CloudflareErrorView(
         error: err,
         onRetry: () => ref.refresh(workerDetailsNotifierProvider(widget.worker.id)),
       ),
       data: (settings) {
-        _initializeLocalState(settings);
+        if (!_isInitialized) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _initializeLocalState(settings);
+          });
+        }
         
         return Scaffold(
           body: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              _buildSectionHeader(
-                context, 
-                l10n.workers_settings_bindings, 
-                Symbols.rebase,
-                onAdd: () => _showAddBindingDialog(context, l10n),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildSectionHeader(
+                    context, 
+                    l10n.workers_settings_bindings, 
+                    Symbols.rebase,
+                    onAdd: () => _showAddBindingDialog(context, l10n),
+                  ),
+                  if (_isSaving || actionState.isLoading)
+                    const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                ],
               ),
               const SizedBox(height: 8),
               if (settings.bindings.isEmpty)
@@ -71,16 +99,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
               const SizedBox(height: 8),
               _buildCompatibilityCard(context, settings, l10n),
 
-              const SizedBox(height: 40),
-              if (actionState.isLoading)
-                const Center(child: CircularProgressIndicator())
-              else
-                FilledButton.icon(
-                  onPressed: _hasChanges(settings) ? () => _saveChanges(settings) : null,
-                  icon: const Icon(Symbols.save),
-                  label: Text(l10n.common_save),
-                ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 60),
             ],
           ),
         );
@@ -107,6 +126,9 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   }
 
   Future<void> _saveChanges(WorkerSettings original) async {
+    if (!mounted) return;
+    setState(() => _isSaving = true);
+
     final updatedBindings = <Map<String, dynamic>>[];
     
     // Keep non-variable bindings
@@ -125,16 +147,24 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
       });
     });
 
-    final success = await ref.read(workerSettingsActionNotifierProvider.notifier).updateSettings(
-      scriptName: widget.worker.id,
-      data: {'bindings': updatedBindings},
-    );
-
-    if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).pages_settingsUpdated)),
+    try {
+      final success = await ref.read(workerSettingsActionNotifierProvider.notifier).updateSettings(
+        scriptName: widget.worker.id,
+        data: {'bindings': updatedBindings},
       );
-      setState(() => _isInitialized = false); // Force re-sync
+
+      if (success && mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).pages_settingsUpdated),
+            duration: const Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
     }
   }
 
@@ -248,6 +278,8 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     setState(() {
       _localVariables?.remove(name);
     });
+    final settings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
+    if (settings != null) _saveChanges(settings);
   }
 
   void _showEditVariableDialog(BuildContext context, String name, AppLocalizations l10n) {
@@ -269,6 +301,8 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                 _localVariables?[name] = controller.text.trim();
               });
               Navigator.pop(context);
+              final settings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
+              if (settings != null) _saveChanges(settings);
             },
             child: Text(l10n.common_save),
           ),
@@ -373,6 +407,8 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                   setState(() {
                     _localVariables?[nameController.text.trim()] = valueController.text.trim();
                   });
+                  final settings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
+                  if (settings != null) _saveChanges(settings);
                 }
               },
               child: Text(l10n.common_add),

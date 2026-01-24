@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/models/worker.dart';
 import '../domain/models/worker_settings.dart';
@@ -8,26 +10,133 @@ import '../domain/models/worker_schedule.dart';
 import '../domain/models/worker_domain.dart';
 import '../domain/models/worker_analytics.dart';
 import '../../auth/providers/account_provider.dart';
+import '../../auth/providers/settings_provider.dart';
 import '../../../core/providers/api_providers.dart';
 import '../../../core/logging/log_service.dart';
+import '../../../core/logging/log_level.dart';
 
 part 'workers_provider.g.dart';
 
+// ==================== WORKERS STATE ====================
+
+class WorkersState {
+  const WorkersState({
+    this.workers = const [],
+    this.isFromCache = false,
+    this.isRefreshing = false,
+    this.cachedAt,
+  });
+
+  final List<Worker> workers;
+  final bool isFromCache;
+  final bool isRefreshing;
+  final DateTime? cachedAt;
+
+  WorkersState copyWith({
+    List<Worker>? workers,
+    bool? isFromCache,
+    bool? isRefreshing,
+    DateTime? cachedAt,
+  }) {
+    return WorkersState(
+      workers: workers ?? this.workers,
+      isFromCache: isFromCache ?? this.isFromCache,
+      isRefreshing: isRefreshing ?? this.isRefreshing,
+      cachedAt: cachedAt ?? this.cachedAt,
+    );
+  }
+}
+
 // ==================== WORKERS LIST ====================
+
+const _cacheMaxAge = Duration(days: 3);
 
 @riverpod
 class WorkersNotifier extends _$WorkersNotifier {
   int _currentFetchId = 0;
+  SharedPreferences? _prefs;
+
+  String _cacheKey(String accountId) => 'workers_cache_$accountId';
+  String _cacheTimeKey(String accountId) => 'workers_cache_time_$accountId';
 
   @override
-  FutureOr<List<Worker>> build() async {
+  FutureOr<WorkersState> build() async {
     final accountId = ref.watch(selectedAccountIdProvider);
-    if (accountId == null) return [];
+    if (accountId == null) return const WorkersState();
 
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try to load from cache first
+    final cachedState = await _loadFromCache(accountId);
+    if (cachedState != null) {
+      // Return cached data and refresh in background
+      unawaited(_refreshInBackground(accountId, cachedState));
+      return cachedState;
+    }
+
+    // No cache, fetch from API
     return _fetchWorkers(accountId);
   }
 
-  Future<List<Worker>> _fetchWorkers(String accountId) async {
+  Future<WorkersState?> _loadFromCache(String accountId) async {
+    try {
+      final cachedJson = _prefs?.getString(_cacheKey(accountId));
+      final cachedTimeStr = _prefs?.getString(_cacheTimeKey(accountId));
+
+      if (cachedJson == null || cachedTimeStr == null) return null;
+
+      final cachedTime = DateTime.parse(cachedTimeStr);
+      final age = DateTime.now().difference(cachedTime);
+
+      if (age > _cacheMaxAge) {
+        log.info('WorkersNotifier: Cache expired (${age.inDays} days old)', category: LogCategory.state);
+        return null;
+      }
+
+      final List<dynamic> workersJson = json.decode(cachedJson) as List<dynamic>;
+      final workers = workersJson
+          .map((e) => Worker.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+      log.info('WorkersNotifier: Loaded ${workers.length} workers from cache', category: LogCategory.state);
+
+      return WorkersState(
+        workers: workers,
+        isFromCache: true,
+        cachedAt: cachedTime,
+      );
+    } catch (e) {
+      log.warning('WorkersNotifier: Failed to load cache', details: e.toString());
+      return null;
+    }
+  }
+
+  Future<void> _saveToCache(String accountId, List<Worker> workers) async {
+    try {
+      final workersJson = workers.map((w) => w.toJson()).toList();
+      await _prefs?.setString(_cacheKey(accountId), json.encode(workersJson));
+      await _prefs?.setString(_cacheTimeKey(accountId), DateTime.now().toIso8601String());
+    } catch (e) {
+      log.warning('WorkersNotifier: Failed to save cache', details: e.toString());
+    }
+  }
+
+  Future<void> _refreshInBackground(String accountId, WorkersState currentState) async {
+    state = AsyncData(currentState.copyWith(isRefreshing: true));
+    try {
+      final freshState = await _fetchWorkersFromApi(accountId);
+      state = AsyncData(freshState);
+    } catch (e) {
+      log.warning('WorkersNotifier: Background refresh failed', details: e.toString());
+      state = AsyncData(currentState.copyWith(isRefreshing: false));
+    }
+  }
+
+  Future<WorkersState> _fetchWorkers(String accountId) async {
+    return _fetchWorkersFromApi(accountId);
+  }
+
+  Future<WorkersState> _fetchWorkersFromApi(String accountId) async {
     final fetchId = ++_currentFetchId;
     log.stateChange('WorkersNotifier', 'Fetching workers for account $accountId');
 
@@ -35,13 +144,20 @@ class WorkersNotifier extends _$WorkersNotifier {
       final api = ref.read(cloudflareApiProvider);
       final response = await api.getWorkersScripts(accountId);
 
-      if (_currentFetchId != fetchId) return state.valueOrNull ?? [];
+      if (_currentFetchId != fetchId) throw Exception('Stale request');
 
       if (!response.success || response.result == null) {
         throw Exception('Failed to fetch workers');
       }
 
-      return response.result!;
+      final workers = response.result!;
+      unawaited(_saveToCache(accountId, workers));
+
+      return WorkersState(
+        workers: workers,
+        isFromCache: false,
+        cachedAt: DateTime.now(),
+      );
     } catch (e, stack) {
       log.error('WorkersNotifier: Error', error: e, stackTrace: stack);
       rethrow;
@@ -61,10 +177,25 @@ class WorkersNotifier extends _$WorkersNotifier {
 
 @riverpod
 class WorkerDetailsNotifier extends _$WorkerDetailsNotifier {
+  SharedPreferences? _prefs;
+  String _cacheKey(String scriptName) => 'worker_settings_cache_$scriptName';
+
   @override
   FutureOr<WorkerSettings> build(String scriptName) async {
     final accountId = ref.watch(selectedAccountIdProvider);
     if (accountId == null) throw Exception('No account selected');
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+    
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey(scriptName));
+    if (cached != null) {
+      try {
+        final settings = WorkerSettings.fromJson(json.decode(cached) as Map<String, dynamic>);
+        unawaited(_fetchSettings(accountId, scriptName)); // Refresh in bg
+        return settings;
+      } catch (_) {}
+    }
 
     return _fetchSettings(accountId, scriptName);
   }
@@ -77,7 +208,12 @@ class WorkerDetailsNotifier extends _$WorkerDetailsNotifier {
       if (!response.success || response.result == null) {
         throw Exception('Failed to fetch worker settings');
       }
-      return response.result!;
+      
+      final settings = response.result!;
+      await _prefs?.setString(_cacheKey(scriptName), json.encode(settings.toJson()));
+      
+      state = AsyncData(settings);
+      return settings;
     } catch (e, stack) {
       log.error('WorkerDetailsNotifier: Error', error: e, stackTrace: stack);
       rethrow;
@@ -89,10 +225,26 @@ class WorkerDetailsNotifier extends _$WorkerDetailsNotifier {
 
 @riverpod
 class WorkerSchedulesNotifier extends _$WorkerSchedulesNotifier {
+  SharedPreferences? _prefs;
+  String _cacheKey(String scriptName) => 'worker_schedules_cache_$scriptName';
+
   @override
   FutureOr<List<WorkerSchedule>> build(String scriptName) async {
     final accountId = ref.watch(selectedAccountIdProvider);
     if (accountId == null) return [];
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey(scriptName));
+    if (cached != null) {
+      try {
+        final List<dynamic> jsonList = json.decode(cached) as List<dynamic>;
+        final schedules = jsonList.map((e) => WorkerSchedule.fromJson(e as Map<String, dynamic>)).toList();
+        unawaited(_fetchSchedules(accountId, scriptName)); // Refresh in bg
+        return schedules;
+      } catch (_) {}
+    }
 
     return _fetchSchedules(accountId, scriptName);
   }
@@ -101,10 +253,15 @@ class WorkerSchedulesNotifier extends _$WorkerSchedulesNotifier {
     try {
       final api = ref.read(cloudflareApiProvider);
       final response = await api.getWorkerSchedules(accountId, scriptName);
-      return response.result?.schedules ?? [];
+      final schedules = response.result?.schedules ?? [];
+      
+      await _prefs?.setString(_cacheKey(scriptName), json.encode(schedules.map((s) => s.toJson()).toList()));
+      
+      state = AsyncData(schedules);
+      return schedules;
     } catch (e) {
       log.warning('WorkerSchedulesNotifier: Error fetching schedules for $scriptName', details: e.toString());
-      return []; // Return empty if schedules not supported or error
+      return [];
     }
   }
 }
@@ -146,10 +303,26 @@ class WorkerMetricsNotifier extends _$WorkerMetricsNotifier {
 
 @riverpod
 class WorkerDomainsNotifier extends _$WorkerDomainsNotifier {
+  SharedPreferences? _prefs;
+  static const _cacheKey = 'worker_domains_cache';
+
   @override
   FutureOr<List<WorkerDomain>> build() async {
     final accountId = ref.watch(selectedAccountIdProvider);
     if (accountId == null) return [];
+
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey);
+    if (cached != null) {
+      try {
+        final List<dynamic> jsonList = json.decode(cached) as List<dynamic>;
+        final domains = jsonList.map((e) => WorkerDomain.fromJson(e as Map<String, dynamic>)).toList();
+        unawaited(_fetchDomains(accountId)); // Refresh in bg
+        return domains;
+      } catch (_) {}
+    }
 
     return _fetchDomains(accountId);
   }
@@ -162,7 +335,12 @@ class WorkerDomainsNotifier extends _$WorkerDomainsNotifier {
       if (!response.success || response.result == null) {
         throw Exception('Failed to fetch worker domains');
       }
-      return response.result!;
+      
+      final domains = response.result!;
+      await _prefs?.setString(_cacheKey, json.encode(domains.map((d) => d.toJson()).toList()));
+      
+      state = AsyncData(domains);
+      return domains;
     } catch (e, stack) {
       log.error('WorkerDomainsNotifier: Error', error: e, stackTrace: stack);
       rethrow;
@@ -170,9 +348,9 @@ class WorkerDomainsNotifier extends _$WorkerDomainsNotifier {
   }
 
   Future<void> refresh() async {
-    state = const AsyncLoading();
     final accountId = ref.read(selectedAccountIdProvider);
     if (accountId == null) return;
+    state = const AsyncLoading();
     state = await AsyncValue.guard(() => _fetchDomains(accountId));
   }
 
@@ -229,8 +407,24 @@ class WorkerDomainsNotifier extends _$WorkerDomainsNotifier {
 
 @riverpod
 class WorkerRoutesNotifier extends _$WorkerRoutesNotifier {
+  SharedPreferences? _prefs;
+  String _cacheKey(String zoneId) => 'worker_routes_cache_$zoneId';
+
   @override
   FutureOr<List<WorkerRoute>> build(String zoneId) async {
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+
+    // Try cache
+    final cached = _prefs?.getString(_cacheKey(zoneId));
+    if (cached != null) {
+      try {
+        final List<dynamic> jsonList = json.decode(cached) as List<dynamic>;
+        final routes = jsonList.map((e) => WorkerRoute.fromJson(e as Map<String, dynamic>)).toList();
+        unawaited(_fetchRoutes(zoneId)); // Refresh in bg
+        return routes;
+      } catch (_) {}
+    }
+
     return _fetchRoutes(zoneId);
   }
 
@@ -242,7 +436,12 @@ class WorkerRoutesNotifier extends _$WorkerRoutesNotifier {
       if (!response.success || response.result == null) {
         throw Exception('Failed to fetch worker routes');
       }
-      return response.result!;
+      
+      final routes = response.result!;
+      await _prefs?.setString(_cacheKey(zoneId), json.encode(routes.map((r) => r.toJson()).toList()));
+      
+      state = AsyncData(routes);
+      return routes;
     } catch (e, stack) {
       log.error('WorkerRoutesNotifier: Error', error: e, stackTrace: stack);
       rethrow;
@@ -294,8 +493,12 @@ class WorkerRoutesNotifier extends _$WorkerRoutesNotifier {
 
 @riverpod
 class WorkerSettingsActionNotifier extends _$WorkerSettingsActionNotifier {
+  SharedPreferences? _prefs;
+
   @override
-  FutureOr<void> build() async {}
+  FutureOr<void> build() async {
+    _prefs = await ref.read(sharedPreferencesProvider.future);
+  }
 
   Future<bool> updateSettings({
     required String scriptName,
@@ -314,6 +517,10 @@ class WorkerSettingsActionNotifier extends _$WorkerSettingsActionNotifier {
       }
 
       log.stateChange('WorkerSettingsActionNotifier', 'Settings updated for $scriptName');
+      
+      // Clear persistent cache to force fresh fetch
+      await _prefs?.remove('worker_settings_cache_$scriptName');
+      
       ref.invalidate(workerDetailsNotifierProvider(scriptName));
       state = const AsyncData(null);
       return true;
@@ -346,6 +553,10 @@ class WorkerSettingsActionNotifier extends _$WorkerSettingsActionNotifier {
       }
 
       log.stateChange('WorkerSettingsActionNotifier', 'Secret $name updated for $scriptName');
+      
+      // Clear persistent cache to force fresh fetch
+      await _prefs?.remove('worker_settings_cache_$scriptName');
+      
       ref.invalidate(workerDetailsNotifierProvider(scriptName));
       state = const AsyncData(null);
       return true;
@@ -369,11 +580,12 @@ class WorkerSearchNotifier extends _$WorkerSearchNotifier {
 
 @riverpod
 List<Worker> filteredWorkers(FilteredWorkersRef ref) {
-  final workersAsync = ref.watch(workersNotifierProvider);
+  final workersStateAsync = ref.watch(workersNotifierProvider);
   final searchQuery = ref.watch(workerSearchNotifierProvider).toLowerCase();
 
-  return workersAsync.maybeWhen(
-    data: (workers) {
+  return workersStateAsync.maybeWhen(
+    data: (state) {
+      final workers = state.workers;
       if (searchQuery.isEmpty) return workers;
       return workers.where((w) => w.id.toLowerCase().contains(searchQuery)).toList();
     },

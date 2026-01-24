@@ -39,6 +39,7 @@ class WorkerTriggersTab extends ConsumerWidget {
         ),
         const SizedBox(height: 8),
         customDomainsAsync.when(
+          skipLoadingOnRefresh: true,
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, _) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -71,6 +72,7 @@ class WorkerTriggersTab extends ConsumerWidget {
           _buildInfoBox(context, l10n.analytics_selectZone)
         else
           routesAsync.when(
+            skipLoadingOnRefresh: true,
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (err, _) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
@@ -95,6 +97,7 @@ class WorkerTriggersTab extends ConsumerWidget {
         _buildHeader(context, l10n.workers_triggers_cron, Symbols.schedule),
         const SizedBox(height: 8),
         schedulesAsync.when(
+          skipLoadingOnRefresh: true,
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, _) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),

@@ -45,25 +45,31 @@ class WorkersListPage extends ConsumerWidget {
                 error: error,
                 onRetry: () => ref.read(workersNotifierProvider.notifier).refresh(),
               ),
-              data: (workers) {
-                if (workers.isEmpty) {
+              data: (state) {
+                if (state.workers.isEmpty && !state.isRefreshing) {
                   return _buildEmptyState(context, l10n);
                 }
 
-                if (filteredWorkersList.isEmpty) {
-                  return Center(child: Text(l10n.emptyState_tryAdjustingSearch));
-                }
-
-                return RefreshIndicator(
-                  onRefresh: () => ref.read(workersNotifierProvider.notifier).refresh(),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: filteredWorkersList.length,
-                    itemBuilder: (context, index) {
-                      final worker = filteredWorkersList[index];
-                      return _WorkerCard(worker: worker);
-                    },
-                  ),
+                return Column(
+                  children: [
+                    if (state.isRefreshing)
+                      const LinearProgressIndicator(minHeight: 2),
+                    Expanded(
+                      child: RefreshIndicator(
+                        onRefresh: () => ref.read(workersNotifierProvider.notifier).refresh(),
+                        child: filteredWorkersList.isEmpty && !state.isRefreshing
+                            ? Center(child: Text(l10n.emptyState_tryAdjustingSearch))
+                            : ListView.builder(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                itemCount: filteredWorkersList.length,
+                                itemBuilder: (context, index) {
+                                  final worker = filteredWorkersList[index];
+                                  return _WorkerCard(worker: worker);
+                                },
+                              ),
+                      ),
+                    ),
+                  ],
                 );
               },
             ),

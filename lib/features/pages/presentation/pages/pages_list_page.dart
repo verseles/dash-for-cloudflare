@@ -58,12 +58,18 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
     projectsAsync.whenData((state) => _updatePolling(state.projects));
 
     return projectsAsync.when(
+      skipLoadingOnRefresh: true,
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => CloudflareErrorView(
         error: error,
         onRetry: () => ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
       ),
-      data: (state) => _buildProjectsList(context, state, l10n),
+      data: (state) => Column(
+        children: [
+          if (state.isRefreshing) const LinearProgressIndicator(minHeight: 2),
+          Expanded(child: _buildProjectsList(context, state, l10n)),
+        ],
+      ),
     );
   }
 

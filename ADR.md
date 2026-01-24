@@ -317,51 +317,40 @@ Total entries: 42
 
 ---
 
-## ADR-022: Cache com Background Refresh (DNS Records e Zones)
+## ADR-022: Cache com Background Refresh (Padrão SWR)
 
 **Status**: Atualizado
-**Data**: 2025-12-31
+**Data**: 2026-01-23
 
-**Contexto**: Ao acessar DNS Records ou lista de Zones, skeleton loading era exibido mesmo quando dados recentes estavam disponíveis. Isso causava uma experiência de "piscar" toda vez que o usuário acessava a tela.
+**Contexto**: O tempo de carregamento da API da Cloudflare pode variar. Exibir skeleton loadings em cada navegação prejudica a fluidez.
 
-**Decisão**: Implementar cache local com as seguintes características:
+**Decisão**: Implementar o padrão **Stale-While-Revalidate (SWR)** em todos os módulos principais (DNS, Workers, Pages):
 
 1. **Armazenamento**: SharedPreferences (JSON serializado)
-2. **Chaves DNS**: `dns_records_cache_{zoneId}` e `dns_records_cache_time_{zoneId}`
-3. **Chaves Zones**: `zones_cache` e `zones_cache_time`
-4. **Expiração**: 3 dias
-5. **Refresh**: Background (stale-while-revalidate)
+2. **Expiração**: 3 dias
+3. **Refresh**: Background (automático ao acessar a tela)
+4. **Abrangência**:
+   - **DNS**: Zones, Records e Settings.
+   - **Workers**: Scripts list, Settings, Schedules, Domains e Routes.
+   - **Pages**: Projects list, Deployments e Custom Domains.
 
 **Fluxo**:
 ```
 1. Ao acessar:
-   - Tentar carregar cache
-   - Se cache válido (<3 dias): mostrar imediatamente
-   - Iniciar refresh em background
+   - Tentar carregar cache local
+   - Se cache existe: mostrar imediatamente (isFromCache: true)
+   - Iniciar refresh em background (isRefreshing: true)
 
 2. Durante refresh:
-   - UI mostra isRefreshing=true (indicador sutil)
+   - UI mostra indicador sutil (LinearProgress ou skipLoadingOnRefresh)
    - Se falhar: manter dados do cache
-   - Se sucesso: atualizar lista
-
-3. Cache atualizado em:
-   - Fetch bem-sucedido
-   - Create/Update/Delete de record
-   - Toggle de proxy
-```
-
-**Campos em State**:
-```dart
-final bool isFromCache;
-final bool isRefreshing;
-final DateTime? cachedAt;
+   - Se sucesso: atualizar estado e persistir novo cache
 ```
 
 **Consequência**:
-- UX muito melhorada: dados aparecem instantaneamente
-- Funciona offline (enquanto cache válido)
-- Background refresh garante dados atualizados
-- 3 dias é conservador para DNS (TTLs típicos são menores)
+- UX instantânea: dados aparecem sem spinners centrais
+- App funciona offline com dados em cache
+- Consistência arquitetural entre funcionalidades
 
 ---
 
@@ -465,43 +454,30 @@ dart run flutter_native_splash:create
 
 ---
 
-## ADR-024: Tab Preloading ao Mudar de Zona
+## ADR-024: Tab Preloading em Segundo Plano
 
-**Status**: Aceito
-**Data**: 2025-12-31
+**Status**: Atualizado
+**Data**: 2026-01-23
 
-**Contexto**: Ao mudar de zona, apenas a aba ativa era carregada. Ao navegar para outras abas, o usuário via skeleton loading.
+**Contexto**: Ao abrir uma zona (DNS) ou um Worker, o usuário inicia na aba principal. Navegar para outras abas causava skeleton loading mesmo com cache SWR, devido ao delay inicial da API.
 
-**Decisão**: Implementar preload inteligente das 3 abas DNS:
+**Decisão**: Implementar preload inteligente das abas secundárias em segundo plano:
 
-1. **Prioridade**: Aba ativa carrega primeiro
-2. **Background**: Outras 2 abas carregam após delay de 300ms
-3. **Paralelo**: Abas em background carregam simultaneamente
+1. **Gatilho**: Mudança de zona selecionada ou abertura de detalhes de um Worker.
+2. **Prioridade**: Aba ativa carrega imediatamente.
+3. **Background**: Abas secundárias carregam após delay de 300-800ms.
+4. **Abrangência**:
+   - **DNS**: Records, Analytics e Settings.
+   - **Workers**: Overview, Triggers e Settings.
 
-**Provider**: `TabPreloaderNotifier`
-```dart
-// Escuta mudança de zona
-ref.listen(selectedZoneIdProvider, (prev, next) {
-  if (next != null && prev != next) {
-    _preloadAllTabs(next);
-  }
-});
-
-// Preload com prioridade
-void _preloadAllTabs(String zoneId) {
-  _loadActiveTab();           // Imediato
-  Future.delayed(300ms, () {
-    _loadBackgroundTabs();    // Paralelo em bg
-  });
-}
-```
-
-**Integração**: `MainLayout` inicializa o preloader no build.
+**Implementação**:
+- `TabPreloaderNotifier` (DNS)
+- `WorkerTabPreloader` (Workers)
 
 **Consequência**:
-- Navegação entre abas é instantânea
-- Aba ativa não é afetada pelo preload das outras
-- Recursos de rede são melhor utilizados
+- Navegação entre abas torna-se instantânea
+- Redução drástica na percepção de latência da rede
+- Melhor aproveitamento do ciclo de vida dos providers Riverpod
 
 ---
 

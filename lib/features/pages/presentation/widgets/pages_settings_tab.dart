@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -17,11 +19,17 @@ class PagesSettingsTab extends ConsumerStatefulWidget {
 
 class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
   final _formKey = GlobalKey<FormState>();
+  bool _isSaving = false;
   
   // Build Settings Controllers
   late TextEditingController _buildCommandController;
   late TextEditingController _destinationDirController;
   late TextEditingController _rootDirController;
+
+  // Focus Nodes for blur detection
+  late FocusNode _buildFocusNode;
+  late FocusNode _destFocusNode;
+  late FocusNode _rootFocusNode;
 
   // Environment Variables
   late Map<String, EnvVar> _productionEnvs;
@@ -35,42 +43,151 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
     _destinationDirController = TextEditingController(text: config?.destinationDir ?? '');
     _rootDirController = TextEditingController(text: config?.rootDir ?? '');
 
+    _buildFocusNode = FocusNode()..addListener(() => _onBlur(_buildFocusNode));
+    _destFocusNode = FocusNode()..addListener(() => _onBlur(_destFocusNode));
+    _rootFocusNode = FocusNode()..addListener(() => _onBlur(_rootFocusNode));
+
     _productionEnvs = Map.from(widget.project.deploymentConfigs?.production.envVars ?? {});
     _previewEnvs = Map.from(widget.project.deploymentConfigs?.preview.envVars ?? {});
   }
 
   @override
   void dispose() {
+    _buildFocusNode.dispose();
+    _destFocusNode.dispose();
+    _rootFocusNode.dispose();
     _buildCommandController.dispose();
     _destinationDirController.dispose();
     _rootDirController.dispose();
     super.dispose();
   }
 
+  void _onBlur(FocusNode node) {
+    if (!node.hasFocus && _hasChanges(widget.project)) {
+      _save();
+    }
+  }
+
+  void _initializeEnvs(PagesProject project) {
+    setState(() {
+      _productionEnvs = Map.from(project.deploymentConfigs?.production.envVars ?? {});
+      _previewEnvs = Map.from(project.deploymentConfigs?.preview.envVars ?? {});
+      
+      final config = project.buildConfig;
+      if (!_buildFocusNode.hasFocus) _buildCommandController.text = config?.buildCommand ?? '';
+      if (!_destFocusNode.hasFocus) _destinationDirController.text = config?.destinationDir ?? '';
+      if (!_rootFocusNode.hasFocus) _rootDirController.text = config?.rootDir ?? '';
+    });
+  }
+
+  bool _hasChanges(PagesProject original) {
+    final currentConfig = original.buildConfig;
+    if (_buildCommandController.text != (currentConfig?.buildCommand ?? '')) return true;
+    if (_destinationDirController.text != (currentConfig?.destinationDir ?? '')) return true;
+    if (_rootDirController.text != (currentConfig?.rootDir ?? '')) return true;
+
+    final originalProd = original.deploymentConfigs?.production.envVars ?? {};
+    if (_productionEnvs.length != originalProd.length) return true;
+    for (final key in _productionEnvs.keys) {
+      if (_productionEnvs[key] != originalProd[key]) return true;
+    }
+
+    final originalPrev = original.deploymentConfigs?.preview.envVars ?? {};
+    if (_previewEnvs.length != originalPrev.length) return true;
+    for (final key in _previewEnvs.keys) {
+      if (_previewEnvs[key] != originalPrev[key]) return true;
+    }
+
+    return false;
+  }
+
   Future<void> _save() async {
+    if (!mounted) return;
     if (!_formKey.currentState!.validate()) return;
 
-    final success = await ref.read(pagesSettingsNotifierProvider.notifier).updateProject(
-      projectName: widget.project.name,
-      buildConfig: {
-        'build_command': _buildCommandController.text.trim(),
-        'destination_dir': _destinationDirController.text.trim(),
-        'root_dir': _rootDirController.text.trim(),
-      },
-      deploymentConfigs: {
-        'production': {
-          'env_vars': _productionEnvs.map((k, v) => MapEntry(k, v.toJson())),
-        },
-        'preview': {
-          'env_vars': _previewEnvs.map((k, v) => MapEntry(k, v.toJson())),
-        },
-      },
-    );
+    setState(() => _isSaving = true);
 
-    if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).pages_settingsUpdated)),
+    final currentConfigs = widget.project.deploymentConfigs;
+
+    // Helper to filter and clean up environment variables
+    Map<String, dynamic> prepareEnvs(Map<String, EnvVar> current, Map<String, EnvVar> original) {
+      final result = <String, dynamic>{};
+      
+      // 1. Add current and modified variables
+      current.forEach((key, env) {
+        // Cloudflare Pages uses 'secret_text'
+        final isSecret = env.type == 'secret_text' || env.type == 'secret';
+        final type = isSecret ? 'secret_text' : 'plain_text';
+
+        if (env.value != null && env.value!.isNotEmpty) {
+          result[key] = {'value': env.value, 'type': type};
+        } else if (isSecret) {
+          // Preserve unmodified secret
+          result[key] = {'type': 'secret_text'};
+        }
+      });
+
+      // 2. Identify deleted variables (in original but not in current)
+      original.forEach((key, _) {
+        if (!current.containsKey(key)) {
+          result[key] = null; // Mark for deletion
+        }
+      });
+
+      return result;
+    }
+
+    // Helper to clean up deployment config (preserve empty lists/maps)
+    Map<String, dynamic> cleanConfig(
+      DeploymentConfig? config, 
+      Map<String, EnvVar> currentEnvs,
+      Map<String, EnvVar> originalEnvs,
+    ) {
+      return {
+        'compatibility_date': config?.compatibilityDate ?? '2024-01-01',
+        'compatibility_flags': config?.compatibilityFlags ?? [],
+        'env_vars': prepareEnvs(currentEnvs, originalEnvs),
+      };
+    }
+
+    final buildCommand = _buildCommandController.text.trim();
+    final destinationDir = _destinationDirController.text.trim();
+    final rootDir = _rootDirController.text.trim();
+
+    try {
+      final success = await ref.read(pagesSettingsNotifierProvider.notifier).updateProject(
+        projectName: widget.project.name,
+        buildConfig: BuildConfig(
+          buildCommand: buildCommand.isEmpty ? null : buildCommand,
+          destinationDir: destinationDir.isEmpty ? null : destinationDir,
+          rootDir: rootDir.isEmpty ? null : rootDir,
+        ).toJson(),
+        deploymentConfigs: {
+          'production': cleanConfig(
+            currentConfigs?.production, 
+            _productionEnvs,
+            widget.project.deploymentConfigs?.production.envVars ?? {},
+          ),
+          'preview': cleanConfig(
+            currentConfigs?.preview, 
+            _previewEnvs,
+            widget.project.deploymentConfigs?.preview.envVars ?? {},
+          ),
+        },
       );
+
+      if (success && mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).pages_settingsUpdated),
+            duration: const Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
     }
   }
 
@@ -79,28 +196,50 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
     final l10n = AppLocalizations.of(context);
     final isUpdating = ref.watch(pagesSettingsNotifierProvider).isLoading;
 
+    // Listen for project changes to update local state if not dirty
+    // This handles background refreshes while the user is viewing the tab
+    ref.listen(pagesProjectDetailsNotifierProvider(widget.project.name), (prev, next) {
+      if (next.hasValue && !_hasChanges(next.value!) && !_isSaving) {
+        _initializeEnvs(next.value!);
+      }
+    });
+
     return Scaffold(
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            _buildSectionTitle(context, l10n.pages_buildSettings),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildSectionTitle(context, l10n.pages_buildSettings),
+                if (_isSaving || isUpdating)
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+              ],
+            ),
             const SizedBox(height: 16),
             _buildTextField(
               controller: _buildCommandController,
+              focusNode: _buildFocusNode,
               label: l10n.pages_buildCommand,
               hint: 'npm run build',
             ),
             const SizedBox(height: 16),
             _buildTextField(
               controller: _destinationDirController,
+              focusNode: _destFocusNode,
               label: l10n.pages_outputDirectory,
               hint: 'dist',
             ),
             const SizedBox(height: 16),
             _buildTextField(
               controller: _rootDirController,
+              focusNode: _rootFocusNode,
               label: l10n.pages_rootDirectory,
               hint: '/',
             ),
@@ -113,7 +252,10 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
               context, 
               l10n.pages_productionEnv, 
               _productionEnvs,
-              (updated) => setState(() => _productionEnvs = updated),
+              (updated) {
+                setState(() => _productionEnvs = updated);
+                _save(); // Immediate save for variable changes
+              },
             ),
             
             const SizedBox(height: 24),
@@ -121,18 +263,13 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
               context, 
               l10n.pages_previewEnv, 
               _previewEnvs,
-              (updated) => setState(() => _previewEnvs = updated),
+              (updated) {
+                setState(() => _previewEnvs = updated);
+                _save(); // Immediate save for variable changes
+              },
             ),
 
-            const SizedBox(height: 40),
-            FilledButton.icon(
-              onPressed: isUpdating ? null : _save,
-              icon: isUpdating 
-                ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                : const Icon(Symbols.save),
-              label: Text(l10n.pages_saveSettings),
-            ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 60), // Extra space
           ],
         ),
       ),
@@ -151,11 +288,13 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
 
   Widget _buildTextField({
     required TextEditingController controller,
+    required FocusNode focusNode,
     required String label,
     required String hint,
   }) {
     return TextFormField(
       controller: controller,
+      focusNode: focusNode,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -203,13 +342,13 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
               itemBuilder: (context, index) {
                 final key = envs.keys.elementAt(index);
                 final env = envs[key]!;
-                final isSecret = env.type == 'secret';
+                final isSecret = env.type == 'secret' || env.type == 'secret_text';
 
                 return ListTile(
                   dense: true,
                   title: Text(key, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
                   subtitle: Text(
-                    isSecret ? '••••••••' : env.value,
+                    isSecret ? '••••••••' : (env.value ?? ''),
                     style: TextStyle(
                       fontFamily: isSecret ? null : 'monospace',
                       color: isSecret ? Colors.orange.shade700 : null,
@@ -248,8 +387,8 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
   ) {
     final l10n = AppLocalizations.of(context);
     final keyController = TextEditingController(text: existingKey ?? '');
-    final valueController = TextEditingController(text: existingKey != null ? envs[existingKey]?.value : '');
-    bool isSecret = existingKey != null ? envs[existingKey]?.type == 'secret' : false;
+    final valueController = TextEditingController(text: existingKey != null ? envs[existingKey]?.value ?? '' : '');
+    bool isSecret = existingKey != null ? (envs[existingKey]?.type == 'secret' || envs[existingKey]?.type == 'secret_text') : false;
 
     showDialog(
       context: context,
@@ -290,7 +429,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
                 final newEnvs = Map<String, EnvVar>.from(envs);
                 newEnvs[keyController.text.trim()] = EnvVar(
                   value: valueController.text.trim(),
-                  type: isSecret ? 'secret' : 'plain_text',
+                  type: isSecret ? 'secret_text' : 'plain_text',
                 );
                 onChanged(newEnvs);
                 Navigator.pop(context);

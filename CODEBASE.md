@@ -118,7 +118,7 @@ Gerenciamento completo de projetos Cloudflare Pages (account-level).
 Gerenciamento completo de scripts Cloudflare Workers (account-level).
 
 *   **Models:** `Worker`, `WorkerSettings`, `WorkerBinding`, `WorkerRoute`, `WorkerSchedule`, `WorkerAnalyticsData`.
-*   **Providers:** `WorkersNotifier` (listagem), `WorkerDetailsNotifier` (configurações), `WorkerSchedulesNotifier` (cron), `WorkerMetricsNotifier` (GraphQL analytics), `WorkerRoutesNotifier` (rotas por zona).
+*   **Providers:** `WorkersNotifier` (cache ADR-022), `WorkerDetailsNotifier` (configurações), `WorkerSchedulesNotifier` (cron), `WorkerMetricsNotifier` (GraphQL analytics), `WorkerRoutesNotifier` (rotas por zona), `WorkerTabPreloader` (ADR-024).
 *   **Account Context:** Vinculado ao `selectedAccountIdProvider`.
 *   **UI:** 
     *   `WorkersListPage`: Lista de scripts com busca e handlers.

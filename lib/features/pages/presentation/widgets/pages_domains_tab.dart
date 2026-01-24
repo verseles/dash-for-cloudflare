@@ -23,6 +23,7 @@ class PagesDomainsTab extends ConsumerWidget {
         const Divider(height: 1),
         Expanded(
           child: domainsAsync.when(
+            skipLoadingOnRefresh: true,
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, _) => _buildError(context, widgetRef, error, l10n),
             data: (domains) => _buildDomainsList(context, widgetRef, domains, l10n),

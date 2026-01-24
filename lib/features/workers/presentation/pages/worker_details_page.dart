@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 import '../../providers/workers_provider.dart';
+import '../../providers/worker_preloader_provider.dart';
 import '../widgets/worker_overview_tab.dart';
 import '../widgets/worker_triggers_tab.dart';
 import '../widgets/worker_settings_tab.dart';
@@ -16,11 +17,20 @@ class WorkerDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    
+    // Initialize preloader and set selected worker
+    ref.watch(workerTabPreloaderProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (ref.read(selectedWorkerNameProvider) != workerName) {
+        ref.read(selectedWorkerNameProvider.notifier).set(workerName);
+      }
+    });
+
     final workersAsync = ref.watch(workersNotifierProvider);
     
     // Find worker in state
     final worker = workersAsync.maybeWhen(
-      data: (workers) => workers.where((w) => w.id == workerName).firstOrNull,
+      data: (state) => state.workers.where((w) => w.id == workerName).firstOrNull,
       orElse: () => null,
     );
 

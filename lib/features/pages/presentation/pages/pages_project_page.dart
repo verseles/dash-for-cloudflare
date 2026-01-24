@@ -61,24 +61,31 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
     final deploymentsAsync = ref.watch(
       pagesDeploymentsNotifierProvider(projectName),
     );
-    final projectsState = ref.watch(pagesProjectsNotifierProvider);
+    final projectAsync = ref.watch(pagesProjectDetailsNotifierProvider(projectName));
 
     // Update polling based on current state
     deploymentsAsync.whenData(_updatePolling);
 
-    // Find project from state
-    final project = projectsState.valueOrNull?.projects
-        .where((p) => p.name == projectName)
-        .firstOrNull;
-
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(projectName),
-          centerTitle: true,
-          actions: [
-            if (project != null)
+      child: projectAsync.when(
+        skipLoadingOnRefresh: true,
+        loading: () => Scaffold(
+          appBar: AppBar(title: Text(projectName)),
+          body: const Center(child: CircularProgressIndicator()),
+        ),
+        error: (err, _) => Scaffold(
+          appBar: AppBar(title: Text(projectName)),
+          body: CloudflareErrorView(
+            error: err,
+            onRetry: () => ref.refresh(pagesProjectDetailsNotifierProvider(projectName)),
+          ),
+        ),
+        data: (project) => Scaffold(
+          appBar: AppBar(
+            title: Text(projectName),
+            centerTitle: true,
+            actions: [
               IconButton(
                 icon: const Icon(Symbols.open_in_new),
                 tooltip: l10n.pages_openInBrowser,
@@ -87,38 +94,37 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
                   await launchUrl(url, mode: LaunchMode.externalApplication);
                 },
               ),
-          ],
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                icon: const Icon(Symbols.rocket_launch),
-                text: l10n.pages_deployments,
-              ),
-              Tab(
-                icon: const Icon(Symbols.language),
-                text: l10n.pages_customDomains,
-              ),
-              Tab(
-                icon: const Icon(Symbols.settings),
-                text: l10n.tabs_settings,
-              ),
+            ],
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  icon: const Icon(Symbols.rocket_launch),
+                  text: l10n.pages_deployments,
+                ),
+                Tab(
+                  icon: const Icon(Symbols.language),
+                  text: l10n.pages_customDomains,
+                ),
+                Tab(
+                  icon: const Icon(Symbols.settings),
+                  text: l10n.tabs_settings,
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              // DEPLOYMENTS TAB
+              _buildDeploymentsTab(context, project, deploymentsAsync, l10n),
+
+              // DOMAINS TAB
+              PagesDomainsTab(project: project),
+
+              // SETTINGS TAB
+              PagesSettingsTab(project: project),
             ],
           ),
         ),
-        body: project == null
-            ? const Center(child: CircularProgressIndicator())
-            : TabBarView(
-                children: [
-                  // DEPLOYMENTS TAB
-                  _buildDeploymentsTab(context, project, deploymentsAsync, l10n),
-
-                  // DOMAINS TAB
-                  PagesDomainsTab(project: project),
-
-                  // SETTINGS TAB
-                  PagesSettingsTab(project: project),
-                ],
-              ),
       ),
     );
   }
@@ -151,6 +157,7 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
         // Deployments list
         Expanded(
           child: deploymentsAsync.when(
+            skipLoadingOnRefresh: true,
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, _) => CloudflareErrorView(
               error: error,
