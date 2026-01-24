@@ -68,3 +68,5 @@ Description: Polimento final, cache SWR, persistência de configurações e test
 - [x] 13.16 Implementar Auto-save no Blur (Pages) e Imediato (Workers)
 - [x] 13.17 Corrigir erro 500 no Pages (payload cleaning e tipo secret_text)
 - [x] 13.18 Implementar pirâmide de testes (Unit, Widget e Integração) para Pages
+- [x] 13.19 Implementar pirâmide de testes (Unit, Widget e Integração) para DNS
+- [ ] 13.20 Implementar pirâmide de testes (Unit, Widget e Integração) para Workers

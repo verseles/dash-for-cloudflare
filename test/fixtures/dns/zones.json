@@ -1,0 +1,1318 @@
+{
+  "result": [
+    {
+      "id": "zone_id_YmFjay5pcw==",
+      "name": "back.is",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": null,
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-10-10T02:23:34.986013Z",
+      "created_on": "2024-02-15T01:39:41.737167Z",
+      "activated_on": "2024-02-15T02:12:56.575656Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_Ym9va2Nhc3RpbmcuY29t",
+      "name": "bookcasting.com",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": -44797968,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "ns-1297.awsdns-34.org",
+        "ns-1653.awsdns-14.co.uk",
+        "ns-413.awsdns-51.com",
+        "ns-673.awsdns-20.net"
+      ],
+      "original_registrar": "enom, inc.",
+      "original_dnshost": null,
+      "modified_on": "2024-08-04T01:51:24.483908Z",
+      "created_on": "2015-08-19T04:06:25.500553Z",
+      "activated_on": "2015-08-19T04:14:52.894203Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_Ym9va2Nhc3RpbmcuY29tLmJy",
+      "name": "bookcasting.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": -328564653,
+      "name_servers": [
+        "kim.ns.cloudflare.com",
+        "will.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "ns-1262.awsdns-29.org",
+        "ns-2035.awsdns-62.co.uk"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2023-09-13T10:11:44.580432Z",
+      "created_on": "2015-08-24T15:31:41.145337Z",
+      "activated_on": "2023-09-13T10:11:44.580432Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_Y2FkYXN0cm9tdW5pY2lwYWwuY29tLmJy",
+      "name": "cadastromunicipal.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": -5150455,
+      "name_servers": [
+        "dan.ns.cloudflare.com",
+        "lana.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "a.auto.dns.br",
+        "b.auto.dns.br"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2023-04-07T20:10:16.944454Z",
+      "created_on": "2023-04-07T17:58:24.394061Z",
+      "activated_on": "2023-04-07T20:10:16.944454Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Suporte@wez.com.br's Account"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_Y2FzdGluZ2RhbHVhLmNvbS5icg==",
+      "name": "castingdalua.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "ns1.locaweb.com.br",
+        "ns2.locaweb.com.br",
+        "ns3.locaweb.com.br"
+      ],
+      "original_registrar": "locaweb (id: )",
+      "original_dnshost": null,
+      "modified_on": "2024-10-15T00:03:34.470955Z",
+      "created_on": "2024-10-14T23:52:14.553038Z",
+      "activated_on": "2024-10-15T00:03:34.470955Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_Y2ZjcHJvLmNvbS5icg==",
+      "name": "cfcpro.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "dns1.kinghost.com.br",
+        "dns2.kinghost.com.br",
+        "dns3.kinghost.com.br",
+        "dns4.kinghost.com.br",
+        "dns5.kinghost.com.br",
+        "dns6.kinghost.com.br"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-11-17T13:16:00.567751Z",
+      "created_on": "2025-11-17T13:06:25.185918Z",
+      "activated_on": "2025-11-17T13:16:00.567751Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_Y2xvdWRhdGxhcy5jb20uYnI=",
+      "name": "cloudatlas.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "a.auto.dns.br",
+        "b.auto.dns.br"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2022-02-17T21:15:30.598228Z",
+      "created_on": "2022-02-17T19:08:38.387844Z",
+      "activated_on": "2022-02-17T21:15:30.598228Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_ZGFydGlhbi5vcmc=",
+      "name": "dartian.org",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": null,
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-05-07T00:09:32.135027Z",
+      "created_on": "2025-05-07T00:09:27.249474Z",
+      "activated_on": "2025-05-07T00:09:31.971169Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_ZGFzaC5hZA==",
+      "name": "dash.ad",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "ns.inwx.com",
+        "ns2.inwx.com",
+        "ns3.inwx.eu"
+      ],
+      "original_registrar": "inwx gmbh (id: )",
+      "original_dnshost": null,
+      "modified_on": "2025-10-15T21:50:50.368055Z",
+      "created_on": "2025-10-15T21:38:45.294933Z",
+      "activated_on": "2025-10-15T21:50:50.368055Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_ZGluaGVpcmFtYS5jb20uYnI=",
+      "name": "dinheirama.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "greg.ns.cloudflare.com",
+        "nicole.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "vda3500a.trouble-free.net",
+        "vda3500b.trouble-free.net"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-09-12T02:49:25.884082Z",
+      "created_on": "2025-09-12T02:40:05.304841Z",
+      "activated_on": "2025-09-12T02:49:25.884082Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Daniel9d@gmail.com's Account"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_ZW5jb21lbmRlLmNvbQ==",
+      "name": "encomende.com",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": -308232471,
+      "name_servers": [
+        "kim.ns.cloudflare.com",
+        "will.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "ns-1132.awsdns-13.org",
+        "ns-2037.awsdns-62.co.uk",
+        "ns-264.awsdns-33.com",
+        "ns-758.awsdns-30.net"
+      ],
+      "original_registrar": "name.com, inc.",
+      "original_dnshost": null,
+      "modified_on": "2024-07-14T06:20:36.183086Z",
+      "created_on": "2015-09-08T21:58:43.982893Z",
+      "activated_on": "2015-09-08T22:02:54.782617Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_ZXJ5ZnVydGFkby5jb20uYnI=",
+      "name": "eryfurtado.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": -283564897,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "ns182.hostgator.com.br",
+        "ns183.hostgator.com.br"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2020-02-08T18:22:46.452404Z",
+      "created_on": "2018-01-17T12:08:33.804510Z",
+      "activated_on": "2018-01-17T12:51:55.803198Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_aGVsaW8ubWU=",
+      "name": "helio.me",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": -24507876,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "DNS.TROUBLE-FREE.NET",
+        "DNS2.TROUBLE-FREE.NET"
+      ],
+      "original_registrar": "Name.com LLC R79-ME (625)",
+      "original_dnshost": null,
+      "modified_on": "2024-06-04T17:21:27.433243Z",
+      "created_on": "2014-08-19T20:10:14.950523Z",
+      "activated_on": "2014-08-19T20:24:33.878050Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_aWxoYXNlZ3VyYS5jb20=",
+      "name": "ilhasegura.com",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "DNS.TROUBLE-FREE.NET",
+        "DNS2.TROUBLE-FREE.NET"
+      ],
+      "original_registrar": "ENOM, INC.",
+      "original_dnshost": null,
+      "modified_on": "2021-03-18T19:01:02.613279Z",
+      "created_on": "2013-08-16T22:38:26.398858Z",
+      "activated_on": "2013-08-16T22:43:32.031165Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_aWxoYXNlZ3VyYS5jb20uYnI=",
+      "name": "ilhasegura.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "DNS.TROUBLE-FREE.NET",
+        "DNS2.TROUBLE-FREE.NET"
+      ],
+      "original_registrar": "",
+      "original_dnshost": null,
+      "modified_on": "2019-10-11T22:21:13.348429Z",
+      "created_on": "2013-08-16T22:42:46.822807Z",
+      "activated_on": "2013-08-16T22:46:21.167316Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 4,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_aW5zdGFsbC5jYXQ=",
+      "name": "install.cat",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "dns1.registrar-servers.com",
+        "dns2.registrar-servers.com"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2026-01-06T22:07:37.510697Z",
+      "created_on": "2026-01-06T11:21:05.798362Z",
+      "activated_on": "2026-01-06T11:29:20.202267Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_bG9jZXN0dWRpby5jb20uYnI=",
+      "name": "locestudio.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "greg.ns.cloudflare.com",
+        "nicole.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "vda3500a.trouble-free.net",
+        "vda3500b.trouble-free.net"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-09-13T04:19:22.099516Z",
+      "created_on": "2025-09-13T04:10:06.162015Z",
+      "activated_on": "2025-09-13T04:19:22.099516Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Daniel9d@gmail.com's Account"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_bWFyYW5oYW8zNjAuY29tLmJy",
+      "name": "maranhao360.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "greg.ns.cloudflare.com",
+        "nicole.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "vda3500a.trouble-free.net",
+        "vda3500b.trouble-free.net"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-09-10T21:26:50.441960Z",
+      "created_on": "2025-09-10T21:19:28.345573Z",
+      "activated_on": "2025-09-10T21:26:50.441960Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Daniel9d@gmail.com's Account"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_bXdjdHJhbnNwb3J0ZXMuY29tLmJy",
+      "name": "mwctransportes.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "amy.ns.cloudflare.com",
+        "duke.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "a.auto.dns.br",
+        "b.auto.dns.br"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2025-10-21T03:01:44.964944Z",
+      "created_on": "2025-10-21T00:56:16.423754Z",
+      "activated_on": "2025-10-21T03:01:44.964944Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Hélio"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    },
+    {
+      "id": "zone_id_cGVyc29uYWxpemFuZG8uY29tLmJy",
+      "name": "personalizando.com.br",
+      "status": "active",
+      "paused": false,
+      "type": "full",
+      "development_mode": 0,
+      "name_servers": [
+        "greg.ns.cloudflare.com",
+        "nicole.ns.cloudflare.com"
+      ],
+      "original_name_servers": [
+        "vda3500a.trouble-free.net",
+        "vda3500b.trouble-free.net"
+      ],
+      "original_registrar": null,
+      "original_dnshost": null,
+      "modified_on": "2024-03-22T03:37:49.282826Z",
+      "created_on": "2024-03-22T03:26:06.187596Z",
+      "activated_on": "2024-03-22T03:37:49.282826Z",
+      "vanity_name_servers": [],
+      "vanity_name_servers_ips": null,
+      "meta": {
+        "step": 2,
+        "custom_certificate_quota": 0,
+        "page_rule_quota": 3,
+        "phishing_detected": false
+      },
+      "owner": {
+        "id": null,
+        "type": "user",
+        "email": "user@example.com"
+      },
+      "account": {
+        "id": "account_id_dummy",
+        "name": "Daniel9d@gmail.com's Account"
+      },
+      "tenant": {
+        "id": null,
+        "name": null
+      },
+      "tenant_unit": {
+        "id": null
+      },
+      "permissions": [
+        "#dns_records:read",
+        "#zone_settings:read",
+        "#page_shield:read",
+        "#ssl:read",
+        "#zone:read",
+        "#analytics:read"
+      ],
+      "plan": {
+        "id": "0feeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "name": "Free Website",
+        "price": 0,
+        "currency": "USD",
+        "frequency": "",
+        "is_subscribed": false,
+        "can_subscribe": false,
+        "legacy_id": "free",
+        "legacy_discount": false,
+        "externally_managed": false
+      }
+    }
+  ],
+  "result_info": {
+    "page": 1,
+    "per_page": 20,
+    "total_pages": 2,
+    "count": 20,
+    "total_count": 30
+  },
+  "success": true,
+  "errors": [],
+  "messages": []
+}

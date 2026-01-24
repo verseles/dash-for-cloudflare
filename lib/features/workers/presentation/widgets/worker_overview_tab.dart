@@ -123,9 +123,9 @@ class WorkerOverviewTab extends ConsumerWidget {
         dateFormat: DateFormat.Hm(),
         majorGridLines: const MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
+      primaryYAxis: const NumericAxis(
+        axisLine: AxisLine(width: 0),
+        majorTickLines: MajorTickLines(size: 0),
       ),
       legend: const Legend(isVisible: true, position: LegendPosition.bottom),
       tooltipBehavior: TooltipBehavior(enable: true),
@@ -162,9 +162,9 @@ class WorkerOverviewTab extends ConsumerWidget {
         dateFormat: DateFormat.Hm(),
         majorGridLines: const MajorGridLines(width: 0),
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         labelFormat: '{value}ms',
-        axisLine: const AxisLine(width: 0),
+        axisLine: AxisLine(width: 0),
       ),
       tooltipBehavior: TooltipBehavior(enable: true),
       series: <CartesianSeries>[

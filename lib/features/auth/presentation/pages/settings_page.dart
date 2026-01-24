@@ -329,7 +329,7 @@ Required Cloudflare API Token Permissions:
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<String>(
-                      value: settings.locale,
+                      initialValue: settings.locale,
                       decoration: InputDecoration(
                         labelText: l10n.settings_language,
                       ),

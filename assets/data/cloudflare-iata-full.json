@@ -58,8 +58,8 @@
   "AGR": {
     "place": "Agra, India",
     "place_zh": "印度阿格拉",
-    "lat": 27.157683,
-    "lng": 77.960942,
+    "lat": 27.157975,
+    "lng": 77.961025,
     "cca2": "IN",
     "region": "Asia Pacific"
   },
@@ -74,8 +74,8 @@
   "AKX": {
     "place": "Aktobe, Kazakhstan",
     "place_zh": "哈萨克斯坦阿克托别",
-    "lat": 50.2458,
-    "lng": 57.206699,
+    "lat": 50.248116,
+    "lng": 57.204144,
     "cca2": "KZ",
     "region": null
   },
@@ -210,8 +210,8 @@
   "BBI": {
     "place": "Bhubaneswar, India",
     "place_zh": "印度布巴内斯瓦尔",
-    "lat": 20.2444,
-    "lng": 85.817802,
+    "lat": 20.251021,
+    "lng": 85.814747,
     "cca2": "IN",
     "region": "Asia Pacific"
   },
@@ -242,24 +242,24 @@
   "BEY": {
     "place": "Beirut, Lebanon",
     "place_zh": "黎巴嫩贝鲁特",
-    "lat": 33.820899963378906,
-    "lng": 35.488399505615234,
+    "lat": 33.819833,
+    "lng": 35.487443,
     "cca2": "LB",
     "region": null
   },
   "BGI": {
     "place": "Bridgetown, Barbados",
     "place_zh": "巴巴多斯布里奇敦",
-    "lat": 13.0746,
-    "lng": -59.4925,
+    "lat": 13.074667,
+    "lng": -59.491034,
     "cca2": "BB",
     "region": null
   },
   "BGR": {
     "place": "Bangor, United States",
     "place_zh": "美国班戈",
-    "lat": 44.8074,
-    "lng": -68.828102,
+    "lat": 44.806364,
+    "lng": -68.826668,
     "cca2": "US",
     "region": "North America"
   },
@@ -338,8 +338,8 @@
   "BOM": {
     "place": "Mumbai, India",
     "place_zh": "印度孟买",
-    "lat": 19.0886993408,
-    "lng": 72.8678970337,
+    "lat": 19.088699,
+    "lng": 72.867897,
     "cca2": "IN",
     "region": "Asia Pacific"
   },
@@ -442,8 +442,8 @@
   "CCP": {
     "place": "Concepción, Chile",
     "place_zh": "智利康塞普西翁",
-    "lat": -36.772701,
-    "lng": -73.063103,
+    "lat": -36.77235,
+    "lng": -73.062828,
     "cca2": "CL",
     "region": null
   },
@@ -458,8 +458,8 @@
   "CDG": {
     "place": "Paris, France",
     "place_zh": "法国巴黎",
-    "lat": 49.012798,
-    "lng": 2.55,
+    "lat": 49.00896,
+    "lng": 2.554117,
     "cca2": "FR",
     "region": null
   },
@@ -538,8 +538,8 @@
   "CJB": {
     "place": "Coimbatore, India",
     "place_zh": "印度哥印拜陀",
-    "lat": 11.029999733,
-    "lng": 77.0434036255,
+    "lat": 11.03,
+    "lng": 77.043404,
     "cca2": "IN",
     "region": "Asia Pacific"
   },
@@ -562,8 +562,8 @@
   "CLO": {
     "place": "Cali, Colombia",
     "place_zh": "哥伦比亚卡利",
-    "lat": 3.54322,
-    "lng": -76.3816,
+    "lat": 3.542717,
+    "lng": -76.381898,
     "cca2": "CO",
     "region": null
   },
@@ -602,8 +602,8 @@
   "CNN": {
     "place": "Kannur, India",
     "place_zh": "印度坎努尔",
-    "lat": 11.918614,
-    "lng": 75.547211,
+    "lat": 11.916343,
+    "lng": 75.544979,
     "cca2": "IN",
     "region": "Asia Pacific"
   },
@@ -626,8 +626,8 @@
   "COR": {
     "place": "Córdoba, Argentina",
     "place_zh": "阿根廷科尔多瓦",
-    "lat": -31.323601,
-    "lng": -64.208,
+    "lat": -31.312346,
+    "lng": -64.208329,
     "cca2": "AR",
     "region": null
   },
@@ -682,8 +682,8 @@
   "CZL": {
     "place": "Constantine, Algeria",
     "place_zh": "阿尔及利亚康斯坦丁",
-    "lat": 36.2760009765625,
-    "lng": 6.620389938354492,
+    "lat": 36.276001,
+    "lng": 6.62039,
     "cca2": "DZ",
     "region": null
   },
@@ -730,8 +730,8 @@
   "DEN": {
     "place": "Denver, United States",
     "place_zh": "美国丹佛",
-    "lat": 39.861698150635,
-    "lng": -104.672996521,
+    "lat": 39.860027,
+    "lng": -104.673792,
     "cca2": "US",
     "region": "North America"
   },
@@ -746,8 +746,8 @@
   "DKR": {
     "place": "Dakar, Senegal",
     "place_zh": "塞内加尔达喀尔",
-    "lat": 14.7397,
-    "lng": -17.4902,
+    "lat": 14.742337,
+    "lng": -17.479222,
     "cca2": "SN",
     "region": null
   },
@@ -770,8 +770,8 @@
   "DMM": {
     "place": "Dammam, Saudi Arabia",
     "place_zh": "沙特阿拉伯达曼",
-    "lat": 26.471201,
-    "lng": 49.797901,
+    "lat": 26.4691,
+    "lng": 49.798209,
     "cca2": "SA",
     "region": null
   },
@@ -842,8 +842,8 @@
   "EBL": {
     "place": "Erbil, Iraq",
     "place_zh": "伊拉克埃尔比勒",
-    "lat": 36.23759841918945,
-    "lng": 43.963199615478516,
+    "lat": 36.236047,
+    "lng": 43.946615,
     "cca2": "IQ",
     "region": null
   },
@@ -858,8 +858,8 @@
   "EVN": {
     "place": "Yerevan, Armenia",
     "place_zh": "亚美尼亚埃里温",
-    "lat": 40.1473007202,
-    "lng": 44.3959007263,
+    "lat": 40.148941,
+    "lng": 44.397887,
     "cca2": "AM",
     "region": null
   },
@@ -906,8 +906,8 @@
   "FOC": {
     "place": "Fuzhou, China",
     "place_zh": "中国福州",
-    "lat": 25.934669,
-    "lng": 119.66318,
+    "lat": 25.929254,
+    "lng": 119.672524,
     "cca2": "CN",
     "region": "Asia Pacific"
   },
@@ -994,8 +994,8 @@
   "GND": {
     "place": "St. George's, Grenada",
     "place_zh": "格林纳达圣乔治",
-    "lat": 12.0042,
-    "lng": -61.786201,
+    "lat": 12.003996,
+    "lng": -61.785302,
     "cca2": "GD",
     "region": null
   },
@@ -1010,16 +1010,16 @@
   "GRU": {
     "place": "São Paulo, Brazil",
     "place_zh": "巴西圣保罗",
-    "lat": -23.431944,
-    "lng": -46.467778,
+    "lat": -23.431274,
+    "lng": -46.469954,
     "cca2": "BR",
     "region": "South America"
   },
   "GUA": {
     "place": "Guatemala City, Guatemala",
     "place_zh": "危地马拉危地马拉城",
-    "lat": 14.5833,
-    "lng": -90.527496,
+    "lat": 14.582896,
+    "lng": -90.527515,
     "cca2": "GT",
     "region": null
   },
@@ -1090,8 +1090,8 @@
   "HBA": {
     "place": "Hobart, Australia",
     "place_zh": "澳大利亚霍巴特",
-    "lat": -42.8371,
-    "lng": 147.51295,
+    "lat": -42.837032,
+    "lng": 147.513022,
     "cca2": "AU",
     "region": null
   },
@@ -1138,8 +1138,8 @@
   "HNL": {
     "place": "Honolulu, United States",
     "place_zh": "美国檀香山",
-    "lat": 21.32062,
-    "lng": -157.924228,
+    "lat": 21.318387,
+    "lng": -157.92567,
     "cca2": "US",
     "region": "North America"
   },
@@ -1178,8 +1178,8 @@
   "IAH": {
     "place": "Houston, United States",
     "place_zh": "美国休斯顿",
-    "lat": 29.984399795532227,
-    "lng": -95.34140014648438,
+    "lat": 29.9844,
+    "lng": -95.3414,
     "cca2": "US",
     "region": "North America"
   },
@@ -1402,8 +1402,8 @@
   "KJA": {
     "place": "Krasnoyarsk, Russia",
     "place_zh": "俄罗斯克拉斯诺亚尔斯克",
-    "lat": 56.173077,
-    "lng": 92.492437,
+    "lat": 56.175743,
+    "lng": 92.485788,
     "cca2": "RU",
     "region": "Europe"
   },
@@ -1442,8 +1442,8 @@
   "KWE": {
     "place": "Guiyang, China",
     "place_zh": "中国贵阳",
-    "lat": 26.541466,
-    "lng": 106.803331,
+    "lat": 26.541805,
+    "lng": 106.80402,
     "cca2": "CN",
     "region": "Asia Pacific"
   },
@@ -1570,8 +1570,8 @@
   "LPB": {
     "place": "La Paz, Bolivia",
     "place_zh": "玻利维亚拉巴斯",
-    "lat": -16.5132999420166,
-    "lng": -68.19229888916016,
+    "lat": -16.510272,
+    "lng": -68.189416,
     "cca2": "BO",
     "region": null
   },
@@ -1666,16 +1666,16 @@
   "MEL": {
     "place": "Melbourne, Australia",
     "place_zh": "澳大利亚墨尔本",
-    "lat": -37.661548,
-    "lng": 144.836432,
+    "lat": -37.670732,
+    "lng": 144.837898,
     "cca2": "AU",
     "region": null
   },
   "MEM": {
     "place": "Memphis, United States",
     "place_zh": "美国孟菲斯",
-    "lat": 35.0424,
-    "lng": -89.9767,
+    "lat": 35.043845,
+    "lng": -89.97634,
     "cca2": "US",
     "region": "North America"
   },
@@ -1826,8 +1826,8 @@
   "NNG": {
     "place": "Nanning, China",
     "place_zh": "中国南宁",
-    "lat": 22.608544,
-    "lng": 108.175335,
+    "lat": 22.598071,
+    "lng": 108.181922,
     "cca2": "CN",
     "region": "Asia Pacific"
   },
@@ -1874,8 +1874,8 @@
   "OKA": {
     "place": "Naha, Japan",
     "place_zh": "日本那霸",
-    "lat": 26.195801,
-    "lng": 127.646004,
+    "lat": 26.192437,
+    "lng": 127.639804,
     "cca2": "JP",
     "region": null
   },
@@ -1922,8 +1922,8 @@
   "ORN": {
     "place": "Oran, Algeria",
     "place_zh": "阿尔及利亚奥兰",
-    "lat": 35.623901,
-    "lng": -0.621183,
+    "lat": 35.620648,
+    "lng": -0.622486,
     "cca2": "DZ",
     "region": null
   },
@@ -1938,8 +1938,8 @@
   "OTP": {
     "place": "Bucharest, Romania",
     "place_zh": "罗马尼亚布加勒斯特",
-    "lat": 44.572127,
-    "lng": 26.103396,
+    "lat": 44.571792,
+    "lng": 26.103285,
     "cca2": "RO",
     "region": null
   },
@@ -2018,8 +2018,8 @@
   "PKX": {
     "place": "Langfang, China",
     "place_zh": "中国廊坊",
-    "lat": 39.509945,
-    "lng": 116.41092,
+    "lat": 39.501289,
+    "lng": 116.413967,
     "cca2": "CN",
     "region": "Asia Pacific"
   },
@@ -2042,32 +2042,32 @@
   "PNH": {
     "place": "Phnom Penh, Cambodia",
     "place_zh": "柬埔寨金边",
-    "lat": 11.5466,
-    "lng": 104.844002,
+    "lat": 11.547155,
+    "lng": 104.844699,
     "cca2": "KH",
     "region": null
   },
   "POA": {
     "place": "Porto Alegre, Brazil",
     "place_zh": "巴西阿雷格里港",
-    "lat": -29.994712,
-    "lng": -51.166592,
+    "lat": -29.993984,
+    "lng": -51.167482,
     "cca2": "BR",
     "region": "South America"
   },
   "POS": {
     "place": "Port of Spain, Trinidad and Tobago",
     "place_zh": "特立尼达和多巴哥西班牙港",
-    "lat": 10.5954,
-    "lng": -61.3372,
+    "lat": 10.597811,
+    "lng": -61.337463,
     "cca2": "TT",
     "region": null
   },
   "PPT": {
     "place": "Tahiti, French Polynesia",
     "place_zh": "法属波利尼西亚塔希提",
-    "lat": -17.553699,
-    "lng": -149.606995,
+    "lat": -17.553472,
+    "lng": -149.606936,
     "cca2": "PF",
     "region": null
   },
@@ -2090,8 +2090,8 @@
   "QRO": {
     "place": "Queretaro, Mexico",
     "place_zh": "墨西哥克雷塔罗",
-    "lat": 20.6173,
-    "lng": -100.185997,
+    "lat": 20.618779,
+    "lng": -100.186449,
     "cca2": "MX",
     "region": null
   },
@@ -2114,16 +2114,16 @@
   "RDU": {
     "place": "Durham, United States",
     "place_zh": "美国达勒姆",
-    "lat": 35.877602,
-    "lng": -78.787498,
+    "lat": 35.878659,
+    "lng": -78.7873,
     "cca2": "US",
     "region": "North America"
   },
   "REC": {
     "place": "Recife, Brazil",
     "place_zh": "巴西累西腓",
-    "lat": -8.125984,
-    "lng": -34.923316,
+    "lat": -8.12747,
+    "lng": -34.922961,
     "cca2": "BR",
     "region": "South America"
   },
@@ -2346,8 +2346,8 @@
   "STI": {
     "place": "Santiago de los Caballeros, Dominican Republic",
     "place_zh": "多米尼加共和国圣地亚哥德洛斯卡巴耶罗斯",
-    "lat": 19.406099319458008,
-    "lng": -70.60469818115234,
+    "lat": 19.40406,
+    "lng": -70.604431,
     "cca2": "DO",
     "region": null
   },
@@ -2370,8 +2370,8 @@
   "SUV": {
     "place": "Suva, Fiji",
     "place_zh": "斐济苏瓦",
-    "lat": -18.04330062866211,
-    "lng": 178.5590057373047,
+    "lat": -18.044226,
+    "lng": 178.561486,
     "cca2": "FJ",
     "region": null
   },
@@ -2450,8 +2450,8 @@
   "TLH": {
     "place": "Tallahassee, United States",
     "place_zh": "美国塔拉哈西",
-    "lat": 30.3965,
-    "lng": -84.350304,
+    "lat": 30.400369,
+    "lng": -84.35433,
     "cca2": "US",
     "region": "North America"
   },
@@ -2674,8 +2674,8 @@
   "XNN": {
     "place": "Xining, China",
     "place_zh": "中国西宁",
-    "lat": 36.530093,
-    "lng": 102.040062,
+    "lat": 36.52775,
+    "lng": 102.040215,
     "cca2": "CN",
     "region": "Asia Pacific"
   },
@@ -2706,8 +2706,8 @@
   "YVR": {
     "place": "Vancouver, Canada",
     "place_zh": "加拿大温哥华",
-    "lat": 49.193901062,
-    "lng": -123.183998108,
+    "lat": 49.193901,
+    "lng": -123.183998,
     "cca2": "CA",
     "region": null
   },
@@ -2722,8 +2722,8 @@
   "YXE": {
     "place": "Saskatoon, Canada",
     "place_zh": "加拿大萨斯卡通",
-    "lat": 52.170799255371094,
-    "lng": -106.69999694824219,
+    "lat": 52.170723,
+    "lng": -106.700793,
     "cca2": "CA",
     "region": null
   },
@@ -2738,8 +2738,8 @@
   "YYZ": {
     "place": "Toronto, Canada",
     "place_zh": "加拿大多伦多",
-    "lat": 43.6772,
-    "lng": -79.6306,
+    "lat": 43.675935,
+    "lng": -79.629421,
     "cca2": "CA",
     "region": null
   },

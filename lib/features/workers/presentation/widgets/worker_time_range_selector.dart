@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cf/features/analytics/providers/analytics_provider.dart';
-import 'package:cf/features/workers/providers/shared_workers_provider.dart';
+import '../../../analytics/providers/analytics_provider.dart';
+import '../../providers/shared_workers_provider.dart';
 
 class WorkerTimeRangeSelector extends ConsumerWidget {
   const WorkerTimeRangeSelector({super.key});

@@ -161,7 +161,11 @@ class SettingsNotifier extends _$SettingsNotifier {
   Future<void> setLastVisitedRoute(String? route) async {
     if (route == null || route == '/') return;
     await _prefs?.setString(_lastVisitedRouteKey, route);
-    state = AsyncData(state.value!.copyWith(lastVisitedRoute: route));
+
+    final currentState = state.valueOrNull;
+    if (currentState != null) {
+      state = AsyncData(currentState.copyWith(lastVisitedRoute: route));
+    }
   }
 
   /// Check if user has a valid token

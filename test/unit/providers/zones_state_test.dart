@@ -52,7 +52,7 @@ void main() {
       });
 
       test('updates isRefreshing flag', () {
-        final original = ZonesState(zones: testZones);
+        const original = ZonesState(zones: testZones);
 
         final refreshing = original.copyWith(isRefreshing: true);
 

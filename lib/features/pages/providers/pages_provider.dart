@@ -864,7 +864,7 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
       );
 
       // Clear main project list cache
-      final accountIdForCache = ref.read(selectedAccountIdProvider) ?? "";
+      final accountIdForCache = ref.read(selectedAccountIdProvider) ?? '';
       await _prefs?.remove('pages_projects_cache_$accountIdForCache');
       
       // Clear specific project details cache
