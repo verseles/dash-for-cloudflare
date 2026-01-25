@@ -814,22 +814,26 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
 
     state = const AsyncLoading();
 
-    // Recursive helper to remove nulls from maps, but PRESERVE them in env_vars
-    Map<String, dynamic> removeNulls(Map<String, dynamic> map, {bool isEnvVars = false}) {
+    // Recursive helper to remove nulls from maps, but PRESERVE them for specific contexts
+    Map<String, dynamic> removeNulls(Map<String, dynamic> map, {bool preserveNulls = false}) {
       final result = <String, dynamic>{};
       map.forEach((key, value) {
+        // We preserve nulls if we are in an env_vars container OR if it's a build/deployment setting
+        final shouldPreserveContext = preserveNulls || 
+            key == 'env_vars' || 
+            key == 'build_config' || 
+            key == 'deployment_configs';
+
         if (value != null) {
           if (value is Map<String, dynamic>) {
-            // Check if this sub-map is an env_vars container
-            final nextIsEnvVars = key == 'env_vars';
-            result[key] = removeNulls(value, isEnvVars: nextIsEnvVars);
+            result[key] = removeNulls(value, preserveNulls: shouldPreserveContext);
           } else if (value is Map) {
-            result[key] = removeNulls(Map<String, dynamic>.from(value), isEnvVars: key == 'env_vars');
+            result[key] = removeNulls(Map<String, dynamic>.from(value), preserveNulls: shouldPreserveContext);
           } else {
             result[key] = value;
           }
-        } else if (isEnvVars) {
-          // Keep null value only if we are inside an env_vars map
+        } else if (preserveNulls) {
+          // Keep null value only if we are inside a context that requires it
           result[key] = null;
         }
       });

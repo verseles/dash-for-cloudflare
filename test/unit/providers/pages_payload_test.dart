@@ -35,7 +35,7 @@ void main() {
   });
 
   group('PagesSettingsNotifier Payload Validation', () {
-    test('updateProject should remove null values but preserve them in env_vars', () async {
+    test('updateProject should remove null values but preserve them in build_config and env_vars', () async {
       // Arrange
       const projectName = 'test-project';
 
@@ -50,7 +50,7 @@ void main() {
         projectName: projectName,
         buildConfig: {
           'build_command': 'npm run build',
-          'root_dir': null, // Should be removed
+          'root_dir': null, // Should be PRESERVED now
         },
         deploymentConfigs: {
           'production': {
@@ -72,8 +72,9 @@ void main() {
       
       final data = verified.captured.first as Map<String, dynamic>;
 
-      // 1. root_dir should be gone (removed by removeNulls)
-      expect(data['build_config'].containsKey('root_dir'), isFalse);
+      // 1. root_dir should be PRESERVED (now required to clear the field)
+      expect(data['build_config'].containsKey('root_dir'), isTrue);
+      expect(data['build_config']['root_dir'], isNull);
       
       // 2. KEY_TO_DELETE should still be there with null value (required for deletion)
       final envVars = data['deployment_configs']['production']['env_vars'] as Map;

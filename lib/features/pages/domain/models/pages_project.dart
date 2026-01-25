@@ -39,7 +39,7 @@ sealed class DeploymentConfigs with _$DeploymentConfigs {
 /// Configuration for a specific deployment environment
 @freezed
 sealed class DeploymentConfig with _$DeploymentConfig {
-  @JsonSerializable(includeIfNull: false)
+  @JsonSerializable(includeIfNull: true)
   const factory DeploymentConfig({
     @JsonKey(name: 'env_vars') Map<String, EnvVar>? envVars,
     @JsonKey(name: 'compatibility_date') String? compatibilityDate,
@@ -53,7 +53,7 @@ sealed class DeploymentConfig with _$DeploymentConfig {
 /// Environment variable model
 @freezed
 sealed class EnvVar with _$EnvVar {
-  @JsonSerializable(includeIfNull: false)
+  @JsonSerializable(includeIfNull: true)
   const factory EnvVar({
     String? value,
     String? type, // e.g. "plain_text" or "secret"
@@ -65,7 +65,7 @@ sealed class EnvVar with _$EnvVar {
 /// Build configuration for a Pages project
 @freezed
 sealed class BuildConfig with _$BuildConfig {
-  @JsonSerializable(includeIfNull: false)
+  @JsonSerializable(includeIfNull: true)
   const factory BuildConfig({
     @JsonKey(name: 'build_command') String? buildCommand,
     @JsonKey(name: 'destination_dir') String? destinationDir,
