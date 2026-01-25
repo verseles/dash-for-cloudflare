@@ -177,4 +177,4 @@ cat lib/core/router/app_router.dart
 
 ---
 
-_Última atualização: 2026-01-23_
+_Última atualização: 2026-01-25_

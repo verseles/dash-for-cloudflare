@@ -21,7 +21,7 @@ spec: |
 | **10. Build & Deploy** | Icons, splash, APK, Linux, Web, CI/CD GitHub Actions | `6cf983e`, `678b974` | ADR-025 (Data Centers Sync), ADR-026 (GitHub Actions Deploy) |
 | **11. Analytics Dashboard** | Web, Security and Performance tabs with shared time range | `4f7fd75`, `452f58a` | ADR-023 (Analytics Preload) |
 | **12. Pages Management** | Account-level project list, deployments, logs and rollback | `be82bef`, `f67d99a` | ADR-027 (Auto-polling) |
-| **13. Workers Management** | List, details, triggers, interactive settings and domains | `9ae239a`, [curr] | ADR-022 (Cache), ADR-024 (Preload), ADR-028 (Symbols), ADR-029 (Route Persistence) |
+| **13. Workers Management** | List, details, triggers, interactive settings and domains | `9ae239a`, `e53284e` | ADR-022 (Cache), ADR-024 (Preload), ADR-028 (Symbols), ADR-029 (Route Persistence) |
 
 ## Deferred Items
 
@@ -59,15 +59,6 @@ _New features and improvements to be planned._
 
 ---
 
-## Current Sprint
+## Backlog
 
-### Feature 13: Cloudflare Workers Management (Refinement)
-Description: Polimento final, cache SWR, persistência de configurações e testes.
-- [x] 13.14 Implementar Cache Local SWR (ADR-022) para Workers e Pages
-- [x] 13.15 Implementar Preload de Abas (ADR-024) para Workers
-- [x] 13.16 Implementar Auto-save no Blur (Pages) e Imediato (Workers)
-- [x] 13.17 Corrigir erro 500 no Pages (payload cleaning e tipo secret_text)
-- [x] 13.18.1 Implementar pirâmide de testes (Unit, Widget e Integração) para Pages
-- [x] 13.19 Implementar pirâmide de testes (Unit, Widget e Integração) para Analytics
-- [x] 13.19.1 Implementar pirâmide de testes (Unit, Widget e Integração) para DNS
-- [x] 13.20 Implementar pirâmide de testes (Unit, Widget e Integração) para Workers
+_New features and improvements to be planned._
