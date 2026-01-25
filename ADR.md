@@ -669,4 +669,66 @@ class _PageState extends ConsumerState<Page> {
 
 ---
 
-_Última atualização: 2026-01-23 (adicionado ADR-028 e ADR-029)_
+## ADR-030: Estratégia de Testes (Test Pyramid)
+
+**Status**: Aceito
+**Data**: 2026-01-25
+
+**Contexto**: Com o crescimento da base de código, testes manuais tornaram-se inviáveis e propensos a erro. Era necessário definir uma estratégia clara para garantir a qualidade do código em diferentes níveis.
+
+**Decisão**: Adotar a estratégia da **Pirâmide de Testes**, dividindo os testes em três camadas com responsabilidades distintas:
+
+1.  **Unit Tests (`test/unit/`)**:
+    *   **Foco**: Lógica de negócios pura, parsers, models (Freezed), e transformações de dados.
+    *   **Ferramentas**: `flutter_test`, `mockito`.
+    *   **Volume**: Maior quantidade, execução rápida (<10ms).
+    *   **Dependências**: Mockadas completamente.
+
+2.  **Widget Tests (`test/widget/`)**:
+    *   **Foco**: Componentes de UI isolados, interações simples (taps, inputs), e renderização condicional.
+    *   **Ferramentas**: `widget_test`, `pumpWidget`.
+    *   **Volume**: Quantidade média.
+    *   **Dependências**: Providers Riverpod sobrescritos com mocks ou dados estáticos.
+
+3.  **Integration Tests (`test/integration/`)**:
+    *   **Foco**: Fluxos completos do usuário (ex: adicionar registro DNS, rollback de deployment).
+    *   **Ferramentas**: `integration_test` (simulado via `widget_test` com `Robot Pattern`).
+    *   **Volume**: Menor quantidade, execução mais lenta.
+    *   **Dependências**: Simula o app inteiro, mas com mocks na camada de rede (Dio/Retrofit) para determinismo.
+
+**Consequência**:
+*   Maior confiança em refatorações.
+*   Documentação viva do comportamento do sistema.
+*   Execução rápida no CI (`make check`).
+
+---
+
+## ADR-031: Padrão de Auto-save (Blur vs Immediate)
+
+**Status**: Aceito
+**Data**: 2026-01-25
+
+**Contexto**: Aplicações modernas tendem a remover botões de "Salvar" explícitos para reduzir fricção. No entanto, salvar a cada keystroke pode causar excesso de requisições e validações prematuras.
+
+**Decisão**: Implementar um padrão híbrido de auto-save dependendo do tipo de input:
+
+1.  **Inputs de Texto (TextField/TextFormField)**:
+    *   **Gatilho**: `onBlur` (perda de foco) ou `onEditingComplete` (Enter).
+    *   **Justificativa**: Evita requisições incompletas enquanto o usuário digita.
+
+2.  **Toggles e Seletores (Switch/Dropdown)**:
+    *   **Gatilho**: `onChange` (Imediato).
+    *   **Justificativa**: A intenção do usuário é clara e a mudança é binária/atômica.
+
+3.  **Feedback Visual**:
+    *   Exibir indicadores sutis de carregamento ou notificações (Toasts) em caso de erro.
+    *   Manter o estado local otimista quando possível (ver ADR-009).
+
+**Consequência**:
+*   UX mais fluida e moderna.
+*   Redução de cliques desnecessários.
+*   Necessidade de tratamento de erros robusto para reverter estados otimistas em caso de falha.
+
+---
+
+_Última atualização: 2026-01-25 (adicionado ADR-030 e ADR-031)_

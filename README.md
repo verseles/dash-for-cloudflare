@@ -29,6 +29,39 @@ Unofficial Cloudflare management app built with Flutter.
 | **i18n**             | flutter_localizations + intl          |
 | **Desktop**          | window_manager, tray_manager          |
 
+## Features
+
+### 🌐 DNS Management
+- Zone listing and search with auto-selection
+- Full CRUD for DNS Records (A, AAAA, CNAME, TXT, etc.)
+- DNSSEC status and management
+- Zone settings configuration
+
+### 📊 Analytics Dashboard
+- **Web Traffic:** Requests, bandwidth, visitors
+- **Security:** Threats blocked, challenges issued
+- **Performance:** Cache hit rates, content type distribution
+- **Interactive Charts:** Powered by GraphQL and Syncfusion
+
+### 📄 Cloudflare Pages
+- Project listing and management
+- **Deployments:** View history, status, and commit details
+- **Live Build Logs:** Real-time polling of build progress
+- **Actions:** Rollback to previous deployments, manage custom domains
+- **Settings:** Environment variables and build configurations (Auto-save)
+
+### 👷 Cloudflare Workers
+- Script management and details
+- **Triggers:** Route management (zone-scoped) and Cron Triggers
+- **Bindings:** Visual management of KV, R2, D1, and other bindings
+- **Observability:** Usage metrics and invocation stats
+
+### ⚙️ General
+- **Multi-Account:** Support for multiple Cloudflare accounts
+- **Security:** API Token validation and secure storage
+- **UI/UX:** Material 3 Design, Dark/Light mode, Responsive layout
+- **i18n:** Full support for English and Portuguese
+
 ## Quick Start
 
 ```bash
@@ -65,6 +98,16 @@ make web         # Web release
 | `make clean`      | Clean build artifacts                          | ~2s    |
 | `make install`    | Install on Linux (~/.local)                    | -      |
 | `make uninstall`  | Uninstall from Linux                           | -      |
+
+## Quality Assurance
+
+We adopt a **Test Pyramid** strategy to ensure code quality and stability:
+
+- **Unit Tests (`test/unit/`)**: Focus on business logic, parsers, and data models. Fast execution (~10ms) with mocked dependencies.
+- **Widget Tests (`test/widget/`)**: Verify UI components, user interactions, and screen states. Uses Riverpod overrides for isolated testing.
+- **Integration Tests (`test/integration/`)**: Validate complete user flows (e.g., DNS Record creation, Pages Rollback) simulating the app structure with mocked network calls.
+
+Run all tests with: `make test` or `make check`.
 
 ## CORS Strategy
 

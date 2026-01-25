@@ -18,6 +18,7 @@ import 'package:cf/core/api/models/cloudflare_response.dart';
 import '../fixtures/fixture_reader.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
+
 class MockCloudflareApi extends Mock implements CloudflareApi {}
 
 class MockProjectDetailsNotifier extends PagesProjectDetailsNotifier {
@@ -34,16 +35,18 @@ void main() {
   setUp(() {
     mockPrefs = MockSharedPreferences();
     mockApi = MockCloudflareApi();
-    
+
     when(() => mockPrefs.setString(any(), any())).thenAnswer((_) async => true);
     when(() => mockPrefs.remove(any())).thenAnswer((_) async => true);
     when(() => mockPrefs.getString(any())).thenReturn(null);
   });
 
-  testWidgets('PagesSettingsTab sends simple string map for env_vars', (tester) async {
+  testWidgets('PagesSettingsTab sends simple string map for env_vars', (
+    tester,
+  ) async {
     final projectsJson = jsonDecode(fixture('pages/projects.json'));
     final project = PagesProject.fromJson(projectsJson['result'][0]);
-    
+
     final mockProject = project.copyWith(
       deploymentConfigs: project.deploymentConfigs!.copyWith(
         production: project.deploymentConfigs!.production.copyWith(
@@ -57,11 +60,17 @@ void main() {
 
     Map<String, dynamic>? capturedPayload;
 
-    when(() => mockApi.patchPagesProject(any(), any(), any()))
-        .thenAnswer((invocation) async {
-          capturedPayload = invocation.positionalArguments[2];
-          return CloudflareResponse(result: mockProject, success: true, errors: [], messages: []);
-        });
+    when(() => mockApi.patchPagesProject(any(), any(), any())).thenAnswer((
+      invocation,
+    ) async {
+      capturedPayload = invocation.positionalArguments[2];
+      return CloudflareResponse(
+        result: mockProject,
+        success: true,
+        errors: [],
+        messages: [],
+      );
+    });
 
     await tester.pumpWidget(
       ProviderScope(
@@ -69,7 +78,9 @@ void main() {
           cloudflareApiProvider.overrideWithValue(mockApi),
           sharedPreferencesProvider.overrideWith((ref) async => mockPrefs),
           selectedAccountIdProvider.overrideWith((ref) => 'account1'),
-          pagesProjectDetailsNotifierProvider(mockProject.name).overrideWith(() => MockProjectDetailsNotifier(mockProject)),
+          pagesProjectDetailsNotifierProvider(
+            mockProject.name,
+          ).overrideWith(() => MockProjectDetailsNotifier(mockProject)),
         ],
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -83,19 +94,25 @@ void main() {
 
     // Find the close icon for the 'DELETE' variable
     final deleteButton = find.descendant(
-      of: find.ancestor(of: find.text('DELETE'), matching: find.byType(ListTile)),
+      of: find.ancestor(
+        of: find.text('DELETE'),
+        matching: find.byType(ListTile),
+      ),
       matching: find.byIcon(Symbols.close),
     );
-    
+
     await tester.tap(deleteButton);
-    await tester.pump(const Duration(seconds: 1)); 
+    await tester.pump(const Duration(seconds: 1));
 
     // Verify payload
     expect(capturedPayload, isNotNull);
-    final envVars = capturedPayload!['deployment_configs']['production']['env_vars'];
-    
-    // IMPORTANT: Check that it's a simple string, not an object
-    expect(envVars['KEEP'], equals('original'));
+    final envVars =
+        capturedPayload!['deployment_configs']['production']['env_vars'];
+
+    // IMPORTANT: Check that it's an object with type/value, as required by Cloudflare API
+    expect(envVars['KEEP'], isA<Map>());
+    expect(envVars['KEEP']['type'], equals('plain_text'));
+    expect(envVars['KEEP']['value'], equals('original'));
     // Check that deleted one is null
     expect(envVars.containsKey('DELETE'), isTrue);
     expect(envVars['DELETE'], isNull);
