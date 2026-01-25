@@ -1,0 +1,104 @@
+{
+  "data": {
+    "viewer": {
+      "zones": [
+        {
+          "httpRequests1dGroups": [
+            {
+              "dimensions": {
+                "date": "2026-01-05"
+              },
+              "sum": {
+                "pageViews": 40443,
+                "requests": 86522
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-20"
+              },
+              "sum": {
+                "pageViews": 44094,
+                "requests": 90783
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-16"
+              },
+              "sum": {
+                "pageViews": 43849,
+                "requests": 89851
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-17"
+              },
+              "sum": {
+                "pageViews": 39190,
+                "requests": 80093
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-04"
+              },
+              "sum": {
+                "pageViews": 34239,
+                "requests": 74534
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-21"
+              },
+              "sum": {
+                "pageViews": 45026,
+                "requests": 95691
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-10"
+              },
+              "sum": {
+                "pageViews": 37089,
+                "requests": 77614
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-23"
+              },
+              "sum": {
+                "pageViews": 47301,
+                "requests": 98134
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-11"
+              },
+              "sum": {
+                "pageViews": 35857,
+                "requests": 75024
+              }
+            },
+            {
+              "dimensions": {
+                "date": "2026-01-14"
+              },
+              "sum": {
+                "pageViews": 43540,
+                "requests": 92119
+              }
+            }
+          ],
+          "zoneTag": "zone_id_dummy"
+        }
+      ]
+    }
+  },
+  "errors": null
+}

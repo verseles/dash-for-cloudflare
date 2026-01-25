@@ -115,22 +115,20 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
       
       // 1. Add current and modified variables
       current.forEach((key, env) {
-        // Cloudflare Pages uses 'secret_text'
-        final isSecret = env.type == 'secret_text' || env.type == 'secret';
-        final type = isSecret ? 'secret_text' : 'plain_text';
-
         if (env.value != null && env.value!.isNotEmpty) {
-          result[key] = {'value': env.value, 'type': type};
-        } else if (isSecret) {
-          // Preserve unmodified secret
-          result[key] = {'type': 'secret_text'};
+          // IMPORTANT: Pages Project API expects simple string values
+          result[key] = env.value;
+        } else {
+          // If value is empty/null but key exists, it means it's an unmodified secret 
+          // or we want to keep it as is. In Pages, secrets values are not returned.
+          // To keep existing, we just don't send it in the PATCH if not changed.
         }
       });
 
       // 2. Identify deleted variables (in original but not in current)
       original.forEach((key, _) {
         if (!current.containsKey(key)) {
-          result[key] = null; // Mark for deletion
+          result[key] = null; // Mark for deletion in Cloudflare API
         }
       });
 

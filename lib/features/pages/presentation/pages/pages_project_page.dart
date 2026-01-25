@@ -437,25 +437,26 @@ class _DeploymentTile extends StatelessWidget {
               Row(
                 children: [
                   if (branch != null) ...[
-                    Icon(
+                    const Icon(
                       Symbols.account_tree,
                       size: 14,
-                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      branch,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                    Flexible(
+                      child: Text(
+                        branch,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 12),
                   ],
                   if (commitHash != null) ...[
-                    Icon(
+                    const Icon(
                       Symbols.commit,
                       size: 14,
-                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 4),
                     Text(

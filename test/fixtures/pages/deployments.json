@@ -1,0 +1,2180 @@
+{
+  "result": [
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "1a118916",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://1a118916.showd.pages.dev",
+      "created_on": "2026-01-25T04:12:10.382506Z",
+      "modified_on": "2026-01-25T04:12:47.150711Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-25T04:12:37.645992Z",
+        "ended_on": "2026-01-25T04:12:47.150711Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "c3375afbf1b9aebfb165bec3e5467f5d487f52e7",
+          "commit_message": "Merge pull request #130 from verseles/update-benchmarks-o3mini-m2-8886187436333533613\n\nUpdate benchmark scores for o3-mini, MiniMax M2, and others",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-25T04:12:10.728925Z",
+          "ended_on": "2026-01-25T04:12:10.728925Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-25T04:12:10.728925Z",
+          "ended_on": "2026-01-25T04:12:13.0519Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-25T04:12:13.0519Z",
+          "ended_on": "2026-01-25T04:12:14.671354Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-25T04:12:14.671354Z",
+          "ended_on": "2026-01-25T04:12:37.645992Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-25T04:12:37.645992Z",
+          "ended_on": "2026-01-25T04:12:47.150711Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {
+        "aaaa": {
+          "type": "secret_text",
+          "value": ""
+        },
+        "teste": {
+          "type": "plain_text",
+          "value": "assssss"
+        }
+      },
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://showdown.best"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "f7a68269",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://f7a68269.showd.pages.dev",
+      "created_on": "2026-01-25T04:07:08.706573Z",
+      "modified_on": "2026-01-25T04:07:46.422037Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-25T04:07:35.583458Z",
+        "ended_on": "2026-01-25T04:07:46.422037Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-benchmarks-o3mini-m2-8886187436333533613",
+          "commit_hash": "e61d4d129ad57c705c6d182d69ed06f56665040f",
+          "commit_message": "Update benchmark scores for o3-mini, MiniMax M2, and others\n\n- MiniMax M2: Added AIME (92.7), Tau-bench (77.2)\n- o4-mini: Added AIME (78.0), Tau-bench (60.5)\n- o3-mini: Updated MATH-500 (97.9), added LiveBench sub-scores\n- Gemini 2.5 Flash: Updated LiveCodeBench (60.6)\n- Updated metadata version and timestamp",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-25T04:07:08.80025Z",
+          "ended_on": "2026-01-25T04:07:08.80025Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-25T04:07:08.80025Z",
+          "ended_on": "2026-01-25T04:07:11.149975Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-25T04:07:11.149975Z",
+          "ended_on": "2026-01-25T04:07:12.671365Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-25T04:07:12.671365Z",
+          "ended_on": "2026-01-25T04:07:35.583458Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-25T04:07:35.583458Z",
+          "ended_on": "2026-01-25T04:07:46.422037Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://update-benchmarks-o3mini-m2.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "147c5c32",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://147c5c32.showd.pages.dev",
+      "created_on": "2026-01-24T23:18:44.737016Z",
+      "modified_on": "2026-01-24T23:19:21.82194Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T23:19:10.960642Z",
+        "ended_on": "2026-01-24T23:19:21.82194Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "fix-imputed-metadata-type-9426469699950229592",
+          "commit_hash": "d4f7942955f272933a6767f49b30dd96bf246d01",
+          "commit_message": "Update ImputedMetadata method type definition\n\nAdded 'cross_model_average', 'estimated', and 'manual' to the ImputedMetadata method union type in src/lib/types.ts to align with values used in data/showdown.json and src/lib/ranking.ts.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T23:18:44.84069Z",
+          "ended_on": "2026-01-24T23:18:44.84069Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T23:18:44.84069Z",
+          "ended_on": "2026-01-24T23:18:47.005546Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T23:18:47.005546Z",
+          "ended_on": "2026-01-24T23:18:48.392465Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T23:18:48.392465Z",
+          "ended_on": "2026-01-24T23:19:10.960642Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T23:19:10.960642Z",
+          "ended_on": "2026-01-24T23:19:21.82194Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://fix-imputed-metadata-type-94.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "2ef7ac44",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://2ef7ac44.showd.pages.dev",
+      "created_on": "2026-01-24T21:01:51.148474Z",
+      "modified_on": "2026-01-24T21:02:53.402534Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T21:02:41.069603Z",
+        "ended_on": "2026-01-24T21:02:53.402534Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "a6a5cc576a34dc527fa00d2bb3f10ae23aff2301",
+          "commit_message": "Merge pull request #128 from verseles/refactor-impute-scores-16095391579016156570\n\nRefactor imputeMissingScores for performance and consistency",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T21:01:51.243675Z",
+          "ended_on": "2026-01-24T21:01:51.243675Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T21:01:51.243675Z",
+          "ended_on": "2026-01-24T21:01:59.22593Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T21:01:59.22593Z",
+          "ended_on": "2026-01-24T21:02:02.606496Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T21:02:02.606496Z",
+          "ended_on": "2026-01-24T21:02:41.069603Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T21:02:41.069603Z",
+          "ended_on": "2026-01-24T21:02:53.402534Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {
+        "aaaa": {
+          "type": "secret_text",
+          "value": ""
+        },
+        "teste": {
+          "type": "plain_text",
+          "value": "assssss"
+        }
+      },
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "e4130994",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://e4130994.showd.pages.dev",
+      "created_on": "2026-01-24T20:29:26.214577Z",
+      "modified_on": "2026-01-24T20:30:10.146991Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T20:29:52.641723Z",
+        "ended_on": "2026-01-24T20:30:10.146991Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "refactor-impute-scores-16095391579016156570",
+          "commit_hash": "12966fcd0930539fada1190625fecb1214dbd10e",
+          "commit_message": "Refactor imputeMissingScores to be O(N) and avoid daisy-chaining\n\nIterates by category instead of model benchmarks to improve performance and ensure statistical consistency.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T20:29:26.336136Z",
+          "ended_on": "2026-01-24T20:29:26.336136Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T20:29:26.336136Z",
+          "ended_on": "2026-01-24T20:29:28.666577Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T20:29:28.666577Z",
+          "ended_on": "2026-01-24T20:29:30.158871Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T20:29:30.158871Z",
+          "ended_on": "2026-01-24T20:29:52.641723Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T20:29:52.641723Z",
+          "ended_on": "2026-01-24T20:30:10.146991Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://refactor-impute-scores-16095.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "afd408f8",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://afd408f8.showd.pages.dev",
+      "created_on": "2026-01-24T17:21:54.214363Z",
+      "modified_on": "2026-01-24T17:22:31.886136Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T17:22:21.605116Z",
+        "ended_on": "2026-01-24T17:22:31.886136Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "4b42aa3dd58b549b40f9fa721faa058f941f634c",
+          "commit_message": "Merge pull request #127 from verseles/update-o3-mini-scores-105543714980266387\n\nUpdate o3-mini benchmark scores",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T17:21:54.605342Z",
+          "ended_on": "2026-01-24T17:21:54.605342Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T17:21:54.605342Z",
+          "ended_on": "2026-01-24T17:21:56.839342Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T17:21:56.839342Z",
+          "ended_on": "2026-01-24T17:21:58.346881Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T17:21:58.346881Z",
+          "ended_on": "2026-01-24T17:22:21.605116Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T17:22:21.605116Z",
+          "ended_on": "2026-01-24T17:22:31.886136Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {
+        "aaaa": {
+          "type": "secret_text",
+          "value": ""
+        },
+        "teste": {
+          "type": "plain_text",
+          "value": "assssss"
+        }
+      },
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "994c944e",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://994c944e.showd.pages.dev",
+      "created_on": "2026-01-24T17:05:33.646373Z",
+      "modified_on": "2026-01-24T17:06:10.492987Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T17:06:01.029828Z",
+        "ended_on": "2026-01-24T17:06:10.492987Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-o3-mini-scores-105543714980266387",
+          "commit_hash": "4b6e5b8bb2e4e98e2d27a82cf8ca3d762b2ee1d6",
+          "commit_message": "Update o4-mini name\n\nRemoved redundant provider prefix from o4-mini name (was \"OpenAI o4-mini\", now \"o4-mini\") per PR feedback.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T17:05:33.752262Z",
+          "ended_on": "2026-01-24T17:05:33.752262Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T17:05:33.752262Z",
+          "ended_on": "2026-01-24T17:05:36.023Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T17:05:36.023Z",
+          "ended_on": "2026-01-24T17:05:37.68013Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T17:05:37.68013Z",
+          "ended_on": "2026-01-24T17:06:01.029828Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T17:06:01.029828Z",
+          "ended_on": "2026-01-24T17:06:10.492987Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://update-o3-mini-scores-105543.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "dfc6f716",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://dfc6f716.showd.pages.dev",
+      "created_on": "2026-01-24T16:04:06.844333Z",
+      "modified_on": "2026-01-24T16:04:43.789468Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T16:04:33.777788Z",
+        "ended_on": "2026-01-24T16:04:43.789468Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-o3-mini-scores-105543714980266387",
+          "commit_hash": "45ce984f00ad087605564ebdeb3fc0f3cffe46f8",
+          "commit_message": "Update o3-mini scores and add o4-mini\n\n- Updated o3-mini-20250129 scores in data/showdown.json:\n  - live_code_bench: 71.6 (Verified)\n  - webdev_arena_elo: 1146 (Verified)\n  - simpleqa: 13.8 (Verified)\n- Added o4-mini-2025-04-16 to data/showdown.json:\n  - live_code_bench: 80.2 (High)\n  - swe_bench: 68.1 (Verified)\n  - gpqa_diamond: 81.3\n  - math_500: 98.2\n  - simpleqa: 19.3\n  - humanity_last_exam: 14.3\n- Updated meta version and timestamp.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T16:04:06.929962Z",
+          "ended_on": "2026-01-24T16:04:06.929962Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T16:04:06.929962Z",
+          "ended_on": "2026-01-24T16:04:09.747612Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T16:04:09.747612Z",
+          "ended_on": "2026-01-24T16:04:11.230035Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T16:04:11.230035Z",
+          "ended_on": "2026-01-24T16:04:33.777788Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T16:04:33.777788Z",
+          "ended_on": "2026-01-24T16:04:43.789468Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "99da497a",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://99da497a.showd.pages.dev",
+      "created_on": "2026-01-24T15:54:37.045706Z",
+      "modified_on": "2026-01-24T15:55:19.891363Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T15:55:08.852149Z",
+        "ended_on": "2026-01-24T15:55:19.891363Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-o3-mini-scores-105543714980266387",
+          "commit_hash": "73e8d79ac1e50f25da6920e48fb7b2cb70e59e58",
+          "commit_message": "Update o3-mini benchmark scores\n\nUpdated o3-mini-20250129 scores in data/showdown.json:\n- live_code_bench: 71.6 (Source: LiveCodeBench Leaderboard High)\n- webdev_arena_elo: 1146 (Source: WebDev Arena blog)\n- simpleqa: 13.8 (Source: OpenAI Simple Evals)\n\nUpdated meta.version and meta.last_update.\nVerified against available snippets.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T15:54:37.180657Z",
+          "ended_on": "2026-01-24T15:54:37.180657Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T15:54:37.180657Z",
+          "ended_on": "2026-01-24T15:54:39.569189Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T15:54:39.569189Z",
+          "ended_on": "2026-01-24T15:54:41.214699Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T15:54:41.214699Z",
+          "ended_on": "2026-01-24T15:55:08.852149Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T15:55:08.852149Z",
+          "ended_on": "2026-01-24T15:55:19.891363Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "c0b66cab",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://c0b66cab.showd.pages.dev",
+      "created_on": "2026-01-24T04:30:00.909861Z",
+      "modified_on": "2026-01-24T04:30:46.007774Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T04:30:36.185929Z",
+        "ended_on": "2026-01-24T04:30:46.007774Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "bde45137be57490e43b170dcd9cfcef5c7c5afe4",
+          "commit_message": "Merge pull request #126 from verseles/add-minimax-m2-1-17712891039403521505\n\nAdd MiniMax M2.1 model",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T04:30:02.984727Z",
+          "ended_on": "2026-01-24T04:30:02.984727Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T04:30:02.984727Z",
+          "ended_on": "2026-01-24T04:30:11.353149Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T04:30:11.353149Z",
+          "ended_on": "2026-01-24T04:30:12.918634Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T04:30:12.918634Z",
+          "ended_on": "2026-01-24T04:30:36.185929Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T04:30:36.185929Z",
+          "ended_on": "2026-01-24T04:30:46.007774Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {
+        "teste": {
+          "type": "plain_text",
+          "value": "hshdhd"
+        }
+      },
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "dd199a60",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://dd199a60.showd.pages.dev",
+      "created_on": "2026-01-24T04:25:29.643263Z",
+      "modified_on": "2026-01-24T04:26:07.364549Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T04:25:56.634443Z",
+        "ended_on": "2026-01-24T04:26:07.364549Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "add-minimax-m2-1-17712891039403521505",
+          "commit_hash": "eb595057c12dea0f05fdd63eabcf608271eea999",
+          "commit_message": "Add MiniMax M2.1 with verified benchmarks\n\nSources verified (2+ for key benchmarks):\n- SWE-bench Verified: 74.0% (GitHub, LLM-Stats)\n- LiveCodeBench: 81.0% (Hugging Face, LLM-Stats)\n- GPQA Diamond: 83.0% (Hugging Face, LLM-Stats)\n- Terminal-Bench: 47.9% (GitHub, LLM-Stats)\n- MMLU-Pro: 88.0% (LLM-Stats)\n- AIME 2025: 81.0% (LLM-Stats)\n- Humanity's Last Exam: 22.2% (Hugging Face)\n\nModel Release: Dec 23, 2025 (Open Source, MIT)\nPricing estimated as equivalent to M2 (0.3/1.2) pending official API pricing page update.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T04:25:29.73627Z",
+          "ended_on": "2026-01-24T04:25:29.73627Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T04:25:29.73627Z",
+          "ended_on": "2026-01-24T04:25:32.019844Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T04:25:32.019844Z",
+          "ended_on": "2026-01-24T04:25:33.583603Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T04:25:33.583603Z",
+          "ended_on": "2026-01-24T04:25:56.634443Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T04:25:56.634443Z",
+          "ended_on": "2026-01-24T04:26:07.364549Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://add-minimax-m2-1-17712891039.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "e8b68548",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://e8b68548.showd.pages.dev",
+      "created_on": "2026-01-24T04:17:44.533489Z",
+      "modified_on": "2026-01-24T04:18:21.290438Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T04:18:11.682167Z",
+        "ended_on": "2026-01-24T04:18:21.290438Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "5b9f697401dfb1366870332f1d2576f2a4165103",
+          "commit_message": "Merge pull request #125 from verseles/update-deepseek-r1-benchmarks-4961404999981403276\n\nUpdate DeepSeek R1 benchmarks",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T04:17:44.632567Z",
+          "ended_on": "2026-01-24T04:17:44.632567Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T04:17:44.632567Z",
+          "ended_on": "2026-01-24T04:17:46.972343Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T04:17:46.972343Z",
+          "ended_on": "2026-01-24T04:17:48.503446Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T04:17:48.503446Z",
+          "ended_on": "2026-01-24T04:18:11.682167Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T04:18:11.682167Z",
+          "ended_on": "2026-01-24T04:18:21.290438Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {
+        "teste": {
+          "type": "plain_text",
+          "value": "hshdhd"
+        }
+      },
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "eca7b517",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://eca7b517.showd.pages.dev",
+      "created_on": "2026-01-24T04:00:58.840545Z",
+      "modified_on": "2026-01-24T04:01:39.570801Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T04:01:30.027468Z",
+        "ended_on": "2026-01-24T04:01:39.570801Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-deepseek-r1-benchmarks-4961404999981403276",
+          "commit_hash": "f7fd8383eec7b5816c060dc69e500250fa1eb60b",
+          "commit_message": "Update DeepSeek R1 benchmark scores with verified values",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T04:00:58.936468Z",
+          "ended_on": "2026-01-24T04:00:58.936468Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T04:00:58.936468Z",
+          "ended_on": "2026-01-24T04:01:04.711135Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T04:01:04.711135Z",
+          "ended_on": "2026-01-24T04:01:06.445489Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T04:01:06.445489Z",
+          "ended_on": "2026-01-24T04:01:30.027468Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T04:01:30.027468Z",
+          "ended_on": "2026-01-24T04:01:39.570801Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://update-deepseek-r1-benchmark-hig9.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "2b2fe21d",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://2b2fe21d.showd.pages.dev",
+      "created_on": "2026-01-24T03:43:51.969453Z",
+      "modified_on": "2026-01-24T03:44:28.947988Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-24T03:44:19.203084Z",
+        "ended_on": "2026-01-24T03:44:28.947988Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "980ba6e74df4be2fddd7c00cddc5655363d8732a",
+          "commit_message": "Merge pull request #124 from verseles/refactor-sort-models-15132758881095053786\n\nRefactor sortModels for performance and clarity",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-24T03:43:52.071709Z",
+          "ended_on": "2026-01-24T03:43:52.071709Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-24T03:43:52.071709Z",
+          "ended_on": "2026-01-24T03:43:54.44622Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-24T03:43:54.44622Z",
+          "ended_on": "2026-01-24T03:43:55.901514Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-24T03:43:55.901514Z",
+          "ended_on": "2026-01-24T03:44:19.203084Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-24T03:44:19.203084Z",
+          "ended_on": "2026-01-24T03:44:28.947988Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {
+        "teste": {
+          "type": "plain_text",
+          "value": "hshdhd"
+        }
+      },
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "a848a74c",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://a848a74c.showd.pages.dev",
+      "created_on": "2026-01-23T23:32:54.492097Z",
+      "modified_on": "2026-01-23T23:33:31.888521Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T23:33:21.96231Z",
+        "ended_on": "2026-01-23T23:33:31.888521Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "refactor-sort-models-15132758881095053786",
+          "commit_hash": "8da984069e160d68cb6a11d2784b1605717ae06f",
+          "commit_message": "refactor: optimize sortModels by extracting value retrieval logic\n\nExtracts the value retrieval logic in `sortModels` to a helper function defined outside the sort comparison callback. This reduces overhead by avoiding repetitive switch statement evaluation during sorting (O(N log N) -> O(1) for logic selection).\n\nLogic remains semantically equivalent, preserving null handling and sorting direction.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T23:32:54.584359Z",
+          "ended_on": "2026-01-23T23:32:54.584359Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T23:32:54.584359Z",
+          "ended_on": "2026-01-23T23:32:57.052681Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T23:32:57.052681Z",
+          "ended_on": "2026-01-23T23:32:58.57953Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T23:32:58.57953Z",
+          "ended_on": "2026-01-23T23:33:21.96231Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T23:33:21.96231Z",
+          "ended_on": "2026-01-23T23:33:31.888521Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://refactor-sort-models-1513275.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "4131af4a",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://4131af4a.showd.pages.dev",
+      "created_on": "2026-01-23T20:19:00.376116Z",
+      "modified_on": "2026-01-23T20:19:38.879486Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T20:19:29.013296Z",
+        "ended_on": "2026-01-23T20:19:38.879486Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "3411d07b482464dd078f49fea0cbb41d6a5d9bd1",
+          "commit_message": "Merge pull request #123 from verseles/perf-filter-optimization-5043423099182018989\n\nPerformance optimization for filterModels date filtering",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T20:19:00.489272Z",
+          "ended_on": "2026-01-23T20:19:00.489272Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T20:19:00.489272Z",
+          "ended_on": "2026-01-23T20:19:02.951952Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T20:19:02.951952Z",
+          "ended_on": "2026-01-23T20:19:04.805154Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T20:19:04.805154Z",
+          "ended_on": "2026-01-23T20:19:29.013296Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T20:19:29.013296Z",
+          "ended_on": "2026-01-23T20:19:38.879486Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "50dcaa0c",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://50dcaa0c.showd.pages.dev",
+      "created_on": "2026-01-23T20:13:26.970096Z",
+      "modified_on": "2026-01-23T20:14:05.295214Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T20:13:54.991408Z",
+        "ended_on": "2026-01-23T20:14:05.295214Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "perf-filter-optimization-5043423099182018989",
+          "commit_hash": "a09b124b4725dc3b9783c1747aa77d6359f7188a",
+          "commit_message": "perf: Optimize date range filtering in filterModels\n\n- Pre-calculate cutoff date string to avoid Date object creation in loop\n- Use string comparison for ISO 8601 date strings\n- Improve performance for large datasets",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T20:13:27.088465Z",
+          "ended_on": "2026-01-23T20:13:27.088465Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T20:13:27.088465Z",
+          "ended_on": "2026-01-23T20:13:29.408251Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T20:13:29.408251Z",
+          "ended_on": "2026-01-23T20:13:30.994283Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T20:13:30.994283Z",
+          "ended_on": "2026-01-23T20:13:54.991408Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T20:13:54.991408Z",
+          "ended_on": "2026-01-23T20:14:05.295214Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://perf-filter-optimization-504.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "ee43b3d1",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://ee43b3d1.showd.pages.dev",
+      "created_on": "2026-01-23T16:05:04.319158Z",
+      "modified_on": "2026-01-23T16:05:57.764538Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T16:05:44.814679Z",
+        "ended_on": "2026-01-23T16:05:57.764538Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-models-2026-01-24-8336759775547894590",
+          "commit_hash": "eceab98a10e7c9c05ef81e8572e29e43226ffd77",
+          "commit_message": "Update DeepSeek R1 and GPT-4o benchmarks\n\nUpdated values based on DeepSeek-R1-0528 model card (Hugging Face):\n- deepseek-r1: Updated SimpleQA from 30.1 to 27.8 (matching 0528 version).\n- gpt-4o-2024-05-13: Updated LiveCodeBench (32.9), GPQA Diamond (49.9), MATH-500 (74.6), and AIME (9.3) to match comparison table values.\n\nUpdated meta version to 2026.01.24.\n\nCo-authored-by: insign <1113045+insign@users.noreply.github.com>",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T16:05:07.330188Z",
+          "ended_on": "2026-01-23T16:05:07.330188Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T16:05:07.330188Z",
+          "ended_on": "2026-01-23T16:05:15.636616Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T16:05:15.636616Z",
+          "ended_on": "2026-01-23T16:05:18.104043Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T16:05:18.104043Z",
+          "ended_on": "2026-01-23T16:05:44.814679Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T16:05:44.814679Z",
+          "ended_on": "2026-01-23T16:05:57.764538Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://update-models-2026-01-24-833.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "032b7e66",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://032b7e66.showd.pages.dev",
+      "created_on": "2026-01-23T04:15:47.342605Z",
+      "modified_on": "2026-01-23T04:16:27.52397Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T04:16:16.254393Z",
+        "ended_on": "2026-01-23T04:16:27.52397Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "37b7dbf6a68f6ab0ec5d6b8437ee2782023b7070",
+          "commit_message": "Merge pull request #121 from verseles/update-benchmark-data-7851277166147687536\n\nUpdate SWE-bench scores for Kimi K2 and Gemini 3 Pro",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T04:15:47.439565Z",
+          "ended_on": "2026-01-23T04:15:47.439565Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T04:15:47.439565Z",
+          "ended_on": "2026-01-23T04:15:50.164225Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T04:15:50.164225Z",
+          "ended_on": "2026-01-23T04:15:51.749074Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T04:15:51.749074Z",
+          "ended_on": "2026-01-23T04:16:16.254393Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T04:16:16.254393Z",
+          "ended_on": "2026-01-23T04:16:27.52397Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "58674fd8",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://58674fd8.showd.pages.dev",
+      "created_on": "2026-01-23T04:09:31.921608Z",
+      "modified_on": "2026-01-23T04:10:14.317744Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T04:09:59.605031Z",
+        "ended_on": "2026-01-23T04:10:14.317744Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "update-benchmark-data-7851277166147687536",
+          "commit_hash": "8436f8382126fd86c68fe00c03f0463bdeefd4a9",
+          "commit_message": "Update SWE-bench scores for Kimi K2 and Gemini 3 Pro\n\nUpdated data/showdown.json with verified SWE-bench scores from the official leaderboard:\n- Kimi K2 (kimi-k2-0905-preview): 69.2 -> 71.2\n- Gemini 3 Pro (gemini-3-pro): 76.2 -> 77.4\n\nUpdated meta timestamp.\nVerified against scraped data from swebench.com.\nIgnored ensemble submissions for base models.",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T04:09:32.203533Z",
+          "ended_on": "2026-01-23T04:09:32.203533Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T04:09:32.203533Z",
+          "ended_on": "2026-01-23T04:09:34.796674Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T04:09:34.796674Z",
+          "ended_on": "2026-01-23T04:09:36.321543Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T04:09:36.321543Z",
+          "ended_on": "2026-01-23T04:09:59.605031Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T04:09:59.605031Z",
+          "ended_on": "2026-01-23T04:10:14.317744Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://update-benchmark-data-785127.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "5037a820",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://5037a820.showd.pages.dev",
+      "created_on": "2026-01-23T02:38:15.690147Z",
+      "modified_on": "2026-01-23T02:38:53.835182Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T02:38:43.653852Z",
+        "ended_on": "2026-01-23T02:38:53.835182Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "8bed3fe53931261a094b3f3a2786231886b942a1",
+          "commit_message": "Merge pull request #119 from verseles/optimize-ranking-memoization-2645139544826211164\n\nOptimize ranking calculation with memoization",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T02:38:15.788353Z",
+          "ended_on": "2026-01-23T02:38:15.788353Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T02:38:15.788353Z",
+          "ended_on": "2026-01-23T02:38:18.648539Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T02:38:18.648539Z",
+          "ended_on": "2026-01-23T02:38:20.453359Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T02:38:20.453359Z",
+          "ended_on": "2026-01-23T02:38:43.653852Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T02:38:43.653852Z",
+          "ended_on": "2026-01-23T02:38:53.835182Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "75aa3580",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://75aa3580.showd.pages.dev",
+      "created_on": "2026-01-23T00:27:07.463458Z",
+      "modified_on": "2026-01-23T00:27:44.325395Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-23T00:27:34.866454Z",
+        "ended_on": "2026-01-23T00:27:44.325395Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "optimize-ranking-memoization-2645139544826211164",
+          "commit_hash": "33e18648d7897722bf14f14e97596eefe19cc921",
+          "commit_message": "Optimize ranking calculation with memoization\n\nThis change introduces an `imputationCache` to `imputeMissingScores` in `src/lib/ranking.ts`.\nThis avoids redundant calculations when models have `superior_of` relationships, as the recursive calls can now reuse previously computed imputed models.\nThis transforms potentially exponential complexity in deep dependency chains into linear complexity.\n\n- Added `imputationCache` optional parameter to `imputeMissingScores`\n- Updated `rankModels` to create and pass this cache\n- Added unit test in `src/lib/ranking.test.ts` to verify caching behavior",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-23T00:27:07.822045Z",
+          "ended_on": "2026-01-23T00:27:07.822045Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-23T00:27:07.822045Z",
+          "ended_on": "2026-01-23T00:27:10.424595Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-23T00:27:10.424595Z",
+          "ended_on": "2026-01-23T00:27:11.970493Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-23T00:27:11.970493Z",
+          "ended_on": "2026-01-23T00:27:34.866454Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-23T00:27:34.866454Z",
+          "ended_on": "2026-01-23T00:27:44.325395Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": [
+        "https://optimize-ranking-memoization.showd.pages.dev"
+      ],
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "358c947c",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "preview",
+      "url": "https://358c947c.showd.pages.dev",
+      "created_on": "2026-01-22T23:13:22.429628Z",
+      "modified_on": "2026-01-22T23:14:01.397817Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-22T23:13:49.232819Z",
+        "ended_on": "2026-01-22T23:14:01.397817Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "optimize-ranking-memoization-2645139544826211164",
+          "commit_hash": "33e18648d7897722bf14f14e97596eefe19cc921",
+          "commit_message": "Optimize ranking calculation with memoization\n\nThis change introduces an `imputationCache` to `imputeMissingScores` in `src/lib/ranking.ts`.\nThis avoids redundant calculations when models have `superior_of` relationships, as the recursive calls can now reuse previously computed imputed models.\nThis transforms potentially exponential complexity in deep dependency chains into linear complexity.\n\n- Added `imputationCache` optional parameter to `imputeMissingScores`\n- Updated `rankModels` to create and pass this cache\n- Added unit test in `src/lib/ranking.test.ts` to verify caching behavior",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-22T23:13:22.55219Z",
+          "ended_on": "2026-01-22T23:13:22.55219Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-22T23:13:22.55219Z",
+          "ended_on": "2026-01-22T23:13:24.944131Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-22T23:13:24.944131Z",
+          "ended_on": "2026-01-22T23:13:26.399506Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-22T23:13:26.399506Z",
+          "ended_on": "2026-01-22T23:13:49.232819Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-22T23:13:49.232819Z",
+          "ended_on": "2026-01-22T23:14:01.397817Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "bb3fdb59",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://bb3fdb59.showd.pages.dev",
+      "created_on": "2026-01-22T20:46:46.126553Z",
+      "modified_on": "2026-01-22T20:47:22.673285Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-22T20:47:13.226825Z",
+        "ended_on": "2026-01-22T20:47:22.673285Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "99d3310389a045496f6a7a0e2da702807d474f16",
+          "commit_message": "Merge pull request #118 from verseles/optimize-filter-models-2623660634870800143\n\nOptimize filterModels function in ranking.ts",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-22T20:46:46.268867Z",
+          "ended_on": "2026-01-22T20:46:46.268867Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-22T20:46:46.268867Z",
+          "ended_on": "2026-01-22T20:46:48.781256Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-22T20:46:48.781256Z",
+          "ended_on": "2026-01-22T20:46:50.38825Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-22T20:46:50.38825Z",
+          "ended_on": "2026-01-22T20:47:13.226825Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-22T20:47:13.226825Z",
+          "ended_on": "2026-01-22T20:47:22.673285Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    },
+    {
+      "id": "deployment_id_dummy",
+      "short_id": "34e27151",
+      "project_id": "project_id_dummy",
+      "project_name": "showd",
+      "environment": "production",
+      "url": "https://34e27151.showd.pages.dev",
+      "created_on": "2026-01-22T20:21:11.73648Z",
+      "modified_on": "2026-01-22T20:21:51.330191Z",
+      "latest_stage": {
+        "name": "deploy",
+        "started_on": "2026-01-22T20:21:40.492647Z",
+        "ended_on": "2026-01-22T20:21:51.330191Z",
+        "status": "success"
+      },
+      "deployment_trigger": {
+        "type": "github:push",
+        "metadata": {
+          "branch": "main",
+          "commit_hash": "99d3310389a045496f6a7a0e2da702807d474f16",
+          "commit_message": "Merge pull request #118 from verseles/optimize-filter-models-2623660634870800143\n\nOptimize filterModels function in ranking.ts",
+          "commit_dirty": false
+        }
+      },
+      "stages": [
+        {
+          "name": "queued",
+          "started_on": "2026-01-22T20:21:11.919816Z",
+          "ended_on": "2026-01-22T20:21:11.919816Z",
+          "status": "success"
+        },
+        {
+          "name": "initialize",
+          "started_on": "2026-01-22T20:21:11.919816Z",
+          "ended_on": "2026-01-22T20:21:14.717915Z",
+          "status": "success"
+        },
+        {
+          "name": "clone_repo",
+          "started_on": "2026-01-22T20:21:14.717915Z",
+          "ended_on": "2026-01-22T20:21:16.206615Z",
+          "status": "success"
+        },
+        {
+          "name": "build",
+          "started_on": "2026-01-22T20:21:16.206615Z",
+          "ended_on": "2026-01-22T20:21:40.492647Z",
+          "status": "success"
+        },
+        {
+          "name": "deploy",
+          "started_on": "2026-01-22T20:21:40.492647Z",
+          "ended_on": "2026-01-22T20:21:51.330191Z",
+          "status": "success"
+        }
+      ],
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "build_caching": null,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "repo_name": "showdown",
+          "production_branch": "main",
+          "pr_comments_enabled": false
+        }
+      },
+      "env_vars": {},
+      "compatibility_date": "2025-12-09",
+      "compatibility_flags": [],
+      "build_image_major_version": 3,
+      "usage_model": null,
+      "aliases": null,
+      "is_skipped": false,
+      "production_branch": "main",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result_info": {
+    "page": 1,
+    "per_page": 25,
+    "count": 25,
+    "total_count": 317,
+    "total_pages": 13
+  }
+}

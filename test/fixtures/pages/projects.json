@@ -1,0 +1,2449 @@
+{
+  "result": [
+    {
+      "id": "project_id_dummy",
+      "name": "showd",
+      "subdomain": "showd.pages.dev",
+      "domains": [
+        "showd.pages.dev",
+        "showdown.best"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "owner_id": "63939514",
+          "repo_name": "showdown",
+          "repo_id": "1112967093",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "build",
+        "root_dir": "",
+        "web_analytics_tag": "ad5fbd8f79f84a659dc7d2c67d23496b",
+        "web_analytics_token": "9902cffbb56544e18bd93b1ab0338059"
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-12-09",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": {
+            "aaaa": {
+              "type": "secret_text",
+              "value": ""
+            },
+            "teste": {
+              "type": "plain_text",
+              "value": "assssss"
+            }
+          },
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-12-09",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "1a118916-8e00-47b0-a674-226b245b982a",
+        "short_id": "1a118916",
+        "project_id": "68a9f28c-8b46-4120-8fa0-3988b928ff8a",
+        "project_name": "showd",
+        "environment": "production",
+        "url": "https://1a118916.showd.pages.dev",
+        "created_on": "2026-01-25T04:12:10.382506Z",
+        "modified_on": "2026-01-25T04:12:47.150711Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2026-01-25T04:12:37.645992Z",
+          "ended_on": "2026-01-25T04:12:47.150711Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "c3375afbf1b9aebfb165bec3e5467f5d487f52e7",
+            "commit_message": "Merge pull request #130 from verseles/update-benchmarks-o3mini-m2-8886187436333533613\n\nUpdate benchmark scores for o3-mini, MiniMax M2, and others",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-25T04:12:10.728925Z",
+            "ended_on": "2026-01-25T04:12:10.728925Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2026-01-25T04:12:10.728925Z",
+            "ended_on": "2026-01-25T04:12:13.0519Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2026-01-25T04:12:13.0519Z",
+            "ended_on": "2026-01-25T04:12:14.671354Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2026-01-25T04:12:14.671354Z",
+            "ended_on": "2026-01-25T04:12:37.645992Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2026-01-25T04:12:37.645992Z",
+            "ended_on": "2026-01-25T04:12:47.150711Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "build",
+          "build_caching": null,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "showdown",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {
+          "aaaa": {
+            "type": "secret_text",
+            "value": ""
+          },
+          "teste": {
+            "type": "plain_text",
+            "value": "assssss"
+          }
+        },
+        "compatibility_date": "2025-12-09",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://showdown.best"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false,
+        "framework": "@sveltejs/kit"
+      },
+      "canonical_deployment": {
+        "id": "1a118916-8e00-47b0-a674-226b245b982a",
+        "short_id": "1a118916",
+        "project_id": "68a9f28c-8b46-4120-8fa0-3988b928ff8a",
+        "project_name": "showd",
+        "environment": "production",
+        "url": "https://1a118916.showd.pages.dev",
+        "created_on": "2026-01-25T04:12:10.382506Z",
+        "modified_on": "2026-01-25T04:12:47.150711Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2026-01-25T04:12:37.645992Z",
+          "ended_on": "2026-01-25T04:12:47.150711Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "c3375afbf1b9aebfb165bec3e5467f5d487f52e7",
+            "commit_message": "Merge pull request #130 from verseles/update-benchmarks-o3mini-m2-8886187436333533613\n\nUpdate benchmark scores for o3-mini, MiniMax M2, and others",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-25T04:12:10.728925Z",
+            "ended_on": "2026-01-25T04:12:10.728925Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2026-01-25T04:12:10.728925Z",
+            "ended_on": "2026-01-25T04:12:13.0519Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2026-01-25T04:12:13.0519Z",
+            "ended_on": "2026-01-25T04:12:14.671354Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2026-01-25T04:12:14.671354Z",
+            "ended_on": "2026-01-25T04:12:37.645992Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2026-01-25T04:12:37.645992Z",
+            "ended_on": "2026-01-25T04:12:47.150711Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "build",
+          "build_caching": null,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "showdown",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {
+          "aaaa": {
+            "type": "secret_text",
+            "value": ""
+          },
+          "teste": {
+            "type": "plain_text",
+            "value": "assssss"
+          }
+        },
+        "compatibility_date": "2025-12-09",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://showdown.best"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false,
+        "framework": "@sveltejs/kit"
+      },
+      "created_on": "2025-12-09T22:34:39.297732Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--9649514-production",
+      "preview_script_name": "pages-worker--9649514-preview",
+      "uses_functions": false,
+      "framework": "@sveltejs/kit",
+      "framework_version": "2.49.2",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "sicon-land",
+      "subdomain": "sicon-land.pages.dev",
+      "domains": [
+        "sicon-land.pages.dev",
+        "sicon.app"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "owner_id": "63939514",
+          "repo_name": "sicon",
+          "repo_id": "839589523",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "land/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "",
+        "destination_dir": "",
+        "build_caching": true,
+        "root_dir": "land",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-03-26",
+          "compatibility_flags": [],
+          "build_image_major_version": 2,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-03-26",
+          "compatibility_flags": [],
+          "build_image_major_version": 2,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "11f104c2-31d1-4de0-8543-a597da46c7a4",
+        "short_id": "11f104c2",
+        "project_id": "9ce2c0a3-d803-437d-99f2-85dc49b5ef94",
+        "project_name": "sicon-land",
+        "environment": "production",
+        "url": "https://11f104c2.sicon-land.pages.dev",
+        "created_on": "2026-01-23T17:37:00.584285Z",
+        "modified_on": "2026-01-23T17:37:00.584285Z",
+        "latest_stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "7f0cb2468d0af9ca3cfa1731f92291c27105ef8e",
+            "commit_message": "style(etiquetas): Aumenta fonte do nome do candidato para 12pt\n\n- Altera fonte do nome do candidato de 10pt para 12pt\n- Ajusta posição Y do nome de 14.5 para 14\n- Desloca CPF de y+18 para y+18.5 para manter espaçamento",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "",
+          "build_caching": true,
+          "root_dir": "land",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "sicon",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-03-26",
+        "compatibility_flags": [],
+        "build_image_major_version": 2,
+        "usage_model": null,
+        "aliases": null,
+        "is_skipped": true,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "canonical_deployment": {
+        "id": "d58d55a5-3c35-40ce-8376-5128ad488633",
+        "short_id": "d58d55a5",
+        "project_id": "9ce2c0a3-d803-437d-99f2-85dc49b5ef94",
+        "project_name": "sicon-land",
+        "environment": "production",
+        "url": "https://d58d55a5.sicon-land.pages.dev",
+        "created_on": "2026-01-23T17:05:26.170629Z",
+        "modified_on": "2026-01-23T17:05:56.523896Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2026-01-23T17:05:44.965475Z",
+          "ended_on": "2026-01-23T17:05:56.523896Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "b71e40f8fab2597a6fa5045a89d4bf77bda8c28b",
+            "commit_message": "fix(makefile): Corrige caminhos de arquivo no comando fix-pdf\n\nAjusta o comando `fix-pdf` para remover o prefixo \"api/\" do caminho\ndo arquivo passado para o `ghostscript` dentro do container.\n\nO `docker compose exec` já define o `WORKDIR` como `/var/www/html` (que\ncorresponde ao `api/` no host), então os caminhos para o `gs` devem\nser relativos a esse diretório (ex: `resources/contests/...`).\n\nA nova implementação usa `sed` para remover o prefixo `api/` do\nparâmetro `FILE` antes de passá-lo para o shell do container,\ngarantindo que o `ghostscript` encontre o arquivo de entrada corretamente.",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-23T17:05:26.722793Z",
+            "ended_on": "2026-01-23T17:05:26.722793Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2026-01-23T17:05:26.722793Z",
+            "ended_on": "2026-01-23T17:05:33.929572Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2026-01-23T17:05:33.929572Z",
+            "ended_on": "2026-01-23T17:05:39.697603Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2026-01-23T17:05:39.697603Z",
+            "ended_on": "2026-01-23T17:05:44.965475Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2026-01-23T17:05:44.965475Z",
+            "ended_on": "2026-01-23T17:05:56.523896Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "",
+          "build_caching": true,
+          "root_dir": "land",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "sicon",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-03-26",
+        "compatibility_flags": [],
+        "build_image_major_version": 2,
+        "usage_model": null,
+        "aliases": [
+          "https://sicon.app"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2025-03-26T01:48:49.513058Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--5653262-production",
+      "preview_script_name": "pages-worker--5653262-preview",
+      "uses_functions": false,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "sicon",
+      "subdomain": "sicon.pages.dev",
+      "domains": [
+        "sicon.pages.dev",
+        "clcp.sicon.app",
+        "ijk.sicon.app"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "owner_id": "63939514",
+          "repo_name": "sicon",
+          "repo_id": "839589523",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "spa/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "dist/spa",
+        "build_caching": false,
+        "root_dir": "spa",
+        "web_analytics_tag": "8f16873f760545d7b7df9afcd7af2704",
+        "web_analytics_token": "1bab4d781815451aa7ee9fe93d918cd2"
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2024-08-08",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": {
+            "NODE_VERSION": {
+              "type": "plain_text",
+              "value": "24"
+            },
+            "VITE_MAINTENANCE": {
+              "type": "plain_text",
+              "value": "0"
+            }
+          },
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2024-08-08",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "2269663a-bcb3-4965-be42-3897563ec0ce",
+        "short_id": "2269663a",
+        "project_id": "8ece8c8e-92f3-441c-889a-dc3252650ee5",
+        "project_name": "sicon",
+        "environment": "production",
+        "url": "https://2269663a.sicon.pages.dev",
+        "created_on": "2026-01-23T17:37:00.584285Z",
+        "modified_on": "2026-01-23T17:37:00.584285Z",
+        "latest_stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "7f0cb2468d0af9ca3cfa1731f92291c27105ef8e",
+            "commit_message": "style(etiquetas): Aumenta fonte do nome do candidato para 12pt\n\n- Altera fonte do nome do candidato de 10pt para 12pt\n- Ajusta posição Y do nome de 14.5 para 14\n- Desloca CPF de y+18 para y+18.5 para manter espaçamento",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist/spa",
+          "build_caching": false,
+          "root_dir": "spa",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "sicon",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {
+          "NODE_VERSION": {
+            "type": "plain_text",
+            "value": "24"
+          },
+          "VITE_MAINTENANCE": {
+            "type": "plain_text",
+            "value": "0"
+          }
+        },
+        "compatibility_date": "2024-08-08",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": null,
+        "is_skipped": true,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "canonical_deployment": {
+        "id": "2f85257f-fadd-4a9c-b557-6c7817e11367",
+        "short_id": "2f85257f",
+        "project_id": "8ece8c8e-92f3-441c-889a-dc3252650ee5",
+        "project_name": "sicon",
+        "environment": "production",
+        "url": "https://2f85257f.sicon.pages.dev",
+        "created_on": "2026-01-23T17:21:07.725333Z",
+        "modified_on": "2026-01-23T17:21:58.303875Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2026-01-23T17:21:45.150584Z",
+          "ended_on": "2026-01-23T17:21:58.303875Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "c5a8a7b9ad50cab6dbba666b539c03d3026b6e6f",
+            "commit_message": "feat: Adiciona listagem \"Prova Prática - Professores\"\n\nAdiciona uma nova opção \"Prova Prática - Professores\" na Listagem Geral,\nreutilizando a lógica e o serviço de PDF da \"Prova de Títulos\".\n\n- **Frontend**: Adiciona a nova opção no seletor de filtros em `filterBarOptions.ts`.\n- **Backend**:\n  - Generaliza o `TitleLabelsPdfService` para aceitar um título de etiqueta dinâmico, evitando duplicação de código.\n  - Adiciona um novo `case` no `AdminListingController` para a ação `practice_exam_teachers`.\n  - A nova ação reutiliza a query de busca dos candidatos da prova de títulos e passa o título \"PROVA PRATICA\" para o serviço de PDF.",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-23T17:21:07.85388Z",
+            "ended_on": "2026-01-23T17:21:07.85388Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2026-01-23T17:21:07.85388Z",
+            "ended_on": "2026-01-23T17:21:15.768907Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2026-01-23T17:21:15.768907Z",
+            "ended_on": "2026-01-23T17:21:18.151027Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2026-01-23T17:21:18.151027Z",
+            "ended_on": "2026-01-23T17:21:45.150584Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2026-01-23T17:21:45.150584Z",
+            "ended_on": "2026-01-23T17:21:58.303875Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist/spa",
+          "build_caching": false,
+          "root_dir": "spa",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "sicon",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {
+          "NODE_VERSION": {
+            "type": "plain_text",
+            "value": "24"
+          },
+          "VITE_MAINTENANCE": {
+            "type": "plain_text",
+            "value": "0"
+          }
+        },
+        "compatibility_date": "2024-08-08",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://clcp.sicon.app",
+          "https://ijk.sicon.app"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2024-08-08T00:02:06.697365Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--3429258-production",
+      "preview_script_name": "pages-worker--3429258-preview",
+      "uses_functions": false,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "dash-for-cf",
+      "subdomain": "dash-for-cf.pages.dev",
+      "domains": [
+        "dash-for-cf.pages.dev",
+        "cf.dash.ad"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "owner_id": "63939514",
+          "repo_name": "dash-for-cloudflare",
+          "repo_id": "1068850175",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": false,
+          "preview_deployment_setting": "none",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "npx @11ty/eleventy",
+        "destination_dir": "_site",
+        "build_caching": true,
+        "root_dir": "",
+        "web_analytics_tag": "917fa850346b4be1a1a7057ef82ccc25",
+        "web_analytics_token": "9118c7c6f62748778450442c074b03cf"
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2026-01-02",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2026-01-20",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "289eb6e8-8bff-47c5-8848-d76afb722624",
+        "short_id": "289eb6e8",
+        "project_id": "520c4911-4fe6-4e0b-84f0-b7b4f8adcc8b",
+        "project_name": "dash-for-cf",
+        "environment": "production",
+        "url": "https://289eb6e8.dash-for-cf.pages.dev",
+        "created_on": "2026-01-22T04:31:56.007101Z",
+        "modified_on": "2026-01-22T04:31:58.573853Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": null,
+          "ended_on": "2026-01-22T04:31:58.573853Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "ad_hoc",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "de48681e77f1371168a4384db0092e6bc3a42422",
+            "commit_message": "docs(roadmap): add Features 12 (Pages) and 13 (Workers)\r\n\r\n- Add Feature 12: Cloudflare Pages Management (10 tasks)\r\n  - List projects, view deployments, rollback actions\r\n  - Research documented in ROADMAP.feat12.md\r\n\r\n- Add Feature 13: Cloudflare Workers Management (11 tasks)\r\n  - List workers, view routes, cron triggers, bindings\r\n  - Research documented in ROADMAP.feat13.md\r\n\r\n\n\n[commit_message truncated]",
+            "commit_dirty": true
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-22T04:31:56.007101Z",
+            "ended_on": null,
+            "status": "active"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": "2026-01-22T04:31:58.573853Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npx @11ty/eleventy",
+          "destination_dir": "_site",
+          "build_caching": true,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "dash-for-cloudflare",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2026-01-20",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://cf.dash.ad"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "canonical_deployment": {
+        "id": "289eb6e8-8bff-47c5-8848-d76afb722624",
+        "short_id": "289eb6e8",
+        "project_id": "520c4911-4fe6-4e0b-84f0-b7b4f8adcc8b",
+        "project_name": "dash-for-cf",
+        "environment": "production",
+        "url": "https://289eb6e8.dash-for-cf.pages.dev",
+        "created_on": "2026-01-22T04:31:56.007101Z",
+        "modified_on": "2026-01-22T04:31:58.573853Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": null,
+          "ended_on": "2026-01-22T04:31:58.573853Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "ad_hoc",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "de48681e77f1371168a4384db0092e6bc3a42422",
+            "commit_message": "docs(roadmap): add Features 12 (Pages) and 13 (Workers)\r\n\r\n- Add Feature 12: Cloudflare Pages Management (10 tasks)\r\n  - List projects, view deployments, rollback actions\r\n  - Research documented in ROADMAP.feat12.md\r\n\r\n- Add Feature 13: Cloudflare Workers Management (11 tasks)\r\n  - List workers, view routes, cron triggers, bindings\r\n  - Research documented in ROADMAP.feat13.md\r\n\r\n\n\n[commit_message truncated]",
+            "commit_dirty": true
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-22T04:31:56.007101Z",
+            "ended_on": null,
+            "status": "active"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": "2026-01-22T04:31:58.573853Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npx @11ty/eleventy",
+          "destination_dir": "_site",
+          "build_caching": true,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "dash-for-cloudflare",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2026-01-20",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://cf.dash.ad"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2026-01-02T05:02:13.294239Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--10138660-production",
+      "preview_script_name": "pages-worker--10138660-preview",
+      "uses_functions": false,
+      "framework": "gatsby",
+      "framework_version": "5.0.0",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "install-cat",
+      "subdomain": "install-cat.pages.dev",
+      "domains": [
+        "install-cat.pages.dev",
+        "install.cat"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "insign",
+          "owner_id": "1113045",
+          "repo_name": "install.cat",
+          "repo_id": "1128953839",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "",
+        "destination_dir": "",
+        "build_caching": true,
+        "root_dir": "",
+        "web_analytics_tag": "0087d593b3904df5bf976137a873cee8",
+        "web_analytics_token": "5e29bfff75d6496fa53810cc7cbf3698"
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2026-01-06",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2026-01-06",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "8ebc4d3a-8e45-45bb-9e68-6bfffe0fbe39",
+        "short_id": "8ebc4d3a",
+        "project_id": "59a9ed8f-7104-4199-adbb-dd61b0720703",
+        "project_name": "install-cat",
+        "environment": "production",
+        "url": "https://8ebc4d3a.install-cat.pages.dev",
+        "created_on": "2026-01-06T20:42:35.629587Z",
+        "modified_on": "2026-01-06T20:42:53.243373Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2026-01-06T20:42:44.309202Z",
+          "ended_on": "2026-01-06T20:42:53.243373Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "4e77d9f32f6d26ad2c447eb57be127d2fb8b3047",
+            "commit_message": "feat: add robot emoji to AI tip\n\n- Add 🤖 emoji before \"Using AI?\" text\n- Makes it clearer this is guidance for AIs",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-06T20:42:35.734099Z",
+            "ended_on": "2026-01-06T20:42:35.734099Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2026-01-06T20:42:35.734099Z",
+            "ended_on": "2026-01-06T20:42:38.136254Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2026-01-06T20:42:38.136254Z",
+            "ended_on": "2026-01-06T20:42:39.513403Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2026-01-06T20:42:39.513403Z",
+            "ended_on": "2026-01-06T20:42:44.309202Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2026-01-06T20:42:44.309202Z",
+            "ended_on": "2026-01-06T20:42:53.243373Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "",
+          "build_caching": true,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "install.cat",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2026-01-06",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://install.cat"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "canonical_deployment": {
+        "id": "8ebc4d3a-8e45-45bb-9e68-6bfffe0fbe39",
+        "short_id": "8ebc4d3a",
+        "project_id": "59a9ed8f-7104-4199-adbb-dd61b0720703",
+        "project_name": "install-cat",
+        "environment": "production",
+        "url": "https://8ebc4d3a.install-cat.pages.dev",
+        "created_on": "2026-01-06T20:42:35.629587Z",
+        "modified_on": "2026-01-06T20:42:53.243373Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2026-01-06T20:42:44.309202Z",
+          "ended_on": "2026-01-06T20:42:53.243373Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "4e77d9f32f6d26ad2c447eb57be127d2fb8b3047",
+            "commit_message": "feat: add robot emoji to AI tip\n\n- Add 🤖 emoji before \"Using AI?\" text\n- Makes it clearer this is guidance for AIs",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2026-01-06T20:42:35.734099Z",
+            "ended_on": "2026-01-06T20:42:35.734099Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2026-01-06T20:42:35.734099Z",
+            "ended_on": "2026-01-06T20:42:38.136254Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2026-01-06T20:42:38.136254Z",
+            "ended_on": "2026-01-06T20:42:39.513403Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2026-01-06T20:42:39.513403Z",
+            "ended_on": "2026-01-06T20:42:44.309202Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2026-01-06T20:42:44.309202Z",
+            "ended_on": "2026-01-06T20:42:53.243373Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "",
+          "build_caching": true,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "install.cat",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2026-01-06",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://install.cat"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2026-01-06T11:50:10.817207Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--10211702-production",
+      "preview_script_name": "pages-worker--10211702-preview",
+      "uses_functions": false,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "backstop-welcome",
+      "subdomain": "backstop-welcome.pages.dev",
+      "domains": [
+        "backstop-welcome.pages.dev",
+        "welcome.back.is"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "owner_id": "63939514",
+          "repo_name": "backstop",
+          "repo_id": "875037001",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "leading-page/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "dist",
+        "build_caching": true,
+        "root_dir": "leading-page",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2024-10-19",
+          "compatibility_flags": [],
+          "build_image_major_version": 2,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2024-10-19",
+          "compatibility_flags": [],
+          "build_image_major_version": 2,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "3d5e53ba-2b03-4a06-b084-9b301a9c81f3",
+        "short_id": "3d5e53ba",
+        "project_id": "cdf0a613-8044-4807-ab82-ac9156546f3d",
+        "project_name": "backstop-welcome",
+        "environment": "preview",
+        "url": "https://3d5e53ba.backstop-welcome.pages.dev",
+        "created_on": "2025-11-18T01:01:40.964713Z",
+        "modified_on": "2025-11-18T01:01:40.964713Z",
+        "latest_stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "claude/migrate-js-to-typescript-01HepFbUji9CMHyErpfmFKy3",
+            "commit_hash": "c71319dc511caf0918e9f07738a638784a1e2be4",
+            "commit_message": "docs: Add comprehensive TypeScript migration playbook v3.0\n\nBased on real migration experience from SIAMU and Backstop projects.\n\nKey additions to original playbook:\n- Correct Quasar wrapper functions (configure, boot, route, store)\n- Asset copying step (critical!)\n- Incremental validation strategy\n- Floating promise handling with void\n- QForm validation correct approach\n- Type assertions with 'as any' when appropriate\n- Dependency analysis before migration\n- ESLint configuration for unused vars with underscore\n- Complete checklist for quick reference\n\nThis playbook documents all lessons learned and should be used\nas the definitive guide for future Laravel + Quasar migrations.",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist",
+          "build_caching": true,
+          "root_dir": "leading-page",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "backstop",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2024-10-19",
+        "compatibility_flags": [],
+        "build_image_major_version": 2,
+        "usage_model": null,
+        "aliases": null,
+        "is_skipped": true,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "canonical_deployment": {
+        "id": "785e2a89-debe-4529-9194-4b839b343762",
+        "short_id": "785e2a89",
+        "project_id": "cdf0a613-8044-4807-ab82-ac9156546f3d",
+        "project_name": "backstop-welcome",
+        "environment": "production",
+        "url": "https://785e2a89.backstop-welcome.pages.dev",
+        "created_on": "2025-05-31T18:15:10.440868Z",
+        "modified_on": "2025-05-31T18:15:43.318656Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2025-05-31T18:15:31.850204Z",
+          "ended_on": "2025-05-31T18:15:43.318656Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "1c24a74ade8abd136285e7a2b25138d4d26823d6",
+            "commit_message": "feat: Garantir nomes de rotinas únicos por projeto",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2025-05-31T18:15:10.606814Z",
+            "ended_on": "2025-05-31T18:15:10.606814Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2025-05-31T18:15:10.606814Z",
+            "ended_on": "2025-05-31T18:15:13.493997Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2025-05-31T18:15:13.493997Z",
+            "ended_on": "2025-05-31T18:15:17.166644Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2025-05-31T18:15:17.166644Z",
+            "ended_on": "2025-05-31T18:15:31.850204Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2025-05-31T18:15:31.850204Z",
+            "ended_on": "2025-05-31T18:15:43.318656Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist",
+          "build_caching": true,
+          "root_dir": "leading-page",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "backstop",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2024-10-19",
+        "compatibility_flags": [],
+        "build_image_major_version": 2,
+        "usage_model": null,
+        "aliases": [
+          "https://welcome.back.is"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "created_on": "2024-10-19T01:14:15.184129Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--4088988-production",
+      "preview_script_name": "pages-worker--4088988-preview",
+      "uses_functions": null,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "backstop-spa",
+      "subdomain": "backstop-spa.pages.dev",
+      "domains": [
+        "backstop-spa.pages.dev",
+        "back.is"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "verseles",
+          "owner_id": "63939514",
+          "repo_name": "backstop",
+          "repo_id": "875037001",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "spa/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "dist/spa",
+        "build_caching": true,
+        "root_dir": "spa",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": {
+            "VITE_API_HOST": {
+              "type": "plain_text",
+              "value": "https://api.back.is"
+            }
+          },
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2024-10-19",
+          "compatibility_flags": [],
+          "build_image_major_version": 2,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": {
+            "VITE_API_HOST": {
+              "type": "plain_text",
+              "value": "https://api.back.is"
+            }
+          },
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2024-10-19",
+          "compatibility_flags": [],
+          "build_image_major_version": 2,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "1944f9bb-15ce-4e89-b80b-3fd75a7e171d",
+        "short_id": "1944f9bb",
+        "project_id": "f670796a-16f9-4b8f-83ff-f7338f4c39c2",
+        "project_name": "backstop-spa",
+        "environment": "preview",
+        "url": "https://1944f9bb.backstop-spa.pages.dev",
+        "created_on": "2025-11-18T01:01:40.964713Z",
+        "modified_on": "2025-11-18T01:01:40.964713Z",
+        "latest_stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "claude/migrate-js-to-typescript-01HepFbUji9CMHyErpfmFKy3",
+            "commit_hash": "c71319dc511caf0918e9f07738a638784a1e2be4",
+            "commit_message": "docs: Add comprehensive TypeScript migration playbook v3.0\n\nBased on real migration experience from SIAMU and Backstop projects.\n\nKey additions to original playbook:\n- Correct Quasar wrapper functions (configure, boot, route, store)\n- Asset copying step (critical!)\n- Incremental validation strategy\n- Floating promise handling with void\n- QForm validation correct approach\n- Type assertions with 'as any' when appropriate\n- Dependency analysis before migration\n- ESLint configuration for unused vars with underscore\n- Complete checklist for quick reference\n\nThis playbook documents all lessons learned and should be used\nas the definitive guide for future Laravel + Quasar migrations.",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist/spa",
+          "build_caching": true,
+          "root_dir": "spa",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "backstop",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {
+          "VITE_API_HOST": {
+            "type": "plain_text",
+            "value": "https://api.back.is"
+          }
+        },
+        "compatibility_date": "2024-10-19",
+        "compatibility_flags": [],
+        "build_image_major_version": 2,
+        "usage_model": null,
+        "aliases": null,
+        "is_skipped": true,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "canonical_deployment": {
+        "id": "f10a160a-4b99-4905-900a-11079af60b24",
+        "short_id": "f10a160a",
+        "project_id": "f670796a-16f9-4b8f-83ff-f7338f4c39c2",
+        "project_name": "backstop-spa",
+        "environment": "production",
+        "url": "https://f10a160a.backstop-spa.pages.dev",
+        "created_on": "2025-07-17T20:19:30.915699Z",
+        "modified_on": "2025-07-17T20:20:18.537868Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2025-07-17T20:20:08.450973Z",
+          "ended_on": "2025-07-17T20:20:18.537868Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "dc91578e1bbf4376d463abdf85af00b9be3ff383",
+            "commit_message": "feat: Implement file compression and download options",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2025-07-17T20:19:30.977509Z",
+            "ended_on": "2025-07-17T20:19:30.977509Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2025-07-17T20:19:30.977509Z",
+            "ended_on": "2025-07-17T20:19:33.418005Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2025-07-17T20:19:33.418005Z",
+            "ended_on": "2025-07-17T20:19:38.529987Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2025-07-17T20:19:38.529987Z",
+            "ended_on": "2025-07-17T20:20:08.450973Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2025-07-17T20:20:08.450973Z",
+            "ended_on": "2025-07-17T20:20:18.537868Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist/spa",
+          "build_caching": true,
+          "root_dir": "spa",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "verseles",
+            "repo_name": "backstop",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {
+          "VITE_API_HOST": {
+            "type": "plain_text",
+            "value": "https://api.back.is"
+          }
+        },
+        "compatibility_date": "2024-10-19",
+        "compatibility_flags": [],
+        "build_image_major_version": 2,
+        "usage_model": null,
+        "aliases": [
+          "https://back.is"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "created_on": "2024-10-19T01:25:19.766078Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--4089027-production",
+      "preview_script_name": "pages-worker--4089027-preview",
+      "uses_functions": null,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "tasks-spa",
+      "subdomain": "tasks-spa.pages.dev",
+      "domains": [
+        "tasks-spa.pages.dev",
+        "tasks.helio.me"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "insign",
+          "owner_id": "1113045",
+          "repo_name": "small-projects",
+          "repo_id": "997136893",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "tasks/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "npm run build",
+        "destination_dir": "dist/spa",
+        "build_caching": true,
+        "root_dir": "tasks/",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-10-17",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-10-17",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "bc226f64-4d81-48fd-b5da-452ef40a6549",
+        "short_id": "bc226f64",
+        "project_id": "716b252f-bd41-4052-b3f1-d82c801256d8",
+        "project_name": "tasks-spa",
+        "environment": "production",
+        "url": "https://bc226f64.tasks-spa.pages.dev",
+        "created_on": "2025-11-08T22:53:17.696472Z",
+        "modified_on": "2025-11-08T22:53:59.012783Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2025-11-08T22:53:48.45919Z",
+          "ended_on": "2025-11-08T22:53:59.012783Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "3cd22e7fe1415117b842797f7b04bae6892b2d72",
+            "commit_message": "feat: Implementar toque longo no título para marcar como \"não feita\"\n\n- Adicionado longPressTitleTimer, longPressTitleTarget, longPressTitleTriggered\n- Implementado startLongPressTitle(taskId) para detectar toque longo (500ms)\n- Implementado cancelLongPressTitle() para cancelar toque longo\n- Toque longo marca tarefa como \"not-done\" no dia de hoje\n- Verifica se tarefa é visível no dia atual antes de marcar\n- Ignora clique se long press foi disparado no título\n- Adicionados event handlers: @mousedown, @mouseup, @mouseleave, @touchstart, @touchend, @touchcancel\n- Aplicado em ambas as seções (Unchecked e Checked Tasks)\n- Drag and drop para reordenação preservado\n\nComportamentos do título da tarefa:\n1. Clique simples: toggle done/undone\n2. Toque longo (500ms): marca como \"não feita\" (not-done)\n3. Toque + arrastar: reordenação (drag and drop)\n\nCloses #1320",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2025-11-08T22:53:17.852014Z",
+            "ended_on": "2025-11-08T22:53:17.852014Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2025-11-08T22:53:17.852014Z",
+            "ended_on": "2025-11-08T22:53:20.22017Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2025-11-08T22:53:20.22017Z",
+            "ended_on": "2025-11-08T22:53:21.640681Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2025-11-08T22:53:21.640681Z",
+            "ended_on": "2025-11-08T22:53:48.45919Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2025-11-08T22:53:48.45919Z",
+            "ended_on": "2025-11-08T22:53:59.012783Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist/spa",
+          "build_caching": true,
+          "root_dir": "tasks/",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "small-projects",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-10-17",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://tasks.helio.me"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "canonical_deployment": {
+        "id": "bc226f64-4d81-48fd-b5da-452ef40a6549",
+        "short_id": "bc226f64",
+        "project_id": "716b252f-bd41-4052-b3f1-d82c801256d8",
+        "project_name": "tasks-spa",
+        "environment": "production",
+        "url": "https://bc226f64.tasks-spa.pages.dev",
+        "created_on": "2025-11-08T22:53:17.696472Z",
+        "modified_on": "2025-11-08T22:53:59.012783Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2025-11-08T22:53:48.45919Z",
+          "ended_on": "2025-11-08T22:53:59.012783Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "3cd22e7fe1415117b842797f7b04bae6892b2d72",
+            "commit_message": "feat: Implementar toque longo no título para marcar como \"não feita\"\n\n- Adicionado longPressTitleTimer, longPressTitleTarget, longPressTitleTriggered\n- Implementado startLongPressTitle(taskId) para detectar toque longo (500ms)\n- Implementado cancelLongPressTitle() para cancelar toque longo\n- Toque longo marca tarefa como \"not-done\" no dia de hoje\n- Verifica se tarefa é visível no dia atual antes de marcar\n- Ignora clique se long press foi disparado no título\n- Adicionados event handlers: @mousedown, @mouseup, @mouseleave, @touchstart, @touchend, @touchcancel\n- Aplicado em ambas as seções (Unchecked e Checked Tasks)\n- Drag and drop para reordenação preservado\n\nComportamentos do título da tarefa:\n1. Clique simples: toggle done/undone\n2. Toque longo (500ms): marca como \"não feita\" (not-done)\n3. Toque + arrastar: reordenação (drag and drop)\n\nCloses #1320",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2025-11-08T22:53:17.852014Z",
+            "ended_on": "2025-11-08T22:53:17.852014Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2025-11-08T22:53:17.852014Z",
+            "ended_on": "2025-11-08T22:53:20.22017Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2025-11-08T22:53:20.22017Z",
+            "ended_on": "2025-11-08T22:53:21.640681Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2025-11-08T22:53:21.640681Z",
+            "ended_on": "2025-11-08T22:53:48.45919Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2025-11-08T22:53:48.45919Z",
+            "ended_on": "2025-11-08T22:53:59.012783Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "npm run build",
+          "destination_dir": "dist/spa",
+          "build_caching": true,
+          "root_dir": "tasks/",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "small-projects",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-10-17",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://tasks.helio.me"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2025-10-17T01:55:25.70728Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--8499042-production",
+      "preview_script_name": "pages-worker--8499042-preview",
+      "uses_functions": false,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "placar",
+      "subdomain": "placar.pages.dev",
+      "domains": [
+        "placar.pages.dev",
+        "placar.helio.me"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "insign",
+          "owner_id": "1113045",
+          "repo_name": "small-projects",
+          "repo_id": "997136893",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "placar/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "",
+        "destination_dir": "",
+        "build_caching": true,
+        "root_dir": "placar/",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-08-01",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-08-01",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "30dcf521-08dc-4d56-9ee1-368dea473624",
+        "short_id": "30dcf521",
+        "project_id": "74c10d6b-0886-404b-b531-effda8ea849e",
+        "project_name": "placar",
+        "environment": "production",
+        "url": "https://30dcf521.placar.pages.dev",
+        "created_on": "2025-11-08T22:53:17.696472Z",
+        "modified_on": "2025-11-08T22:53:17.696472Z",
+        "latest_stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "3cd22e7fe1415117b842797f7b04bae6892b2d72",
+            "commit_message": "feat: Implementar toque longo no título para marcar como \"não feita\"\n\n- Adicionado longPressTitleTimer, longPressTitleTarget, longPressTitleTriggered\n- Implementado startLongPressTitle(taskId) para detectar toque longo (500ms)\n- Implementado cancelLongPressTitle() para cancelar toque longo\n- Toque longo marca tarefa como \"not-done\" no dia de hoje\n- Verifica se tarefa é visível no dia atual antes de marcar\n- Ignora clique se long press foi disparado no título\n- Adicionados event handlers: @mousedown, @mouseup, @mouseleave, @touchstart, @touchend, @touchcancel\n- Aplicado em ambas as seções (Unchecked e Checked Tasks)\n- Drag and drop para reordenação preservado\n\nComportamentos do título da tarefa:\n1. Clique simples: toggle done/undone\n2. Toque longo (500ms): marca como \"não feita\" (not-done)\n3. Toque + arrastar: reordenação (drag and drop)\n\nCloses #1320",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "",
+          "build_caching": true,
+          "root_dir": "placar/",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "small-projects",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-08-01",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": null,
+        "is_skipped": true,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "canonical_deployment": {
+        "id": "7b7ddcf5-ac35-4dd2-8a84-7a54b45a96bb",
+        "short_id": "7b7ddcf5",
+        "project_id": "74c10d6b-0886-404b-b531-effda8ea849e",
+        "project_name": "placar",
+        "environment": "production",
+        "url": "https://7b7ddcf5.placar.pages.dev",
+        "created_on": "2025-10-16T03:33:30.956801Z",
+        "modified_on": "2025-10-16T03:33:49.09494Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2025-10-16T03:33:40.466061Z",
+          "ended_on": "2025-10-16T03:33:49.09494Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "5fc76dd3ab5ec272a6c37b2767f830ac39ba9f22",
+            "commit_message": "tasks first",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2025-10-16T03:33:31.071424Z",
+            "ended_on": "2025-10-16T03:33:31.071424Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2025-10-16T03:33:31.071424Z",
+            "ended_on": "2025-10-16T03:33:34.00449Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2025-10-16T03:33:34.00449Z",
+            "ended_on": "2025-10-16T03:33:35.499473Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2025-10-16T03:33:35.499473Z",
+            "ended_on": "2025-10-16T03:33:40.466061Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2025-10-16T03:33:40.466061Z",
+            "ended_on": "2025-10-16T03:33:49.09494Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "",
+          "build_caching": null,
+          "root_dir": "placar/",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "small-projects",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-08-01",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://placar.helio.me"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2025-08-01T17:32:14.713195Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--7173429-production",
+      "preview_script_name": "pages-worker--7173429-preview",
+      "uses_functions": false,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    },
+    {
+      "id": "project_id_dummy",
+      "name": "small-projects",
+      "subdomain": "small-projects-9sq.pages.dev",
+      "domains": [
+        "small-projects-9sq.pages.dev",
+        "chores.helio.me"
+      ],
+      "source": {
+        "type": "github",
+        "config": {
+          "owner": "insign",
+          "owner_id": "1113045",
+          "repo_name": "small-projects",
+          "repo_id": "997136893",
+          "production_branch": "main",
+          "pr_comments_enabled": true,
+          "deployments_enabled": true,
+          "production_deployments_enabled": true,
+          "preview_deployment_setting": "all",
+          "preview_branch_includes": [
+            "*"
+          ],
+          "preview_branch_excludes": [],
+          "path_includes": [
+            "chores/*"
+          ],
+          "path_excludes": []
+        }
+      },
+      "build_config": {
+        "build_command": "",
+        "destination_dir": "chores",
+        "build_caching": true,
+        "root_dir": "",
+        "web_analytics_tag": null,
+        "web_analytics_token": null
+      },
+      "deployment_configs": {
+        "preview": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-06-06",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        },
+        "production": {
+          "env_vars": null,
+          "fail_open": true,
+          "always_use_latest_compatibility_date": false,
+          "compatibility_date": "2025-06-06",
+          "compatibility_flags": [],
+          "build_image_major_version": 3,
+          "usage_model": "standard"
+        }
+      },
+      "latest_deployment": {
+        "id": "471f7f2e-b8fe-425f-bc60-21b98a653dbd",
+        "short_id": "471f7f2e",
+        "project_id": "e1709cd5-2d92-422d-ab72-949ee35a581c",
+        "project_name": "small-projects",
+        "environment": "production",
+        "url": "https://471f7f2e.small-projects-9sq.pages.dev",
+        "created_on": "2025-11-08T22:53:17.696472Z",
+        "modified_on": "2025-11-08T22:53:17.696472Z",
+        "latest_stage": {
+          "name": "queued",
+          "started_on": null,
+          "ended_on": null,
+          "status": "idle"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "3cd22e7fe1415117b842797f7b04bae6892b2d72",
+            "commit_message": "feat: Implementar toque longo no título para marcar como \"não feita\"\n\n- Adicionado longPressTitleTimer, longPressTitleTarget, longPressTitleTriggered\n- Implementado startLongPressTitle(taskId) para detectar toque longo (500ms)\n- Implementado cancelLongPressTitle() para cancelar toque longo\n- Toque longo marca tarefa como \"not-done\" no dia de hoje\n- Verifica se tarefa é visível no dia atual antes de marcar\n- Ignora clique se long press foi disparado no título\n- Adicionados event handlers: @mousedown, @mouseup, @mouseleave, @touchstart, @touchend, @touchcancel\n- Aplicado em ambas as seções (Unchecked e Checked Tasks)\n- Drag and drop para reordenação preservado\n\nComportamentos do título da tarefa:\n1. Clique simples: toggle done/undone\n2. Toque longo (500ms): marca como \"não feita\" (not-done)\n3. Toque + arrastar: reordenação (drag and drop)\n\nCloses #1320",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "initialize",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "build",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          },
+          {
+            "name": "deploy",
+            "started_on": null,
+            "ended_on": null,
+            "status": "idle"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "chores",
+          "build_caching": true,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "small-projects",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-06-06",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": null,
+        "is_skipped": true,
+        "production_branch": "main",
+        "uses_functions": null
+      },
+      "canonical_deployment": {
+        "id": "d84a47a0-64cf-4f79-a8b7-5f712f4ceff5",
+        "short_id": "d84a47a0",
+        "project_id": "e1709cd5-2d92-422d-ab72-949ee35a581c",
+        "project_name": "small-projects",
+        "environment": "production",
+        "url": "https://d84a47a0.small-projects-9sq.pages.dev",
+        "created_on": "2025-08-01T18:46:40.896413Z",
+        "modified_on": "2025-08-01T18:47:07.601642Z",
+        "latest_stage": {
+          "name": "deploy",
+          "started_on": "2025-08-01T18:46:54.432532Z",
+          "ended_on": "2025-08-01T18:47:07.601642Z",
+          "status": "success"
+        },
+        "deployment_trigger": {
+          "type": "github:push",
+          "metadata": {
+            "branch": "main",
+            "commit_hash": "04090288cb2c502933b4a0c67763fda2e3304f6a",
+            "commit_message": "Make print styles more consistent with em units",
+            "commit_dirty": false
+          }
+        },
+        "stages": [
+          {
+            "name": "queued",
+            "started_on": "2025-08-01T18:46:40.984989Z",
+            "ended_on": "2025-08-01T18:46:40.984989Z",
+            "status": "success"
+          },
+          {
+            "name": "initialize",
+            "started_on": "2025-08-01T18:46:40.984989Z",
+            "ended_on": "2025-08-01T18:46:43.634544Z",
+            "status": "success"
+          },
+          {
+            "name": "clone_repo",
+            "started_on": "2025-08-01T18:46:43.634544Z",
+            "ended_on": "2025-08-01T18:46:49.607988Z",
+            "status": "success"
+          },
+          {
+            "name": "build",
+            "started_on": "2025-08-01T18:46:49.607988Z",
+            "ended_on": "2025-08-01T18:46:54.432532Z",
+            "status": "success"
+          },
+          {
+            "name": "deploy",
+            "started_on": "2025-08-01T18:46:54.432532Z",
+            "ended_on": "2025-08-01T18:47:07.601642Z",
+            "status": "success"
+          }
+        ],
+        "build_config": {
+          "build_command": "",
+          "destination_dir": "chores",
+          "build_caching": false,
+          "root_dir": "",
+          "web_analytics_tag": null,
+          "web_analytics_token": null
+        },
+        "source": {
+          "type": "github",
+          "config": {
+            "owner": "insign",
+            "repo_name": "small-projects",
+            "production_branch": "main",
+            "pr_comments_enabled": false
+          }
+        },
+        "env_vars": {},
+        "compatibility_date": "2025-06-06",
+        "compatibility_flags": [],
+        "build_image_major_version": 3,
+        "usage_model": null,
+        "aliases": [
+          "https://chores.helio.me"
+        ],
+        "is_skipped": false,
+        "production_branch": "main",
+        "uses_functions": false
+      },
+      "created_on": "2025-06-06T02:52:06.927469Z",
+      "production_branch": "main",
+      "production_script_name": "pages-worker--6462689-production",
+      "preview_script_name": "pages-worker--6462689-preview",
+      "uses_functions": false,
+      "framework": "",
+      "framework_version": "",
+      "account_id": "account_id_dummy"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result_info": {
+    "page": 1,
+    "per_page": 10,
+    "count": 10,
+    "total_count": 16,
+    "total_pages": 2
+  }
+}

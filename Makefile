@@ -88,9 +88,8 @@ precommit: check
 	@flutter build linux --release $(RUN_LENIENT)
 	@if [ -d "$(LINUX_BUNDLE)" ]; then echo "✓ Linux build successful"; else echo "⚠ Linux build skipped (not on Linux or missing deps)"; fi
 	@echo ""
-	@echo "[6/6] Android Build..."
-	@flutter build apk --release --target-platform android-x64 $(RUN_LENIENT)
-	@if [ -f "$(APK_PATH)" ]; then echo "✓ Android build successful"; echo "  APK: $(APK_PATH)"; else echo "⚠ Android build skipped (missing Android SDK)"; fi
+	@echo "[6/6] Android Build & Upload..."
+	@$(MAKE) android VERBOSE=$(VERBOSE)
 	@echo ""
 	@echo "══════════════════════════════════════════════════════════════"
 	@echo "  ✅ PRECOMMIT PASSED - Safe to commit!"

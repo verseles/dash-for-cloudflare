@@ -1,106 +1,103 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cf/features/pages/presentation/widgets/pages_settings_tab.dart';
+import 'dart:convert';
+import 'package:cf/core/api/client/cloudflare_api.dart';
+import 'package:cf/core/providers/api_providers.dart';
+import 'package:cf/features/auth/providers/account_provider.dart';
+import 'package:cf/features/auth/providers/settings_provider.dart';
 import 'package:cf/features/pages/domain/models/pages_project.dart';
+import 'package:cf/features/pages/presentation/widgets/pages_settings_tab.dart';
 import 'package:cf/features/pages/providers/pages_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cf/l10n/app_localizations.dart';
+import 'package:material_symbols_icons/symbols.dart';
+import 'package:cf/core/api/models/cloudflare_response.dart';
+import '../fixtures/fixture_reader.dart';
 
-class FakePagesSettingsNotifier extends PagesSettingsNotifier {
-// ... (apenas ajustando imports agora)
+class MockSharedPreferences extends Mock implements SharedPreferences {}
+class MockCloudflareApi extends Mock implements CloudflareApi {}
 
-  Function(Map<String, dynamic>? buildConfig)? onUpdate;
-
-  @override
-  FutureOr<void> build() {}
-
-  @override
-  Future<bool> updateProject({
-    required String projectName,
-    Map<String, dynamic>? buildConfig,
-    Map<String, dynamic>? deploymentConfigs,
-  }) async {
-    if (onUpdate != null) onUpdate!(buildConfig);
-    return true;
-  }
-}
-
-class FakePagesProjectDetailsNotifier extends PagesProjectDetailsNotifier {
-  FakePagesProjectDetailsNotifier(this.project);
+class MockProjectDetailsNotifier extends PagesProjectDetailsNotifier {
+  MockProjectDetailsNotifier(this.project);
   final PagesProject project;
-
   @override
   FutureOr<PagesProject> build(String projectName) => project;
 }
 
 void main() {
-  late FakePagesSettingsNotifier fakeSettingsNotifier;
-  late PagesProject mockProject;
+  late MockSharedPreferences mockPrefs;
+  late MockCloudflareApi mockApi;
 
   setUp(() {
-    mockProject = PagesProject(
-      id: 'test-id',
-      name: 'test-project',
-      subdomain: 'test.pages.dev',
-      createdOn: DateTime.now(),
-      buildConfig: const BuildConfig(buildCommand: 'npm run build'),
-      deploymentConfigs: const DeploymentConfigs(
-        production: DeploymentConfig(envVars: {}, compatibilityDate: '2024-01-01', compatibilityFlags: []),
-        preview: DeploymentConfig(envVars: {}, compatibilityDate: '2024-01-01', compatibilityFlags: []),
-      ),
-    );
+    mockPrefs = MockSharedPreferences();
+    mockApi = MockCloudflareApi();
     
-    fakeSettingsNotifier = FakePagesSettingsNotifier();
+    when(() => mockPrefs.setString(any(), any())).thenAnswer((_) async => true);
+    when(() => mockPrefs.remove(any())).thenAnswer((_) async => true);
+    when(() => mockPrefs.getString(any())).thenReturn(null);
   });
 
-  Widget createWidgetUnderTest() {
-    return ProviderScope(
-      overrides: [
-        pagesSettingsNotifierProvider.overrideWith(() => fakeSettingsNotifier),
-        pagesProjectDetailsNotifierProvider('test-project').overrideWith(() => FakePagesProjectDetailsNotifier(mockProject)),
-      ],
-      child: MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en')],
-        home: Scaffold(
-          body: PagesSettingsTab(project: mockProject),
+  testWidgets('PagesSettingsTab sends simple string map for env_vars', (tester) async {
+    final projectsJson = jsonDecode(fixture('pages/projects.json'));
+    final project = PagesProject.fromJson(projectsJson['result'][0]);
+    
+    final mockProject = project.copyWith(
+      deploymentConfigs: project.deploymentConfigs!.copyWith(
+        production: project.deploymentConfigs!.production.copyWith(
+          envVars: {
+            'KEEP': const EnvVar(value: 'original', type: 'plain_text'),
+            'DELETE': const EnvVar(value: 'remove-me', type: 'plain_text'),
+          },
         ),
       ),
     );
-  }
 
-  testWidgets('Should trigger save when build command field loses focus (blur)', (tester) async {
-    // Arrange
-    Map<String, dynamic>? capturedBuildConfig;
-    fakeSettingsNotifier.onUpdate = (config) => capturedBuildConfig = config;
+    Map<String, dynamic>? capturedPayload;
 
-    await tester.pumpWidget(createWidgetUnderTest());
+    when(() => mockApi.patchPagesProject(any(), any(), any()))
+        .thenAnswer((invocation) async {
+          capturedPayload = invocation.positionalArguments[2];
+          return CloudflareResponse(result: mockProject, success: true, errors: [], messages: []);
+        });
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          cloudflareApiProvider.overrideWithValue(mockApi),
+          sharedPreferencesProvider.overrideWith((ref) async => mockPrefs),
+          selectedAccountIdProvider.overrideWith((ref) => 'account1'),
+          pagesProjectDetailsNotifierProvider(mockProject.name).overrideWith(() => MockProjectDetailsNotifier(mockProject)),
+        ],
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: PagesSettingsTab(project: mockProject),
+        ),
+      ),
+    );
+
     await tester.pumpAndSettle();
 
-    final buildCommandFinder = find.byType(TextFormField).first;
-    final otherFieldFinder = find.byType(TextFormField).at(1); // Destination Dir
-
-    // Act
-    // 1. Focus and type
-    await tester.tap(buildCommandFinder);
-    await tester.enterText(buildCommandFinder, 'new build command');
-    await tester.pump();
+    // Find the close icon for the 'DELETE' variable
+    final deleteButton = find.descendant(
+      of: find.ancestor(of: find.text('DELETE'), matching: find.byType(ListTile)),
+      matching: find.byIcon(Symbols.close),
+    );
     
-    // 2. Blur by tapping another field
-    // In Flutter tests, focusing another field is the most reliable way to blur the previous one
-    await tester.tap(otherFieldFinder);
-    await tester.pumpAndSettle();
+    await tester.tap(deleteButton);
+    await tester.pump(const Duration(seconds: 1)); 
 
-    // Assert
-    expect(capturedBuildConfig, isNotNull);
-    expect(capturedBuildConfig!['build_command'], 'new build command');
+    // Verify payload
+    expect(capturedPayload, isNotNull);
+    final envVars = capturedPayload!['deployment_configs']['production']['env_vars'];
+    
+    // IMPORTANT: Check that it's a simple string, not an object
+    expect(envVars['KEEP'], equals('original'));
+    // Check that deleted one is null
+    expect(envVars.containsKey('DELETE'), isTrue);
+    expect(envVars['DELETE'], isNull);
   });
 }

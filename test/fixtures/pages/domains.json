@@ -1,0 +1,30 @@
+{
+  "result": [
+    {
+      "id": "domain_id_dummy",
+      "domain_id": "fbbdf706-dafa-4a52-8231-d8a539b1ee4c",
+      "name": "showdown.best",
+      "status": "active",
+      "verification_data": {
+        "status": "active"
+      },
+      "validation_data": {
+        "status": "active",
+        "method": "http"
+      },
+      "certificate_authority": "google",
+      "zone_tag": "621e574fb5121e4188022f3201e050b0",
+      "created_on": "2025-12-09T23:29:08.000532Z"
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": [],
+  "result_info": {
+    "page": 1,
+    "per_page": 20,
+    "count": 1,
+    "total_count": 1,
+    "total_pages": 1
+  }
+}

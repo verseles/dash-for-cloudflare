@@ -1,0 +1,320 @@
+{
+  "result": [
+    {
+      "created_on": "2021-05-10T22:50:31.680887Z",
+      "modified_on": "2021-05-11T05:53:47.609347Z",
+      "id": "10rt",
+      "tag": "tag_dummy",
+      "tags": null,
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "d23516a17f2b4492bd46ad89da32e9e10c251dfcfc76d5305d57381961fbc9b1",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "",
+      "usage_model": "standard",
+      "routes": [
+        {
+          "id": "4a586f3a0fdf476ea07dcfcad704ba23",
+          "pattern": "10reasons.to/*",
+          "script": "10rt",
+          "request_limit_fail_open": false
+        }
+      ]
+    },
+    {
+      "created_on": "2022-09-11T18:33:39.940247Z",
+      "modified_on": "2022-09-11T18:36:35.97181Z",
+      "id": "apb",
+      "tag": "tag_dummy",
+      "tags": null,
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "ba4ae2f8fd554148b2d7244cb3b3681808c1698e9782b806d1c4c63e6951f6fd",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "wrangler",
+      "compatibility_date": "2022-09-11",
+      "usage_model": "standard",
+      "limits": {
+        "cpu_ms": 50
+      },
+      "routes": null
+    },
+    {
+      "created_on": "2024-07-22T18:54:52.093691Z",
+      "modified_on": "2025-07-20T06:08:32.704004Z",
+      "id": "chatgpt-telegram-workers",
+      "tag": "tag_dummy",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "b7f4bdb41f4f86388c51161debf6a8f7119a634129e1f4a3956b7af9226d3bfa",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "quick_editor",
+      "compatibility_date": "2023-10-07",
+      "compatibility_flags": [
+        "nodejs_compat"
+      ],
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2024-04-08T05:13:44.46003Z",
+      "modified_on": "2024-09-05T04:47:06.263747Z",
+      "id": "cobra-blogs",
+      "tag": "tag_dummy",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "4a03fc51fc43c4fd476aedf000f663d2fab69a049cf78d78f59bff2564e4ba73",
+      "handlers": [
+        "fetch",
+        "scheduled"
+      ],
+      "placement_mode": "smart",
+      "placement_status": "INSUFFICIENT_INVOCATIONS",
+      "placement": {
+        "mode": "smart",
+        "status": "INSUFFICIENT_INVOCATIONS",
+        "last_analyzed_at": "2024-10-29T16:20:44.291664Z"
+      },
+      "last_deployed_from": "dash",
+      "compatibility_date": "2024-04-05",
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2025-10-02T08:41:53.023775Z",
+      "modified_on": "2025-10-02T08:46:37.816414Z",
+      "id": "cors",
+      "tag": "tag_dummy",
+      "tags": null,
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "logs": {
+          "enabled": true,
+          "head_sampling_rate": 1,
+          "persist": true,
+          "invocation_logs": true
+        },
+        "traces": {
+          "enabled": false,
+          "persist": true,
+          "head_sampling_rate": 1
+        }
+      },
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "a6afd8a661eac43440a95d6b19c9d47679e5176736faf5ab808a1d8c79021cc5",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "quick_editor",
+      "compatibility_date": "2025-10-02",
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2025-04-27T15:25:04.162776Z",
+      "modified_on": "2025-04-27T15:35:09.871397Z",
+      "id": "hello-dart",
+      "tag": "tag_dummy",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "logs": {
+          "enabled": true,
+          "head_sampling_rate": 1,
+          "persist": true,
+          "invocation_logs": true
+        },
+        "traces": {
+          "enabled": false,
+          "persist": true,
+          "head_sampling_rate": 1
+        }
+      },
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "09553d2cb3d7b3a2ff73c78285bad3452041885725d6f2e4e843461ff10c65e9",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "quick_editor",
+      "compatibility_date": "2025-04-27",
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2025-11-05T19:34:31.672479Z",
+      "modified_on": "2025-11-24T19:34:12.852993Z",
+      "id": "jules-over-telegram",
+      "tag": "tag_dummy",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "3b6b3a12b9ae9778f8cf82ea592ad9c5f0d24a58a28157b2cba0335b47228601",
+      "handlers": [
+        "fetch",
+        "scheduled"
+      ],
+      "last_deployed_from": "wrangler",
+      "compatibility_date": "2024-11-01",
+      "compatibility_flags": [
+        "nodejs_compat"
+      ],
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2025-10-16T02:12:28.044729Z",
+      "modified_on": "2025-10-16T23:22:30.532583Z",
+      "id": "tasks-api",
+      "tag": "tag_dummy",
+      "tags": null,
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1,
+        "logs": {
+          "enabled": true,
+          "head_sampling_rate": 1,
+          "persist": true,
+          "invocation_logs": true
+        },
+        "traces": {
+          "enabled": false,
+          "persist": true,
+          "head_sampling_rate": 1
+        }
+      },
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "f178454ec133e0d4fba002a92b16363f398d87b5b911fb7ac6713b739d979386",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "quick_editor",
+      "compatibility_date": "2025-10-16",
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2023-07-25T04:15:35.274295Z",
+      "modified_on": "2024-09-05T04:40:57.55561Z",
+      "id": "unshorten",
+      "tag": "tag_dummy",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "ccfe66a7ae1584fd0d161a367ccc3eac60dd540a82a9f46f3892c1d88ff6bcc7",
+      "handlers": [
+        "fetch"
+      ],
+      "placement_mode": "smart",
+      "placement_status": "INSUFFICIENT_INVOCATIONS",
+      "placement": {
+        "mode": "smart",
+        "status": "INSUFFICIENT_INVOCATIONS",
+        "last_analyzed_at": "2024-10-29T20:19:23.766752Z"
+      },
+      "last_deployed_from": "wrangler",
+      "compatibility_date": "2023-07-24",
+      "usage_model": "standard",
+      "routes": null
+    },
+    {
+      "created_on": "2023-07-14T02:15:18.268325Z",
+      "modified_on": "2023-07-14T03:15:49.017789Z",
+      "id": "verseles",
+      "tag": "tag_dummy",
+      "tags": null,
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "50465b33a7bcf38c2725ff89116bd4122a19b90b17e3afd871043c50a5c4d5cb",
+      "handlers": [
+        "fetch"
+      ],
+      "placement_mode": "smart",
+      "placement_status": "INSUFFICIENT_INVOCATIONS",
+      "placement": {
+        "mode": "smart",
+        "status": "INSUFFICIENT_INVOCATIONS",
+        "last_analyzed_at": "2024-10-29T18:36:57.009298Z"
+      },
+      "last_deployed_from": "dash",
+      "compatibility_date": "2023-07-14",
+      "usage_model": "standard",
+      "limits": {
+        "cpu_ms": 50
+      },
+      "routes": null
+    },
+    {
+      "created_on": "2022-02-20T05:27:30.686171Z",
+      "modified_on": "2024-03-14T07:04:37.221396Z",
+      "id": "xpm-redirect",
+      "tag": "tag_dummy",
+      "tags": [],
+      "deployment_id": "",
+      "tail_consumers": null,
+      "logpush": false,
+      "has_assets": false,
+      "has_modules": true,
+      "etag": "0b7b12253b6fe632b63eb4b626ac02d1a3db4170aee678aee48a70f90bad2f22",
+      "handlers": [
+        "fetch"
+      ],
+      "last_deployed_from": "wrangler",
+      "compatibility_date": "2024-03-12",
+      "usage_model": "standard",
+      "routes": [
+        {
+          "id": "1c96f5da5690453d8810e36373a962f1",
+          "pattern": "xpm.link/*",
+          "script": "xpm-redirect",
+          "request_limit_fail_open": true
+        }
+      ]
+    }
+  ],
+  "success": true,
+  "errors": [],
+  "messages": []
+}
