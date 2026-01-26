@@ -17,7 +17,7 @@ spec: |
 | **6. i18n** | English + Portuguese, intl formatting | `06a826a` | - |
 | **7. Desktop** | window_manager, system tray, keyboard shortcuts | - | - |
 | **8. PWA** | manifest, service worker, install prompt, _headers | `7e86061` | - |
-| **9. Tests** | 129 tests: models (79), API (8), interceptors (13), widgets (29) | `f997c92` | - |
+| **9. Tests** | 140 tests: models (82), API (8), interceptors (13), widgets (37) | `f997c92` | - |
 | **10. Build & Deploy** | Icons, splash, APK, Linux, Web, CI/CD GitHub Actions | `6cf983e`, `678b974` | ADR-025 (Data Centers Sync), ADR-026 (GitHub Actions Deploy) |
 | **11. Analytics Dashboard** | Web, Security and Performance tabs with shared time range | `4f7fd75`, `452f58a` | ADR-023 (Analytics Preload) |
 | **12. Pages Management** | Account-level project list, deployments, logs and rollback | `be82bef`, `f67d99a` | ADR-027 (Auto-polling) |

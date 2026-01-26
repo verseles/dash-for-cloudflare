@@ -96,5 +96,30 @@ void main() {
       
       verify(() => mockApi.getWorkersScripts(accountId)).called(1);
     });
+
+    test('deleteWorker calls API and invalidates cache', () async {
+      final scriptName = 'test-worker';
+      final mockResponse = CloudflareResponse<DeleteResponse>(
+        success: true,
+        errors: [],
+        messages: [],
+        result: const DeleteResponse(id: 'test-worker'),
+      );
+
+      when(() => mockApi.deleteWorkerScript(accountId, scriptName))
+          .thenAnswer((_) async => mockResponse);
+      when(() => mockPrefs.remove(any())).thenAnswer((_) async => true);
+      
+      // Mock list fetch for the refresh after delete
+      when(() => mockApi.getWorkersScripts(accountId))
+          .thenAnswer((_) async => CloudflareResponse<List<Worker>>(
+            success: true, errors: [], messages: [], result: [],
+          ));
+      when(() => mockPrefs.setString(any(), any())).thenAnswer((_) async => true);
+
+      await container.read(workersNotifierProvider.notifier).deleteWorker(scriptName);
+
+      verify(() => mockApi.deleteWorkerScript(accountId, scriptName)).called(1);
+    });
   });
 }

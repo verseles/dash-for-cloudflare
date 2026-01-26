@@ -23,7 +23,12 @@ void main() {
         ],
         'compatibility_date': '2024-01-01',
         'compatibility_flags': ['nodejs_compat'],
-        'usage_model': 'bundled'
+        'usage_model': 'bundled',
+        'placement': {'mode': 'smart'},
+        'observability': {
+          'enabled': true,
+          'head_sampling_rate': 0.1
+        }
       };
 
       final settings = WorkerSettings.fromJson(json);
@@ -41,10 +46,25 @@ void main() {
       expect(settings.compatibilityDate, '2024-01-01');
       expect(settings.compatibilityFlags, ['nodejs_compat']);
       expect(settings.usageModel, 'bundled');
+      expect(settings.placement?.mode, 'smart');
+      expect(settings.observability?.enabled, true);
+      expect(settings.observability?.headSamplingRate, 0.1);
     });
   });
 
   group('WorkerBinding Model', () {
+    test('should handle AI bindings', () {
+      final json = {
+        'type': 'ai',
+        'name': 'AI',
+        'project_name': 'my-ai-project'
+      };
+
+      final binding = WorkerBinding.fromJson(json);
+      expect(binding.type, 'ai');
+      expect(binding.projectName, 'my-ai-project');
+    });
+
     test('should handle service bindings', () {
       final json = {
         'type': 'service',

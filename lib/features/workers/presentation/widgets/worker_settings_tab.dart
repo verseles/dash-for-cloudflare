@@ -28,11 +28,11 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
 
   // Runtime Controllers
   late TextEditingController _compatibilityDateController;
-  late String _usageModel;
-  late String _placementMode;
+  String _usageModel = 'bundled';
+  String _placementMode = 'default';
   
   // Observability
-  late bool _observabilityEnabled;
+  bool _observabilityEnabled = false;
 
   // Focus Nodes
   late FocusNode _compatibilityDateFocusNode;
@@ -41,6 +41,9 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   void initState() {
     super.initState();
     _compatibilityDateController = TextEditingController();
+    _usageModel = 'bundled';
+    _placementMode = 'default';
+    _observabilityEnabled = false;
     _compatibilityDateFocusNode = FocusNode()..addListener(() {
       if (!_compatibilityDateFocusNode.hasFocus) {
         _saveSettings();
@@ -212,9 +215,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
       ),
       data: (settings) {
         if (!_isInitialized) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _initializeLocalState(settings);
-          });
+          _initializeLocalState(settings);
         }
         
         return Scaffold(

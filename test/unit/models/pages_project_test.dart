@@ -49,6 +49,8 @@ void main() {
             'build_command': 'npm run build',
             'destination_dir': 'dist',
             'root_dir': '/',
+            'build_system_version': '3',
+            'build_cache': true,
           },
         };
 
@@ -57,6 +59,46 @@ void main() {
         expect(project.buildConfig, isNotNull);
         expect(project.buildConfig!.buildCommand, 'npm run build');
         expect(project.buildConfig!.destinationDir, 'dist');
+        expect(project.buildConfig!.buildSystemVersion, '3');
+        expect(project.buildConfig!.buildCache, true);
+      });
+
+      test('parses project with bindings', () {
+        final json = <String, dynamic>{
+          'id': 'proj123',
+          'name': 'my-site',
+          'subdomain': 'my-site-abc',
+          'created_on': '2025-01-15T10:00:00Z',
+          'deployment_configs': <String, dynamic>{
+            'production': <String, dynamic>{
+              'kv_namespaces': <String, dynamic>{
+                'MY_KV': <String, dynamic>{'namespace_id': 'kv123'}
+              },
+              'd1_databases': <String, dynamic>{
+                'MY_D1': <String, dynamic>{'id': 'd1-uuid'}
+              },
+              'r2_buckets': <String, dynamic>{
+                'MY_R2': <String, dynamic>{'bucket_name': 'bucket123'}
+              },
+              'ai_bindings': <String, dynamic>{
+                'AI': <String, dynamic>{'project_name': 'ai-proj'}
+              },
+              'placement': <String, dynamic>{'mode': 'smart'},
+              'usage_model': 'standard',
+            },
+            'preview': <String, dynamic>{}
+          }
+        };
+
+        final project = PagesProject.fromJson(json);
+        final prod = project.deploymentConfigs?.production;
+
+        expect(prod?.kvNamespaces?['MY_KV']?.namespaceId, 'kv123');
+        expect(prod?.d1Databases?['MY_D1']?.id, 'd1-uuid');
+        expect(prod?.r2Buckets?['MY_R2']?.bucketName, 'bucket123');
+        expect(prod?.aiBindings?['AI']?.projectName, 'ai-proj');
+        expect(prod?.placement?.mode, 'smart');
+        expect(prod?.usageModel, 'standard');
       });
 
       test('parses project with GitHub source', () {
