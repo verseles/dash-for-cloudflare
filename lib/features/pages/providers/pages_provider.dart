@@ -243,6 +243,47 @@ class PagesProjectsNotifier extends _$PagesProjectsNotifier {
     state = const AsyncLoading();
     state = await AsyncValue.guard(_fetchProjects);
   }
+
+  Future<bool> deleteProject(String projectName) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return false;
+
+    log.stateChange('PagesProjectsNotifier', 'Deleting project $projectName');
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.deletePagesProject(accountId, projectName);
+
+      if (!response.success) {
+        final error = response.errors.isNotEmpty
+            ? response.errors.first.message
+            : 'Failed to delete project';
+        throw Exception(error);
+      }
+
+      log.info('PagesProjectsNotifier: Deleted project $projectName', category: LogCategory.api);
+
+      // Remove from cache
+      await _prefs?.remove('pages_project_details_cache_$projectName');
+      // We can't easily remove just one item from the main list cache without decoding/encoding
+      // So we'll just invalidate the cache key to force a refresh next time
+      await _prefs?.remove(_cacheKey);
+      await _prefs?.remove(_cacheTimeKey);
+
+      // Optimistic update: remove from current state list
+      if (state.hasValue) {
+        final currentProjects = state.value!.projects;
+        state = AsyncData(state.value!.copyWith(
+          projects: currentProjects.where((p) => p.name != projectName).toList(),
+        ));
+      }
+
+      return true;
+    } catch (e, stack) {
+      log.error('PagesProjectsNotifier: Delete Error', error: e, stackTrace: stack);
+      return false;
+    }
+  }
 }
 
 // ==================== PROJECT DETAILS NOTIFIER ====================
@@ -808,6 +849,7 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
     required String projectName,
     Map<String, dynamic>? buildConfig,
     Map<String, dynamic>? deploymentConfigs,
+    Map<String, dynamic>? source,
   }) async {
     final accountId = ref.read(selectedAccountIdProvider);
     if (accountId == null) return false;
@@ -821,8 +863,17 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
         // We preserve nulls if we are in an env_vars container OR if it's a build/deployment setting
         final shouldPreserveContext = preserveNulls || 
             key == 'env_vars' || 
+            key == 'kv_namespaces' ||
+            key == 'r2_buckets' ||
+            key == 'd1_databases' ||
+            key == 'services' ||
+            key == 'ai_bindings' ||
+            key == 'durable_object_namespaces' ||
+            key == 'placement' ||
             key == 'build_config' || 
-            key == 'deployment_configs';
+            key == 'deployment_configs' ||
+            key == 'source' ||
+            key == 'config'; // source.config
 
         if (value != null) {
           if (value is Map<String, dynamic>) {
@@ -847,6 +898,7 @@ class PagesSettingsNotifier extends _$PagesSettingsNotifier {
       if (deploymentConfigs != null) {
         rawData['deployment_configs'] = deploymentConfigs;
       }
+      if (source != null) rawData['source'] = source;
 
       final data = removeNulls(rawData);
 

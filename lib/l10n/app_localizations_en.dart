@@ -996,6 +996,96 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pages_domainNameHint => 'example.com';
 
   @override
+  String get pages_gitRepository => 'Git Repository';
+
+  @override
+  String get pages_productionBranch => 'Production Branch';
+
+  @override
+  String get pages_automaticDeployments => 'Automatic Deployments';
+
+  @override
+  String get pages_prComments => 'PR Comments';
+
+  @override
+  String get pages_buildSystemVersion => 'Build System Version';
+
+  @override
+  String get pages_buildOutput => 'Build Output';
+
+  @override
+  String get pages_buildComments => 'Build Comments';
+
+  @override
+  String get pages_buildCache => 'Build Cache';
+
+  @override
+  String get pages_buildWatchPaths => 'Build Watch Paths';
+
+  @override
+  String get pages_includePaths => 'Include Paths';
+
+  @override
+  String get pages_deployHooks => 'Deploy Hooks';
+
+  @override
+  String get pages_noDeployHooks => 'No deploy hooks defined';
+
+  @override
+  String get pages_runtime => 'Runtime';
+
+  @override
+  String get pages_placement => 'Placement';
+
+  @override
+  String get pages_usageModel => 'Usage Model';
+
+  @override
+  String get pages_bindings => 'Bindings';
+
+  @override
+  String get pages_addBinding => 'Add Binding';
+
+  @override
+  String get pages_variableType => 'Type';
+
+  @override
+  String get pages_variableSecret => 'Secret';
+
+  @override
+  String get pages_variablePlainText => 'Plaintext';
+
+  @override
+  String get pages_functionsBilling => 'Pages Functions billing';
+
+  @override
+  String get pages_cpuTimeLimit => 'CPU time limit';
+
+  @override
+  String get pages_accessPolicy => 'Access policy';
+
+  @override
+  String get pages_dangerZone => 'Danger Zone';
+
+  @override
+  String get pages_deleteProject => 'Delete Project';
+
+  @override
+  String get pages_deleteProjectDescription =>
+      'Permanently delete this Pages project including all deployments, assets, functions and configurations associated with it.';
+
+  @override
+  String get pages_deleteProjectConfirmTitle => 'Delete Project?';
+
+  @override
+  String pages_deleteProjectConfirmMessage(String project) {
+    return 'Are you sure you want to delete $project? This action cannot be undone and will delete all deployments.';
+  }
+
+  @override
+  String get pages_projectDeleted => 'Project deleted successfully';
+
+  @override
   String get workers_title => 'Workers';
 
   @override

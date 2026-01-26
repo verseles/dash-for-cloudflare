@@ -93,13 +93,19 @@ void main() {
     await tester.pumpAndSettle();
 
     // Find the close icon for the 'DELETE' variable
+    final deleteTile = find.widgetWithText(ListTile, 'DELETE');
     final deleteButton = find.descendant(
-      of: find.ancestor(
-        of: find.text('DELETE'),
-        matching: find.byType(ListTile),
-      ),
+      of: deleteTile,
       matching: find.byIcon(Symbols.close),
     );
+
+    // Ensure visible before tapping
+    await tester.dragUntilVisible(
+      deleteButton,
+      find.byType(ListView),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle();
 
     await tester.tap(deleteButton);
     await tester.pump(const Duration(seconds: 1));

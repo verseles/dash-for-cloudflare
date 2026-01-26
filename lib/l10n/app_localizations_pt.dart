@@ -61,7 +61,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get common_workInProgress =>
-      'Em desenvolvimento. Esta funcionalidade estará disponível em breve!';
+      'Trabalho em andamento. Este recurso estará disponível em breve!';
 
   @override
   String get common_clearSearch => 'Limpar busca';
@@ -70,7 +70,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get common_clearFilters => 'Limpar filtros';
 
   @override
-  String get common_all => 'Todos';
+  String get common_all => 'Tudo';
 
   @override
   String get common_none => 'Nenhum';
@@ -82,7 +82,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get common_rootOnly => 'Apenas raiz';
 
   @override
-  String get common_disable => 'Desabilitar';
+  String get common_disable => 'Desativar';
 
   @override
   String get menu_dns => 'DNS';
@@ -109,7 +109,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get menu_selectZone => 'Selecionar Zona';
 
   @override
-  String get menu_noZones => 'Nenhuma zona';
+  String get menu_noZones => 'Sem zonas';
 
   @override
   String get tabs_records => 'Registros';
@@ -130,7 +130,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get tabs_cache => 'Cache';
 
   @override
-  String get zone_selectZone => 'Selecionar zona';
+  String get zone_selectZone => 'Selecione uma zona';
 
   @override
   String get zone_searchZones => 'Buscar zonas...';
@@ -160,13 +160,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dns_records => 'Registros DNS';
 
   @override
-  String get dns_filterAll => 'Todos';
+  String get dns_filterAll => 'Tudo';
 
   @override
   String get dns_searchRecords => 'Buscar registros...';
 
   @override
-  String get dns_noRecords => 'Nenhum registro DNS';
+  String get dns_noRecords => 'Sem registros DNS';
 
   @override
   String get dns_noRecordsDescription =>
@@ -240,29 +240,28 @@ class AppLocalizationsPt extends AppLocalizations {
   String get record_priority => 'Prioridade';
 
   @override
-  String get record_proxied => 'Proxied';
+  String get record_proxied => 'Com Proxy';
 
   @override
-  String get record_proxiedTooltip => 'Proxied pela Cloudflare';
+  String get record_proxiedTooltip => 'Trafégo passa pelo Cloudflare';
 
   @override
-  String get record_dnsOnly => 'Somente DNS';
+  String get record_dnsOnly => 'Apenas DNS';
 
   @override
-  String get record_dnsOnlyTooltip => 'Somente DNS (sem proxy)';
+  String get record_dnsOnlyTooltip => 'Apenas DNS (sem proxy)';
 
   @override
-  String get analytics_title => 'Analytics DNS';
+  String get analytics_title => 'DNS Analytics';
 
   @override
-  String get analytics_selectZone =>
-      'Selecione uma zona para ver as estatísticas';
+  String get analytics_selectZone => 'Selecione uma zona para ver o analytics';
 
   @override
-  String get analytics_noData => 'Nenhum dado de estatística';
+  String get analytics_noData => 'Sem dados de analytics';
 
   @override
-  String get analytics_loadAnalytics => 'Carregar Estatísticas';
+  String get analytics_loadAnalytics => 'Carregar Analytics';
 
   @override
   String get analytics_timeRange30m => '30m';
@@ -286,7 +285,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_totalQueries => 'Total de Consultas';
 
   @override
-  String get analytics_topQueryNames => 'Principais Nomes Consultados';
+  String get analytics_topQueryNames => 'Principais Nomes';
 
   @override
   String get analytics_clearSelection => 'Limpar seleção';
@@ -323,13 +322,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_queriesByProtocol => 'Consultas por Protocolo';
 
   @override
-  String get analytics_topQueryNamesChart => 'Principais Nomes Consultados';
+  String get analytics_topQueryNamesChart => 'Principais Nomes de Consulta';
 
   @override
   String get analytics_requests => 'Requisições';
 
   @override
-  String get analytics_bandwidth => 'Banda';
+  String get analytics_bandwidth => 'Largura de Banda';
 
   @override
   String get analytics_uniqueVisitors => 'Visitantes Únicos';
@@ -353,7 +352,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_topPaths => 'Principais Caminhos';
 
   @override
-  String get analytics_threatsStopped => 'Ameaças Bloqueadas';
+  String get analytics_threatsStopped => 'Ameaças Detidas';
 
   @override
   String get analytics_totalThreatsBlocked => 'Total de Ameaças Bloqueadas';
@@ -365,29 +364,30 @@ class AppLocalizationsPt extends AppLocalizations {
   String get analytics_threatsByCountry => 'Ameaças por País';
 
   @override
-  String get analytics_topThreatSources => 'Principais Fontes de Ameaças';
+  String get analytics_topThreatSources => 'Principais Fontes de Ameaça';
 
   @override
-  String get analytics_threatOrigins => 'Origem das Ameaças';
+  String get analytics_threatOrigins => 'Origens de Ameaça';
 
   @override
-  String get analytics_cacheHitRatio => 'Hits de Cache';
+  String get analytics_cacheHitRatio => 'Taxa de Cache';
 
   @override
   String get analytics_bandwidthSaved => 'Banda Economizada';
 
   @override
-  String get analytics_requestsCacheVsOrigin => 'Requisições (Cache vs Origin)';
+  String get analytics_requestsCacheVsOrigin => 'Requisições (Cache vs Origem)';
 
   @override
-  String get analytics_bandwidthCacheVsOrigin => 'Banda (Cache vs Origin)';
+  String get analytics_bandwidthCacheVsOrigin => 'Banda (Cache vs Origem)';
 
   @override
-  String get analytics_cacheStatusByHttpStatus => 'Cache por Status HTTP';
+  String get analytics_cacheStatusByHttpStatus =>
+      'Status de Cache por HTTP Status';
 
   @override
   String get analytics_securityRequiresPaidPlan =>
-      'As Estatísticas de Segurança requerem um plano Cloudflare pago (Pro ou superior).';
+      'Security Analytics requer um plano pago do Cloudflare (Pro ou superior).';
 
   @override
   String get dnsSettings_title => 'Configurações DNS';
@@ -397,13 +397,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get dnsSettings_dnssecDescription =>
-      'DNS Security Extensions adiciona uma camada de segurança assinando os registros DNS. Isso ajuda a proteger seu domínio contra spoofing e ataques de envenenamento de cache.';
+      'Extensões de Segurança do DNS adicionam uma camada de segurança assinando registros DNS. Isso ajuda a proteger seu domínio contra ataques de falsificação de DNS.';
 
   @override
-  String get dnsSettings_dnssecDisabled => 'DNSSEC está desabilitado';
+  String get dnsSettings_dnssecDisabled => 'DNSSEC está desativado';
 
   @override
-  String get dnsSettings_dnssecPending => 'DNSSEC está pendente de ativação';
+  String get dnsSettings_dnssecPending => 'DNSSEC aguardando ativação';
 
   @override
   String get dnsSettings_dnssecPendingCf =>
@@ -414,13 +414,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get dnsSettings_dnssecPendingDisable =>
-      'DNSSEC está pendente de desativação';
+      'DNSSEC aguardando desativação';
 
   @override
-  String get dnsSettings_enableDnssec => 'Habilitar DNSSEC';
+  String get dnsSettings_enableDnssec => 'Ativar DNSSEC';
 
   @override
-  String get dnsSettings_disableDnssec => 'Desabilitar DNSSEC';
+  String get dnsSettings_disableDnssec => 'Desativar DNSSEC';
 
   @override
   String get dnsSettings_cancelDnssec => 'Cancelar';
@@ -438,33 +438,32 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dnsSettings_copyDsRecord => 'Copiar Registro DS';
 
   @override
-  String get dnsSettings_dsRecordCopied =>
-      'Registro DS copiado para a área de transferência';
+  String get dnsSettings_dsRecordCopied => 'Registro DS copiado';
 
   @override
   String get dnsSettings_addDsToRegistrar =>
-      'Adicione este registro DS ao seu registrador de domínio para completar a configuração do DNSSEC:';
+      'Adicione este registro DS ao seu registrador de domínio para concluir a configuração do DNSSEC:';
 
   @override
-  String get dnsSettings_multiSignerDnssec => 'DNSSEC Multi-assinante';
+  String get dnsSettings_multiSignerDnssec => 'DNSSEC Multi-assinatário';
 
   @override
   String get dnsSettings_multiSignerDescription =>
-      'Permite que múltiplos provedores DNS assinem sua zona';
+      'Permite que vários provedores de DNS assinem sua zona';
 
   @override
   String get dnsSettings_multiProviderDns => 'DNS Multi-provedor';
 
   @override
   String get dnsSettings_multiProviderDescription =>
-      'Habilitar DNS secundário com outros provedores';
+      'Ativar DNS secundário com outros provedores';
 
   @override
-  String get dnsSettings_cnameFlattening => 'CNAME Flattening';
+  String get dnsSettings_cnameFlattening => 'Achatamento de CNAME';
 
   @override
   String get dnsSettings_cnameFlatteningDescription =>
-      'Achatar registros CNAME no apex da zona';
+      'Achatar registros CNAME na raiz da zona (apex)';
 
   @override
   String get dnsSettings_cnameFlattenNone => 'Nenhum';
@@ -473,20 +472,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dnsSettings_cnameFlattenAtRoot => 'Achatar na raiz';
 
   @override
-  String get dnsSettings_cnameFlattenAll => 'Achatar todos';
+  String get dnsSettings_cnameFlattenAll => 'Achatar tudo';
 
   @override
-  String get dnsSettings_emailSecurity => 'Segurança de Email';
+  String get dnsSettings_emailSecurity => 'Segurança de E-mail';
 
   @override
   String get dnsSettings_emailSecurityDescription =>
-      'Configurar registros DMARC, SPF e DKIM para autenticação de email';
+      'Configurar registros DMARC, SPF e DKIM para autenticação de e-mail';
 
   @override
   String get dnsSettings_configureEmail => 'Configurar';
 
   @override
-  String get dnsSettings_disableDnssecTitle => 'Desabilitar DNSSEC?';
+  String get dnsSettings_disableDnssecTitle => 'Desativar DNSSEC?';
 
   @override
   String get dnsSettings_cancelDeactivation => 'Cancelar Desativação';
@@ -510,7 +509,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dnssecDetails_publicKey => 'Chave Pública';
 
   @override
-  String get dnssecDetails_keyTag => 'Tag da Chave';
+  String get dnssecDetails_keyTag => 'Key Tag';
 
   @override
   String get dnssecDetails_keyType => 'Tipo de Chave';
@@ -531,11 +530,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_apiToken => 'Token da API';
 
   @override
-  String get settings_apiTokenHint => 'Digite seu token da API Cloudflare';
+  String get settings_apiTokenHint => 'Insira seu Token da API Cloudflare';
 
   @override
   String get settings_apiTokenDescription =>
-      'Seu token da API precisa das seguintes permissões:';
+      'Seu token precisa das seguintes permissões:';
 
   @override
   String get settings_apiTokenPermission1 =>
@@ -547,7 +546,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_apiTokenPermission3 =>
-      'Zone Settings:Read - para status do DNSSEC';
+      'Zone Settings:Read - para status DNSSEC';
 
   @override
   String get settings_apiTokenPermission4 =>
@@ -555,13 +554,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_apiTokenPermission5 =>
-      'Analytics:Read - para estatísticas DNS';
+      'Analytics:Read - para analytics DNS';
 
   @override
   String get settings_createToken => 'Crie um token em dash.cloudflare.com';
 
   @override
-  String get settings_tokenValid => 'Token é válido';
+  String get settings_tokenValid => 'Token válido';
 
   @override
   String get settings_tokenInvalid => 'Token deve ter pelo menos 40 caracteres';
@@ -588,7 +587,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_language => 'Idioma';
 
   @override
-  String get settings_languageEn => 'English';
+  String get settings_languageEn => 'Inglês';
 
   @override
   String get settings_languagePt => 'Português';
@@ -605,10 +604,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get error_generic => 'Algo deu errado';
 
   @override
-  String get error_network => 'Erro de rede. Por favor, verifique sua conexão.';
+  String get error_network => 'Erro de rede. Verifique sua conexão.';
 
   @override
-  String get error_unauthorized => 'Token da API inválido ou expirado';
+  String get error_unauthorized => 'Token de API inválido ou expirado';
 
   @override
   String get error_forbidden =>
@@ -619,11 +618,11 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get error_rateLimited =>
-      'Muitas requisições. Por favor, tente novamente mais tarde.';
+      'Muitas requisições. Tente novamente mais tarde.';
 
   @override
   String get error_serverError =>
-      'Erro no servidor. Por favor, tente novamente mais tarde.';
+      'Erro no servidor. Tente novamente mais tarde.';
 
   @override
   String error_prefix(String message) {
@@ -638,17 +637,16 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get error_permissionsDescription =>
-      'Seu token de API não possui as permissões necessárias para acessar este recurso. Por favor, verifique as configurações do seu token na Cloudflare.';
+      'Seu token de API não tem as permissões necessárias. Verifique as configurações no painel da Cloudflare.';
 
   @override
-  String get error_checkCloudflareDashboard => 'Verificar Painel da Cloudflare';
+  String get error_checkCloudflareDashboard => 'Verificar Painel Cloudflare';
 
   @override
-  String get error_commonPermissionsTitle =>
-      'Permissões comumente necessárias:';
+  String get error_commonPermissionsTitle => 'Permissões comuns necessárias:';
 
   @override
-  String get pwa_updateAvailable => 'Uma nova versão está disponível';
+  String get pwa_updateAvailable => 'Nova versão disponível';
 
   @override
   String get pwa_updateNow => 'Atualizar Agora';
@@ -661,14 +659,14 @@ class AppLocalizationsPt extends AppLocalizations {
       'Instale o Dash for Cloudflare para acesso rápido';
 
   @override
-  String get settings_cloudflareApiToken => 'Token da API Cloudflare';
+  String get settings_cloudflareApiToken => 'Token API Cloudflare';
 
   @override
   String get settings_requiredPermissions =>
-      'Permissões necessárias: Zone:Read, DNS:Read, DNS:Edit';
+      'Permissões: Zone:Read, DNS:Read, DNS:Edit';
 
   @override
-  String get settings_createTokenOnCloudflare => 'Criar token na Cloudflare';
+  String get settings_createTokenOnCloudflare => 'Criar token no Cloudflare';
 
   @override
   String get settings_tokenPastedFromClipboard =>
@@ -682,14 +680,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_clearCacheDescription =>
-      'Registros DNS, estatísticas e data centers';
+      'Registros DNS, analytics e data centers';
 
   @override
   String get settings_clearCacheTitle => 'Limpar Cache';
 
   @override
   String get settings_clearCacheMessage =>
-      'Isso irá limpar todos os dados em cache incluindo registros DNS, estatísticas e informações de data centers.\n\nOs dados serão recarregados da API no próximo acesso.';
+      'Isso limpará todos os dados em cache.\n\nOs dados serão recarregados da API no próximo acesso.';
 
   @override
   String get settings_cacheCleared => 'Cache limpo com sucesso';
@@ -702,35 +700,34 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings_saveLogsDescription =>
-      'Persiste logs para análise posterior';
+      'Mantém logs para análise posterior';
 
   @override
   String get settings_viewDebugLogs => 'Ver Logs de Depuração';
 
   @override
-  String get settings_goToDnsManagement => 'Ir para Gerenciamento DNS';
+  String get settings_goToDnsManagement => 'Gerenciar DNS';
 
   @override
   String get debugLogs_title => 'Logs de Depuração';
 
   @override
-  String get debugLogs_copyAll => 'Copiar Todos';
+  String get debugLogs_copyAll => 'Copiar Tudo';
 
   @override
   String get debugLogs_saveToFile => 'Salvar em Arquivo';
 
   @override
-  String get debugLogs_shareAsText => 'Compartilhar como Texto';
+  String get debugLogs_shareAsText => 'Compartilhar Texto';
 
   @override
-  String get debugLogs_shareAsFile => 'Compartilhar como Arquivo';
+  String get debugLogs_shareAsFile => 'Compartilhar Arquivo';
 
   @override
   String get debugLogs_clearLogs => 'Limpar Logs';
 
   @override
-  String get debugLogs_logsCopied =>
-      'Logs copiados para a área de transferência';
+  String get debugLogs_logsCopied => 'Logs copiados';
 
   @override
   String debugLogs_savedTo(String path) {
@@ -753,7 +750,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get debugLogs_logEntryCopied => 'Entrada de log copiada';
+  String get debugLogs_logEntryCopied => 'Log copiado';
 
   @override
   String get debugLogs_timeRange => 'Período:';
@@ -767,10 +764,10 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get debugLogs_noLogsInRange => 'Nenhum log neste período';
+  String get debugLogs_noLogsInRange => 'Sem logs neste período';
 
   @override
-  String get debugLogs_tryLongerRange => 'Tente selecionar um período maior';
+  String get debugLogs_tryLongerRange => 'Tente um período maior';
 
   @override
   String get debugLogs_autoScrollOn => 'Auto-scroll LIGADO';
@@ -824,7 +821,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dnsRecord_ttl1day => '1 dia';
 
   @override
-  String get dnsRecord_enterValue => 'Digite o valor';
+  String get dnsRecord_enterValue => 'Insira o valor';
 
   @override
   String emptyState_noResultsFor(String query) {
@@ -833,7 +830,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get emptyState_tryAdjustingSearch =>
-      'Tente ajustar os termos de busca';
+      'Tente ajustar seus termos de busca';
 
   @override
   String get pages_title => 'Pages';
@@ -856,13 +853,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_statusFailed => 'Falhou';
 
   @override
-  String get pages_statusBuilding => 'Compilando';
+  String get pages_statusBuilding => 'Construindo';
 
   @override
   String get pages_statusQueued => 'Na fila';
 
   @override
-  String get pages_statusSkipped => 'Ignorado';
+  String get pages_statusSkipped => 'Pulado';
 
   @override
   String get pages_statusUnknown => 'Desconhecido';
@@ -871,10 +868,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_openInBrowser => 'Abrir no navegador';
 
   @override
-  String get pages_deployments => 'Deployments';
+  String get pages_deployments => 'Implantações';
 
   @override
-  String get pages_noDeployments => 'Nenhum deployment encontrado';
+  String get pages_noDeployments => 'Nenhuma implantação encontrada';
 
   @override
   String get pages_production => 'Produção';
@@ -883,7 +880,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_preview => 'Preview';
 
   @override
-  String get pages_deploymentDetails => 'Detalhes do Deployment';
+  String get pages_deploymentDetails => 'Detalhes da Implantação';
 
   @override
   String get pages_commitInfo => 'Informações do Commit';
@@ -892,30 +889,30 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_buildStages => 'Etapas do Build';
 
   @override
-  String get pages_rollback => 'Rollback';
+  String get pages_rollback => 'Reverter';
 
   @override
-  String get pages_rollbackConfirmTitle => 'Rollback do Deployment';
+  String get pages_rollbackConfirmTitle => 'Reverter Implantação';
 
   @override
   String get pages_rollbackConfirmMessage =>
-      'Tem certeza que deseja fazer rollback para este deployment? Isso tornará este deployment a versão de produção atual.';
+      'Tem certeza que deseja reverter para esta implantação? Ela se tornará a versão atual de produção.';
 
   @override
-  String get pages_rollbackSuccess => 'Rollback realizado com sucesso';
+  String get pages_rollbackSuccess => 'Reversão concluída';
 
   @override
-  String get pages_retry => 'Repetir';
+  String get pages_retry => 'Tentar novamente';
 
   @override
-  String get pages_retryConfirmTitle => 'Repetir Deployment';
+  String get pages_retryConfirmTitle => 'Repetir Implantação';
 
   @override
   String get pages_retryConfirmMessage =>
-      'Tem certeza que deseja repetir este deployment? Isso iniciará um novo build com a mesma configuração.';
+      'Tem certeza que deseja repetir esta implantação? Isso iniciará um novo build.';
 
   @override
-  String get pages_retrySuccess => 'Deploy reiniciado';
+  String get pages_retrySuccess => 'Repetição iniciada';
 
   @override
   String get pages_autoDeployPaused => 'Auto-deploy pausado';
@@ -948,7 +945,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String pages_deleteDomainConfirmMessage(String domain) {
-    return 'Tem certeza que deseja excluir \"$domain\"? Isso irá desconectá-lo do seu projeto Pages.';
+    return 'Tem certeza que deseja excluir \"$domain\"?';
   }
 
   @override
@@ -982,10 +979,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_variableValue => 'Valor';
 
   @override
-  String get pages_secret => 'Secreta';
+  String get pages_secret => 'Secret';
 
   @override
-  String get pages_plainText => 'Texto Plano';
+  String get pages_plainText => 'Texto Simples';
 
   @override
   String get pages_compatibilityDate => 'Data de Compatibilidade';
@@ -997,29 +994,119 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_saveSettings => 'Salvar Configurações';
 
   @override
-  String get pages_settingsUpdated => 'Configurações atualizadas com sucesso';
+  String get pages_settingsUpdated => 'Configurações atualizadas';
 
   @override
-  String get pages_domainAdded => 'Domínio adicionado com sucesso';
+  String get pages_domainAdded => 'Domínio adicionado';
 
   @override
-  String get pages_domainDeleted => 'Domínio excluído com sucesso';
+  String get pages_domainDeleted => 'Domínio excluído';
 
   @override
   String get pages_domainNameHint => 'exemplo.com';
 
   @override
+  String get pages_gitRepository => 'Repositório Git';
+
+  @override
+  String get pages_productionBranch => 'Branch de Produção';
+
+  @override
+  String get pages_automaticDeployments => 'Deployments Automáticos';
+
+  @override
+  String get pages_prComments => 'Comentários em PR';
+
+  @override
+  String get pages_buildSystemVersion => 'Versão do Sistema de Build';
+
+  @override
+  String get pages_buildOutput => 'Saída do Build';
+
+  @override
+  String get pages_buildComments => 'Comentários do Build';
+
+  @override
+  String get pages_buildCache => 'Cache do Build';
+
+  @override
+  String get pages_buildWatchPaths => 'Caminhos de Monitoramento';
+
+  @override
+  String get pages_includePaths => 'Caminhos Incluídos';
+
+  @override
+  String get pages_deployHooks => 'Hooks de Deploy';
+
+  @override
+  String get pages_noDeployHooks => 'Nenhum hook de deploy definido';
+
+  @override
+  String get pages_runtime => 'Runtime';
+
+  @override
+  String get pages_placement => 'Placement';
+
+  @override
+  String get pages_usageModel => 'Modelo de Uso';
+
+  @override
+  String get pages_bindings => 'Bindings';
+
+  @override
+  String get pages_addBinding => 'Adicionar Binding';
+
+  @override
+  String get pages_variableType => 'Tipo';
+
+  @override
+  String get pages_variableSecret => 'Secret';
+
+  @override
+  String get pages_variablePlainText => 'Texto Simples';
+
+  @override
+  String get pages_functionsBilling => 'Faturamento de Functions';
+
+  @override
+  String get pages_cpuTimeLimit => 'Limite de tempo de CPU';
+
+  @override
+  String get pages_accessPolicy => 'Política de Acesso';
+
+  @override
+  String get pages_dangerZone => 'Zona de Perigo';
+
+  @override
+  String get pages_deleteProject => 'Excluir Projeto';
+
+  @override
+  String get pages_deleteProjectDescription =>
+      'Excluir permanentemente este projeto Pages, incluindo todos os deployments, assets, funções e configurações associadas.';
+
+  @override
+  String get pages_deleteProjectConfirmTitle => 'Excluir Projeto?';
+
+  @override
+  String pages_deleteProjectConfirmMessage(String project) {
+    return 'Tem certeza que deseja excluir $project? Esta ação não pode ser desfeita e excluirá todos os deployments.';
+  }
+
+  @override
+  String get pages_projectDeleted => 'Projeto excluído com sucesso';
+
+  @override
   String get workers_title => 'Workers';
 
   @override
-  String get workers_noWorkers => 'Nenhum script de Workers encontrado';
+  String get workers_noWorkers => 'Nenhum script Workers encontrado';
 
   @override
   String get workers_searchWorkers => 'Buscar Workers...';
 
   @override
   String workers_lastModified(String date) {
-    return 'Última modificação: $date';
+    return 'Modificado em: $date';
   }
 
   @override
@@ -1041,7 +1128,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get workers_metrics_cpuTime => 'Tempo de CPU';
 
   @override
-  String get workers_metrics_noData => 'Sem métricas para este período';
+  String get workers_metrics_noData =>
+      'Sem métricas disponíveis para este período';
 
   @override
   String get workers_triggers_customDomains => 'Domínios Customizados';
@@ -1067,7 +1155,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get workers_triggers_deleteDomainConfirm =>
-      'Tem certeza que deseja desconectar este domínio customizado?';
+      'Tem certeza que deseja desconectar este domínio?';
 
   @override
   String get workers_triggers_routeAdded => 'Rota adicionada com sucesso';
@@ -1090,7 +1178,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'Nenhuma rota configurada para esta zona';
 
   @override
-  String get workers_triggers_noSchedules => 'Nenhum agendamento configurado';
+  String get workers_triggers_noSchedules => 'Nenhum cron trigger configurado';
 
   @override
   String get workers_settings_bindings => 'Bindings';
@@ -1105,13 +1193,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get workers_settings_usageModel => 'Modelo de Uso';
 
   @override
-  String get workers_bindings_kv => 'KV Namespace';
+  String get workers_bindings_kv => 'Namespace KV';
 
   @override
-  String get workers_bindings_r2 => 'R2 Bucket';
+  String get workers_bindings_r2 => 'Bucket R2';
 
   @override
-  String get workers_bindings_d1 => 'D1 Database';
+  String get workers_bindings_d1 => 'Banco de Dados D1';
 
   @override
   String get workers_bindings_do => 'Durable Object';
@@ -1126,12 +1214,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get workers_settings_addBinding => 'Adicionar Binding';
 
   @override
-  String get workers_settings_updateSecret => 'Atualizar Segredo';
+  String get workers_settings_updateSecret => 'Atualizar Secret';
 
   @override
-  String get workers_settings_secretValue => 'Valor do Segredo';
+  String get workers_settings_secretValue => 'Valor do Secret';
 
   @override
   String get workers_settings_secretHint =>
-      'Digite o valor do segredo (somente escrita)';
+      'Insira o valor do secret (somente escrita)';
 }

@@ -1976,6 +1976,180 @@ abstract class AppLocalizations {
   /// **'example.com'**
   String get pages_domainNameHint;
 
+  /// No description provided for @pages_gitRepository.
+  ///
+  /// In en, this message translates to:
+  /// **'Git Repository'**
+  String get pages_gitRepository;
+
+  /// No description provided for @pages_productionBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Branch'**
+  String get pages_productionBranch;
+
+  /// No description provided for @pages_automaticDeployments.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic Deployments'**
+  String get pages_automaticDeployments;
+
+  /// No description provided for @pages_prComments.
+  ///
+  /// In en, this message translates to:
+  /// **'PR Comments'**
+  String get pages_prComments;
+
+  /// No description provided for @pages_buildSystemVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Build System Version'**
+  String get pages_buildSystemVersion;
+
+  /// No description provided for @pages_buildOutput.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Output'**
+  String get pages_buildOutput;
+
+  /// No description provided for @pages_buildComments.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Comments'**
+  String get pages_buildComments;
+
+  /// No description provided for @pages_buildCache.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Cache'**
+  String get pages_buildCache;
+
+  /// No description provided for @pages_buildWatchPaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Build Watch Paths'**
+  String get pages_buildWatchPaths;
+
+  /// No description provided for @pages_includePaths.
+  ///
+  /// In en, this message translates to:
+  /// **'Include Paths'**
+  String get pages_includePaths;
+
+  /// No description provided for @pages_deployHooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Deploy Hooks'**
+  String get pages_deployHooks;
+
+  /// No description provided for @pages_noDeployHooks.
+  ///
+  /// In en, this message translates to:
+  /// **'No deploy hooks defined'**
+  String get pages_noDeployHooks;
+
+  /// No description provided for @pages_runtime.
+  ///
+  /// In en, this message translates to:
+  /// **'Runtime'**
+  String get pages_runtime;
+
+  /// No description provided for @pages_placement.
+  ///
+  /// In en, this message translates to:
+  /// **'Placement'**
+  String get pages_placement;
+
+  /// No description provided for @pages_usageModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage Model'**
+  String get pages_usageModel;
+
+  /// No description provided for @pages_bindings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bindings'**
+  String get pages_bindings;
+
+  /// No description provided for @pages_addBinding.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Binding'**
+  String get pages_addBinding;
+
+  /// No description provided for @pages_variableType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get pages_variableType;
+
+  /// No description provided for @pages_variableSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret'**
+  String get pages_variableSecret;
+
+  /// No description provided for @pages_variablePlainText.
+  ///
+  /// In en, this message translates to:
+  /// **'Plaintext'**
+  String get pages_variablePlainText;
+
+  /// No description provided for @pages_functionsBilling.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages Functions billing'**
+  String get pages_functionsBilling;
+
+  /// No description provided for @pages_cpuTimeLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU time limit'**
+  String get pages_cpuTimeLimit;
+
+  /// No description provided for @pages_accessPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Access policy'**
+  String get pages_accessPolicy;
+
+  /// No description provided for @pages_dangerZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger Zone'**
+  String get pages_dangerZone;
+
+  /// No description provided for @pages_deleteProject.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Project'**
+  String get pages_deleteProject;
+
+  /// No description provided for @pages_deleteProjectDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently delete this Pages project including all deployments, assets, functions and configurations associated with it.'**
+  String get pages_deleteProjectDescription;
+
+  /// No description provided for @pages_deleteProjectConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Project?'**
+  String get pages_deleteProjectConfirmTitle;
+
+  /// No description provided for @pages_deleteProjectConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {project}? This action cannot be undone and will delete all deployments.'**
+  String pages_deleteProjectConfirmMessage(String project);
+
+  /// No description provided for @pages_projectDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Project deleted successfully'**
+  String get pages_projectDeleted;
+
   /// No description provided for @workers_title.
   ///
   /// In en, this message translates to:

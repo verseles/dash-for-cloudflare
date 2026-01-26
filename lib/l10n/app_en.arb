@@ -433,6 +433,43 @@
   "pages_domainDeleted": "Domain deleted successfully",
   "pages_domainNameHint": "example.com",
 
+  "pages_gitRepository": "Git Repository",
+  "pages_productionBranch": "Production Branch",
+  "pages_automaticDeployments": "Automatic Deployments",
+  "pages_prComments": "PR Comments",
+  "pages_buildSystemVersion": "Build System Version",
+  "pages_buildOutput": "Build Output",
+  "pages_buildComments": "Build Comments",
+  "pages_buildCache": "Build Cache",
+  "pages_buildWatchPaths": "Build Watch Paths",
+  "pages_includePaths": "Include Paths",
+  "pages_deployHooks": "Deploy Hooks",
+  "pages_noDeployHooks": "No deploy hooks defined",
+  "pages_runtime": "Runtime",
+  "pages_placement": "Placement",
+  "pages_usageModel": "Usage Model",
+  "pages_bindings": "Bindings",
+  "pages_addBinding": "Add Binding",
+  "pages_variableType": "Type",
+  "pages_variableSecret": "Secret",
+  "pages_variablePlainText": "Plaintext",
+  "pages_functionsBilling": "Pages Functions billing",
+  "pages_cpuTimeLimit": "CPU time limit",
+  "pages_accessPolicy": "Access policy",
+  "pages_dangerZone": "Danger Zone",
+  "pages_deleteProject": "Delete Project",
+  "pages_deleteProjectDescription": "Permanently delete this Pages project including all deployments, assets, functions and configurations associated with it.",
+  "pages_deleteProjectConfirmTitle": "Delete Project?",
+  "pages_deleteProjectConfirmMessage": "Are you sure you want to delete {project}? This action cannot be undone and will delete all deployments.",
+  "@pages_deleteProjectConfirmMessage": {
+    "placeholders": {
+      "project": {
+        "type": "String"
+      }
+    }
+  },
+  "pages_projectDeleted": "Project deleted successfully",
+
   "workers_title": "Workers",
   "workers_noWorkers": "No Workers scripts found",
   "workers_searchWorkers": "Search Workers...",
@@ -476,10 +513,9 @@
   "workers_bindings_d1": "D1 Database",
   "workers_bindings_do": "Durable Object",
   "workers_bindings_service": "Service",
-    "workers_bindings_queue": "Queue",
-    "workers_settings_addBinding": "Add Binding",
-    "workers_settings_updateSecret": "Update Secret",
-    "workers_settings_secretValue": "Secret Value",
-    "workers_settings_secretHint": "Enter secret value (write-only)"
-  }
-  
+  "workers_bindings_queue": "Queue",
+  "workers_settings_addBinding": "Add Binding",
+  "workers_settings_updateSecret": "Update Secret",
+  "workers_settings_secretValue": "Secret Value",
+  "workers_settings_secretHint": "Enter secret value (write-only)"
+}

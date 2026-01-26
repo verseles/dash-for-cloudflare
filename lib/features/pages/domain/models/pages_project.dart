@@ -42,12 +42,51 @@ sealed class DeploymentConfig with _$DeploymentConfig {
   @JsonSerializable(includeIfNull: true)
   const factory DeploymentConfig({
     @JsonKey(name: 'env_vars') Map<String, EnvVar>? envVars,
+    @JsonKey(name: 'kv_namespaces') Map<String, PagesBinding>? kvNamespaces,
+    @JsonKey(name: 'd1_databases') Map<String, PagesBinding>? d1Databases,
+    @JsonKey(name: 'r2_buckets') Map<String, PagesBinding>? r2Buckets,
+    @JsonKey(name: 'durable_object_namespaces')
+    Map<String, PagesBinding>? durableObjectNamespaces,
+    @JsonKey(name: 'services') Map<String, PagesBinding>? services,
+    @JsonKey(name: 'ai_bindings') Map<String, PagesBinding>? aiBindings,
     @JsonKey(name: 'compatibility_date') String? compatibilityDate,
     @JsonKey(name: 'compatibility_flags') List<String>? compatibilityFlags,
+    @JsonKey(name: 'build_watch_paths') List<String>? buildWatchPaths,
+    @JsonKey(name: 'usage_model') String? usageModel,
+    @JsonKey(name: 'placement') Placement? placement,
   }) = _DeploymentConfig;
 
   factory DeploymentConfig.fromJson(Map<String, dynamic> json) =>
       _$DeploymentConfigFromJson(json);
+}
+
+/// Binding model for Pages (KV, D1, R2, etc.)
+@freezed
+sealed class PagesBinding with _$PagesBinding {
+  @JsonSerializable(includeIfNull: true)
+  const factory PagesBinding({
+    @JsonKey(name: 'namespace_id') String? namespaceId,
+    @JsonKey(name: 'id') String? id,
+    @JsonKey(name: 'name') String? name,
+    @JsonKey(name: 'bucket_name') String? bucketName,
+    @JsonKey(name: 'service') String? service,
+    @JsonKey(name: 'environment') String? environment,
+    @JsonKey(name: 'project_name') String? projectName,
+  }) = _PagesBinding;
+
+  factory PagesBinding.fromJson(Map<String, dynamic> json) =>
+      _$PagesBindingFromJson(json);
+}
+
+/// Placement configuration
+@freezed
+sealed class Placement with _$Placement {
+  const factory Placement({
+    @Default('default') String mode,
+  }) = _Placement;
+
+  factory Placement.fromJson(Map<String, dynamic> json) =>
+      _$PlacementFromJson(json);
 }
 
 /// Environment variable model
@@ -72,6 +111,8 @@ sealed class BuildConfig with _$BuildConfig {
     @JsonKey(name: 'root_dir') String? rootDir,
     @JsonKey(name: 'web_analytics_tag') String? webAnalyticsTag,
     @JsonKey(name: 'web_analytics_token') String? webAnalyticsToken,
+    @JsonKey(name: 'build_system_version') String? buildSystemVersion,
+    @JsonKey(name: 'build_cache') bool? buildCache,
   }) = _BuildConfig;
 
   factory BuildConfig.fromJson(Map<String, dynamic> json) =>

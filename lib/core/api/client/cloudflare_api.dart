@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../models/cloudflare_response.dart';
+import '../models/cloudflare_resources.dart';
 import '../../../features/auth/domain/models/account.dart';
 import '../../../features/dns/domain/models/zone.dart';
 import '../../../features/dns/domain/models/dns_record.dart';
@@ -215,6 +216,13 @@ abstract class CloudflareApi {
     @Body() Map<String, dynamic> data,
   );
 
+  /// Delete a Pages project
+  @DELETE('/accounts/{accountId}/pages/projects/{projectName}')
+  Future<CloudflareResponse<DeleteResponse>> deletePagesProject(
+    @Path('accountId') String accountId,
+    @Path('projectName') String projectName,
+  );
+
   /// Get custom domains for a Pages project
   @GET('/accounts/{accountId}/pages/projects/{projectName}/domains')
   Future<CloudflareResponse<List<PagesDomain>>> getPagesDomains(
@@ -316,5 +324,27 @@ abstract class CloudflareApi {
   Future<CloudflareResponse<DeleteResponse>> deleteWorkerRoute(
     @Path('zoneId') String zoneId,
     @Path('routeId') String routeId,
+  );
+
+  // ============== RESOURCES (KV, R2, D1) ==============
+
+  /// List KV namespaces for an account
+  @GET('/accounts/{accountId}/workers/kv/namespaces')
+  Future<CloudflareResponse<List<KVNamespace>>> getKVNamespaces(
+    @Path('accountId') String accountId, {
+    @Query('per_page') int perPage = 100,
+    @Query('page') int page = 1,
+  });
+
+  /// List R2 buckets for an account
+  @GET('/accounts/{accountId}/r2/buckets')
+  Future<CloudflareResponse<List<R2Bucket>>> getR2Buckets(
+    @Path('accountId') String accountId,
+  );
+
+  /// List D1 databases for an account
+  @GET('/accounts/{accountId}/d1/database')
+  Future<CloudflareResponse<List<D1Database>>> getD1Databases(
+    @Path('accountId') String accountId,
   );
 }
