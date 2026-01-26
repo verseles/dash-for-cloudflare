@@ -155,7 +155,7 @@ android:
 	@echo ""
 	@if command -v tdl >/dev/null 2>&1; then \
 		echo "Uploading APK via tdl..."; \
-		if tdl up -c 3305021517 -t 6 --path=$(APK_PATH); then \
+		if tdl up -c VerselesBot -t 6 --path=$(APK_PATH); then \
 			echo "✓ APK uploaded"; \
 		else \
 			echo "✗ APK upload failed"; \
