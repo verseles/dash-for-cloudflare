@@ -83,7 +83,7 @@ make gen          # Após alterar models Freezed/Retrofit
 
 6. **Se `make analyze` ou `make test` falhar, corrija TODOS os erros.** Não prossiga com erros pendentes.
 
-7. **Incrementar Build Number.** Sempre incremente o número após o `+` (ex: de `+3` para `+4`) no `pubspec.yaml` antes de cada `make android`. O Android impede a instalação se o build number for menor ou igual ao que já está no dispositivo.
+7. **Incrementar Versão.** Sempre incremente a versão no `pubspec.yaml` antes de cada `make android`. O Android impede a instalação se a versão for menor ou igual ao que já está no dispositivo.
 
 8. **Limpeza de Cache.** Se houver mudanças em modelos (`.freezed`, `.g.dart`) ou se o APK anterior apresentou erro de instalação, execute `make clean` antes de `make android` para garantir uma build íntegra.
 
