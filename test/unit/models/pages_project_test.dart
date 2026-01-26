@@ -50,7 +50,7 @@ void main() {
             'destination_dir': 'dist',
             'root_dir': '/',
             'build_system_version': '3',
-            'build_cache': true,
+            'build_caching': true,
           },
         };
 

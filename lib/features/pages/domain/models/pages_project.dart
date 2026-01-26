@@ -112,7 +112,7 @@ sealed class BuildConfig with _$BuildConfig {
     @JsonKey(name: 'web_analytics_tag') String? webAnalyticsTag,
     @JsonKey(name: 'web_analytics_token') String? webAnalyticsToken,
     @JsonKey(name: 'build_system_version') String? buildSystemVersion,
-    @JsonKey(name: 'build_cache') bool? buildCache,
+    @JsonKey(name: 'build_caching') bool? buildCache,
   }) = _BuildConfig;
 
   factory BuildConfig.fromJson(Map<String, dynamic> json) =>
