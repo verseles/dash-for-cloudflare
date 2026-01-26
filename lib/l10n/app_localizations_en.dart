@@ -36,6 +36,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_delete => 'Delete';
 
   @override
+  String get common_deleted => 'Deleted successfully';
+
+  @override
   String get common_edit => 'Edit';
 
   @override
@@ -1208,4 +1211,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get workers_settings_secretHint => 'Enter secret value (write-only)';
+
+  @override
+  String get workers_settings_observability => 'Observability';
+
+  @override
+  String get workers_settings_logs => 'Workers Logs';
+
+  @override
+  String get workers_settings_traces => 'Workers Traces';
+
+  @override
+  String get workers_settings_logpush => 'Logpush';
+
+  @override
+  String get workers_settings_tail => 'Tail Worker';
+
+  @override
+  String get workers_settings_noTail => 'No Tail Workers connected';
+
+  @override
+  String get workers_settings_deleteWorker => 'Delete Worker';
+
+  @override
+  String get workers_settings_deleteWorkerConfirm =>
+      'Are you sure you want to delete this Worker? This action cannot be undone and will delete all files, configurations and deployments.';
+
+  @override
+  String get workers_settings_domainsAndRoutes => 'Domains & Routes';
+
+  @override
+  String get workers_settings_viewDomains => 'View Domains';
+
+  @override
+  String get workers_settings_viewRoutes => 'View Routes';
+
+  @override
+  String get workers_settings_pricing => 'Pricing';
 }

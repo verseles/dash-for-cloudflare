@@ -276,6 +276,13 @@ abstract class CloudflareApi {
     @Body() Map<String, dynamic> data,
   );
 
+  /// Delete a Worker script
+  @DELETE('/accounts/{accountId}/workers/scripts/{scriptName}')
+  Future<CloudflareResponse<DeleteResponse>> deleteWorkerScript(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+  );
+
   /// Create or update a Worker secret
   @PUT('/accounts/{accountId}/workers/scripts/{scriptName}/secrets')
   Future<CloudflareResponse<WorkerBinding>> updateWorkerSecret(

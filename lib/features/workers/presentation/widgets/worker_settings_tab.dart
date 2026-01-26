@@ -24,6 +24,36 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   Map<String, String>? _localVariables;
   bool _isInitialized = false;
   bool _isSaving = false;
+  bool _isDeleting = false;
+
+  // Runtime Controllers
+  late TextEditingController _compatibilityDateController;
+  late String _usageModel;
+  late String _placementMode;
+  
+  // Observability
+  late bool _observabilityEnabled;
+
+  // Focus Nodes
+  late FocusNode _compatibilityDateFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _compatibilityDateController = TextEditingController();
+    _compatibilityDateFocusNode = FocusNode()..addListener(() {
+      if (!_compatibilityDateFocusNode.hasFocus) {
+        _saveSettings();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _compatibilityDateController.dispose();
+    _compatibilityDateFocusNode.dispose();
+    super.dispose();
+  }
 
   void _initializeLocalState(WorkerSettings settings) {
     final vars = <String, String>{};
@@ -34,11 +64,132 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     }
     setState(() {
       _localVariables = vars;
+      _compatibilityDateController.text = settings.compatibilityDate ?? '';
+      _usageModel = settings.usageModel;
+      _placementMode = settings.placement?.mode ?? 'default';
+      _observabilityEnabled = settings.observability?.enabled ?? false;
       _isInitialized = true;
     });
   }
 
+  bool _hasChanges(WorkerSettings original) {
+    if (_localVariables == null) return false;
+    
+    final originalVars = <String, String>{};
+    for (final b in original.bindings) {
+      if (b.type == 'plain_text' && b.text != null) {
+        originalVars[b.name] = b.text!;
+      }
+    }
 
+    if (_localVariables!.length != originalVars.length) return true;
+    for (final key in _localVariables!.keys) {
+      if (_localVariables![key] != originalVars[key]) return true;
+    }
+
+    if (_compatibilityDateController.text != (original.compatibilityDate ?? '')) return true;
+    if (_usageModel != original.usageModel) return true;
+    if (_placementMode != (original.placement?.mode ?? 'default')) return true;
+    if (_observabilityEnabled != (original.observability?.enabled ?? false)) return true;
+    
+    return false;
+  }
+
+  Future<void> _saveSettings() async {
+    final currentSettings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
+    if (currentSettings == null || !_hasChanges(currentSettings)) return;
+
+    if (!mounted) return;
+    setState(() => _isSaving = true);
+
+    final updatedBindings = <Map<String, dynamic>>[];
+    
+    // Keep non-variable bindings
+    for (final b in currentSettings.bindings) {
+      if (b.type != 'plain_text' && b.type != 'secret_text') {
+        updatedBindings.add(b.toJson());
+      }
+    }
+
+    // Add updated variables
+    _localVariables?.forEach((name, text) {
+      updatedBindings.add({
+        'type': 'plain_text',
+        'name': name,
+        'text': text,
+      });
+    });
+
+    final data = {
+      'bindings': updatedBindings,
+      'compatibility_date': _compatibilityDateController.text.trim(),
+      'usage_model': _usageModel,
+      'placement': {'mode': _placementMode},
+      'observability': {'enabled': _observabilityEnabled},
+    };
+
+    try {
+      final success = await ref.read(workerSettingsActionNotifierProvider.notifier).updateSettings(
+        scriptName: widget.worker.id,
+        data: data,
+      );
+
+      if (success && mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context).pages_settingsUpdated),
+            duration: const Duration(seconds: 1),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
+  Future<void> _deleteWorker() async {
+    final l10n = AppLocalizations.of(context);
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.workers_settings_deleteWorker),
+        content: Text(l10n.workers_settings_deleteWorkerConfirm),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(l10n.common_cancel)),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            onPressed: () => Navigator.pop(context, true), 
+            child: Text(l10n.common_delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true || !mounted) return;
+
+    setState(() => _isDeleting = true);
+    try {
+      await ref.read(workersNotifierProvider.notifier).deleteWorker(widget.worker.id);
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.common_deleted)),
+        );
+        // Navigate back to the list
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isDeleting = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +197,6 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     final settingsAsync = ref.watch(workerDetailsNotifierProvider(widget.worker.id));
     final actionState = ref.watch(workerSettingsActionNotifierProvider);
 
-    // Sync local state when provider data changes (background refresh)
     ref.listen(workerDetailsNotifierProvider(widget.worker.id), (prev, next) {
       if (next.hasValue && !_hasChanges(next.value!) && !_isSaving) {
         _initializeLocalState(next.value!);
@@ -71,35 +221,61 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           body: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              if (_isSaving || actionState.isLoading || _isDeleting)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: LinearProgressIndicator(),
+                ),
+
+              _buildDomainsRoutesSection(context, l10n),
+              
+              _buildSectionCard(
+                context: context, 
+                title: l10n.workers_settings_variables, 
+                icon: Symbols.variables,
+                onAdd: () => _showAddBindingDialog(context, l10n),
                 children: [
-                  _buildSectionHeader(
-                    context, 
-                    l10n.workers_settings_bindings, 
-                    Symbols.rebase,
-                    onAdd: () => _showAddBindingDialog(context, l10n),
-                  ),
-                  if (_isSaving || actionState.isLoading)
-                    const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
+                  if (settings.bindings.isEmpty)
+                    _buildEmptyBox(context, l10n.common_noData)
+                  else
+                    ..._buildGroupedBindings(context, settings.bindings, l10n),
                 ],
               ),
-              const SizedBox(height: 8),
-              if (settings.bindings.isEmpty)
-                _buildEmptyBox(context, l10n.common_noData)
-              else
-                ..._buildGroupedBindings(context, settings.bindings, l10n),
-              
-              const SizedBox(height: 32),
-              _buildSectionHeader(context, l10n.workers_settings_compatibility, Symbols.contract),
-              const SizedBox(height: 8),
-              _buildCompatibilityCard(context, settings, l10n),
 
-              const SizedBox(height: 60),
+              _buildSectionCard(
+                context: context,
+                title: l10n.workers_triggers_cron,
+                icon: Symbols.schedule,
+                children: [
+                  Text(
+                    l10n.workers_triggers_noSchedules,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ),
+
+              _buildObservabilitySection(context, l10n),
+              _buildRuntimeSection(context, l10n),
+
+              _buildSectionCard(
+                context: context,
+                title: 'Build',
+                icon: Symbols.build,
+                children: [
+                  Text(
+                    'Connect to Git repository',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ),
+
+              _buildDangerZone(context, l10n),
+
+              const SizedBox(height: 100),
             ],
           ),
         );
@@ -107,85 +283,211 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     );
   }
 
-  bool _hasChanges(WorkerSettings original) {
-    if (_localVariables == null) return false;
-    
-    final originalVars = <String, String>{};
-    for (final b in original.bindings) {
-      if (b.type == 'plain_text' && b.text != null) {
-        originalVars[b.name] = b.text!;
-      }
-    }
-
-    if (_localVariables!.length != originalVars.length) return true;
-    for (final key in _localVariables!.keys) {
-      if (_localVariables![key] != originalVars[key]) return true;
-    }
-    
-    return false;
+  Widget _buildSectionCard({
+    required BuildContext context,
+    required String title,
+    required IconData icon,
+    required List<Widget> children,
+    VoidCallback? onAdd,
+    Widget? trailing,
+  }) {
+    final theme = Theme.of(context);
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 24),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: theme.colorScheme.outlineVariant),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, size: 20, color: theme.colorScheme.primary),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                if (onAdd != null)
+                  IconButton(
+                    onPressed: onAdd,
+                    icon: const Icon(Symbols.add, size: 20),
+                    visualDensity: VisualDensity.compact,
+                  ),
+                if (trailing != null) trailing,
+              ],
+            ),
+            const Divider(height: 32),
+            ...children,
+          ],
+        ),
+      ),
+    );
   }
 
-  Future<void> _saveChanges(WorkerSettings original) async {
-    if (!mounted) return;
-    setState(() => _isSaving = true);
-
-    final updatedBindings = <Map<String, dynamic>>[];
-    
-    // Keep non-variable bindings
-    for (final b in original.bindings) {
-      if (b.type != 'plain_text' && b.type != 'secret_text') {
-        updatedBindings.add(b.toJson());
-      }
-    }
-
-    // Add updated variables
-    _localVariables?.forEach((name, text) {
-      updatedBindings.add({
-        'type': 'plain_text',
-        'name': name,
-        'text': text,
-      });
-    });
-
-    try {
-      final success = await ref.read(workerSettingsActionNotifierProvider.notifier).updateSettings(
-        scriptName: widget.worker.id,
-        data: {'bindings': updatedBindings},
-      );
-
-      if (success && mounted) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppLocalizations.of(context).pages_settingsUpdated),
-            duration: const Duration(seconds: 1),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isSaving = false);
-    }
-  }
-
-  Widget _buildSectionHeader(BuildContext context, String title, IconData icon, {VoidCallback? onAdd}) {
-    return Row(
+  Widget _buildDomainsRoutesSection(BuildContext context, AppLocalizations l10n) {
+    return _buildSectionCard(
+      context: context,
+      title: l10n.workers_settings_domainsAndRoutes,
+      icon: Symbols.language,
       children: [
-        Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Symbols.link, size: 20),
+          title: Text(l10n.workers_triggers_customDomains),
+          trailing: const Icon(Symbols.chevron_right, size: 20),
+          onTap: () {
+             // Navigation logic should be handled by the parent page or a route
+          },
+        ),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Symbols.route, size: 20),
+          title: Text(l10n.workers_triggers_routes),
+          trailing: const Icon(Symbols.chevron_right, size: 20),
+          onTap: () {
+             // Navigation logic
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildObservabilitySection(BuildContext context, AppLocalizations l10n) {
+    return _buildSectionCard(
+      context: context,
+      title: l10n.workers_settings_observability,
+      icon: Symbols.monitoring,
+      children: [
+        SwitchListTile(
+          title: Text(l10n.workers_settings_logs),
+          subtitle: Text(l10n.workers_settings_traces),
+          value: _observabilityEnabled,
+          onChanged: (val) {
+            setState(() => _observabilityEnabled = val);
+            _saveSettings();
+          },
+          contentPadding: EdgeInsets.zero,
+        ),
+        const Divider(),
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(l10n.workers_settings_tail),
+          subtitle: Text(l10n.workers_settings_noTail),
+          trailing: const Icon(Symbols.chevron_right, size: 20),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRuntimeSection(BuildContext context, AppLocalizations l10n) {
+    return _buildSectionCard(
+      context: context,
+      title: l10n.pages_runtime,
+      icon: Symbols.bolt,
+      children: [
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            labelText: l10n.pages_placement,
+            border: const OutlineInputBorder(),
+          ),
+          initialValue: _placementMode,
+          items: const [
+            DropdownMenuItem(value: 'default', child: Text('Default')),
+            DropdownMenuItem(value: 'smart', child: Text('Smart')),
+          ],
+          onChanged: (val) {
+            if (val != null) {
+              setState(() => _placementMode = val);
+              _saveSettings();
+            }
+          },
+        ),
+        const SizedBox(height: 16),
+        TextFormField(
+          controller: _compatibilityDateController,
+          focusNode: _compatibilityDateFocusNode,
+          decoration: InputDecoration(
+            labelText: l10n.pages_compatibilityDate,
+            border: const OutlineInputBorder(),
           ),
         ),
-        if (onAdd != null)
-          IconButton(
-            onPressed: onAdd,
-            icon: const Icon(Symbols.add, size: 20),
-            visualDensity: VisualDensity.compact,
+        const SizedBox(height: 16),
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            labelText: l10n.pages_usageModel,
+            border: const OutlineInputBorder(),
           ),
+          initialValue: _usageModel,
+          items: const [
+            DropdownMenuItem(value: 'bundled', child: Text('Bundled')),
+            DropdownMenuItem(value: 'standard', child: Text('Standard')),
+          ],
+          onChanged: (val) {
+            if (val != null) {
+              setState(() => _usageModel = val);
+              _saveSettings();
+            }
+          },
+        ),
       ],
+    );
+  }
+
+  Widget _buildDangerZone(BuildContext context, AppLocalizations l10n) {
+    final theme = Theme.of(context);
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.red.shade200),
+      ),
+      color: Colors.red.shade50,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Symbols.warning, color: Colors.red),
+                const SizedBox(width: 12),
+                Text(
+                  l10n.pages_dangerZone,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: Colors.red.shade900,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(height: 32),
+            Text(
+              l10n.workers_settings_deleteWorkerConfirm,
+              style: theme.textTheme.bodyMedium?.copyWith(color: Colors.red.shade900),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                style: FilledButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: _isDeleting ? null : _deleteWorker,
+                icon: const Icon(Symbols.delete),
+                label: Text(l10n.workers_settings_deleteWorker),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -278,8 +580,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     setState(() {
       _localVariables?.remove(name);
     });
-    final settings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
-    if (settings != null) _saveChanges(settings);
+    _saveSettings();
   }
 
   void _showEditVariableDialog(BuildContext context, String name, AppLocalizations l10n) {
@@ -301,8 +602,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                 _localVariables?[name] = controller.text.trim();
               });
               Navigator.pop(context);
-              final settings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
-              if (settings != null) _saveChanges(settings);
+              _saveSettings();
             },
             child: Text(l10n.common_save),
           ),
@@ -407,44 +707,13 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                   setState(() {
                     _localVariables?[nameController.text.trim()] = valueController.text.trim();
                   });
-                  final settings = ref.read(workerDetailsNotifierProvider(widget.worker.id)).valueOrNull;
-                  if (settings != null) _saveChanges(settings);
+                  _saveSettings();
                 }
               },
               child: Text(l10n.common_add),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildCompatibilityCard(BuildContext context, WorkerSettings settings, AppLocalizations l10n) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            _buildInfoRow(context, l10n.pages_compatibilityDate, settings.compatibilityDate ?? '-'),
-            if (settings.compatibilityFlags.isNotEmpty) ...[
-              const Divider(),
-              _buildInfoRow(context, l10n.pages_compatibilityFlags, settings.compatibilityFlags.join(', ')),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(BuildContext context, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: Theme.of(context).textTheme.bodySmall),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w500)),
-        ],
       ),
     );
   }

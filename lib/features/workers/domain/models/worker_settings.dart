@@ -9,12 +9,39 @@ sealed class WorkerSettings with _$WorkerSettings {
   const factory WorkerSettings({
     @Default([]) List<WorkerBinding> bindings,
     @JsonKey(name: 'compatibility_date') String? compatibilityDate,
-    @JsonKey(name: 'compatibility_flags') @Default([]) List<String> compatibilityFlags,
+    @JsonKey(name: 'compatibility_flags')
+    @Default([])
+    List<String> compatibilityFlags,
     @JsonKey(name: 'usage_model') @Default('bundled') String usageModel,
+    @JsonKey(name: 'placement') Placement? placement,
+    @JsonKey(name: 'observability') Observability? observability,
   }) = _WorkerSettings;
 
   factory WorkerSettings.fromJson(Map<String, dynamic> json) =>
       _$WorkerSettingsFromJson(json);
+}
+
+/// Placement configuration for Workers
+@freezed
+sealed class Placement with _$Placement {
+  const factory Placement({
+    @Default('default') String mode,
+  }) = _Placement;
+
+  factory Placement.fromJson(Map<String, dynamic> json) =>
+      _$PlacementFromJson(json);
+}
+
+/// Observability configuration for Workers
+@freezed
+sealed class Observability with _$Observability {
+  const factory Observability({
+    @Default(false) bool enabled,
+    @JsonKey(name: 'head_sampling_rate') double? headSamplingRate,
+  }) = _Observability;
+
+  factory Observability.fromJson(Map<String, dynamic> json) =>
+      _$ObservabilityFromJson(json);
 }
 
 /// Worker binding model (KV, R2, D1, DO, Secrets, etc.)
@@ -39,6 +66,8 @@ sealed class WorkerBinding with _$WorkerBinding {
     String? environment,
     // Queue
     @JsonKey(name: 'queue_name') String? queueName,
+    // AI
+    @JsonKey(name: 'project_name') String? projectName,
   }) = _WorkerBinding;
 
   factory WorkerBinding.fromJson(Map<String, dynamic> json) =>

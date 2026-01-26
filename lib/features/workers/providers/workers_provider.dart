@@ -171,6 +171,29 @@ class WorkersNotifier extends _$WorkersNotifier {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => _fetchWorkers(accountId));
   }
+
+  Future<void> deleteWorker(String scriptName) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final response = await api.deleteWorkerScript(accountId, scriptName);
+
+      if (!response.success) {
+        throw Exception(response.errors.firstOrNull?.message ?? 'Failed to delete worker');
+      }
+
+      log.info('WorkersNotifier: Deleted worker $scriptName', category: LogCategory.state);
+      
+      // Invalidate both the list and the details cache
+      await _prefs?.remove('worker_settings_cache_$scriptName');
+      ref.invalidateSelf();
+    } catch (e) {
+      log.error('WorkersNotifier: Delete Error', error: e);
+      rethrow;
+    }
+  }
 }
 
 // ==================== WORKER DETAILS ====================

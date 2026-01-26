@@ -10,6 +10,8 @@
   "common_create": "Criar",
   "common_add": "Adicionar",
   "common_delete": "Excluir",
+  "common_deleted": "Excluído com sucesso",
+  "common_cancel": "Cancelar",
   "common_edit": "Editar",
   "common_error": "Erro",
   "common_loading": "Carregando...",
@@ -399,5 +401,17 @@
   "workers_settings_addBinding": "Adicionar Binding",
   "workers_settings_updateSecret": "Atualizar Secret",
   "workers_settings_secretValue": "Valor do Secret",
-  "workers_settings_secretHint": "Insira o valor do secret (somente escrita)"
+  "workers_settings_secretHint": "Insira o valor do secret (somente escrita)",
+  "workers_settings_observability": "Observabilidade",
+  "workers_settings_logs": "Logs do Workers",
+  "workers_settings_traces": "Traces do Workers",
+  "workers_settings_logpush": "Logpush",
+  "workers_settings_tail": "Tail Worker",
+  "workers_settings_noTail": "Nenhum Tail Worker conectado",
+  "workers_settings_deleteWorker": "Excluir Worker",
+  "workers_settings_deleteWorkerConfirm": "Tem certeza que deseja excluir este Worker? Esta ação não pode ser desfeita e excluirá todos os arquivos, configurações e deployments.",
+  "workers_settings_domainsAndRoutes": "Domínios e Rotas",
+  "workers_settings_viewDomains": "Ver Domínios",
+  "workers_settings_viewRoutes": "Ver Rotas",
+  "workers_settings_pricing": "Preço"
 }

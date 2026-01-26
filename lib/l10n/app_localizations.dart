@@ -152,6 +152,12 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get common_delete;
 
+  /// No description provided for @common_deleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted successfully'**
+  String get common_deleted;
+
   /// No description provided for @common_edit.
   ///
   /// In en, this message translates to:
@@ -2389,6 +2395,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter secret value (write-only)'**
   String get workers_settings_secretHint;
+
+  /// No description provided for @workers_settings_observability.
+  ///
+  /// In en, this message translates to:
+  /// **'Observability'**
+  String get workers_settings_observability;
+
+  /// No description provided for @workers_settings_logs.
+  ///
+  /// In en, this message translates to:
+  /// **'Workers Logs'**
+  String get workers_settings_logs;
+
+  /// No description provided for @workers_settings_traces.
+  ///
+  /// In en, this message translates to:
+  /// **'Workers Traces'**
+  String get workers_settings_traces;
+
+  /// No description provided for @workers_settings_logpush.
+  ///
+  /// In en, this message translates to:
+  /// **'Logpush'**
+  String get workers_settings_logpush;
+
+  /// No description provided for @workers_settings_tail.
+  ///
+  /// In en, this message translates to:
+  /// **'Tail Worker'**
+  String get workers_settings_tail;
+
+  /// No description provided for @workers_settings_noTail.
+  ///
+  /// In en, this message translates to:
+  /// **'No Tail Workers connected'**
+  String get workers_settings_noTail;
+
+  /// No description provided for @workers_settings_deleteWorker.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Worker'**
+  String get workers_settings_deleteWorker;
+
+  /// No description provided for @workers_settings_deleteWorkerConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this Worker? This action cannot be undone and will delete all files, configurations and deployments.'**
+  String get workers_settings_deleteWorkerConfirm;
+
+  /// No description provided for @workers_settings_domainsAndRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains & Routes'**
+  String get workers_settings_domainsAndRoutes;
+
+  /// No description provided for @workers_settings_viewDomains.
+  ///
+  /// In en, this message translates to:
+  /// **'View Domains'**
+  String get workers_settings_viewDomains;
+
+  /// No description provided for @workers_settings_viewRoutes.
+  ///
+  /// In en, this message translates to:
+  /// **'View Routes'**
+  String get workers_settings_viewRoutes;
+
+  /// No description provided for @workers_settings_pricing.
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing'**
+  String get workers_settings_pricing;
 }
 
 class _AppLocalizationsDelegate

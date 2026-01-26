@@ -36,6 +36,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get common_delete => 'Excluir';
 
   @override
+  String get common_deleted => 'Excluído com sucesso';
+
+  @override
   String get common_edit => 'Editar';
 
   @override
@@ -1222,4 +1225,41 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get workers_settings_secretHint =>
       'Insira o valor do secret (somente escrita)';
+
+  @override
+  String get workers_settings_observability => 'Observabilidade';
+
+  @override
+  String get workers_settings_logs => 'Logs do Workers';
+
+  @override
+  String get workers_settings_traces => 'Traces do Workers';
+
+  @override
+  String get workers_settings_logpush => 'Logpush';
+
+  @override
+  String get workers_settings_tail => 'Tail Worker';
+
+  @override
+  String get workers_settings_noTail => 'Nenhum Tail Worker conectado';
+
+  @override
+  String get workers_settings_deleteWorker => 'Excluir Worker';
+
+  @override
+  String get workers_settings_deleteWorkerConfirm =>
+      'Tem certeza que deseja excluir este Worker? Esta ação não pode ser desfeita e excluirá todos os arquivos, configurações e deployments.';
+
+  @override
+  String get workers_settings_domainsAndRoutes => 'Domínios e Rotas';
+
+  @override
+  String get workers_settings_viewDomains => 'Ver Domínios';
+
+  @override
+  String get workers_settings_viewRoutes => 'Ver Rotas';
+
+  @override
+  String get workers_settings_pricing => 'Preço';
 }
