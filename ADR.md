@@ -731,4 +731,72 @@ class _PageState extends ConsumerState<Page> {
 
 ---
 
-_Última atualização: 2026-01-25 (adicionado ADR-030 e ADR-031)_
+
+
+## ADR-032: Smart Placement e Observability (Padronização)
+
+
+
+**Status**: Aceito
+
+**Data**: 2026-01-26
+
+
+
+**Contexto**: A Cloudflare introduziu Smart Placement para otimizar a latência de Workers/Pages e Observability para logging avançado. O app precisava suportar essas configurações de forma consistente.
+
+
+
+**Decisão**: 
+
+1. Criar modelos reutilizáveis `Placement` e `Observability` para ambos os módulos.
+
+2. Implementar interface de configuração granular (Cards/Toggles) nos Settings.
+
+3. Workers suportam `head_sampling_rate` específico para Observability.
+
+
+
+**Consequência**: UX consistente entre Workers e Pages. Preparação para dashboards de telemetria futuros.
+
+
+
+---
+
+
+
+## ADR-033: Compatibilidade Estrita com API REST (Mapeamento JSON)
+
+
+
+**Status**: Aceito
+
+**Data**: 2026-01-26
+
+
+
+**Contexto**: Alguns campos na documentação da Cloudflare ou nomes de recursos internos (ex: "build cache") divergem dos nomes exatos exigidos pela API REST v4 (ex: "build_caching").
+
+
+
+**Decisão**: Priorizar nomes de campos da API REST em detrimento de terminologias de marketing ou dashboard oficial nas anotações `@JsonKey`.
+
+
+
+**Implementação**:
+
+- `BuildConfig`: Mapear `buildCache` para `build_caching`.
+
+- `WorkerBinding`: Usar `project_name` para bindings do tipo `ai` conforme resposta do payload da API.
+
+
+
+**Consequência**: Prevenção de falhas silenciosas na persistência de dados. Facilidade de debug cruzando logs do app com a documentação oficial da API.
+
+
+
+---
+
+
+
+_Última atualização: 2026-01-26 (adicionado ADR-032 e ADR-033)_

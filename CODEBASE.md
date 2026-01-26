@@ -107,11 +107,11 @@ Gerenciamento completo de projetos Cloudflare Pages (account-level).
 
 *   **Models:** `PagesProject` (BuildConfig, DeploymentConfigs, EnvVars), `PagesDeployment`, `PagesDomain`, `DeploymentLogEntry`.
 *   **Providers:** `PagesProjectsNotifier` (cache ADR-022), `PagesDomainsNotifier` (CRUD domínios), `PagesSettingsNotifier` (PATCH configs), `DeploymentLogsNotifier` (polling).
-*   **Account Context:** Vinculado ao `selectedAccountIdProvider`.
+*   **Account Context:** Vinculado au `selectedAccountIdProvider`.
 *   **UI:** 
     *   `PagesListPage`: Lista de projetos com busca.
     *   `PagesProjectPage`: Interface com abas (Deployments, Custom Domains, Settings).
-    *   `PagesSettingsTab`: Edição de builds e variáveis de ambiente (ADR-027 polling feedback).
+    *   `PagesSettingsTab`: Edição de builds, variáveis de ambiente, Smart Placement e Bindings (AI, KV, D1, R2).
 
 ### 👷 Workers Management (`lib/features/workers/`)
 
@@ -125,7 +125,7 @@ Gerenciamento completo de scripts Cloudflare Workers (account-level).
     *   `WorkerDetailsPage`: Interface com abas (Overview, Triggers, Settings).
     *   `WorkerOverviewTab`: Gráficos de tráfego e CPU.
     *   `WorkerTriggersTab`: Gerenciamento de rotas e cron triggers.
-    *   `WorkerSettingsTab`: Visualização de bindings e configurações.
+    *   `WorkerSettingsTab`: Visualização e edição de bindings, Smart Placement e Observability.
 
 ---
 
