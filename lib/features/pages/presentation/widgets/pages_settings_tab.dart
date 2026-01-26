@@ -175,10 +175,13 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
           .read(pagesSettingsNotifierProvider.notifier)
           .updateProject(
             projectName: widget.project.name,
+            // Note: For build_config fields, we send empty string "" to clear the value.
+            // Sending null in a PATCH request means "don't change this field".
+            // This differs from env_vars where null means "delete this variable".
             buildConfig: BuildConfig(
-              buildCommand: buildCommand.isEmpty ? null : buildCommand,
-              destinationDir: destinationDir.isEmpty ? null : destinationDir,
-              rootDir: rootDir.isEmpty ? null : rootDir,
+              buildCommand: buildCommand,
+              destinationDir: destinationDir,
+              rootDir: rootDir,
             ).toJson(),
             deploymentConfigs: {
               'production': cleanConfig(
