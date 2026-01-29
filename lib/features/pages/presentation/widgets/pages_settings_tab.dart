@@ -440,9 +440,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
             behavior: SnackBarBehavior.floating,
           ),
         );
-
-        // Force refresh the project details to get server state
-        await ref.read(pagesProjectDetailsNotifierProvider(widget.project.name).notifier).refresh();
+        // Note: No refresh() here - local state is already correct (ADR-009 Optimistic Updates)
       }
     } catch (e) {
       if (mounted) setState(() => _isSaving = false);

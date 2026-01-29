@@ -1,7 +1,7 @@
 name: cf
 description: "Dash for Cloudflare - DNS management app"
 publish_to: 'none'
-version: 1.4.2
+version: 1.4.3
 
 environment:
   sdk: ^3.10.4
