@@ -32,7 +32,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
   // Git Settings
   late TextEditingController _productionBranchController;
   late bool _deploymentsEnabled; // Automatic deployments
-  late bool _productionDeploymentsEnabled;
+  late bool _productionDeploymentEnabled;
   late bool _prCommentsEnabled;
 
   // Build System
@@ -82,7 +82,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
       text: sourceConfig?.productionBranch ?? 'main',
     );
     _deploymentsEnabled = sourceConfig?.deploymentsEnabled ?? true;
-    _productionDeploymentsEnabled = sourceConfig?.productionDeploymentsEnabled ?? true;
+    _productionDeploymentEnabled = sourceConfig?.productionDeploymentEnabled ?? true;
     _prCommentsEnabled = sourceConfig?.prCommentsEnabled ?? true;
 
     // Build System init
@@ -182,7 +182,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
       // Update toggles only if we are not saving (to avoid jumping UI)
       if (!_isSaving) {
         _deploymentsEnabled = sourceConfig?.deploymentsEnabled ?? true;
-        _productionDeploymentsEnabled = sourceConfig?.productionDeploymentsEnabled ?? true;
+        _productionDeploymentEnabled = sourceConfig?.productionDeploymentEnabled ?? true;
         _prCommentsEnabled = sourceConfig?.prCommentsEnabled ?? true;
         _buildSystemVersion = config?.buildSystemVersion ?? '2';
         _buildCache = config?.buildCache ?? true;
@@ -217,7 +217,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
     if (_deploymentsEnabled != (sourceConfig?.deploymentsEnabled ?? true)) {
       return true;
     }
-    if (_productionDeploymentsEnabled != (sourceConfig?.productionDeploymentsEnabled ?? true)) {
+    if (_productionDeploymentEnabled != (sourceConfig?.productionDeploymentEnabled ?? true)) {
       return true;
     }
     if (_prCommentsEnabled != (sourceConfig?.prCommentsEnabled ?? true)) {
@@ -373,7 +373,8 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
         'd1_databases': currentD1.map((k, v) => MapEntry(k, v.toJson())),
         'services': currentServices.map((k, v) => MapEntry(k, v.toJson())),
         'ai_bindings': currentAi.map((k, v) => MapEntry(k, v.toJson())),
-        'placement': {'mode': _placementMode},
+        // Only include placement if smart mode is enabled (API rejects 'default')
+        if (_placementMode == 'smart') 'placement': {'mode': 'smart'},
         'usage_model': _usageModel,
       };
     }
@@ -389,17 +390,17 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
           .updateProject(
             projectName: widget.project.name,
             buildConfig: BuildConfig(
-              buildCommand: buildCommand,
-              destinationDir: destinationDir,
-              rootDir: rootDir,
+              buildCommand: buildCommand.isEmpty ? null : buildCommand,
+              destinationDir: destinationDir.isEmpty ? null : destinationDir,
+              rootDir: rootDir.isEmpty ? null : rootDir,
               buildSystemVersion: _buildSystemVersion,
               buildCache: _buildCache,
             ).toJson(),
             source: {
               'config': {
-                'production_branch': productionBranch,
+                'production_branch': productionBranch.isEmpty ? 'main' : productionBranch,
                 'deployments_enabled': _deploymentsEnabled,
-                'production_deployments_enabled': _productionDeploymentsEnabled,
+                'production_deployment_enabled': _productionDeploymentEnabled,
                 'pr_comments_enabled': _prCommentsEnabled,
               }
             },
@@ -427,6 +428,9 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
             },
           );
 
+      // Set _isSaving to false BEFORE showing snackbar so the listener can update values
+      if (mounted) setState(() => _isSaving = false);
+
       if (success && mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -436,9 +440,13 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
             behavior: SnackBarBehavior.floating,
           ),
         );
+
+        // Force refresh the project details to get server state
+        await ref.read(pagesProjectDetailsNotifierProvider(widget.project.name).notifier).refresh();
       }
-    } finally {
+    } catch (e) {
       if (mounted) setState(() => _isSaving = false);
+      rethrow;
     }
   }
 
@@ -502,9 +510,20 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
         const SizedBox(height: 8),
         SwitchListTile(
           title: Text(l10n.pages_automaticDeployments),
+          subtitle: Text(l10n.pages_automaticDeploymentsDescription),
           value: _deploymentsEnabled,
           onChanged: (val) {
             setState(() => _deploymentsEnabled = val);
+            _save();
+          },
+          contentPadding: EdgeInsets.zero,
+        ),
+        SwitchListTile(
+          title: Text(l10n.pages_productionDeployments),
+          subtitle: Text(l10n.pages_productionDeploymentsDescription),
+          value: _productionDeploymentEnabled,
+          onChanged: (val) {
+            setState(() => _productionDeploymentEnabled = val);
             _save();
           },
           contentPadding: EdgeInsets.zero,
@@ -595,8 +614,8 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
           ),
           value: _placementMode,
           items: const [
-            DropdownMenuItem(value: 'default', child: Text('Default')),
-            DropdownMenuItem(value: 'smart', child: Text('Smart')),
+            DropdownMenuItem(value: 'default', child: Text('Off (Default)')),
+            DropdownMenuItem(value: 'smart', child: Text('Smart Placement')),
           ],
           onChanged: (val) {
             if (val != null) {
