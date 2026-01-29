@@ -12,6 +12,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../providers/settings_provider.dart';
 import '../../../../core/api/api_config.dart';
 import '../../../../core/logging/log_provider.dart';
+import '../../../../core/providers/app_info_provider.dart';
 import '../../../../core/providers/data_centers_provider.dart';
 import '../../../dns/providers/dns_records_provider.dart';
 import '../../../analytics/providers/analytics_provider.dart';
@@ -372,7 +373,29 @@ Required Cloudflare API Token Permissions:
 
             // Debug Card (only on non-web platforms)
             if (!kIsWeb) _buildDebugCard(context, l10n),
+
+            const SizedBox(height: 16),
+
+            // Version info
+            _buildVersionInfo(context),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVersionInfo(BuildContext context) {
+    final version = ref.watch(appVersionProvider);
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Text(
+          'Dash for Cloudflare v$version',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.outline,
+          ),
         ),
       ),
     );

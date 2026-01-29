@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pwa_install/pwa_install.dart';
 
 import 'l10n/app_localizations.dart';
@@ -50,7 +51,12 @@ void main() async {
   // Initialize system tray (optional, can be enabled later)
   // await DesktopTrayManager.instance.initialize();
 
-  log.info('App started', category: LogCategory.state);
+  // Get app version and log startup
+  final packageInfo = await PackageInfo.fromPlatform();
+  log.info(
+    'App started - v${packageInfo.version}+${packageInfo.buildNumber}',
+    category: LogCategory.state,
+  );
 
   runApp(const ProviderScope(child: DashForCloudflareApp()));
 }
