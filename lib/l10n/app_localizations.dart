@@ -1034,6 +1034,204 @@ abstract class AppLocalizations {
   /// **'Cancel Deactivation'**
   String get dnsSettings_cancelDeactivation;
 
+  /// No description provided for @emailSecurity_spfExists.
+  ///
+  /// In en, this message translates to:
+  /// **'SPF record already configured'**
+  String get emailSecurity_spfExists;
+
+  /// No description provided for @emailSecurity_spfNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'SPF not configured'**
+  String get emailSecurity_spfNotConfigured;
+
+  /// No description provided for @emailSecurity_spfDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Sender Policy Framework (SPF) specifies which mail servers are authorized to send email on behalf of your domain.'**
+  String get emailSecurity_spfDescription;
+
+  /// No description provided for @emailSecurity_spfIncludes.
+  ///
+  /// In en, this message translates to:
+  /// **'Authorized Senders (includes)'**
+  String get emailSecurity_spfIncludes;
+
+  /// No description provided for @emailSecurity_spfIncludesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., _spf.google.com sendgrid.net'**
+  String get emailSecurity_spfIncludesHint;
+
+  /// No description provided for @emailSecurity_spfPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Policy (All)'**
+  String get emailSecurity_spfPolicy;
+
+  /// No description provided for @emailSecurity_spfPolicyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'~all (soft fail), -all (hard fail), or +all (allow)'**
+  String get emailSecurity_spfPolicyHint;
+
+  /// No description provided for @emailSecurity_spfSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'SPF record saved successfully'**
+  String get emailSecurity_spfSaved;
+
+  /// No description provided for @emailSecurity_dkimExists.
+  ///
+  /// In en, this message translates to:
+  /// **'DKIM record already configured'**
+  String get emailSecurity_dkimExists;
+
+  /// No description provided for @emailSecurity_dkimNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'DKIM not configured'**
+  String get emailSecurity_dkimNotConfigured;
+
+  /// No description provided for @emailSecurity_dkimDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'DomainKeys Identified Mail (DKIM) adds a digital signature to your emails to verify they haven\'t been tampered with.'**
+  String get emailSecurity_dkimDescription;
+
+  /// No description provided for @emailSecurity_dkimSelector.
+  ///
+  /// In en, this message translates to:
+  /// **'Selector'**
+  String get emailSecurity_dkimSelector;
+
+  /// No description provided for @emailSecurity_dkimSelectorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., default, google, mailgun'**
+  String get emailSecurity_dkimSelectorHint;
+
+  /// No description provided for @emailSecurity_dkimPublicKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Public Key (p=)'**
+  String get emailSecurity_dkimPublicKey;
+
+  /// No description provided for @emailSecurity_dkimPublicKeyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the public key provided by your email provider (without v=DKIM1; k=rsa; p= prefix)'**
+  String get emailSecurity_dkimPublicKeyHint;
+
+  /// No description provided for @emailSecurity_dkimPublicKeyRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Public key is required'**
+  String get emailSecurity_dkimPublicKeyRequired;
+
+  /// No description provided for @emailSecurity_dkimSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'DKIM record saved successfully'**
+  String get emailSecurity_dkimSaved;
+
+  /// No description provided for @emailSecurity_dmarcExists.
+  ///
+  /// In en, this message translates to:
+  /// **'DMARC record already configured'**
+  String get emailSecurity_dmarcExists;
+
+  /// No description provided for @emailSecurity_dmarcNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'DMARC not configured'**
+  String get emailSecurity_dmarcNotConfigured;
+
+  /// No description provided for @emailSecurity_dmarcDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain-based Message Authentication, Reporting & Conformance (DMARC) tells receiving mail servers what to do when SPF or DKIM checks fail.'**
+  String get emailSecurity_dmarcDescription;
+
+  /// No description provided for @emailSecurity_dmarcPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Policy'**
+  String get emailSecurity_dmarcPolicy;
+
+  /// No description provided for @emailSecurity_dmarcPolicyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Action to take on authentication failure'**
+  String get emailSecurity_dmarcPolicyHint;
+
+  /// No description provided for @emailSecurity_dmarcPolicyNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None (Monitor only)'**
+  String get emailSecurity_dmarcPolicyNone;
+
+  /// No description provided for @emailSecurity_dmarcPolicyQuarantine.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarantine (Mark as spam)'**
+  String get emailSecurity_dmarcPolicyQuarantine;
+
+  /// No description provided for @emailSecurity_dmarcPolicyReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject (Block delivery)'**
+  String get emailSecurity_dmarcPolicyReject;
+
+  /// No description provided for @emailSecurity_dmarcRua.
+  ///
+  /// In en, this message translates to:
+  /// **'Aggregate Reports Email (rua)'**
+  String get emailSecurity_dmarcRua;
+
+  /// No description provided for @emailSecurity_dmarcRuaHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., dmarc-reports@yourdomain.com'**
+  String get emailSecurity_dmarcRuaHint;
+
+  /// No description provided for @emailSecurity_dmarcRuf.
+  ///
+  /// In en, this message translates to:
+  /// **'Forensic Reports Email (ruf)'**
+  String get emailSecurity_dmarcRuf;
+
+  /// No description provided for @emailSecurity_dmarcRufHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional: forensic failure reports'**
+  String get emailSecurity_dmarcRufHint;
+
+  /// No description provided for @emailSecurity_dmarcPct.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage of emails to filter'**
+  String get emailSecurity_dmarcPct;
+
+  /// No description provided for @emailSecurity_dmarcSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'DMARC record saved successfully'**
+  String get emailSecurity_dmarcSaved;
+
+  /// No description provided for @emailSecurity_preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get emailSecurity_preview;
+
+  /// No description provided for @emailSecurity_recordName.
+  ///
+  /// In en, this message translates to:
+  /// **'Record Name'**
+  String get emailSecurity_recordName;
+
   /// No description provided for @dnssecDetails_title.
   ///
   /// In en, this message translates to:
@@ -1997,8 +2195,26 @@ abstract class AppLocalizations {
   /// No description provided for @pages_automaticDeployments.
   ///
   /// In en, this message translates to:
-  /// **'Automatic Deployments'**
+  /// **'Preview Deployments'**
   String get pages_automaticDeployments;
+
+  /// No description provided for @pages_automaticDeploymentsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic deployments for preview branches'**
+  String get pages_automaticDeploymentsDescription;
+
+  /// No description provided for @pages_productionDeployments.
+  ///
+  /// In en, this message translates to:
+  /// **'Production Deployments'**
+  String get pages_productionDeployments;
+
+  /// No description provided for @pages_productionDeploymentsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic deployments for production branch'**
+  String get pages_productionDeploymentsDescription;
 
   /// No description provided for @pages_prComments.
   ///
@@ -2300,6 +2516,24 @@ abstract class AppLocalizations {
   /// **'Cron Triggers'**
   String get workers_triggers_cron;
 
+  /// No description provided for @workers_triggers_cronExpression.
+  ///
+  /// In en, this message translates to:
+  /// **'Cron Expression'**
+  String get workers_triggers_cronExpression;
+
+  /// No description provided for @workers_triggers_cronFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Format: Minute Hour Day Month Weekday'**
+  String get workers_triggers_cronFormat;
+
+  /// No description provided for @workers_triggers_deleteScheduleConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove this cron trigger?'**
+  String get workers_triggers_deleteScheduleConfirm;
+
   /// No description provided for @workers_triggers_noRoutes.
   ///
   /// In en, this message translates to:
@@ -2311,6 +2545,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No cron triggers configured'**
   String get workers_triggers_noSchedules;
+
+  /// No description provided for @workers_triggers_domainManagedByCloudflare.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain must be managed by Cloudflare.'**
+  String get workers_triggers_domainManagedByCloudflare;
+
+  /// No description provided for @workers_triggers_zoneNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Zone not found for this hostname.'**
+  String get workers_triggers_zoneNotFound;
 
   /// No description provided for @workers_settings_bindings.
   ///
@@ -2378,6 +2624,24 @@ abstract class AppLocalizations {
   /// **'Add Binding'**
   String get workers_settings_addBinding;
 
+  /// No description provided for @workers_settings_bindingType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get workers_settings_bindingType;
+
+  /// No description provided for @workers_settings_envVariable.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment Variable'**
+  String get workers_settings_envVariable;
+
+  /// No description provided for @workers_settings_bindingSecret.
+  ///
+  /// In en, this message translates to:
+  /// **'Secret'**
+  String get workers_settings_bindingSecret;
+
   /// No description provided for @workers_settings_updateSecret.
   ///
   /// In en, this message translates to:
@@ -2426,11 +2690,11 @@ abstract class AppLocalizations {
   /// **'Tail Worker'**
   String get workers_settings_tail;
 
-  /// No description provided for @workers_settings_noTail.
+  /// No description provided for @workers_settings_tailDescription.
   ///
   /// In en, this message translates to:
-  /// **'No Tail Workers connected'**
-  String get workers_settings_noTail;
+  /// **'Stream real-time logs from your Worker'**
+  String get workers_settings_tailDescription;
 
   /// No description provided for @workers_settings_deleteWorker.
   ///
@@ -2449,6 +2713,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Domains & Routes'**
   String get workers_settings_domainsAndRoutes;
+
+  /// No description provided for @workers_settings_build.
+  ///
+  /// In en, this message translates to:
+  /// **'Build'**
+  String get workers_settings_build;
+
+  /// No description provided for @workers_settings_gitIntegration.
+  ///
+  /// In en, this message translates to:
+  /// **'Git Integration'**
+  String get workers_settings_gitIntegration;
+
+  /// No description provided for @workers_settings_gitIntegrationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure CI/CD in Cloudflare Dashboard'**
+  String get workers_settings_gitIntegrationDescription;
+
+  /// No description provided for @workers_settings_noAccountSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No account selected'**
+  String get workers_settings_noAccountSelected;
+
+  /// No description provided for @workers_tail_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Worker Tail Logs'**
+  String get workers_tail_title;
+
+  /// No description provided for @workers_tail_connected.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get workers_tail_connected;
+
+  /// No description provided for @workers_tail_connecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting...'**
+  String get workers_tail_connecting;
+
+  /// No description provided for @workers_tail_disconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get workers_tail_disconnected;
+
+  /// No description provided for @workers_tail_start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get workers_tail_start;
+
+  /// No description provided for @workers_tail_stop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get workers_tail_stop;
+
+  /// No description provided for @workers_tail_clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear logs'**
+  String get workers_tail_clear;
+
+  /// No description provided for @workers_tail_autoScroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-scroll'**
+  String get workers_tail_autoScroll;
+
+  /// No description provided for @workers_tail_filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get workers_tail_filterAll;
+
+  /// No description provided for @workers_tail_filterLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Log'**
+  String get workers_tail_filterLog;
+
+  /// No description provided for @workers_tail_filterWarn.
+  ///
+  /// In en, this message translates to:
+  /// **'Warnings'**
+  String get workers_tail_filterWarn;
+
+  /// No description provided for @workers_tail_filterError.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors'**
+  String get workers_tail_filterError;
+
+  /// No description provided for @workers_tail_logCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} logs'**
+  String workers_tail_logCount(int count);
+
+  /// No description provided for @workers_tail_noLogsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs yet. Trigger your worker to see logs.'**
+  String get workers_tail_noLogsYet;
+
+  /// No description provided for @workers_tail_notConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected. Click Start to begin tailing.'**
+  String get workers_tail_notConnected;
 
   /// No description provided for @workers_settings_viewDomains.
   ///

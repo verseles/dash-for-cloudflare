@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/dns_settings_provider.dart';
 import '../../providers/zone_provider.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../dialogs/email_security_dialog.dart';
 
 /// DNS Settings page for DNSSEC, multi-provider, etc.
 class DnsSettingsPage extends ConsumerWidget {
@@ -381,9 +382,10 @@ class DnsSettingsPage extends ConsumerWidget {
         subtitle: Text(l10n.dnsSettings_emailSecurityDescription),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(l10n.common_workInProgress)));
+          showDialog(
+            context: context,
+            builder: (context) => const EmailSecurityDialog(),
+          );
         },
       ),
     );

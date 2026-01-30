@@ -491,6 +491,112 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dnsSettings_cancelDeactivation => 'Cancel Deactivation';
 
   @override
+  String get emailSecurity_spfExists => 'SPF record already configured';
+
+  @override
+  String get emailSecurity_spfNotConfigured => 'SPF not configured';
+
+  @override
+  String get emailSecurity_spfDescription =>
+      'Sender Policy Framework (SPF) specifies which mail servers are authorized to send email on behalf of your domain.';
+
+  @override
+  String get emailSecurity_spfIncludes => 'Authorized Senders (includes)';
+
+  @override
+  String get emailSecurity_spfIncludesHint =>
+      'e.g., _spf.google.com sendgrid.net';
+
+  @override
+  String get emailSecurity_spfPolicy => 'Policy (All)';
+
+  @override
+  String get emailSecurity_spfPolicyHint =>
+      '~all (soft fail), -all (hard fail), or +all (allow)';
+
+  @override
+  String get emailSecurity_spfSaved => 'SPF record saved successfully';
+
+  @override
+  String get emailSecurity_dkimExists => 'DKIM record already configured';
+
+  @override
+  String get emailSecurity_dkimNotConfigured => 'DKIM not configured';
+
+  @override
+  String get emailSecurity_dkimDescription =>
+      'DomainKeys Identified Mail (DKIM) adds a digital signature to your emails to verify they haven\'t been tampered with.';
+
+  @override
+  String get emailSecurity_dkimSelector => 'Selector';
+
+  @override
+  String get emailSecurity_dkimSelectorHint => 'e.g., default, google, mailgun';
+
+  @override
+  String get emailSecurity_dkimPublicKey => 'Public Key (p=)';
+
+  @override
+  String get emailSecurity_dkimPublicKeyHint =>
+      'Paste the public key provided by your email provider (without v=DKIM1; k=rsa; p= prefix)';
+
+  @override
+  String get emailSecurity_dkimPublicKeyRequired => 'Public key is required';
+
+  @override
+  String get emailSecurity_dkimSaved => 'DKIM record saved successfully';
+
+  @override
+  String get emailSecurity_dmarcExists => 'DMARC record already configured';
+
+  @override
+  String get emailSecurity_dmarcNotConfigured => 'DMARC not configured';
+
+  @override
+  String get emailSecurity_dmarcDescription =>
+      'Domain-based Message Authentication, Reporting & Conformance (DMARC) tells receiving mail servers what to do when SPF or DKIM checks fail.';
+
+  @override
+  String get emailSecurity_dmarcPolicy => 'Policy';
+
+  @override
+  String get emailSecurity_dmarcPolicyHint =>
+      'Action to take on authentication failure';
+
+  @override
+  String get emailSecurity_dmarcPolicyNone => 'None (Monitor only)';
+
+  @override
+  String get emailSecurity_dmarcPolicyQuarantine => 'Quarantine (Mark as spam)';
+
+  @override
+  String get emailSecurity_dmarcPolicyReject => 'Reject (Block delivery)';
+
+  @override
+  String get emailSecurity_dmarcRua => 'Aggregate Reports Email (rua)';
+
+  @override
+  String get emailSecurity_dmarcRuaHint => 'e.g., dmarc-reports@yourdomain.com';
+
+  @override
+  String get emailSecurity_dmarcRuf => 'Forensic Reports Email (ruf)';
+
+  @override
+  String get emailSecurity_dmarcRufHint => 'Optional: forensic failure reports';
+
+  @override
+  String get emailSecurity_dmarcPct => 'Percentage of emails to filter';
+
+  @override
+  String get emailSecurity_dmarcSaved => 'DMARC record saved successfully';
+
+  @override
+  String get emailSecurity_preview => 'Preview';
+
+  @override
+  String get emailSecurity_recordName => 'Record Name';
+
+  @override
   String get dnssecDetails_title => 'DNSSEC Details';
 
   @override
@@ -1005,7 +1111,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pages_productionBranch => 'Production Branch';
 
   @override
-  String get pages_automaticDeployments => 'Automatic Deployments';
+  String get pages_automaticDeployments => 'Preview Deployments';
+
+  @override
+  String get pages_automaticDeploymentsDescription =>
+      'Automatic deployments for preview branches';
+
+  @override
+  String get pages_productionDeployments => 'Production Deployments';
+
+  @override
+  String get pages_productionDeploymentsDescription =>
+      'Automatic deployments for production branch';
 
   @override
   String get pages_prComments => 'PR Comments';
@@ -1165,10 +1282,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get workers_triggers_cron => 'Cron Triggers';
 
   @override
+  String get workers_triggers_cronExpression => 'Cron Expression';
+
+  @override
+  String get workers_triggers_cronFormat =>
+      'Format: Minute Hour Day Month Weekday';
+
+  @override
+  String get workers_triggers_deleteScheduleConfirm =>
+      'Are you sure you want to remove this cron trigger?';
+
+  @override
   String get workers_triggers_noRoutes => 'No routes configured for this zone';
 
   @override
   String get workers_triggers_noSchedules => 'No cron triggers configured';
+
+  @override
+  String get workers_triggers_domainManagedByCloudflare =>
+      'Domain must be managed by Cloudflare.';
+
+  @override
+  String get workers_triggers_zoneNotFound =>
+      'Zone not found for this hostname.';
 
   @override
   String get workers_settings_bindings => 'Bindings';
@@ -1204,6 +1340,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get workers_settings_addBinding => 'Add Binding';
 
   @override
+  String get workers_settings_bindingType => 'Type';
+
+  @override
+  String get workers_settings_envVariable => 'Environment Variable';
+
+  @override
+  String get workers_settings_bindingSecret => 'Secret';
+
+  @override
   String get workers_settings_updateSecret => 'Update Secret';
 
   @override
@@ -1228,7 +1373,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get workers_settings_tail => 'Tail Worker';
 
   @override
-  String get workers_settings_noTail => 'No Tail Workers connected';
+  String get workers_settings_tailDescription =>
+      'Stream real-time logs from your Worker';
 
   @override
   String get workers_settings_deleteWorker => 'Delete Worker';
@@ -1239,6 +1385,68 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get workers_settings_domainsAndRoutes => 'Domains & Routes';
+
+  @override
+  String get workers_settings_build => 'Build';
+
+  @override
+  String get workers_settings_gitIntegration => 'Git Integration';
+
+  @override
+  String get workers_settings_gitIntegrationDescription =>
+      'Configure CI/CD in Cloudflare Dashboard';
+
+  @override
+  String get workers_settings_noAccountSelected => 'No account selected';
+
+  @override
+  String get workers_tail_title => 'Worker Tail Logs';
+
+  @override
+  String get workers_tail_connected => 'Connected';
+
+  @override
+  String get workers_tail_connecting => 'Connecting...';
+
+  @override
+  String get workers_tail_disconnected => 'Disconnected';
+
+  @override
+  String get workers_tail_start => 'Start';
+
+  @override
+  String get workers_tail_stop => 'Stop';
+
+  @override
+  String get workers_tail_clear => 'Clear logs';
+
+  @override
+  String get workers_tail_autoScroll => 'Auto-scroll';
+
+  @override
+  String get workers_tail_filterAll => 'All';
+
+  @override
+  String get workers_tail_filterLog => 'Log';
+
+  @override
+  String get workers_tail_filterWarn => 'Warnings';
+
+  @override
+  String get workers_tail_filterError => 'Errors';
+
+  @override
+  String workers_tail_logCount(int count) {
+    return '$count logs';
+  }
+
+  @override
+  String get workers_tail_noLogsYet =>
+      'No logs yet. Trigger your worker to see logs.';
+
+  @override
+  String get workers_tail_notConnected =>
+      'Not connected. Click Start to begin tailing.';
 
   @override
   String get workers_settings_viewDomains => 'View Domains';

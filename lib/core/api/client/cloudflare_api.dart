@@ -16,6 +16,7 @@ import '../../../features/workers/domain/models/worker_settings.dart';
 import '../../../features/workers/domain/models/worker_route.dart';
 import '../../../features/workers/domain/models/worker_schedule.dart';
 import '../../../features/workers/domain/models/worker_domain.dart';
+import '../../../features/workers/domain/models/worker_tail.dart';
 
 part 'cloudflare_api.g.dart';
 
@@ -268,6 +269,14 @@ abstract class CloudflareApi {
     @Path('scriptName') String scriptName,
   );
 
+  /// Update Schedules (cron triggers) for a specific Worker script
+  @PUT('/accounts/{accountId}/workers/scripts/{scriptName}/schedules')
+  Future<CloudflareResponse<WorkerSchedulesResponse>> updateWorkerSchedules(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+    @Body() List<dynamic> schedules,
+  );
+
   /// Update Worker script settings (bindings, etc.)
   @PATCH('/accounts/{accountId}/workers/scripts/{scriptName}/settings')
   Future<CloudflareResponse<WorkerSettings>> patchWorkerSettings(
@@ -353,5 +362,29 @@ abstract class CloudflareApi {
   @GET('/accounts/{accountId}/d1/database')
   Future<CloudflareResponse<List<D1Database>>> getD1Databases(
     @Path('accountId') String accountId,
+  );
+
+  // ==================== WORKERS TAIL ====================
+
+  /// Create a new tail session for a worker
+  @POST('/accounts/{accountId}/workers/scripts/{scriptName}/tails')
+  Future<CloudflareResponse<TailSession>> createTail(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+  );
+
+  /// List active tail sessions for a worker
+  @GET('/accounts/{accountId}/workers/scripts/{scriptName}/tails')
+  Future<CloudflareResponse<List<TailSession>>> listTails(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+  );
+
+  /// Delete a tail session
+  @DELETE('/accounts/{accountId}/workers/scripts/{scriptName}/tails/{tailId}')
+  Future<CloudflareResponse<void>> deleteTail(
+    @Path('accountId') String accountId,
+    @Path('scriptName') String scriptName,
+    @Path('tailId') String tailId,
   );
 }

@@ -494,6 +494,115 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dnsSettings_cancelDeactivation => 'Cancelar Desativação';
 
   @override
+  String get emailSecurity_spfExists => 'Registro SPF já configurado';
+
+  @override
+  String get emailSecurity_spfNotConfigured => 'SPF não configurado';
+
+  @override
+  String get emailSecurity_spfDescription =>
+      'Sender Policy Framework (SPF) especifica quais servidores de e-mail estão autorizados a enviar e-mails em nome do seu domínio.';
+
+  @override
+  String get emailSecurity_spfIncludes => 'Remetentes Autorizados (includes)';
+
+  @override
+  String get emailSecurity_spfIncludesHint =>
+      'ex: _spf.google.com sendgrid.net';
+
+  @override
+  String get emailSecurity_spfPolicy => 'Política (All)';
+
+  @override
+  String get emailSecurity_spfPolicyHint =>
+      '~all (soft fail), -all (hard fail), ou +all (permitir)';
+
+  @override
+  String get emailSecurity_spfSaved => 'Registro SPF salvo com sucesso';
+
+  @override
+  String get emailSecurity_dkimExists => 'Registro DKIM já configurado';
+
+  @override
+  String get emailSecurity_dkimNotConfigured => 'DKIM não configurado';
+
+  @override
+  String get emailSecurity_dkimDescription =>
+      'DomainKeys Identified Mail (DKIM) adiciona uma assinatura digital aos seus e-mails para verificar que não foram adulterados.';
+
+  @override
+  String get emailSecurity_dkimSelector => 'Seletor';
+
+  @override
+  String get emailSecurity_dkimSelectorHint => 'ex: default, google, mailgun';
+
+  @override
+  String get emailSecurity_dkimPublicKey => 'Chave Pública (p=)';
+
+  @override
+  String get emailSecurity_dkimPublicKeyHint =>
+      'Cole a chave pública fornecida pelo seu provedor de e-mail (sem o prefixo v=DKIM1; k=rsa; p=)';
+
+  @override
+  String get emailSecurity_dkimPublicKeyRequired =>
+      'Chave pública é obrigatória';
+
+  @override
+  String get emailSecurity_dkimSaved => 'Registro DKIM salvo com sucesso';
+
+  @override
+  String get emailSecurity_dmarcExists => 'Registro DMARC já configurado';
+
+  @override
+  String get emailSecurity_dmarcNotConfigured => 'DMARC não configurado';
+
+  @override
+  String get emailSecurity_dmarcDescription =>
+      'Domain-based Message Authentication, Reporting & Conformance (DMARC) informa aos servidores de e-mail o que fazer quando as verificações SPF ou DKIM falharem.';
+
+  @override
+  String get emailSecurity_dmarcPolicy => 'Política';
+
+  @override
+  String get emailSecurity_dmarcPolicyHint =>
+      'Ação a tomar em caso de falha de autenticação';
+
+  @override
+  String get emailSecurity_dmarcPolicyNone => 'Nenhuma (Apenas monitorar)';
+
+  @override
+  String get emailSecurity_dmarcPolicyQuarantine =>
+      'Quarentena (Marcar como spam)';
+
+  @override
+  String get emailSecurity_dmarcPolicyReject => 'Rejeitar (Bloquear entrega)';
+
+  @override
+  String get emailSecurity_dmarcRua => 'E-mail para Relatórios Agregados (rua)';
+
+  @override
+  String get emailSecurity_dmarcRuaHint => 'ex: dmarc-reports@seudominio.com';
+
+  @override
+  String get emailSecurity_dmarcRuf => 'E-mail para Relatórios Forenses (ruf)';
+
+  @override
+  String get emailSecurity_dmarcRufHint =>
+      'Opcional: relatórios forenses de falhas';
+
+  @override
+  String get emailSecurity_dmarcPct => 'Percentual de e-mails a filtrar';
+
+  @override
+  String get emailSecurity_dmarcSaved => 'Registro DMARC salvo com sucesso';
+
+  @override
+  String get emailSecurity_preview => 'Pré-visualização';
+
+  @override
+  String get emailSecurity_recordName => 'Nome do Registro';
+
+  @override
   String get dnssecDetails_title => 'Detalhes DNSSEC';
 
   @override
@@ -1015,7 +1124,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get pages_productionBranch => 'Branch de Produção';
 
   @override
-  String get pages_automaticDeployments => 'Deployments Automáticos';
+  String get pages_automaticDeployments => 'Deployments de Preview';
+
+  @override
+  String get pages_automaticDeploymentsDescription =>
+      'Implantações automáticas para branches de preview';
+
+  @override
+  String get pages_productionDeployments => 'Deployments de Produção';
+
+  @override
+  String get pages_productionDeploymentsDescription =>
+      'Implantações automáticas para a branch de produção';
 
   @override
   String get pages_prComments => 'Comentários em PR';
@@ -1177,11 +1297,30 @@ class AppLocalizationsPt extends AppLocalizations {
   String get workers_triggers_cron => 'Cron Triggers';
 
   @override
+  String get workers_triggers_cronExpression => 'Expressão Cron';
+
+  @override
+  String get workers_triggers_cronFormat =>
+      'Formato: Minuto Hora Dia Mês DiaSemana';
+
+  @override
+  String get workers_triggers_deleteScheduleConfirm =>
+      'Tem certeza que deseja remover este cron trigger?';
+
+  @override
   String get workers_triggers_noRoutes =>
       'Nenhuma rota configurada para esta zona';
 
   @override
   String get workers_triggers_noSchedules => 'Nenhum cron trigger configurado';
+
+  @override
+  String get workers_triggers_domainManagedByCloudflare =>
+      'O domínio deve ser gerenciado pelo Cloudflare.';
+
+  @override
+  String get workers_triggers_zoneNotFound =>
+      'Zona não encontrada para este hostname.';
 
   @override
   String get workers_settings_bindings => 'Bindings';
@@ -1217,6 +1356,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get workers_settings_addBinding => 'Adicionar Binding';
 
   @override
+  String get workers_settings_bindingType => 'Tipo';
+
+  @override
+  String get workers_settings_envVariable => 'Variável de Ambiente';
+
+  @override
+  String get workers_settings_bindingSecret => 'Secret';
+
+  @override
   String get workers_settings_updateSecret => 'Atualizar Secret';
 
   @override
@@ -1242,7 +1390,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get workers_settings_tail => 'Tail Worker';
 
   @override
-  String get workers_settings_noTail => 'Nenhum Tail Worker conectado';
+  String get workers_settings_tailDescription =>
+      'Transmitir logs em tempo real do seu Worker';
 
   @override
   String get workers_settings_deleteWorker => 'Excluir Worker';
@@ -1253,6 +1402,68 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get workers_settings_domainsAndRoutes => 'Domínios e Rotas';
+
+  @override
+  String get workers_settings_build => 'Build';
+
+  @override
+  String get workers_settings_gitIntegration => 'Integração Git';
+
+  @override
+  String get workers_settings_gitIntegrationDescription =>
+      'Configurar CI/CD no Dashboard da Cloudflare';
+
+  @override
+  String get workers_settings_noAccountSelected => 'Nenhuma conta selecionada';
+
+  @override
+  String get workers_tail_title => 'Logs do Worker (Tail)';
+
+  @override
+  String get workers_tail_connected => 'Conectado';
+
+  @override
+  String get workers_tail_connecting => 'Conectando...';
+
+  @override
+  String get workers_tail_disconnected => 'Desconectado';
+
+  @override
+  String get workers_tail_start => 'Iniciar';
+
+  @override
+  String get workers_tail_stop => 'Parar';
+
+  @override
+  String get workers_tail_clear => 'Limpar logs';
+
+  @override
+  String get workers_tail_autoScroll => 'Auto-scroll';
+
+  @override
+  String get workers_tail_filterAll => 'Todos';
+
+  @override
+  String get workers_tail_filterLog => 'Log';
+
+  @override
+  String get workers_tail_filterWarn => 'Avisos';
+
+  @override
+  String get workers_tail_filterError => 'Erros';
+
+  @override
+  String workers_tail_logCount(int count) {
+    return '$count logs';
+  }
+
+  @override
+  String get workers_tail_noLogsYet =>
+      'Nenhum log ainda. Acione seu worker para ver logs.';
+
+  @override
+  String get workers_tail_notConnected =>
+      'Não conectado. Clique em Iniciar para começar.';
 
   @override
   String get workers_settings_viewDomains => 'Ver Domínios';

@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/models/worker.dart';
 import '../../domain/models/worker_settings.dart';
 import '../../providers/workers_provider.dart';
+import '../../../../core/providers/resource_providers.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../../../auth/providers/account_provider.dart';
+import '../pages/worker_tail_page.dart';
 
 class WorkerSettingsTab extends ConsumerStatefulWidget {
   const WorkerSettingsTab({super.key, required this.worker});
@@ -20,8 +24,8 @@ class WorkerSettingsTab extends ConsumerStatefulWidget {
 }
 
 class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
-  // Local state for environment variables (plain_text only)
-  Map<String, String>? _localVariables;
+  // Local state for all bindings
+  List<WorkerBinding>? _localBindings;
   bool _isInitialized = false;
   bool _isSaving = false;
   bool _isDeleting = false;
@@ -46,7 +50,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     _observabilityEnabled = false;
     _compatibilityDateFocusNode = FocusNode()..addListener(() {
       if (!_compatibilityDateFocusNode.hasFocus) {
-        _saveSettings();
+        unawaited(_saveSettings());
       }
     });
   }
@@ -59,14 +63,8 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   }
 
   void _initializeLocalState(WorkerSettings settings) {
-    final vars = <String, String>{};
-    for (final b in settings.bindings) {
-      if (b.type == 'plain_text' && b.text != null) {
-        vars[b.name] = b.text!;
-      }
-    }
     setState(() {
-      _localVariables = vars;
+      _localBindings = List.from(settings.bindings);
       _compatibilityDateController.text = settings.compatibilityDate ?? '';
       _usageModel = settings.usageModel;
       _placementMode = settings.placement?.mode ?? 'default';
@@ -76,18 +74,11 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   }
 
   bool _hasChanges(WorkerSettings original) {
-    if (_localVariables == null) return false;
+    if (_localBindings == null) return false;
     
-    final originalVars = <String, String>{};
-    for (final b in original.bindings) {
-      if (b.type == 'plain_text' && b.text != null) {
-        originalVars[b.name] = b.text!;
-      }
-    }
-
-    if (_localVariables!.length != originalVars.length) return true;
-    for (final key in _localVariables!.keys) {
-      if (_localVariables![key] != originalVars[key]) return true;
+    if (_localBindings!.length != original.bindings.length) return true;
+    for (int i = 0; i < _localBindings!.length; i++) {
+      if (_localBindings![i] != original.bindings[i]) return true;
     }
 
     if (_compatibilityDateController.text != (original.compatibilityDate ?? '')) return true;
@@ -105,26 +96,8 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
     if (!mounted) return;
     setState(() => _isSaving = true);
 
-    final updatedBindings = <Map<String, dynamic>>[];
-    
-    // Keep non-variable bindings
-    for (final b in currentSettings.bindings) {
-      if (b.type != 'plain_text' && b.type != 'secret_text') {
-        updatedBindings.add(b.toJson());
-      }
-    }
-
-    // Add updated variables
-    _localVariables?.forEach((name, text) {
-      updatedBindings.add({
-        'type': 'plain_text',
-        'name': name,
-        'text': text,
-      });
-    });
-
     final data = {
-      'bindings': updatedBindings,
+      'bindings': _localBindings?.map((b) => b.toJson()).toList(),
       'compatibility_date': _compatibilityDateController.text.trim(),
       'usage_model': _usageModel,
       'placement': {'mode': _placementMode},
@@ -236,10 +209,10 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                 icon: Symbols.variables,
                 onAdd: () => _showAddBindingDialog(context, l10n),
                 children: [
-                  if (settings.bindings.isEmpty)
+                  if (_localBindings == null || _localBindings!.isEmpty)
                     _buildEmptyBox(context, l10n.common_noData)
                   else
-                    ..._buildGroupedBindings(context, settings.bindings, l10n),
+                    ..._buildGroupedBindings(context, _localBindings!, l10n),
                 ],
               ),
 
@@ -247,6 +220,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                 context: context,
                 title: l10n.workers_triggers_cron,
                 icon: Symbols.schedule,
+                onAdd: () => DefaultTabController.of(context).animateTo(1),
                 children: [
                   Text(
                     l10n.workers_triggers_noSchedules,
@@ -260,19 +234,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
               _buildObservabilitySection(context, l10n),
               _buildRuntimeSection(context, l10n),
 
-              _buildSectionCard(
-                context: context,
-                title: 'Build',
-                icon: Symbols.build,
-                children: [
-                  Text(
-                    'Connect to Git repository',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.outline,
-                    ),
-                  ),
-                ],
-              ),
+              _buildGitBuildSection(context, l10n),
 
               _buildDangerZone(context, l10n),
 
@@ -281,6 +243,57 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildGitBuildSection(BuildContext context, AppLocalizations l10n) {
+    return _buildSectionCard(
+      context: context,
+      title: l10n.workers_settings_build,
+      icon: Symbols.build,
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: const Icon(Symbols.integration_instructions, size: 20),
+          title: Text(l10n.workers_settings_gitIntegration),
+          subtitle: Text(l10n.workers_settings_gitIntegrationDescription),
+          trailing: const Icon(Symbols.open_in_new, size: 20),
+          onTap: () => _openGitBuildDashboard(context),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _openGitBuildDashboard(BuildContext context) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context).workers_settings_noAccountSelected)),
+      );
+      return;
+    }
+
+    final url = Uri.parse(
+      'https://dash.cloudflare.com/$accountId/workers/services/view/${widget.worker.id}/builds',
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context).common_error)),
+      );
+    }
+  }
+
+  void _openTailPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WorkerTailPage(worker: widget.worker),
+      ),
     );
   }
 
@@ -344,7 +357,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           title: Text(l10n.workers_triggers_customDomains),
           trailing: const Icon(Symbols.chevron_right, size: 20),
           onTap: () {
-             // Navigation logic should be handled by the parent page or a route
+            DefaultTabController.of(context).animateTo(1);
           },
         ),
         ListTile(
@@ -353,7 +366,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           title: Text(l10n.workers_triggers_routes),
           trailing: const Icon(Symbols.chevron_right, size: 20),
           onTap: () {
-             // Navigation logic
+            DefaultTabController.of(context).animateTo(1);
           },
         ),
       ],
@@ -372,16 +385,18 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           value: _observabilityEnabled,
           onChanged: (val) {
             setState(() => _observabilityEnabled = val);
-            _saveSettings();
+            unawaited(_saveSettings());
           },
           contentPadding: EdgeInsets.zero,
         ),
         const Divider(),
         ListTile(
           contentPadding: EdgeInsets.zero,
+          leading: const Icon(Symbols.terminal, size: 20),
           title: Text(l10n.workers_settings_tail),
-          subtitle: Text(l10n.workers_settings_noTail),
+          subtitle: Text(l10n.workers_settings_tailDescription),
           trailing: const Icon(Symbols.chevron_right, size: 20),
+          onTap: () => _openTailPage(context),
         ),
       ],
     );
@@ -406,7 +421,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           onChanged: (val) {
             if (val != null) {
               setState(() => _placementMode = val);
-              _saveSettings();
+              unawaited(_saveSettings());
             }
           },
         ),
@@ -433,7 +448,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           onChanged: (val) {
             if (val != null) {
               setState(() => _usageModel = val);
-              _saveSettings();
+              unawaited(_saveSettings());
             }
           },
         ),
@@ -549,47 +564,50 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
       dense: true,
       leading: Icon(_getBindingIcon(binding.type), size: 18),
       title: Text(binding.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-      subtitle: isSecret 
-          ? const Text('••••••••', style: TextStyle(color: Colors.orange))
-          : isVariable && _localVariables != null
-              ? Text(_localVariables![binding.name] ?? '', maxLines: 1, overflow: TextOverflow.ellipsis)
-              : Text(binding.namespaceId ?? binding.bucketName ?? binding.id ?? binding.text ?? ''),
+      subtitle: Text(
+        isSecret ? '••••••••' : (binding.text ?? binding.namespaceId ?? binding.bucketName ?? binding.id ?? ''),
+        maxLines: 1, 
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontFamily: isSecret ? null : 'monospace',
+          color: isSecret ? Colors.orange : null,
+        ),
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           if (isVariable)
             IconButton(
               icon: const Icon(Symbols.edit, size: 18),
-              onPressed: () => _showEditVariableDialog(context, binding.name, l10n),
+              onPressed: () => _showEditVariableDialog(context, binding, l10n),
             ),
           if (isSecret)
             IconButton(
               icon: const Icon(Symbols.lock_reset, size: 18),
               onPressed: () => _showUpdateSecretDialog(context, binding.name, l10n),
             ),
-          if (isVariable)
-            IconButton(
-              icon: const Icon(Symbols.close, size: 18),
-              onPressed: () => _removeVariable(binding.name),
-            ),
+          IconButton(
+            icon: const Icon(Symbols.close, size: 18),
+            onPressed: () => _removeBinding(binding.name),
+          ),
         ],
       ),
     );
   }
 
-  void _removeVariable(String name) {
+  void _removeBinding(String name) {
     setState(() {
-      _localVariables?.remove(name);
+      _localBindings?.removeWhere((b) => b.name == name);
     });
-    _saveSettings();
+    unawaited(_saveSettings());
   }
 
-  void _showEditVariableDialog(BuildContext context, String name, AppLocalizations l10n) {
-    final controller = TextEditingController(text: _localVariables?[name]);
+  void _showEditVariableDialog(BuildContext context, WorkerBinding binding, AppLocalizations l10n) {
+    final controller = TextEditingController(text: binding.text);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(name),
+        title: Text(binding.name),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -599,11 +617,14 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.common_cancel)),
           TextButton(
             onPressed: () {
-              setState(() {
-                _localVariables?[name] = controller.text.trim();
-              });
-              Navigator.pop(context);
-              _saveSettings();
+              final index = _localBindings?.indexWhere((b) => b.name == binding.name);
+              if (index != null && index != -1) {
+                setState(() {
+                  _localBindings![index] = binding.copyWith(text: controller.text.trim());
+                });
+                Navigator.pop(context);
+                unawaited(_saveSettings());
+              }
             },
             child: Text(l10n.common_save),
           ),
@@ -661,54 +682,106 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
   void _showAddBindingDialog(BuildContext context, AppLocalizations l10n) {
     final nameController = TextEditingController();
     final valueController = TextEditingController();
-    bool isSecret = false;
+    String selectedType = 'plain_text';
+    String? selectedResourceId;
+
+    final kvAsync = ref.read(kvNamespacesProvider);
+    final r2Async = ref.read(r2BucketsProvider);
+    final d1Async = ref.read(d1DatabasesProvider);
 
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           title: Text(l10n.workers_settings_addBinding),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                autofocus: true,
-                decoration: InputDecoration(labelText: l10n.pages_variableName),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: valueController,
-                decoration: InputDecoration(labelText: l10n.pages_variableValue),
-                obscureText: isSecret,
-              ),
-              const SizedBox(height: 8),
-              SwitchListTile(
-                title: Text(l10n.pages_secret, style: const TextStyle(fontSize: 14)),
-                value: isSecret,
-                onChanged: (val) => setDialogState(() => isSecret = val),
-                contentPadding: EdgeInsets.zero,
-              ),
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(labelText: l10n.workers_settings_bindingType),
+                  value: selectedType,
+                  items: [
+                    DropdownMenuItem(value: 'plain_text', child: Text(l10n.workers_settings_envVariable)),
+                    DropdownMenuItem(value: 'secret_text', child: Text(l10n.workers_settings_bindingSecret)),
+                    DropdownMenuItem(value: 'kv_namespace', child: Text(l10n.workers_bindings_kv)),
+                    DropdownMenuItem(value: 'r2_bucket', child: Text(l10n.workers_bindings_r2)),
+                    DropdownMenuItem(value: 'd1', child: Text(l10n.workers_bindings_d1)),
+                  ],
+                  onChanged: (val) {
+                    if (val != null) setDialogState(() => selectedType = val);
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: l10n.record_name,
+                    hintText: 'MY_BINDING',
+                  ),
+                ),
+                const SizedBox(height: 16),
+                if (selectedType == 'plain_text' || selectedType == 'secret_text')
+                  TextField(
+                    controller: valueController,
+                    decoration: InputDecoration(labelText: l10n.pages_variableValue),
+                    obscureText: selectedType == 'secret_text',
+                  )
+                else if (selectedType == 'kv_namespace')
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: l10n.workers_bindings_kv),
+                    items: kvAsync.valueOrNull?.map((e) => DropdownMenuItem(value: e.id, child: Text(e.title))).toList() ?? [],
+                    onChanged: (val) => setDialogState(() => selectedResourceId = val),
+                  )
+                else if (selectedType == 'r2_bucket')
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: l10n.workers_bindings_r2),
+                    items: r2Async.valueOrNull?.map((e) => DropdownMenuItem(value: e.name, child: Text(e.name))).toList() ?? [],
+                    onChanged: (val) => setDialogState(() => selectedResourceId = val),
+                  )
+                else if (selectedType == 'd1')
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: l10n.workers_bindings_d1),
+                    items: d1Async.valueOrNull?.map((e) => DropdownMenuItem(value: e.uuid, child: Text(e.name))).toList() ?? [],
+                    onChanged: (val) => setDialogState(() => selectedResourceId = val),
+                  ),
+              ],
+            ),
           ),
           actions: [
             TextButton(onPressed: () => Navigator.pop(context), child: Text(l10n.common_cancel)),
             FilledButton(
               onPressed: () async {
-                if (nameController.text.isEmpty || valueController.text.isEmpty) return;
-                Navigator.pop(context);
-                
-                if (isSecret) {
+                final name = nameController.text.trim();
+                if (name.isEmpty) return;
+
+                if (selectedType == 'secret_text') {
+                  Navigator.pop(context);
                   await ref.read(workerSettingsActionNotifierProvider.notifier).updateSecret(
                     scriptName: widget.worker.id,
-                    name: nameController.text.trim(),
+                    name: name,
                     text: valueController.text.trim(),
                   );
-                } else {
+                  return;
+                }
+
+                WorkerBinding? newBinding;
+                if (selectedType == 'plain_text') {
+                  newBinding = WorkerBinding(type: 'plain_text', name: name, text: valueController.text.trim());
+                } else if (selectedType == 'kv_namespace' && selectedResourceId != null) {
+                  newBinding = WorkerBinding(type: 'kv_namespace', name: name, namespaceId: selectedResourceId);
+                } else if (selectedType == 'r2_bucket' && selectedResourceId != null) {
+                  newBinding = WorkerBinding(type: 'r2_bucket', name: name, bucketName: selectedResourceId);
+                } else if (selectedType == 'd1' && selectedResourceId != null) {
+                  newBinding = WorkerBinding(type: 'd1', name: name, id: selectedResourceId);
+                }
+
+                if (newBinding != null) {
                   setState(() {
-                    _localVariables?[nameController.text.trim()] = valueController.text.trim();
+                    _localBindings = [...(_localBindings ?? []), newBinding!];
                   });
-                  _saveSettings();
+                  Navigator.pop(context);
+                  unawaited(_saveSettings());
                 }
               },
               child: Text(l10n.common_add),
