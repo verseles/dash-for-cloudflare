@@ -789,6 +789,8 @@ class _PageState extends ConsumerState<Page> {
 
 - `WorkerBinding`: Usar `project_name` para bindings do tipo `ai` conforme resposta do payload da API.
 
+- `PagesSourceConfig`: Usar `production_deployments_enabled` (plural) para controle de deployments em produção.
+
 
 
 **Consequência**: Prevenção de falhas silenciosas na persistência de dados. Facilidade de debug cruzando logs do app com a documentação oficial da API.
@@ -799,4 +801,4 @@ class _PageState extends ConsumerState<Page> {
 
 
 
-_Última atualização: 2026-01-26 (adicionado ADR-032 e ADR-033)_
+_Última atualização: 2026-01-29 (adicionado exemplo PagesSourceConfig ao ADR-033)_
