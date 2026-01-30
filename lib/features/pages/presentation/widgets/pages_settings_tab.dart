@@ -400,7 +400,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
               'config': {
                 'production_branch': productionBranch.isEmpty ? 'main' : productionBranch,
                 'deployments_enabled': _deploymentsEnabled,
-                'production_deployment_enabled': _productionDeploymentEnabled,
+                'production_deployments_enabled': _productionDeploymentEnabled,
                 'pr_comments_enabled': _prCommentsEnabled,
               }
             },

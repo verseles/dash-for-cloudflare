@@ -139,7 +139,7 @@ sealed class PagesSourceConfig with _$PagesSourceConfig {
     @JsonKey(name: 'pr_comments_enabled') bool? prCommentsEnabled,
     @JsonKey(name: 'deployments_enabled') bool? deploymentsEnabled,
     @JsonKey(name: 'production_deployments_enabled')
-    bool? productionDeploymentsEnabled,
+    bool? productionDeploymentEnabled,
   }) = _PagesSourceConfig;
 
   factory PagesSourceConfig.fromJson(Map<String, dynamic> json) =>
@@ -163,7 +163,7 @@ extension PagesProjectExtension on PagesProject {
   bool get isAutoDeployPaused =>
       hasGitSource &&
       (source?.config?.deploymentsEnabled == false ||
-          source?.config?.productionDeploymentsEnabled == false);
+          source?.config?.productionDeploymentEnabled == false);
 
   /// Check if project has custom domains
   bool get hasCustomDomains =>
