@@ -1,4 +1,4 @@
-# Dash for Cloudflare - Agent Instructions
+# Dash for CF - Agent Instructions
 
 **IMPORTANTE:** Sempre que iniciar qualquer sessão, leia TODOS os arquivos abaixo. Eles contêm regras e contexto essenciais para o trabalho.
 
@@ -17,7 +17,7 @@ As regras deste arquivo (AGENTS.md) são **obrigatórias** e devem ser seguidas 
 
 | Campo               | Valor                                    |
 | ------------------- | ---------------------------------------- |
-| **Nome**            | Dash for Cloudflare                      |
+| **Nome**            | Dash for CF                      |
 | **Package ID**      | `ad.dash.cf`                             |
 | **Web URL**         | `cf.dash.ad`                             |
 | **Plataformas**     | Android, iOS, Web, Linux, macOS, Windows |

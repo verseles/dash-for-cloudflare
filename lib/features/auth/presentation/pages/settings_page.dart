@@ -301,6 +301,18 @@ Required Cloudflare API Token Permissions:
                             .setThemeMode(selection.first);
                       },
                     ),
+                    const SizedBox(height: 16),
+                    SwitchListTile(
+                      title: Text(l10n.settings_amoledMode),
+                      subtitle: Text(l10n.settings_amoledModeDescription),
+                      value: settings.amoledDarkMode,
+                      onChanged: (value) {
+                        ref
+                            .read(settingsNotifierProvider.notifier)
+                            .setAmoledDarkMode(value);
+                      },
+                      secondary: const Icon(Symbols.contrast),
+                    ),
                   ],
                 ),
               ),
@@ -392,7 +404,7 @@ Required Cloudflare API Token Permissions:
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Text(
-          'Dash for Cloudflare v$version',
+          'Dash for CF v$version',
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.outline,
           ),

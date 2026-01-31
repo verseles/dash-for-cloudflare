@@ -16,7 +16,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Dash for Cloudflare - DNS management, analytics, and settings">
+  <meta name="description" content="Unofficial native dashboard for Cloudflare services">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- PWA Theme Color -->
@@ -33,11 +33,13 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>Dash for Cloudflare</title>
+  <title>Dash for CF</title>
   <link rel="manifest" href="manifest.json">
   
   
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  
+  
   
   
   
@@ -50,7 +52,7 @@
     body {
       margin: 0;
       min-height: 100%;
-      background-color: #1a1a2e;
+      background-color: #0a0a0a;
           background-size: 100% 100%;
     }
 
@@ -61,15 +63,6 @@
       left: 50%;
       -ms-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
-      max-width: 40vw;
-      max-height: 40vh;
-    }
-
-    @media (max-width: 600px) {
-      .center {
-        max-width: 50vw;
-        max-height: 30vh;
-      }
     }
 
     .contain {
@@ -123,6 +116,7 @@
       <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
       <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
   </picture>
+  
   
   
   

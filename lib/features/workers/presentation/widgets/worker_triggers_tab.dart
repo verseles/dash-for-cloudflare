@@ -5,6 +5,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import '../../domain/models/worker.dart';
 import '../../domain/models/worker_route.dart';
 import '../../domain/models/worker_domain.dart';
+import '../../domain/models/worker_schedule.dart';
 import '../../providers/workers_provider.dart';
 import '../../../../features/dns/providers/zone_provider.dart';
 import '../../../../l10n/app_localizations.dart';
@@ -94,7 +95,12 @@ class WorkerTriggersTab extends ConsumerWidget {
         
         const SizedBox(height: 32),
         // CRON TRIGGERS (Account-scoped)
-        _buildHeader(context, l10n.workers_triggers_cron, Symbols.schedule),
+        _buildHeader(
+          context, 
+          l10n.workers_triggers_cron, 
+          Symbols.schedule,
+          onAdd: () => _showAddScheduleDialog(context, ref, l10n),
+        ),
         const SizedBox(height: 8),
         schedulesAsync.when(
           skipLoadingOnRefresh: true,
@@ -111,7 +117,7 @@ class WorkerTriggersTab extends ConsumerWidget {
               return _buildInfoBox(context, l10n.workers_triggers_noSchedules);
             }
             return Column(
-              children: schedules.map((s) => _buildScheduleCard(context, s)).toList(),
+              children: schedules.map((s) => _buildScheduleCard(context, ref, s, l10n)).toList(),
             );
           },
         ),
@@ -219,7 +225,7 @@ class WorkerTriggersTab extends ConsumerWidget {
     );
   }
 
-  Widget _buildScheduleCard(BuildContext context, dynamic schedule) {
+  Widget _buildScheduleCard(BuildContext context, WidgetRef ref, WorkerSchedule schedule, AppLocalizations l10n) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
@@ -230,6 +236,121 @@ class WorkerTriggersTab extends ConsumerWidget {
         ),
         subtitle: Text(_parseCron(schedule.cron)),
         dense: true,
+        trailing: IconButton(
+          icon: const Icon(Symbols.delete, size: 18),
+          onPressed: () => _confirmDeleteSchedule(context, ref, schedule, l10n),
+        ),
+      ),
+    );
+  }
+
+  void _showAddScheduleDialog(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
+    final cronController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.workers_triggers_cron),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: cronController,
+              autofocus: true,
+              decoration: InputDecoration(
+                labelText: l10n.workers_triggers_cronExpression,
+                hintText: '*/5 * * * *',
+                border: const OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l10n.workers_triggers_cronFormat,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.common_cancel),
+          ),
+          FilledButton(
+            onPressed: () async {
+              final cron = cronController.text.trim();
+              if (cron.isEmpty) return;
+
+              Navigator.pop(context);
+              try {
+                await ref
+                    .read(workerSchedulesNotifierProvider(worker.id).notifier)
+                    .addSchedule(cron);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.pages_settingsUpdated)),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+                  );
+                }
+              }
+            },
+            child: Text(l10n.common_add),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteSchedule(
+    BuildContext context,
+    WidgetRef ref,
+    WorkerSchedule schedule,
+    AppLocalizations l10n,
+  ) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.common_delete),
+        content: Text(l10n.workers_triggers_deleteScheduleConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.common_cancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
+            onPressed: () async {
+              Navigator.pop(context);
+              try {
+                await ref
+                    .read(workerSchedulesNotifierProvider(worker.id).notifier)
+                    .removeSchedule(schedule.cron);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(l10n.common_deleted)),
+                  );
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+                  );
+                }
+              }
+            },
+            child: Text(l10n.common_delete),
+          ),
+        ],
       ),
     );
   }
@@ -259,7 +380,7 @@ class WorkerTriggersTab extends ConsumerWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Domain must be managed by Cloudflare.',
+              l10n.workers_triggers_domainManagedByCloudflare,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
@@ -280,7 +401,7 @@ class WorkerTriggersTab extends ConsumerWidget {
 
               if (zone == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Zone not found for this hostname.')),
+                  SnackBar(content: Text(l10n.workers_triggers_zoneNotFound)),
                 );
                 return;
               }

@@ -76,7 +76,8 @@ void main() {
     expect(find.text('Git Repository'), findsOneWidget);
     // Finds 'main' in the text field controller. Might find more if hint text is also visible or rendered elsewhere.
     expect(find.text('main'), findsAtLeastNWidgets(1)); 
-    expect(find.text('Automatic Deployments'), findsOneWidget);
+    expect(find.text('Preview Deployments'), findsOneWidget);
+    expect(find.text('Production Deployments'), findsOneWidget);
     expect(find.text('PR Comments'), findsOneWidget);
 
     // 2. Build Settings Section

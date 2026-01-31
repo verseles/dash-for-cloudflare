@@ -287,6 +287,58 @@ class WorkerSchedulesNotifier extends _$WorkerSchedulesNotifier {
       return [];
     }
   }
+
+  Future<void> addSchedule(String cron) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    final currentSchedules = state.valueOrNull ?? [];
+    if (currentSchedules.any((s) => s.cron == cron)) return;
+
+    final newSchedules = [...currentSchedules, WorkerSchedule(cron: cron)];
+    await _updateSchedules(accountId, scriptName, newSchedules);
+  }
+
+  Future<void> removeSchedule(String cron) async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+
+    final currentSchedules = state.valueOrNull ?? [];
+    final newSchedules = currentSchedules.where((s) => s.cron != cron).toList();
+    
+    if (newSchedules.length == currentSchedules.length) return;
+
+    await _updateSchedules(accountId, scriptName, newSchedules);
+  }
+
+  Future<void> _updateSchedules(String accountId, String scriptName, List<WorkerSchedule> schedules) async {
+    state = const AsyncLoading();
+    try {
+      final api = ref.read(cloudflareApiProvider);
+      final payload = schedules.map((s) => {'cron': s.cron}).toList();
+      final response = await api.updateWorkerSchedules(accountId, scriptName, payload);
+
+      if (!response.success) {
+        throw Exception(response.errors.firstOrNull?.message ?? 'Failed to update schedules');
+      }
+
+      final updatedSchedules = response.result?.schedules ?? [];
+      await _prefs?.setString(_cacheKey(scriptName), json.encode(updatedSchedules.map((s) => s.toJson()).toList()));
+      
+      state = AsyncData(updatedSchedules);
+    } catch (e, stack) {
+      log.error('WorkerSchedulesNotifier: Update Error', error: e, stackTrace: stack);
+      state = AsyncError(e, stack);
+      rethrow;
+    }
+  }
+
+  Future<void> refresh() async {
+    final accountId = ref.read(selectedAccountIdProvider);
+    if (accountId == null) return;
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetchSchedules(accountId, scriptName));
+  }
 }
 
 // ==================== WORKER METRICS ====================

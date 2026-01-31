@@ -1,5 +1,5 @@
 ---
-feature: "Dash for Cloudflare"
+feature: "Dash for CF"
 spec: |
   Flutter app for Cloudflare management. Stack: Flutter 3.x, Riverpod 2.x, Dio+Retrofit, go_router, Freezed, Syncfusion Charts/Maps. 
   Platforms: Android, iOS, Web, Linux, macOS, Windows. CORS: Web uses cors.verseles.com proxy.

@@ -30,7 +30,7 @@ class DesktopTrayManager with TrayListener {
       }
 
       await trayManager.setIcon(iconPath);
-      await trayManager.setToolTip('Dash for Cloudflare');
+      await trayManager.setToolTip('Dash for CF');
 
       // Create context menu
       final menu = Menu(

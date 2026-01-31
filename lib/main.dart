@@ -69,12 +69,13 @@ class DashForCloudflareApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(currentThemeModeProvider);
     final locale = ref.watch(currentLocaleProvider);
+    final useAmoled = ref.watch(amoledDarkModeProvider);
 
     return MaterialApp.router(
-      title: 'Dash for Cloudflare',
+      title: 'Dash for CF',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
+      darkTheme: useAmoled ? AppTheme.amoled : AppTheme.dark,
       themeMode: themeMode,
       locale: Locale(locale),
       localizationsDelegates: const [

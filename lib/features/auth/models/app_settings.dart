@@ -41,6 +41,7 @@ sealed class AppSettings with _$AppSettings {
     String? selectedZoneId,
     String? selectedAccountId,
     String? lastVisitedRoute,
+    @Default(false) bool amoledDarkMode,
   }) = _AppSettings;
 
   factory AppSettings.fromJson(Map<String, dynamic> json) =>

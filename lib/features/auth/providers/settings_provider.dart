@@ -18,6 +18,7 @@ const String _localeKey = 'locale';
 const String _selectedZoneIdKey = 'selected_zone_id';
 const String _selectedAccountIdKey = 'selected_account_id';
 const String _lastVisitedRouteKey = 'last_visited_route';
+const String _amoledDarkModeKey = 'amoled_dark_mode';
 
 /// Provider for FlutterSecureStorage
 @riverpod
@@ -60,6 +61,7 @@ class SettingsNotifier extends _$SettingsNotifier {
       final selectedZoneId = _prefs?.getString(_selectedZoneIdKey);
       final selectedAccountId = _prefs?.getString(_selectedAccountIdKey);
       final lastVisitedRoute = _prefs?.getString(_lastVisitedRouteKey);
+      final amoledDarkMode = _prefs?.getBool(_amoledDarkModeKey) ?? false;
 
       final themeMode = switch (themeModeStr) {
         'light' => ThemeMode.light,
@@ -79,6 +81,7 @@ class SettingsNotifier extends _$SettingsNotifier {
         selectedZoneId: selectedZoneId,
         selectedAccountId: selectedAccountId,
         lastVisitedRoute: lastVisitedRoute,
+        amoledDarkMode: amoledDarkMode,
       );
     } catch (e, stack) {
       log.error(
@@ -168,6 +171,12 @@ class SettingsNotifier extends _$SettingsNotifier {
     }
   }
 
+  /// Save AMOLED dark mode preference
+  Future<void> setAmoledDarkMode(bool enabled) async {
+    await _prefs?.setBool(_amoledDarkModeKey, enabled);
+    state = AsyncData(state.value!.copyWith(amoledDarkMode: enabled));
+  }
+
   /// Check if user has a valid token
   bool get hasValidToken {
     final token = state.valueOrNull?.cloudflareApiToken;
@@ -209,4 +218,11 @@ bool hasValidToken(Ref ref) {
 String? currentLastVisitedRoute(Ref ref) {
   final settings = ref.watch(settingsNotifierProvider);
   return settings.valueOrNull?.lastVisitedRoute;
+}
+
+/// Convenient provider for AMOLED dark mode
+@riverpod
+bool amoledDarkMode(Ref ref) {
+  final settings = ref.watch(settingsNotifierProvider);
+  return settings.valueOrNull?.amoledDarkMode ?? false;
 }

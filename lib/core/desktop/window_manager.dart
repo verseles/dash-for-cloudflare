@@ -9,7 +9,7 @@ class DesktopWindowManager {
 
   static const Size _initialSize = Size(1200, 800);
   static const Size _minimumSize = Size(800, 600);
-  static const String _windowTitle = 'Dash for Cloudflare';
+  static const String _windowTitle = 'Dash for CF';
 
   /// Initialize window manager for desktop platforms
   static Future<void> initialize() async {

@@ -1,6 +1,6 @@
 {
   "@@locale": "pt",
-  "appTitle": "Dash for Cloudflare",
+  "appTitle": "Dash for CF",
 
   "common_cancel": "Cancelar",
   "common_close": "Fechar",
@@ -233,6 +233,8 @@
   "settings_themeLight": "Claro",
   "settings_themeDark": "Escuro",
   "settings_themeSystem": "Sistema",
+  "settings_amoledMode": "AMOLED Black",
+  "settings_amoledModeDescription": "Fundo preto puro no modo escuro (economiza bateria em telas OLED)",
   "settings_language": "Idioma",
   "settings_languageEn": "Inglês",
   "settings_languagePt": "Português",
@@ -256,7 +258,7 @@
   "pwa_updateAvailable": "Nova versão disponível",
   "pwa_updateNow": "Atualizar Agora",
   "pwa_installApp": "Instalar App",
-  "pwa_installDescription": "Instale o Dash for Cloudflare para acesso rápido",
+  "pwa_installDescription": "Instale o Dash for CF para acesso rápido",
 
   "settings_cloudflareApiToken": "Token API Cloudflare",
   "settings_requiredPermissions": "Permissões: Zone:Read, DNS:Read, DNS:Edit",

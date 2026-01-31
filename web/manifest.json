@@ -1,7 +1,7 @@
 {
-    "name": "Dash for Cloudflare",
+    "name": "Dash for CF",
     "short_name": "Dash for CF",
-    "description": "Dash for Cloudflare - DNS management, analytics, and settings",
+    "description": "Unofficial native dashboard for Cloudflare services",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",

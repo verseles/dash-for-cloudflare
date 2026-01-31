@@ -450,8 +450,8 @@
   "CCU": {
     "place": "Kolkata, India",
     "place_zh": "印度加尔各答",
-    "lat": 22.654699,
-    "lng": 88.446701,
+    "lat": 22.654012,
+    "lng": 88.44765,
     "cca2": "IN",
     "region": "Asia Pacific"
   },
@@ -714,8 +714,8 @@
   "DAR": {
     "place": "Dar es Salaam, Tanzania",
     "place_zh": "坦桑尼亚达累斯萨拉姆",
-    "lat": -6.87811,
-    "lng": 39.202599,
+    "lat": -6.873499,
+    "lng": 39.207288,
     "cca2": "TZ",
     "region": null
   },
@@ -1450,8 +1450,8 @@
   "KWI": {
     "place": "Kuwait City, Kuwait",
     "place_zh": "科威特科威特城",
-    "lat": 29.226601,
-    "lng": 47.968899,
+    "lat": 29.224487,
+    "lng": 47.969813,
     "cca2": "KW",
     "region": null
   },
@@ -1506,8 +1506,8 @@
   "LHR": {
     "place": "London, United Kingdom",
     "place_zh": "英国伦敦",
-    "lat": 51.4706,
-    "lng": -0.461941,
+    "lat": 51.470748,
+    "lng": -0.459909,
     "cca2": "GB",
     "region": "Europe"
   },
@@ -1650,8 +1650,8 @@
   "MCT": {
     "place": "Muscat, Oman",
     "place_zh": "阿曼马斯喀特",
-    "lat": 23.5933,
-    "lng": 58.284401,
+    "lat": 23.600218,
+    "lng": 58.285268,
     "cca2": "OM",
     "region": null
   },
@@ -1818,8 +1818,8 @@
   "NJF": {
     "place": "Najaf, Iraq",
     "place_zh": "伊拉克纳杰夫",
-    "lat": 31.989853,
-    "lng": 44.404317,
+    "lat": 31.991116,
+    "lng": 44.405019,
     "cca2": "IQ",
     "region": null
   },
@@ -1858,8 +1858,8 @@
   "NRT": {
     "place": "Tokyo, Japan",
     "place_zh": "日本东京",
-    "lat": 35.764702,
-    "lng": 140.386002,
+    "lat": 35.76858,
+    "lng": 140.388714,
     "cca2": "JP",
     "region": null
   },
@@ -2602,8 +2602,8 @@
   "VTE": {
     "place": "Vientiane, Laos",
     "place_zh": "老挝万象",
-    "lat": 17.988300323500003,
-    "lng": 102.56300354,
+    "lat": 17.985052,
+    "lng": 102.566692,
     "cca2": "LA",
     "region": null
   },

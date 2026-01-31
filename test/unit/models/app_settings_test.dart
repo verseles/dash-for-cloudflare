@@ -14,6 +14,7 @@ void main() {
         expect(settings.themeMode, ThemeMode.system);
         expect(settings.locale, 'en');
         expect(settings.selectedZoneId, isNull);
+        expect(settings.amoledDarkMode, false);
       });
 
       test('parses full settings', () {
@@ -22,6 +23,7 @@ void main() {
           'themeMode': 'dark',
           'locale': 'pt',
           'selectedZoneId': 'zone123',
+          'amoledDarkMode': true,
         };
 
         final settings = AppSettings.fromJson(json);
@@ -33,6 +35,7 @@ void main() {
         expect(settings.themeMode, ThemeMode.dark);
         expect(settings.locale, 'pt');
         expect(settings.selectedZoneId, 'zone123');
+        expect(settings.amoledDarkMode, true);
       });
 
       test('parses light theme', () {
@@ -120,6 +123,14 @@ void main() {
 
         expect(updated.selectedZoneId, 'zone123');
       });
+
+      test('updates amoled dark mode', () {
+        const original = AppSettings();
+
+        final updated = original.copyWith(amoledDarkMode: true);
+
+        expect(updated.amoledDarkMode, true);
+      });
     });
 
     group('equality', () {
@@ -128,11 +139,13 @@ void main() {
           cloudflareApiToken: 'token',
           themeMode: ThemeMode.dark,
           locale: 'en',
+          amoledDarkMode: true,
         );
         const settings2 = AppSettings(
           cloudflareApiToken: 'token',
           themeMode: ThemeMode.dark,
           locale: 'en',
+          amoledDarkMode: true,
         );
 
         expect(settings1, equals(settings2));
@@ -141,6 +154,13 @@ void main() {
       test('different settings are not equal', () {
         const settings1 = AppSettings(themeMode: ThemeMode.dark);
         const settings2 = AppSettings(themeMode: ThemeMode.light);
+
+        expect(settings1, isNot(equals(settings2)));
+      });
+
+      test('different amoled mode makes settings unequal', () {
+        const settings1 = AppSettings(amoledDarkMode: true);
+        const settings2 = AppSettings(amoledDarkMode: false);
 
         expect(settings1, isNot(equals(settings2)));
       });

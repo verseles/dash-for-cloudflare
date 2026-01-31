@@ -1,7 +1,7 @@
 .PHONY: all check precommit deps gen analyze test linux android android-x64 web cf-pages clean install uninstall help sync-datacenters icons
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Dash for Cloudflare - Makefile
+# Dash for CF - Makefile
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # Workflow:
@@ -201,7 +201,7 @@ clean:
 
 # Install on Linux (after build)
 install: linux
-	@echo "Installing Dash for Cloudflare to $(INSTALL_DIR)..."
+	@echo "Installing Dash for CF to $(INSTALL_DIR)..."
 	@mkdir -p $(INSTALL_DIR)/bin
 	@mkdir -p $(INSTALL_DIR)/share/dash-for-cloudflare
 	@mkdir -p $(INSTALL_DIR)/share/applications
@@ -209,7 +209,7 @@ install: linux
 	@cp -r $(LINUX_BUNDLE)/* $(INSTALL_DIR)/share/dash-for-cloudflare/
 	@ln -sf $(INSTALL_DIR)/share/dash-for-cloudflare/dash_for_cloudflare $(INSTALL_DIR)/bin/dash-cf
 	@echo "[Desktop Entry]" > $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
-	@echo "Name=Dash for Cloudflare" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
+	@echo "Name=Dash for CF" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Comment=Unofficial Cloudflare management app" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Exec=$(INSTALL_DIR)/share/dash-for-cloudflare/dash_for_cloudflare" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
 	@echo "Icon=$(INSTALL_DIR)/share/icons/hicolor/128x128/apps/ad.dash.cf.png" >> $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
@@ -220,7 +220,7 @@ install: linux
 		cp android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png $(INSTALL_DIR)/share/icons/hicolor/128x128/apps/ad.dash.cf.png 2>/dev/null || true
 	@gtk-update-icon-cache $(INSTALL_DIR)/share/icons/hicolor 2>/dev/null || true
 	@echo ""
-	@echo "✅ Dash for Cloudflare installed!"
+	@echo "✅ Dash for CF installed!"
 	@echo ""
 	@echo "Make sure $(INSTALL_DIR)/bin is in your PATH:"
 	@echo "  export PATH=\"\$$HOME/.local/bin:\$$PATH\""
@@ -229,7 +229,7 @@ install: linux
 
 # Uninstall from Linux
 uninstall:
-	@echo "Uninstalling Dash for Cloudflare..."
+	@echo "Uninstalling Dash for CF..."
 	@rm -f $(INSTALL_DIR)/bin/dash-cf
 	@rm -rf $(INSTALL_DIR)/share/dash-for-cloudflare
 	@rm -f $(INSTALL_DIR)/share/applications/ad.dash.cf.desktop
@@ -252,7 +252,7 @@ sync-datacenters:
 # ══════════════════════════════════════════════════════════════════════════════
 
 help:
-	@echo "Dash for Cloudflare - Build Commands"
+	@echo "Dash for CF - Build Commands"
 	@echo ""
 	@echo "  Validation:"
 	@echo "    make check      Quick validation (deps+gen+analyze+test) ~20s"

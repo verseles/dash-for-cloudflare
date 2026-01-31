@@ -1,4 +1,4 @@
-# 🗺️ Codebase Map - Dash for Cloudflare
+# 🗺️ Codebase Map - Dash for CF
 
 > Mapa do código para navegação rápida e compreensão arquitetural. Consulte este arquivo para entender a organização do projeto e os padrões utilizados.
 

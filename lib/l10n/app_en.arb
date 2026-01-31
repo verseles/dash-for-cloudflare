@@ -3,7 +3,7 @@
   "@appTitle": {
     "description": "The app title shown in various places"
   },
-  "appTitle": "Dash for Cloudflare",
+  "appTitle": "Dash for CF",
 
   "common_cancel": "Cancel",
   "common_close": "Close",
@@ -251,6 +251,8 @@
   "settings_themeLight": "Light",
   "settings_themeDark": "Dark",
   "settings_themeSystem": "System",
+  "settings_amoledMode": "AMOLED Black",
+  "settings_amoledModeDescription": "Pure black background for dark mode (saves battery on OLED screens)",
   "settings_language": "Language",
   "settings_languageEn": "English",
   "settings_languagePt": "Português",
@@ -290,7 +292,7 @@
   "pwa_updateAvailable": "A new version is available",
   "pwa_updateNow": "Update Now",
   "pwa_installApp": "Install App",
-  "pwa_installDescription": "Install Dash for Cloudflare for quick access",
+  "pwa_installDescription": "Install Dash for CF for quick access",
 
   "settings_cloudflareApiToken": "Cloudflare API Token",
   "settings_requiredPermissions": "Required permissions: Zone:Read, DNS:Read, DNS:Edit",

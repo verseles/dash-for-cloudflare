@@ -9,7 +9,7 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get appTitle => 'Dash for Cloudflare';
+  String get appTitle => 'Dash for CF';
 
   @override
   String get common_cancel => 'Cancelar';
@@ -696,6 +696,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settings_themeSystem => 'Sistema';
 
   @override
+  String get settings_amoledMode => 'AMOLED Black';
+
+  @override
+  String get settings_amoledModeDescription =>
+      'Fundo preto puro no modo escuro (economiza bateria em telas OLED)';
+
+  @override
   String get settings_language => 'Idioma';
 
   @override
@@ -768,7 +775,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get pwa_installDescription =>
-      'Instale o Dash for Cloudflare para acesso rápido';
+      'Instale o Dash for CF para acesso rápido';
 
   @override
   String get settings_cloudflareApiToken => 'Token API Cloudflare';

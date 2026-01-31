@@ -1,6 +1,6 @@
-# Dash for Cloudflare
+# Dash for CF
 
-Unofficial Cloudflare management app built with Flutter.
+Unofficial native dashboard for Cloudflare services. Built with Flutter for all platforms.
 
 
 ## Project Info

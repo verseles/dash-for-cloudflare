@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADR)
 
-> Decisões técnicas relevantes para o projeto Dash for Cloudflare (Flutter).
+> Decisões técnicas relevantes para o projeto Dash for CF (Flutter).
 > Consulte este documento ao iniciar novas sessões de desenvolvimento.
 
 ---
@@ -433,6 +433,9 @@ dart run flutter_native_splash:create
 | PATCH  | /zones/{zoneId}/settings/{id}    | Atualizar setting      |
 | GET    | /zones/{zoneId}/dns_settings     | Obter DNS settings     |
 | PATCH  | /zones/{zoneId}/dns_settings     | Atualizar DNS settings |
+| GET    | /accounts/{accountId}/workers/scripts/{scriptName}/tail | Iniciar sessão Tail (WS) |
+| POST   | /accounts/{accountId}/workers/scripts/{scriptName}/tail | Iniciar sessão Tail (WS) |
+| GET    | /accounts/{accountId}/workers/tail | Conectar ao Tail via WebSocket |
 
 ### GraphQL API (Endpoint: api.cloudflare.com/client/v4/graphql)
 
@@ -799,6 +802,87 @@ class _PageState extends ConsumerState<Page> {
 
 ---
 
+## ADR-034: AMOLED Black Mode (Pure Black #000000)
 
+**Status**: Aceito
+**Data**: 2026-01-30
 
-_Última atualização: 2026-01-29 (adicionado exemplo PagesSourceConfig ao ADR-033)_
+**Contexto**: Usuários com dispositivos OLED/AMOLED solicitaram opção de dark mode com black puro (#000000) em vez do dark gray padrão do Material 3 (#121212) para maximizar economia de bateria.
+
+**Pesquisa Realizada**:
+- Material Design 3 recomenda #121212 para evitar "vibração visual" de cores saturadas sobre black puro
+- Diferença de bateria entre #000000 vs #121212: apenas 0.3% (1.2mW), mas perceptível em uso prolongado
+- 81.9% dos usuários preferem dark mode para conforto visual
+- Em OLED/AMOLED, pixels pretos (#000000) desligam completamente = máxima economia
+
+**Decisão**: Implementar toggle opcional "AMOLED Black" na página Settings que:
+1. Adiciona campo `amoledDarkMode: bool` ao `AppSettings` (default: false)
+2. Cria tema `AppTheme.amoled` com pure black backgrounds (#000000)
+3. Aplica automaticamente quando dark mode está ativo e toggle habilitado
+4. Mitiga "vibração visual" usando:
+   - Containers/Cards: #1A1A1A (10% white) para hierarquia visual
+   - Bordas sutis: #404040 e #2A2A2A para separação
+   - Texto: #FFFFFF (contraste máximo WCAG AAA)
+
+**Implementação**:
+```dart
+// AppSettings model
+@Default(false) bool amoledDarkMode,
+
+// AppTheme
+static ThemeData get amoled {
+  final amoledColorScheme = ColorScheme.fromSeed(
+    seedColor: _cloudflareOrange,
+    brightness: Brightness.dark,
+  ).copyWith(
+    surface: const Color(0xFF000000),              // Pure black
+    surfaceContainerHighest: const Color(0xFF1A1A1A), // 10% white
+    outline: const Color(0xFF404040),              // Subtle borders
+  );
+  // ... rest of theme config
+}
+
+// main.dart
+darkTheme: useAmoled ? AppTheme.amoled : AppTheme.dark,
+```
+
+**UI**: SwitchListTile no Theme Card da Settings Page com ícone `Symbols.contrast`.
+
+**Consequência**:
+- Usuários têm controle total: podem desativar se preferirem #121212 padrão
+- Economia marginal de bateria mas perceptível em uso prolongado
+- Cards com #1A1A1A mantêm hierarquia visual sem "desaparecer" no black puro
+- Bordas sutis evitam saturação excessiva sobre black
+
+**Fontes**:
+- [Material Design 3 Dark Theme](https://m3.material.io/styles/color/overview)
+- [AMOLED Black vs Gray Battery Test (XDA)](https://www.xda-developers.com/amoled-black-vs-gray-dark-mode/)
+- [Implementing Dark Mode in Flutter](https://medium.com/@ravipatel84184/implementing-dark-mode-in-flutter-a-complete-guide-e6924d2d9932)
+
+---
+
+_Última atualização: 2026-01-30 (adicionado ADR-034 para AMOLED Black Mode)_
+
+---
+
+## ADR-035: Tail Logs via WebSocket (Workers)
+
+**Status**: Aceito  
+**Data**: 2026-01-29
+
+**Contexto**: Logs em tempo real do Workers exigem streaming contínuo. Polling não é adequado (latência e custo de API). A Cloudflare fornece API de Tail Logs via WebSocket.
+
+**Decisão**:
+1. Usar WebSocket para streaming de logs (tail) com sessão dedicada por script.
+2. Adotar `web_socket_channel` como dependência para gerenciamento de conexão.
+3. Modelos `TailSession` e `TailLog` (Freezed) para serialização consistente.
+4. Notifier dedicado (`WorkerTailNotifier`) para:
+   - iniciar/parar sessão
+   - reconectar quando necessário
+   - filtrar por nível (all/log/warn/error)
+   - limpar buffer de logs sem encerrar a sessão
+
+**Consequência**:
+- Logs em tempo real com baixa latência
+- Melhor UX com status de conexão e auto‑scroll
+- Maior complexidade de estado (sessão ativa + buffer + filtros)

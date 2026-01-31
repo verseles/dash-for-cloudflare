@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// The app title shown in various places
   ///
   /// In en, this message translates to:
-  /// **'Dash for Cloudflare'**
+  /// **'Dash for CF'**
   String get appTitle;
 
   /// No description provided for @common_cancel.
@@ -1406,6 +1406,18 @@ abstract class AppLocalizations {
   /// **'System'**
   String get settings_themeSystem;
 
+  /// No description provided for @settings_amoledMode.
+  ///
+  /// In en, this message translates to:
+  /// **'AMOLED Black'**
+  String get settings_amoledMode;
+
+  /// No description provided for @settings_amoledModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pure black background for dark mode (saves battery on OLED screens)'**
+  String get settings_amoledModeDescription;
+
   /// No description provided for @settings_language.
   ///
   /// In en, this message translates to:
@@ -1535,7 +1547,7 @@ abstract class AppLocalizations {
   /// No description provided for @pwa_installDescription.
   ///
   /// In en, this message translates to:
-  /// **'Install Dash for Cloudflare for quick access'**
+  /// **'Install Dash for CF for quick access'**
   String get pwa_installDescription;
 
   /// No description provided for @settings_cloudflareApiToken.
