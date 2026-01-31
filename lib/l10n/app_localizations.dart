@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_pt.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -96,6 +97,7 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('pt'),
+    Locale('zh'),
   ];
 
   /// The app title shown in various places
@@ -1403,7 +1405,7 @@ abstract class AppLocalizations {
   /// No description provided for @settings_themeSystem.
   ///
   /// In en, this message translates to:
-  /// **'System'**
+  /// **'Auto'**
   String get settings_themeSystem;
 
   /// No description provided for @settings_amoledMode.
@@ -1435,6 +1437,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Português'**
   String get settings_languagePt;
+
+  /// No description provided for @settings_languageZh.
+  ///
+  /// In en, this message translates to:
+  /// **'中文'**
+  String get settings_languageZh;
 
   /// No description provided for @settings_about.
   ///
@@ -2870,7 +2878,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'pt'].contains(locale.languageCode);
+      <String>['en', 'pt', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2883,6 +2891,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'pt':
       return AppLocalizationsPt();
+    case 'zh':
+      return AppLocalizationsZh();
   }
 
   throw FlutterError(

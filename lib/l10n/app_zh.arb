@@ -1,0 +1,612 @@
+{
+  "@@locale": "zh",
+  "@appTitle": {
+    "description": "The app title shown in various places"
+  },
+  "appTitle": "Dash for CF",
+
+  "common_cancel": "取消",
+  "common_close": "关闭",
+  "common_copied": "已复制到剪贴板",
+  "common_copy": "复制",
+  "common_copyFailed": "复制失败",
+  "common_create": "创建",
+  "common_add": "添加",
+  "common_delete": "删除",
+  "common_deleted": "删除成功",
+  "common_edit": "编辑",
+  "common_error": "错误",
+  "common_loading": "加载中...",
+  "common_noData": "暂无数据",
+  "common_ok": "确定",
+  "common_refresh": "刷新",
+  "common_retry": "重试",
+  "common_save": "保存",
+  "common_workInProgress": "功能开发中，敬请期待！",
+  "common_clearSearch": "清除搜索",
+  "common_clearFilters": "清除筛选",
+  "common_all": "全部",
+  "common_none": "无",
+  "common_proxy": "代理",
+  "common_rootOnly": "仅根域",
+  "common_disable": "禁用",
+
+  "menu_dns": "DNS",
+  "menu_analytics": "分析",
+  "menu_pages": "Pages",
+  "menu_workers": "Workers",
+  "menu_settings": "设置",
+  "menu_about": "关于",
+  "menu_debugLogs": "调试日志",
+  "menu_selectZone": "选择区域",
+  "menu_noZones": "无区域",
+
+  "tabs_records": "记录",
+  "tabs_analytics": "分析",
+  "tabs_settings": "设置",
+  "tabs_web": "Web",
+  "tabs_security": "安全",
+  "tabs_cache": "缓存",
+
+  "zone_selectZone": "选择区域",
+  "zone_searchZones": "搜索区域...",
+  "zone_noZones": "未找到区域",
+  "zone_status_active": "已激活",
+  "zone_status_pending": "待处理",
+  "zone_status_initializing": "初始化中",
+  "zone_status_moved": "已迁移",
+  "zone_status_deleted": "已删除",
+  "zone_status_deactivated": "已停用",
+
+  "dns_records": "DNS 记录",
+  "dns_filterAll": "全部",
+  "dns_searchRecords": "搜索记录...",
+  "dns_noRecords": "无 DNS 记录",
+  "dns_noRecordsDescription": "添加 DNS 记录以开始",
+  "dns_noRecordsMatch": "没有匹配筛选条件的记录",
+  "dns_selectZoneFirst": "请选择区域以查看记录",
+  "dns_addRecord": "添加记录",
+  "dns_editRecord": "编辑记录",
+  "dns_deleteRecord": "删除记录",
+  "dns_deleteConfirmTitle": "删除 DNS 记录？",
+  "dns_deleteConfirmMessage": "确定要删除 {name} 吗？此操作无法撤销。",
+  "@dns_deleteConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "www.example.com"
+      }
+    }
+  },
+  "dns_recordSaved": "记录保存成功",
+  "dns_recordDeleted": "记录删除成功",
+  "dns_recordDeletedUndo": "记录已删除。点击撤销。",
+  "dns_deleteRecordConfirmTitle": "删除记录？",
+  "dns_deleteRecordConfirmMessage": "确定要删除“{name}”吗？",
+  "@dns_deleteRecordConfirmMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String",
+        "example": "www.example.com"
+      }
+    }
+  },
+
+  "record_type": "类型",
+  "record_name": "名称",
+  "record_nameHint": "名称或 @ 为根域",
+  "record_nameRequired": "名称为必填",
+  "record_content": "内容",
+  "record_contentRequired": "内容为必填",
+  "record_ttl": "TTL",
+  "record_ttlAuto": "自动",
+  "record_priority": "优先级",
+  "record_proxied": "已代理",
+  "record_proxiedTooltip": "通过 Cloudflare 代理",
+  "record_dnsOnly": "仅 DNS",
+  "record_dnsOnlyTooltip": "仅 DNS（不代理）",
+
+  "analytics_title": "DNS 分析",
+  "analytics_selectZone": "选择区域以查看分析",
+  "analytics_noData": "无分析数据",
+  "analytics_loadAnalytics": "加载分析",
+  "analytics_timeRange30m": "30m",
+  "analytics_timeRange6h": "6h",
+  "analytics_timeRange12h": "12h",
+  "analytics_timeRange24h": "24h",
+  "analytics_timeRange7d": "7d",
+  "analytics_timeRange30d": "30d",
+  "analytics_totalQueries": "查询总数",
+  "analytics_topQueryNames": "热门查询名称",
+  "analytics_clearSelection": "清除选择",
+  "analytics_total": "总计",
+  "analytics_queryTypes": "查询类型",
+  "analytics_dataCenters": "数据中心",
+  "analytics_queriesOverTime": "随时间的查询",
+  "analytics_queriesByDataCenter": "按数据中心的查询",
+  "analytics_queriesByLocation": "按位置的查询",
+  "analytics_queriesByRecordType": "按记录类型的查询",
+  "analytics_queriesByResponseCode": "按响应代码的查询",
+  "analytics_queriesByIpVersion": "按 IP 版本的查询",
+  "analytics_queriesByProtocol": "按协议的查询",
+  "analytics_topQueryNamesChart": "热门查询名称",
+  "analytics_requests": "请求",
+  "analytics_bandwidth": "带宽",
+  "analytics_uniqueVisitors": "独立访客",
+  "analytics_requestsByStatus": "按状态的请求",
+  "analytics_requestsByCountry": "按国家/地区的请求",
+  "analytics_geographicDistribution": "地理分布",
+  "analytics_requestsByProtocol": "按协议的请求",
+  "analytics_requestsByHost": "按主机的请求",
+  "analytics_topPaths": "热门路径",
+  "analytics_threatsStopped": "已阻止的威胁",
+  "analytics_totalThreatsBlocked": "被阻止的威胁总数",
+  "analytics_actionsTaken": "采取的操作",
+  "analytics_threatsByCountry": "按国家/地区的威胁",
+  "analytics_topThreatSources": "主要威胁来源",
+  "analytics_threatOrigins": "威胁来源",
+  "analytics_cacheHitRatio": "缓存命中率",
+  "analytics_bandwidthSaved": "节省的带宽",
+  "analytics_requestsCacheVsOrigin": "请求（缓存 vs 源站）",
+  "analytics_bandwidthCacheVsOrigin": "带宽（缓存 vs 源站）",
+  "analytics_cacheStatusByHttpStatus": "按 HTTP 状态的缓存状态",
+  "analytics_securityRequiresPaidPlan": "安全分析需要付费的 Cloudflare 计划（Pro 或更高）。",
+
+  "dnsSettings_title": "DNS 设置",
+  "dnsSettings_dnssec": "DNSSEC",
+  "dnsSettings_dnssecDescription": "DNS 安全扩展通过对 DNS 记录进行签名增加安全层，帮助保护您的域名免受 DNS 欺骗和缓存投毒攻击。",
+  "dnsSettings_dnssecDisabled": "DNSSEC 已禁用",
+  "dnsSettings_dnssecPending": "DNSSEC 正在激活中",
+  "dnsSettings_dnssecPendingCf": "DNSSEC 将由 Cloudflare Registrar 自动配置",
+  "dnsSettings_dnssecActive": "DNSSEC 已启用",
+  "dnsSettings_dnssecPendingDisable": "DNSSEC 正在停用中",
+  "dnsSettings_enableDnssec": "启用 DNSSEC",
+  "dnsSettings_disableDnssec": "禁用 DNSSEC",
+  "dnsSettings_cancelDnssec": "取消",
+  "dnsSettings_viewDetails": "查看详情",
+  "dnsSettings_viewDsRecord": "查看 DS 记录",
+  "dnsSettings_dsRecord": "DS 记录",
+  "dnsSettings_copyDsRecord": "复制 DS 记录",
+  "dnsSettings_dsRecordCopied": "DS 记录已复制到剪贴板",
+  "dnsSettings_addDsToRegistrar": "将此 DS 记录添加到您的域名注册商以完成 DNSSEC 设置：",
+  "dnsSettings_multiSignerDnssec": "多签名 DNSSEC",
+  "dnsSettings_multiSignerDescription": "允许多个 DNS 提供商为您的区域签名",
+  "dnsSettings_multiProviderDns": "多提供商 DNS",
+  "dnsSettings_multiProviderDescription": "启用其他提供商的辅助 DNS",
+  "dnsSettings_cnameFlattening": "CNAME 扁平化",
+  "dnsSettings_cnameFlatteningDescription": "在区域顶点扁平化 CNAME 记录",
+  "dnsSettings_cnameFlattenNone": "无",
+  "dnsSettings_cnameFlattenAtRoot": "仅根域扁平化",
+  "dnsSettings_cnameFlattenAll": "全部扁平化",
+  "dnsSettings_emailSecurity": "邮件安全",
+  "dnsSettings_emailSecurityDescription": "配置 DMARC、SPF 和 DKIM 记录用于邮件认证",
+  "dnsSettings_configureEmail": "配置",
+  "dnsSettings_disableDnssecTitle": "禁用 DNSSEC？",
+  "dnsSettings_cancelDeactivation": "取消停用",
+
+  "emailSecurity_spfExists": "SPF 记录已配置",
+  "emailSecurity_spfNotConfigured": "SPF 未配置",
+  "emailSecurity_spfDescription": "发件人策略框架（SPF）指定哪些邮件服务器有权代表您的域名发送邮件。",
+  "emailSecurity_spfIncludes": "授权发件人（includes）",
+  "emailSecurity_spfIncludesHint": "例如：_spf.google.com sendgrid.net",
+  "emailSecurity_spfPolicy": "策略（All）",
+  "emailSecurity_spfPolicyHint": "~all（软失败）、-all（硬失败）或 +all（允许）",
+  "emailSecurity_spfSaved": "SPF 记录保存成功",
+
+  "emailSecurity_dkimExists": "DKIM 记录已配置",
+  "emailSecurity_dkimNotConfigured": "DKIM 未配置",
+  "emailSecurity_dkimDescription": "域名密钥识别邮件（DKIM）为您的邮件添加数字签名，以验证其未被篡改。",
+  "emailSecurity_dkimSelector": "选择器",
+  "emailSecurity_dkimSelectorHint": "例如：default、google、mailgun",
+  "emailSecurity_dkimPublicKey": "公钥（p=）",
+  "emailSecurity_dkimPublicKeyHint": "粘贴您的邮件提供商提供的公钥（不包含 v=DKIM1; k=rsa; p= 前缀）",
+  "emailSecurity_dkimPublicKeyRequired": "公钥为必填",
+  "emailSecurity_dkimSaved": "DKIM 记录保存成功",
+
+  "emailSecurity_dmarcExists": "DMARC 记录已配置",
+  "emailSecurity_dmarcNotConfigured": "DMARC 未配置",
+  "emailSecurity_dmarcDescription": "域名消息认证、报告与一致性（DMARC）告知接收服务器当 SPF 或 DKIM 校验失败时如何处理。",
+  "emailSecurity_dmarcPolicy": "策略",
+  "emailSecurity_dmarcPolicyHint": "认证失败时采取的操作",
+  "emailSecurity_dmarcPolicyNone": "无（仅监控）",
+  "emailSecurity_dmarcPolicyQuarantine": "隔离（标记为垃圾邮件）",
+  "emailSecurity_dmarcPolicyReject": "拒绝（阻止投递）",
+  "emailSecurity_dmarcRua": "汇总报告邮箱（rua）",
+  "emailSecurity_dmarcRuaHint": "例如：dmarc-reports@yourdomain.com",
+  "emailSecurity_dmarcRuf": "取证报告邮箱（ruf）",
+  "emailSecurity_dmarcRufHint": "可选：失败取证报告",
+  "emailSecurity_dmarcPct": "过滤邮件的百分比",
+  "emailSecurity_dmarcSaved": "DMARC 记录保存成功",
+
+  "emailSecurity_preview": "预览",
+  "emailSecurity_recordName": "记录名称",
+
+  "dnssecDetails_title": "DNSSEC 详情",
+  "dnssecDetails_dsRecord": "DS 记录",
+  "dnssecDetails_digest": "摘要",
+  "dnssecDetails_digestType": "摘要类型",
+  "dnssecDetails_algorithm": "算法",
+  "dnssecDetails_publicKey": "公钥",
+  "dnssecDetails_keyTag": "密钥标签",
+  "dnssecDetails_keyType": "密钥类型",
+  "dnssecDetails_flags": "标志",
+  "dnssecDetails_modifiedOn": "修改时间",
+  "dnssecDetails_tapToCopy": "点击复制",
+
+  "settings_title": "设置",
+  "settings_apiToken": "API 令牌",
+  "settings_apiTokenHint": "输入您的 Cloudflare API 令牌",
+  "settings_apiTokenDescription": "您的 API 令牌需要以下权限：",
+  "settings_apiTokenPermission1": "Zone:Read - 用于列出您的区域",
+  "settings_apiTokenPermission2": "DNS:Edit - 用于管理 DNS 记录",
+  "settings_apiTokenPermission3": "Zone Settings:Read - 用于 DNSSEC 状态",
+  "settings_apiTokenPermission4": "Zone Settings:Edit - 用于切换 DNSSEC",
+  "settings_apiTokenPermission5": "Analytics:Read - 用于 DNS 分析",
+  "settings_createToken": "在 dash.cloudflare.com 创建令牌",
+  "settings_tokenValid": "令牌有效",
+  "settings_tokenInvalid": "令牌至少需要 40 个字符",
+  "settings_tokenSaved": "令牌已保存",
+  "settings_goToDns": "前往 DNS",
+  "settings_theme": "主题",
+  "settings_themeLight": "浅色",
+  "settings_themeDark": "深色",
+  "settings_themeSystem": "自动",
+  "settings_amoledMode": "AMOLED 纯黑",
+  "settings_amoledModeDescription": "暗色模式使用纯黑背景（在 OLED 屏幕上省电）",
+  "settings_language": "语言",
+  "settings_languageEn": "English",
+  "settings_languagePt": "Português",
+  "settings_languageZh": "中文",
+  "settings_about": "关于",
+  "settings_version": "版本 {version}",
+  "@settings_version": {
+    "placeholders": {
+      "version": {
+        "type": "String",
+        "example": "1.0.0"
+      }
+    }
+  },
+
+  "error_generic": "出现错误",
+  "error_network": "网络错误，请检查您的连接。",
+  "error_unauthorized": "API 令牌无效或已过期",
+  "error_forbidden": "您没有权限访问此资源",
+  "error_notFound": "资源未找到",
+  "error_rateLimited": "请求过多，请稍后再试。",
+  "error_serverError": "服务器错误，请稍后再试。",
+  "error_prefix": "错误：{message}",
+  "@error_prefix": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Something went wrong"
+      }
+    }
+  },
+  "error_copyError": "复制错误详情",
+  "error_permissionsRequired": "需要权限",
+  "error_permissionsDescription": "您的 API 令牌没有访问此资源所需的权限。请检查 Cloudflare 控制台中的令牌设置。",
+  "error_checkCloudflareDashboard": "查看 Cloudflare 控制台",
+  "error_commonPermissionsTitle": "常见所需权限：",
+
+  "pwa_updateAvailable": "有新版本可用",
+  "pwa_updateNow": "立即更新",
+  "pwa_installApp": "安装应用",
+  "pwa_installDescription": "安装 Dash for CF 以便快速访问",
+
+  "settings_cloudflareApiToken": "Cloudflare API 令牌",
+  "settings_requiredPermissions": "所需权限：Zone:Read、DNS:Read、DNS:Edit",
+  "settings_createTokenOnCloudflare": "在 Cloudflare 创建令牌",
+  "settings_tokenPastedFromClipboard": "已从剪贴板粘贴令牌",
+  "settings_storage": "存储",
+  "settings_clearCache": "清除缓存",
+  "settings_clearCacheDescription": "DNS 记录、分析和数据中心",
+  "settings_clearCacheTitle": "清除缓存",
+  "settings_clearCacheMessage": "这将清除所有缓存数据，包括 DNS 记录、分析和数据中心信息。\n\n下次访问时将从 API 重新加载数据。",
+  "settings_cacheCleared": "缓存已清除",
+  "settings_debug": "调试",
+  "settings_saveLogsToFile": "保存日志到文件",
+  "settings_saveLogsDescription": "保存日志以便之后分析",
+  "settings_viewDebugLogs": "查看调试日志",
+  "settings_goToDnsManagement": "前往 DNS 管理",
+
+  "debugLogs_title": "调试日志",
+  "debugLogs_copyAll": "全部复制",
+  "debugLogs_saveToFile": "保存到文件",
+  "debugLogs_shareAsText": "以文本分享",
+  "debugLogs_shareAsFile": "以文件分享",
+  "debugLogs_clearLogs": "清除日志",
+  "debugLogs_logsCopied": "日志已复制到剪贴板",
+  "debugLogs_savedTo": "已保存到 {path}",
+  "@debugLogs_savedTo": {
+    "placeholders": {
+      "path": {
+        "type": "String",
+        "example": "/path/to/file.log"
+      }
+    }
+  },
+  "debugLogs_failedToSave": "保存失败：{error}",
+  "@debugLogs_failedToSave": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "debugLogs_failedToShare": "分享失败：{error}",
+  "@debugLogs_failedToShare": {
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Permission denied"
+      }
+    }
+  },
+  "debugLogs_copyTimeRange": "复制 {timeRange}",
+  "@debugLogs_copyTimeRange": {
+    "placeholders": {
+      "timeRange": {
+        "type": "String",
+        "example": "Last 5 minutes"
+      }
+    }
+  },
+  "debugLogs_logEntryCopied": "日志条目已复制",
+  "debugLogs_timeRange": "时间范围：",
+  "debugLogs_filter": "筛选：",
+  "debugLogs_entries": "{count} 条记录",
+  "@debugLogs_entries": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "42"
+      }
+    }
+  },
+  "debugLogs_noLogsInRange": "此时间范围内没有日志",
+  "debugLogs_tryLongerRange": "请尝试选择更长的时间范围",
+  "debugLogs_autoScrollOn": "自动滚动：开",
+  "debugLogs_autoScrollOff": "自动滚动：关",
+
+  "dnsRecord_createTitle": "创建 DNS 记录",
+  "dnsRecord_editTitle": "编辑 DNS 记录",
+  "dnsRecord_recordCreated": "记录已创建",
+  "dnsRecord_recordUpdated": "记录已更新",
+  "dnsRecord_ttlAuto": "自动",
+  "dnsRecord_ttl2min": "2 分钟",
+  "dnsRecord_ttl5min": "5 分钟",
+  "dnsRecord_ttl10min": "10 分钟",
+  "dnsRecord_ttl15min": "15 分钟",
+  "dnsRecord_ttl30min": "30 分钟",
+  "dnsRecord_ttl1hour": "1 小时",
+  "dnsRecord_ttl2hours": "2 小时",
+  "dnsRecord_ttl5hours": "5 小时",
+  "dnsRecord_ttl12hours": "12 小时",
+  "dnsRecord_ttl1day": "1 天",
+  "dnsRecord_enterValue": "输入值",
+
+  "emptyState_noResultsFor": "没有“{query}”的结果",
+  "@emptyState_noResultsFor": {
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "example": "search term"
+      }
+    }
+  },
+  "emptyState_tryAdjustingSearch": "尝试调整搜索条件",
+
+  "pages_title": "Pages",
+  "pages_selectAccount": "选择账号",
+  "pages_noProjects": "未找到 Pages 项目",
+  "pages_lastDeployment": "上次部署：{date}",
+  "@pages_lastDeployment": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jan 1, 2024 12:00"
+      }
+    }
+  },
+  "pages_statusSuccess": "成功",
+  "pages_statusFailed": "失败",
+  "pages_statusBuilding": "构建中",
+  "pages_statusQueued": "排队中",
+  "pages_statusSkipped": "已跳过",
+  "pages_statusUnknown": "未知",
+  "pages_openInBrowser": "在浏览器中打开",
+  "pages_deployments": "部署",
+  "pages_noDeployments": "未找到部署",
+  "pages_production": "生产环境",
+  "pages_preview": "预览",
+  "pages_deploymentDetails": "部署详情",
+  "pages_commitInfo": "提交信息",
+  "pages_buildStages": "构建阶段",
+  "pages_rollback": "回滚",
+  "pages_rollbackConfirmTitle": "回滚部署",
+  "pages_rollbackConfirmMessage": "确定要回滚到此部署吗？这会使该部署成为当前生产版本。",
+  "pages_rollbackSuccess": "回滚成功",
+  "pages_retry": "重试",
+  "pages_retryConfirmTitle": "重试部署",
+  "pages_retryConfirmMessage": "确定要重试此部署吗？这将以相同配置启动新的构建。",
+  "pages_retrySuccess": "已开始重试部署",
+  "pages_autoDeployPaused": "自动部署已暂停",
+  "pages_buildLogs": "构建日志",
+  "pages_noLogs": "暂无日志",
+  "pages_autoScrollOn": "自动滚动已开启",
+  "pages_autoScrollOff": "自动滚动已关闭",
+  "pages_logCount": "{current} / {total} 行",
+  "@pages_logCount": {
+    "placeholders": {
+      "current": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "pages_customDomains": "自定义域名",
+  "pages_addDomain": "添加域名",
+  "pages_deleteDomainConfirmTitle": "删除自定义域名？",
+  "pages_deleteDomainConfirmMessage": "确定要删除“{domain}”吗？这将与您的 Pages 项目断开关联。",
+  "@pages_deleteDomainConfirmMessage": {
+    "placeholders": {
+      "domain": { "type": "String" }
+    }
+  },
+  "pages_buildSettings": "构建设置",
+  "pages_buildCommand": "构建命令",
+  "pages_outputDirectory": "输出目录",
+  "pages_rootDirectory": "根目录",
+  "pages_environmentVariables": "环境变量",
+  "pages_productionEnv": "生产环境",
+  "pages_previewEnv": "预览环境",
+  "pages_addVariable": "添加变量",
+  "pages_variableName": "名称",
+  "pages_variableValue": "值",
+  "pages_secret": "密文",
+  "pages_plainText": "明文",
+  "pages_compatibilityDate": "兼容性日期",
+  "pages_compatibilityFlags": "兼容性标志",
+  "pages_saveSettings": "保存设置",
+  "pages_settingsUpdated": "设置更新成功",
+  "pages_domainAdded": "域名添加成功",
+  "pages_domainDeleted": "域名删除成功",
+  "pages_domainNameHint": "example.com",
+
+  "pages_gitRepository": "Git 仓库",
+  "pages_productionBranch": "生产分支",
+  "pages_automaticDeployments": "预览部署",
+  "pages_automaticDeploymentsDescription": "为预览分支自动部署",
+  "pages_productionDeployments": "生产部署",
+  "pages_productionDeploymentsDescription": "为生产分支自动部署",
+  "pages_prComments": "PR 评论",
+  "pages_buildSystemVersion": "构建系统版本",
+  "pages_buildOutput": "构建输出",
+  "pages_buildComments": "构建注释",
+  "pages_buildCache": "构建缓存",
+  "pages_buildWatchPaths": "构建监视路径",
+  "pages_includePaths": "包含路径",
+  "pages_deployHooks": "部署钩子",
+  "pages_noDeployHooks": "未定义部署钩子",
+  "pages_runtime": "运行时",
+  "pages_placement": "部署位置",
+  "pages_usageModel": "计费模式",
+  "pages_bindings": "绑定",
+  "pages_addBinding": "添加绑定",
+  "pages_variableType": "类型",
+  "pages_variableSecret": "密文",
+  "pages_variablePlainText": "明文",
+  "pages_functionsBilling": "Pages Functions 计费",
+  "pages_cpuTimeLimit": "CPU 时间限制",
+  "pages_accessPolicy": "访问策略",
+  "pages_dangerZone": "危险区域",
+  "pages_deleteProject": "删除项目",
+  "pages_deleteProjectDescription": "永久删除此 Pages 项目，包括所有部署、静态资源、函数和相关配置。",
+  "pages_deleteProjectConfirmTitle": "删除项目？",
+  "pages_deleteProjectConfirmMessage": "确定要删除 {project} 吗？此操作无法撤销，并将删除所有部署。",
+  "@pages_deleteProjectConfirmMessage": {
+    "placeholders": {
+      "project": {
+        "type": "String"
+      }
+    }
+  },
+  "pages_projectDeleted": "项目删除成功",
+
+  "workers_title": "Workers",
+  "workers_noWorkers": "未找到 Workers 脚本",
+  "workers_searchWorkers": "搜索 Workers...",
+  "workers_lastModified": "最后修改：{date}",
+  "@workers_lastModified": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jan 1, 2024 12:00"
+      }
+    }
+  },
+  "workers_tabs_overview": "概览",
+  "workers_tabs_triggers": "触发器",
+  "workers_tabs_settings": "设置",
+  "workers_metrics_requests": "请求",
+  "workers_metrics_errors": "异常",
+  "workers_metrics_cpuTime": "CPU 时间",
+  "workers_metrics_noData": "此期间无指标数据",
+  "workers_triggers_customDomains": "自定义域名",
+  "workers_triggers_routes": "路由",
+  "workers_triggers_addRoute": "添加路由",
+  "workers_triggers_addDomain": "添加自定义域名",
+  "workers_triggers_routePattern": "路由模式",
+  "workers_triggers_routePatternHint": "example.com/*",
+  "workers_triggers_deleteRouteConfirm": "确定要删除此路由吗？",
+  "workers_triggers_deleteDomainConfirm": "确定要解绑此自定义域名吗？",
+  "workers_triggers_routeAdded": "路由添加成功",
+  "workers_triggers_routeDeleted": "路由删除成功",
+  "workers_triggers_domainAdded": "域名绑定成功",
+  "workers_triggers_domainDeleted": "域名解绑成功",
+  "workers_triggers_cron": "Cron 触发器",
+  "workers_triggers_cronExpression": "Cron 表达式",
+  "workers_triggers_cronFormat": "格式：分钟 小时 日 月 星期",
+  "workers_triggers_deleteScheduleConfirm": "确定要移除此 cron 触发器吗？",
+  "workers_triggers_noRoutes": "此区域未配置路由",
+  "workers_triggers_noSchedules": "未配置 cron 触发器",
+  "workers_triggers_domainManagedByCloudflare": "域名必须由 Cloudflare 管理。",
+  "workers_triggers_zoneNotFound": "未找到该主机名对应的区域。",
+  "workers_settings_bindings": "绑定",
+  "workers_settings_variables": "环境变量",
+  "workers_settings_compatibility": "兼容性",
+  "workers_settings_usageModel": "计费模式",
+  "workers_bindings_kv": "KV 命名空间",
+  "workers_bindings_r2": "R2 存储桶",
+  "workers_bindings_d1": "D1 数据库",
+  "workers_bindings_do": "Durable Object",
+  "workers_bindings_service": "服务",
+  "workers_bindings_queue": "队列",
+  "workers_settings_addBinding": "添加绑定",
+  "workers_settings_bindingType": "类型",
+  "workers_settings_envVariable": "环境变量",
+  "workers_settings_bindingSecret": "密文",
+  "workers_settings_updateSecret": "更新密文",
+  "workers_settings_secretValue": "密文值",
+  "workers_settings_secretHint": "输入密文值（仅写入）",
+  "workers_settings_observability": "可观测性",
+  "workers_settings_logs": "Workers 日志",
+  "workers_settings_traces": "Workers 追踪",
+  "workers_settings_logpush": "Logpush",
+  "workers_settings_tail": "Tail Worker",
+  "workers_settings_tailDescription": "实时流式查看 Worker 日志",
+  "workers_settings_deleteWorker": "删除 Worker",
+  "workers_settings_deleteWorkerConfirm": "确定要删除此 Worker 吗？此操作无法撤销，并将删除所有文件、配置和部署。",
+  "workers_settings_domainsAndRoutes": "域名与路由",
+  "workers_settings_build": "构建",
+  "workers_settings_gitIntegration": "Git 集成",
+  "workers_settings_gitIntegrationDescription": "在 Cloudflare 控制台配置 CI/CD",
+  "workers_settings_noAccountSelected": "未选择账号",
+
+  "workers_tail_title": "Worker Tail 日志",
+  "workers_tail_connected": "已连接",
+  "workers_tail_connecting": "连接中...",
+  "workers_tail_disconnected": "已断开",
+  "workers_tail_start": "开始",
+  "workers_tail_stop": "停止",
+  "workers_tail_clear": "清除日志",
+  "workers_tail_autoScroll": "自动滚动",
+  "workers_tail_filterAll": "全部",
+  "workers_tail_filterLog": "日志",
+  "workers_tail_filterWarn": "警告",
+  "workers_tail_filterError": "错误",
+  "workers_tail_logCount": "{count} 条日志",
+  "@workers_tail_logCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workers_tail_noLogsYet": "暂无日志。触发您的 Worker 以查看日志。",
+  "workers_tail_notConnected": "未连接。点击开始以进行 Tail。",
+  "workers_settings_viewDomains": "查看域名",
+  "workers_settings_viewRoutes": "查看路由",
+  "workers_settings_pricing": "价格"
+}

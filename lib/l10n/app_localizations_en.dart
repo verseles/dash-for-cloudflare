@@ -685,7 +685,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_themeDark => 'Dark';
 
   @override
-  String get settings_themeSystem => 'System';
+  String get settings_themeSystem => 'Auto';
 
   @override
   String get settings_amoledMode => 'AMOLED Black';
@@ -702,6 +702,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_languagePt => 'Português';
+
+  @override
+  String get settings_languageZh => '中文';
 
   @override
   String get settings_about => 'About';

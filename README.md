@@ -60,7 +60,7 @@ Unofficial native dashboard for Cloudflare services. Built with Flutter for all 
 - **Multi-Account:** Support for multiple Cloudflare accounts
 - **Security:** API Token validation and secure storage
 - **UI/UX:** Material 3 Design, Dark/Light mode, Responsive layout
-- **i18n:** Full support for English and Portuguese
+- **i18n:** Full support for English, Portuguese, and Chinese (中文)
 
 ## Quick Start
 

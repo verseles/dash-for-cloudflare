@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -6,6 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/app_settings.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/api/api_config.dart';
 import '../../../core/logging/log_service.dart';
 
@@ -48,6 +50,24 @@ class SettingsNotifier extends _$SettingsNotifier {
     return _loadSettings();
   }
 
+  String _resolveLocale(String? savedLocale) {
+    final supportedCodes = AppLocalizations.supportedLocales
+        .map((locale) => locale.languageCode)
+        .toSet();
+
+    if (savedLocale != null && supportedCodes.contains(savedLocale)) {
+      return savedLocale;
+    }
+
+    for (final locale in PlatformDispatcher.instance.locales) {
+      if (supportedCodes.contains(locale.languageCode)) {
+        return locale.languageCode;
+      }
+    }
+
+    return 'en';
+  }
+
   Future<AppSettings> _loadSettings() async {
     log.stateChange('SettingsNotifier', 'Loading settings...');
 
@@ -57,11 +77,16 @@ class SettingsNotifier extends _$SettingsNotifier {
 
       // Load other settings from shared preferences
       final themeModeStr = _prefs?.getString(_themeModeKey) ?? 'system';
-      final locale = _prefs?.getString(_localeKey) ?? 'en';
+      final savedLocale = _prefs?.getString(_localeKey);
+      final locale = _resolveLocale(savedLocale);
       final selectedZoneId = _prefs?.getString(_selectedZoneIdKey);
       final selectedAccountId = _prefs?.getString(_selectedAccountIdKey);
       final lastVisitedRoute = _prefs?.getString(_lastVisitedRouteKey);
       final amoledDarkMode = _prefs?.getBool(_amoledDarkModeKey) ?? false;
+
+      if (savedLocale == null || savedLocale != locale) {
+        await _prefs?.setString(_localeKey, locale);
+      }
 
       final themeMode = switch (themeModeStr) {
         'light' => ThemeMode.light,

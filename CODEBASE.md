@@ -26,7 +26,7 @@ lib/
 │   ├── 🌐 dns/                  # Gerenciamento de Zonas e Registros
 │   ├── 📄 pages/                # Cloudflare Pages (Projects, Deployments)
 │   └── 👷 workers/              # Cloudflare Workers (Scripts, Routes, Triggers)
-└── 🌍 l10n/                     # Internacionalização (en, pt)
+└── 🌍 l10n/                     # Internacionalização (en, pt, zh)
 ```
 
 ---

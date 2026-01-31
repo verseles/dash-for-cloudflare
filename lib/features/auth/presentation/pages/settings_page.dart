@@ -123,9 +123,9 @@ Required Cloudflare API Token Permissions:
 - Zone.Analytics (Read)
 ''';
     Clipboard.setData(const ClipboardData(text: permissions));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.common_copied)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.common_copied)));
   }
 
   @override
@@ -232,7 +232,8 @@ Required Cloudflare API Token Permissions:
                         TextButton.icon(
                           icon: const Icon(Symbols.content_copy, size: 16),
                           label: Text(l10n.common_copy),
-                          onPressed: () => _copyRequiredPermissions(context, l10n),
+                          onPressed: () =>
+                              _copyRequiredPermissions(context, l10n),
                         ),
                       ],
                     ),
@@ -276,30 +277,32 @@ Required Cloudflare API Token Permissions:
                       ],
                     ),
                     const SizedBox(height: 16),
-                    SegmentedButton<ThemeMode>(
-                      segments: [
-                        ButtonSegment(
-                          value: ThemeMode.light,
-                          icon: const Icon(Symbols.light_mode),
-                          label: Text(l10n.settings_themeLight),
-                        ),
-                        ButtonSegment(
-                          value: ThemeMode.system,
-                          icon: const Icon(Symbols.brightness_auto),
-                          label: Text(l10n.settings_themeSystem),
-                        ),
-                        ButtonSegment(
-                          value: ThemeMode.dark,
-                          icon: const Icon(Symbols.dark_mode),
-                          label: Text(l10n.settings_themeDark),
-                        ),
-                      ],
-                      selected: {settings.themeMode},
-                      onSelectionChanged: (selection) {
-                        ref
-                            .read(settingsNotifierProvider.notifier)
-                            .setThemeMode(selection.first);
-                      },
+                    Center(
+                      child: SegmentedButton<ThemeMode>(
+                        segments: [
+                          ButtonSegment(
+                            value: ThemeMode.light,
+                            icon: const Icon(Symbols.light_mode),
+                            label: Text(l10n.settings_themeLight),
+                          ),
+                          ButtonSegment(
+                            value: ThemeMode.system,
+                            icon: const Icon(Symbols.brightness_auto),
+                            label: Text(l10n.settings_themeSystem),
+                          ),
+                          ButtonSegment(
+                            value: ThemeMode.dark,
+                            icon: const Icon(Symbols.dark_mode),
+                            label: Text(l10n.settings_themeDark),
+                          ),
+                        ],
+                        selected: {settings.themeMode},
+                        onSelectionChanged: (selection) {
+                          ref
+                              .read(settingsNotifierProvider.notifier)
+                              .setThemeMode(selection.first);
+                        },
+                      ),
                     ),
                     const SizedBox(height: 16),
                     SwitchListTile(
@@ -311,7 +314,6 @@ Required Cloudflare API Token Permissions:
                             .read(settingsNotifierProvider.notifier)
                             .setAmoledDarkMode(value);
                       },
-                      secondary: const Icon(Symbols.contrast),
                     ),
                   ],
                 ),
@@ -354,6 +356,10 @@ Required Cloudflare API Token Permissions:
                         DropdownMenuItem(
                           value: 'pt',
                           child: Text(l10n.settings_languagePt),
+                        ),
+                        DropdownMenuItem(
+                          value: 'zh',
+                          child: Text(l10n.settings_languageZh),
                         ),
                       ],
                       onChanged: (value) {
