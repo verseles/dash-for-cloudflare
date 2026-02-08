@@ -898,6 +898,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get debugLogs_autoScrollOff => 'Auto-scroll DESLIGADO';
 
   @override
+  String get debugLogs_searchHint => 'Buscar nos logs...';
+
+  @override
   String get dnsRecord_createTitle => 'Criar Registro DNS';
 
   @override

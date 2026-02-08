@@ -885,6 +885,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get debugLogs_autoScrollOff => 'Auto-scroll OFF';
 
   @override
+  String get debugLogs_searchHint => 'Search logs...';
+
+  @override
   String get dnsRecord_createTitle => 'Create DNS Record';
 
   @override

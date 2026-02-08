@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -141,7 +142,7 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
                 controller: _searchController,
                 autofocus: true,
                 decoration: InputDecoration(
-                  hintText: 'Search logs...',
+                  hintText: l10n.debugLogs_searchHint,
                   border: InputBorder.none,
                   hintStyle: TextStyle(
                     color: Theme.of(context)
@@ -161,7 +162,7 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
         actions: [
           if (_isSearching)
             IconButton(
-              icon: const Icon(Icons.close),
+              icon: const Icon(Symbols.close),
               onPressed: () {
                 _searchController.clear();
                 ref.read(logViewerProvider.notifier).setSearchQuery('');
@@ -172,7 +173,7 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
             )
           else
             IconButton(
-              icon: const Icon(Icons.search),
+              icon: const Icon(Symbols.search),
               onPressed: () {
                 setState(() {
                   _isSearching = true;

@@ -1762,6 +1762,12 @@ abstract class AppLocalizations {
   /// **'Auto-scroll OFF'**
   String get debugLogs_autoScrollOff;
 
+  /// No description provided for @debugLogs_searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search logs...'**
+  String get debugLogs_searchHint;
+
   /// No description provided for @dnsRecord_createTitle.
   ///
   /// In en, this message translates to:

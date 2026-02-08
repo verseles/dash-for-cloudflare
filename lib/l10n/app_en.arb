@@ -370,6 +370,7 @@
   "debugLogs_tryLongerRange": "Try selecting a longer time range",
   "debugLogs_autoScrollOn": "Auto-scroll ON",
   "debugLogs_autoScrollOff": "Auto-scroll OFF",
+  "debugLogs_searchHint": "Search logs...",
 
   "dnsRecord_createTitle": "Create DNS Record",
   "dnsRecord_editTitle": "Edit DNS Record",

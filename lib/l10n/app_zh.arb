@@ -370,6 +370,7 @@
   "debugLogs_tryLongerRange": "请尝试选择更长的时间范围",
   "debugLogs_autoScrollOn": "自动滚动：开",
   "debugLogs_autoScrollOff": "自动滚动：关",
+  "debugLogs_searchHint": "搜索日志...",
 
   "dnsRecord_createTitle": "创建 DNS 记录",
   "dnsRecord_editTitle": "编辑 DNS 记录",

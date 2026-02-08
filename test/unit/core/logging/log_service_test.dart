@@ -1,4 +1,3 @@
-import 'package:cf/core/logging/log_entry.dart';
 import 'package:cf/core/logging/log_level.dart';
 import 'package:cf/core/logging/log_service.dart';
 import 'package:flutter_test/flutter_test.dart';
