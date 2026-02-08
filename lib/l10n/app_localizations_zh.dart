@@ -869,6 +869,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get debugLogs_autoScrollOff => '自动滚动：关';
 
   @override
+  String get debugLogs_searchHint => '搜索日志...';
+
+  @override
   String get dnsRecord_createTitle => '创建 DNS 记录';
 
   @override

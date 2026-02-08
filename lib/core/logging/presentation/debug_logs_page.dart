@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -22,11 +23,14 @@ class DebugLogsPage extends ConsumerStatefulWidget {
 
 class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
   bool _autoScroll = true;
+  bool _isSearching = false;
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -133,8 +137,49 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.debugLogs_title),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: InputDecoration(
+                  hintText: l10n.debugLogs_searchHint,
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.6),
+                  ),
+                ),
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                onChanged: (value) {
+                  ref.read(logViewerProvider.notifier).setSearchQuery(value);
+                },
+              )
+            : Text(l10n.debugLogs_title),
         actions: [
+          if (_isSearching)
+            IconButton(
+              icon: const Icon(Symbols.close),
+              onPressed: () {
+                _searchController.clear();
+                ref.read(logViewerProvider.notifier).setSearchQuery('');
+                setState(() {
+                  _isSearching = false;
+                });
+              },
+            )
+          else
+            IconButton(
+              icon: const Icon(Symbols.search),
+              onPressed: () {
+                setState(() {
+                  _isSearching = true;
+                });
+              },
+            ),
           IconButton(
             icon: Icon(
               _autoScroll

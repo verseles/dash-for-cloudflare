@@ -26,21 +26,25 @@ class LogViewerState {
     this.logs = const [],
     this.timeRange = LogTimeRange.fiveMinutes,
     this.category = LogCategory.all,
+    this.searchQuery = '',
   });
 
   final List<LogEntry> logs;
   final LogTimeRange timeRange;
   final LogCategory category;
+  final String searchQuery;
 
   LogViewerState copyWith({
     List<LogEntry>? logs,
     LogTimeRange? timeRange,
     LogCategory? category,
+    String? searchQuery,
   }) {
     return LogViewerState(
       logs: logs ?? this.logs,
       timeRange: timeRange ?? this.timeRange,
       category: category ?? this.category,
+      searchQuery: searchQuery ?? this.searchQuery,
     );
   }
 }
@@ -62,20 +66,33 @@ class LogViewer extends _$LogViewer {
 
     // Initial load
     return LogViewerState(
-      logs: _getFilteredLogs(LogTimeRange.fiveMinutes, LogCategory.all),
+      logs: _getFilteredLogs(
+        LogTimeRange.fiveMinutes,
+        LogCategory.all,
+        '',
+      ),
     );
   }
 
-  List<LogEntry> _getFilteredLogs(LogTimeRange timeRange, LogCategory category) {
+  List<LogEntry> _getFilteredLogs(
+    LogTimeRange timeRange,
+    LogCategory category,
+    String searchQuery,
+  ) {
     return LogService.instance.getFilteredLogs(
       timeRange: timeRange.duration,
       category: category,
+      searchQuery: searchQuery,
     );
   }
 
   void _refreshLogs() {
     state = state.copyWith(
-      logs: _getFilteredLogs(state.timeRange, state.category),
+      logs: _getFilteredLogs(
+        state.timeRange,
+        state.category,
+        state.searchQuery,
+      ),
     );
   }
 
@@ -83,7 +100,11 @@ class LogViewer extends _$LogViewer {
   void setTimeRange(LogTimeRange timeRange) {
     state = state.copyWith(
       timeRange: timeRange,
-      logs: _getFilteredLogs(timeRange, state.category),
+      logs: _getFilteredLogs(
+        timeRange,
+        state.category,
+        state.searchQuery,
+      ),
     );
   }
 
@@ -91,7 +112,23 @@ class LogViewer extends _$LogViewer {
   void setCategory(LogCategory category) {
     state = state.copyWith(
       category: category,
-      logs: _getFilteredLogs(state.timeRange, category),
+      logs: _getFilteredLogs(
+        state.timeRange,
+        category,
+        state.searchQuery,
+      ),
+    );
+  }
+
+  /// Set the search query
+  void setSearchQuery(String query) {
+    state = state.copyWith(
+      searchQuery: query,
+      logs: _getFilteredLogs(
+        state.timeRange,
+        state.category,
+        query,
+      ),
     );
   }
 

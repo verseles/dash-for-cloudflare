@@ -173,8 +173,12 @@ class LogService {
     return _logs.where((log) => log.category == category).toList();
   }
 
-  /// Get logs filtered by both time range and category
-  List<LogEntry> getFilteredLogs({Duration? timeRange, LogCategory? category}) {
+  /// Get logs filtered by time range, category and search query
+  List<LogEntry> getFilteredLogs({
+    Duration? timeRange,
+    LogCategory? category,
+    String? searchQuery,
+  }) {
     var filtered = _logs.toList();
 
     if (timeRange != null) {
@@ -184,6 +188,15 @@ class LogService {
 
     if (category != null && category != LogCategory.all) {
       filtered = filtered.where((log) => log.category == category).toList();
+    }
+
+    if (searchQuery != null && searchQuery.isNotEmpty) {
+      final query = searchQuery.toLowerCase();
+      filtered = filtered.where((log) {
+        final messageMatch = log.message.toLowerCase().contains(query);
+        final detailsMatch = log.details?.toLowerCase().contains(query) ?? false;
+        return messageMatch || detailsMatch;
+      }).toList();
     }
 
     return filtered;

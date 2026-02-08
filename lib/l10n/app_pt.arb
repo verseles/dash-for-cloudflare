@@ -296,6 +296,7 @@
   "debugLogs_tryLongerRange": "Tente um período maior",
   "debugLogs_autoScrollOn": "Auto-scroll LIGADO",
   "debugLogs_autoScrollOff": "Auto-scroll DESLIGADO",
+  "debugLogs_searchHint": "Buscar nos logs...",
 
   "dnsRecord_createTitle": "Criar Registro DNS",
   "dnsRecord_editTitle": "Editar Registro DNS",
