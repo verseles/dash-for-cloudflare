@@ -23,7 +23,7 @@ class RetryInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     final statusCode = err.response?.statusCode;
-    final shouldRetry = _shouldRetry(statusCode);
+    final shouldRetry = _shouldRetry(statusCode, err);
     final retryCount = err.requestOptions.extra['retryCount'] as int? ?? 0;
 
     if (shouldRetry && retryCount < maxRetries) {
@@ -31,7 +31,7 @@ class RetryInterceptor extends Interceptor {
 
       log.warning(
         'Retrying ${err.requestOptions.method} ${err.requestOptions.path}',
-        details: 'Attempt ${retryCount + 1}/$maxRetries after ${delay}ms (status: $statusCode)',
+        details: 'Attempt ${retryCount + 1}/$maxRetries after ${delay}ms (status: $statusCode, type: ${err.type.name})',
       );
 
       await Future.delayed(Duration(milliseconds: delay));
@@ -47,22 +47,41 @@ class RetryInterceptor extends Interceptor {
         );
         handler.resolve(response);
         return;
+      } on DioException catch (e) {
+        log.error(
+          'Retry failed for ${err.requestOptions.method} ${err.requestOptions.path}',
+          error: e,
+        );
+        handler.next(e);
+        return;
       } catch (e) {
         log.error(
           'Retry failed for ${err.requestOptions.method} ${err.requestOptions.path}',
           error: e,
         );
-        // Let it fall through to handler.next
+        handler.next(DioException(requestOptions: err.requestOptions, error: e));
+        return;
       }
     }
 
     handler.next(err);
   }
 
-  bool _shouldRetry(int? statusCode) {
-    if (statusCode == null) return false;
-    // Retry on rate limit (429) or server errors (5xx)
-    return statusCode == 429 || (statusCode >= 500 && statusCode < 600);
+  bool _shouldRetry(int? statusCode, DioException err) {
+    if (statusCode == 429 || (statusCode != null && statusCode >= 500 && statusCode < 600)) {
+      return true;
+    }
+
+    switch (err.type) {
+      case DioExceptionType.connectionTimeout:
+      case DioExceptionType.sendTimeout:
+      case DioExceptionType.receiveTimeout:
+      case DioExceptionType.connectionError:
+      case DioExceptionType.unknown:
+        return true;
+      default:
+        return false;
+    }
   }
 
   int _calculateDelay(int retryCount, int? statusCode, Response? response) {
