@@ -5,7 +5,8 @@ import 'package:dio/dio.dart';
 import '../../logging/log_service.dart';
 
 /// Interceptor that retries failed requests with exponential backoff.
-/// Handles rate limiting (429) and server errors (5xx).
+/// Handles rate limiting (429), server errors (5xx) and network errors
+/// (timeouts, connection errors).
 class RetryInterceptor extends Interceptor {
   RetryInterceptor({
     required this.dio,
@@ -68,10 +69,18 @@ class RetryInterceptor extends Interceptor {
   }
 
   bool _shouldRetry(int? statusCode, DioException err) {
-    if (statusCode == 429 || (statusCode != null && statusCode >= 500 && statusCode < 600)) {
+    // Retry on rate limit (429) or server errors (5xx)
+    if (statusCode == 429 ||
+        (statusCode != null && statusCode >= 500 && statusCode < 600)) {
       return true;
     }
 
+    // Server responded with non-retryable status — don't retry
+    if (statusCode != null) {
+      return false;
+    }
+
+    // No response received — retry on network errors
     switch (err.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
