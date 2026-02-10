@@ -191,30 +191,47 @@ class DnsRecordsNotifier extends _$DnsRecordsNotifier {
 
     try {
       final api = ref.read(cloudflareApiProvider);
-      final response = await api.getDnsRecords(zoneId);
+      final allRecords = <DnsRecord>[];
+      var page = 1;
+      var totalPages = 1;
 
-      // Race condition prevention
-      if (_currentFetchId != fetchId) {
-        log.info('DnsRecordsNotifier: Stale request discarded', category: LogCategory.state);
-        throw Exception('Stale request');
-      }
+      do {
+        // Fetch page
+        final response = await api.getDnsRecords(zoneId, page: page, perPage: 100);
 
-      if (!response.success || response.result == null) {
-        final error = response.errors.isNotEmpty
-            ? response.errors.first.message
-            : 'Failed to fetch DNS records';
-        log.error('DnsRecordsNotifier: Failed to fetch records', details: error);
-        throw Exception(error);
-      }
+        // Race condition prevention
+        if (_currentFetchId != fetchId) {
+          log.info('DnsRecordsNotifier: Stale request discarded', category: LogCategory.state);
+          throw Exception('Stale request');
+        }
 
-      final records = response.result!;
-      log.stateChange('DnsRecordsNotifier', 'Fetched ${records.length} records');
+        if (!response.success || response.result == null) {
+          final error = response.errors.isNotEmpty
+              ? response.errors.first.message
+              : 'Failed to fetch DNS records';
+          log.error('DnsRecordsNotifier: Failed to fetch records', details: error);
+          throw Exception(error);
+        }
+
+        if (response.result!.isNotEmpty) {
+          allRecords.addAll(response.result!);
+        }
+
+        // Update total pages from response
+        if (response.resultInfo != null) {
+          totalPages = response.resultInfo!.totalPages;
+        }
+
+        page++;
+      } while (page <= totalPages);
+
+      log.stateChange('DnsRecordsNotifier', 'Fetched ${allRecords.length} records');
 
       // Save to cache
-      unawaited(_saveToCache(zoneId, records));
+      unawaited(_saveToCache(zoneId, allRecords));
 
       return DnsRecordsState(
-        records: records,
+        records: allRecords,
         isFromCache: false,
         cachedAt: DateTime.now(),
       );
