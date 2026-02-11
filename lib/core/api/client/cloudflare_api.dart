@@ -54,6 +54,7 @@ abstract class CloudflareApi {
   Future<CloudflareResponse<List<DnsRecord>>> getDnsRecords(
     @Path('zoneId') String zoneId, {
     @Query('per_page') int perPage = 100,
+    @Query('page') int page = 1,
   });
 
   /// Get a single DNS record
