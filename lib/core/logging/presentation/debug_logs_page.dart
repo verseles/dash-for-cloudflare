@@ -375,7 +375,10 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       itemBuilder: (context, index) {
         final log = logs[index];
-        return _LogEntryTile(entry: log);
+        return _LogEntryTile(
+          key: ObjectKey(log),
+          entry: log,
+        );
       },
     );
   }
@@ -446,18 +449,25 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
 }
 
 /// Widget for displaying a single log entry
-class _LogEntryTile extends StatelessWidget {
-  const _LogEntryTile({required this.entry});
+class _LogEntryTile extends StatefulWidget {
+  const _LogEntryTile({super.key, required this.entry});
 
   final LogEntry entry;
+
+  @override
+  State<_LogEntryTile> createState() => _LogEntryTileState();
+}
+
+class _LogEntryTileState extends State<_LogEntryTile> {
+  bool _isExpanded = false;
 
   String _formatForCopy() {
     final buffer = StringBuffer();
     buffer.writeln(
-      '[${entry.formattedTime}] [${entry.level.label}] ${entry.message}',
+      '[${widget.entry.formattedTime}] [${widget.entry.level.label}] ${widget.entry.message}',
     );
-    if (entry.details != null && entry.details!.isNotEmpty) {
-      buffer.writeln('  → ${entry.details}');
+    if (widget.entry.details != null && widget.entry.details!.isNotEmpty) {
+      buffer.writeln('  → ${widget.entry.details}');
     }
     return buffer.toString();
   }
@@ -467,6 +477,7 @@ class _LogEntryTile extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
+    final entry = widget.entry;
 
     return GestureDetector(
       onLongPress: () async {
@@ -480,6 +491,13 @@ class _LogEntryTile extends StatelessWidget {
           );
         }
       },
+      onTap: () {
+        if (entry.details != null && entry.details!.isNotEmpty) {
+          setState(() {
+            _isExpanded = !_isExpanded;
+          });
+        }
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -487,8 +505,8 @@ class _LogEntryTile extends StatelessWidget {
           color: entry.level == LogLevel.error
               ? Colors.red.withValues(alpha: isDark ? 0.2 : 0.1)
               : entry.level == LogLevel.warning
-              ? Colors.orange.withValues(alpha: isDark ? 0.2 : 0.1)
-              : null,
+                  ? Colors.orange.withValues(alpha: isDark ? 0.2 : 0.1)
+                  : null,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Column(
@@ -549,8 +567,8 @@ class _LogEntryTile extends StatelessWidget {
                     color: theme.colorScheme.outline,
                     fontSize: 11,
                   ),
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: _isExpanded ? null : 5,
+                  overflow: _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                 ),
               ),
             ],
