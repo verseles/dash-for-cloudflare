@@ -375,7 +375,10 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       itemBuilder: (context, index) {
         final log = logs[index];
-        return _LogEntryTile(entry: log);
+        return _LogEntryTile(
+          key: ObjectKey(log),
+          entry: log,
+        );
       },
     );
   }
@@ -446,12 +449,37 @@ class _DebugLogsPageState extends ConsumerState<DebugLogsPage> {
 }
 
 /// Widget for displaying a single log entry
-class _LogEntryTile extends StatelessWidget {
-  const _LogEntryTile({required this.entry});
+class _LogEntryTile extends StatefulWidget {
+  const _LogEntryTile({super.key, required this.entry});
 
   final LogEntry entry;
 
+  @override
+  State<_LogEntryTile> createState() => _LogEntryTileState();
+}
+
+class _LogEntryTileState extends State<_LogEntryTile>
+    with SingleTickerProviderStateMixin {
+  bool _isExpanded = false;
+  late AnimationController _rotationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _rotationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _rotationController.dispose();
+    super.dispose();
+  }
+
   String _formatForCopy() {
+    final entry = widget.entry;
     final buffer = StringBuffer();
     buffer.writeln(
       '[${entry.formattedTime}] [${entry.level.label}] ${entry.message}',
@@ -462,11 +490,27 @@ class _LogEntryTile extends StatelessWidget {
     return buffer.toString();
   }
 
+  void _toggleExpanded() {
+    if (widget.entry.details == null || widget.entry.details!.isEmpty) {
+      return;
+    }
+    setState(() {
+      _isExpanded = !_isExpanded;
+      if (_isExpanded) {
+        _rotationController.forward();
+      } else {
+        _rotationController.reverse();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final l10n = AppLocalizations.of(context);
+    final entry = widget.entry;
+    final hasDetails = entry.details != null && entry.details!.isNotEmpty;
 
     return GestureDetector(
       onLongPress: () async {
@@ -480,6 +524,7 @@ class _LogEntryTile extends StatelessWidget {
           );
         }
       },
+      onTap: _toggleExpanded,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -487,8 +532,8 @@ class _LogEntryTile extends StatelessWidget {
           color: entry.level == LogLevel.error
               ? Colors.red.withValues(alpha: isDark ? 0.2 : 0.1)
               : entry.level == LogLevel.warning
-              ? Colors.orange.withValues(alpha: isDark ? 0.2 : 0.1)
-              : null,
+                  ? Colors.orange.withValues(alpha: isDark ? 0.2 : 0.1)
+                  : null,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Column(
@@ -536,21 +581,42 @@ class _LogEntryTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                // Expand icon (only if has details)
+                if (hasDetails)
+                  RotationTransition(
+                    turns: Tween(begin: 0.0, end: 0.5).animate(
+                      CurvedAnimation(
+                        parent: _rotationController,
+                        curve: Curves.easeInOut,
+                      ),
+                    ),
+                    child: Icon(
+                      Symbols.expand_more,
+                      size: 16,
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
               ],
             ),
-            if (entry.details != null && entry.details!.isNotEmpty) ...[
+            if (hasDetails) ...[
               const SizedBox(height: 4),
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Text(
-                  '→ ${entry.details}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    fontFamily: 'monospace',
-                    color: theme.colorScheme.outline,
-                    fontSize: 11,
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Text(
+                    '→ ${entry.details}',
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontFamily: 'monospace',
+                      color: theme.colorScheme.outline,
+                      fontSize: 11,
+                    ),
+                    maxLines: _isExpanded ? null : 5,
+                    overflow: _isExpanded
+                        ? TextOverflow.visible
+                        : TextOverflow.ellipsis,
                   ),
-                  maxLines: 5,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
