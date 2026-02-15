@@ -237,18 +237,20 @@ clean:
 release:
 	@if [ -z "$(V)" ]; then echo "Usage: make release V=patch|minor|major"; exit 1; fi
 	@# Parse current version from pubspec.yaml
-	$(eval CUR_VER := $(shell grep '^version:' pubspec.yaml | sed 's/version: *//; s/+.*//'))
-	$(eval CUR_BUILD := $(shell grep '^version:' pubspec.yaml | sed 's/.*+//'))
+	$(eval CUR_FULL := $(shell grep '^version:' pubspec.yaml | sed 's/version: *//'))
+	$(eval CUR_VER := $(shell echo $(CUR_FULL) | sed 's/+.*//'))
+	$(eval CUR_BUILD := $(shell echo $(CUR_FULL) | grep -o '+.*' | sed 's/+//' || echo 0))
 	$(eval MAJOR := $(shell echo $(CUR_VER) | cut -d. -f1))
 	$(eval MINOR := $(shell echo $(CUR_VER) | cut -d. -f2))
 	$(eval PATCH := $(shell echo $(CUR_VER) | cut -d. -f3))
-	$(eval NEW_BUILD := $(shell echo $$(($(CUR_BUILD) + 1))))
+	$(eval SAFE_BUILD := $(if $(CUR_BUILD),$(CUR_BUILD),0))
+	$(eval NEW_BUILD := $(shell echo $$(($(SAFE_BUILD) + 1))))
 	@# Calculate new version
 	$(eval NEW_VER := $(if $(filter major,$(V)),$(shell echo $$(($(MAJOR) + 1))).0.0,\
 		$(if $(filter minor,$(V)),$(MAJOR).$(shell echo $$(($(MINOR) + 1))).0,\
 		$(if $(filter patch,$(V)),$(MAJOR).$(MINOR).$(shell echo $$(($(PATCH) + 1))),\
 		$(error V must be patch, minor, or major)))))
-	@echo "$(CUR_VER)+$(CUR_BUILD) -> $(NEW_VER)+$(NEW_BUILD)"
+	@echo "$(CUR_VER)+$(SAFE_BUILD) -> $(NEW_VER)+$(NEW_BUILD)"
 	@# Update pubspec.yaml
 	@sed -i 's/^version: .*/version: $(NEW_VER)+$(NEW_BUILD)/' pubspec.yaml
 	@# Commit, tag, push
