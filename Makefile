@@ -1,4 +1,4 @@
-.PHONY: all check precommit deps gen analyze test linux android android-x64 web cf-pages clean install uninstall help sync-datacenters icons
+.PHONY: all check precommit deps gen analyze test coverage linux android android-x64 web cf-pages clean install uninstall help sync-datacenters icons icons-check release
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Dash for CF - Makefile
@@ -19,9 +19,16 @@ APK_DIR = build/app/outputs/flutter-apk
 APK_PATH = $(APK_DIR)/dash-for-cf.apk
 WEB_PATH = build/web
 INSTALL_DIR = $(HOME)/.local
+ANALYZE_LOG = /tmp/dash-cf-analyze.log
+ANALYZE_BUDGET = 50
+COVERAGE_MIN = 25
 
 # Temp log file
 LOG = /tmp/dash-cf-build.log
+
+# Telegram upload config
+TDL_CHANNEL = VerselesBot
+TDL_TARGET = 6
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Output control: TTY detection with explicit override
@@ -64,8 +71,9 @@ check:
 	@echo "✓ Code generated"
 	@echo ""
 	@echo "[3/4] Static Analysis..."
-	@flutter analyze --no-fatal-infos $(RUN)
-	@echo "✓ Analysis passed"
+	@flutter analyze --no-fatal-infos --no-fatal-warnings 2>&1 | tee $(ANALYZE_LOG) $(RUN_LENIENT)
+	@bash tool/ci/check_analyze_budget.sh $(ANALYZE_LOG) $(ANALYZE_BUDGET)
+	@echo "✓ Analysis passed (budget: $(ANALYZE_BUDGET))"
 	@echo ""
 	@echo "[4/4] Running Tests..."
 	@flutter test $(RUN)
@@ -118,23 +126,49 @@ icons:
 	@echo '</adaptive-icon>' >> android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
 	@echo "✓ Icons and splash regenerated"
 
+# Validate icon artifacts exist
+icons-check:
+	@echo "Checking icon artifacts..."
+	@set -e; \
+	for f in \
+		android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml \
+		android/app/src/main/res/mipmap-hdpi/ic_launcher.png \
+		android/app/src/main/res/mipmap-mdpi/ic_launcher.png \
+		android/app/src/main/res/mipmap-xhdpi/ic_launcher.png \
+		android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png \
+		android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png \
+		web/icons/Icon-192.png \
+		web/icons/Icon-512.png \
+		web/icons/Icon-maskable-192.png \
+		web/icons/Icon-maskable-512.png; do \
+		test -f "$$f" || { echo "Missing icon artifact: $$f"; exit 1; }; \
+	done
+	@echo "✓ Icon artifacts verified"
+
 # Generate code (Freezed, Retrofit, JSON Serializable)
 gen:
 	@echo "Generating code (build_runner)..."
 	@dart run build_runner build --delete-conflicting-outputs $(RUN)
 	@echo "✓ Code generated"
 
-# Static analysis
+# Static analysis with budget gate
 analyze:
 	@echo "Running static analysis..."
-	@flutter analyze --no-fatal-infos $(RUN)
-	@echo "✓ Analysis passed"
+	@flutter analyze --no-fatal-infos --no-fatal-warnings 2>&1 | tee $(ANALYZE_LOG)
+	@bash tool/ci/check_analyze_budget.sh $(ANALYZE_LOG) $(ANALYZE_BUDGET)
 
 # Run tests
 test:
 	@echo "Running tests..."
 	@flutter test $(RUN)
 	@echo "✓ All tests passed"
+
+# Run tests with coverage + threshold gate
+coverage:
+	@echo "Running tests with coverage..."
+	@flutter test --coverage $(RUN)
+	@echo "✓ Tests passed"
+	@bash tool/ci/check_coverage.sh coverage/lcov.info $(COVERAGE_MIN)
 
 # Linux release build
 linux:
@@ -155,7 +189,10 @@ android:
 	@echo ""
 	@if command -v tdl >/dev/null 2>&1; then \
 		echo "Uploading APK via tdl..."; \
-		if tdl up -c VerselesBot -t 6 --path=$(APK_PATH); then \
+		CAPTION_TEXT="$${TDL_CAPTION:-$$(git log -1 --pretty=%s 2>/dev/null || echo DashCF-Android-build)}"; \
+		CAPTION_ESCAPED="$$(printf '%s' "$$CAPTION_TEXT" | sed 's/\\/\\\\/g; s/\"/\\"/g')"; \
+		CAPTION_EXPR="\"$$CAPTION_ESCAPED\""; \
+		if tdl up -c "$(TDL_CHANNEL)" -t "$(TDL_TARGET)" --caption="$$CAPTION_EXPR" --path=$(APK_PATH); then \
 			echo "✓ APK uploaded"; \
 		else \
 			echo "✗ APK upload failed"; \
@@ -173,7 +210,6 @@ android-x64:
 	@echo "✓ Android x64 build complete"
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
-
 
 # Web release build
 web:
@@ -194,6 +230,33 @@ clean:
 	@flutter clean $(RUN)
 	@rm -rf build/
 	@echo "✓ Clean complete"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# RELEASE - Bump version, commit, tag, push
+# ══════════════════════════════════════════════════════════════════════════════
+release:
+	@if [ -z "$(V)" ]; then echo "Usage: make release V=patch|minor|major"; exit 1; fi
+	@# Parse current version from pubspec.yaml
+	$(eval CUR_VER := $(shell grep '^version:' pubspec.yaml | sed 's/version: *//; s/+.*//'))
+	$(eval CUR_BUILD := $(shell grep '^version:' pubspec.yaml | sed 's/.*+//'))
+	$(eval MAJOR := $(shell echo $(CUR_VER) | cut -d. -f1))
+	$(eval MINOR := $(shell echo $(CUR_VER) | cut -d. -f2))
+	$(eval PATCH := $(shell echo $(CUR_VER) | cut -d. -f3))
+	$(eval NEW_BUILD := $(shell echo $$(($(CUR_BUILD) + 1))))
+	@# Calculate new version
+	$(eval NEW_VER := $(if $(filter major,$(V)),$(shell echo $$(($(MAJOR) + 1))).0.0,\
+		$(if $(filter minor,$(V)),$(MAJOR).$(shell echo $$(($(MINOR) + 1))).0,\
+		$(if $(filter patch,$(V)),$(MAJOR).$(MINOR).$(shell echo $$(($(PATCH) + 1))),\
+		$(error V must be patch, minor, or major)))))
+	@echo "$(CUR_VER)+$(CUR_BUILD) -> $(NEW_VER)+$(NEW_BUILD)"
+	@# Update pubspec.yaml
+	@sed -i 's/^version: .*/version: $(NEW_VER)+$(NEW_BUILD)/' pubspec.yaml
+	@# Commit, tag, push
+	@git add pubspec.yaml
+	@git commit -m "release: cut v$(NEW_VER)"
+	@git tag -a "v$(NEW_VER)" -m "v$(NEW_VER)"
+	@git push --follow-tags
+	@echo "Released v$(NEW_VER) — CI and Release workflows triggered."
 
 # ══════════════════════════════════════════════════════════════════════════════
 # LINUX INSTALLATION
@@ -255,8 +318,8 @@ help:
 	@echo "Dash for CF - Build Commands"
 	@echo ""
 	@echo "  Validation:"
-	@echo "    make check      Quick validation (deps+gen+analyze+test) ~20s"
-	@echo "    make precommit  Full verification (check+builds) ~30s"
+	@echo "    make check       Quick validation (deps+gen+analyze+test) ~20s"
+	@echo "    make precommit   Full verification (check+builds) ~30s"
 	@echo ""
 	@echo "  Build:"
 	@echo "    make android     Build APK (arm64) + upload via tdl"
@@ -265,14 +328,23 @@ help:
 	@echo "    make web         Build Web release"
 	@echo "    make cf-pages    Show build command for Cloudflare Pages CI"
 	@echo ""
+	@echo "  Quality:"
+	@echo "    make test        Run tests only"
+	@echo "    make analyze     Static analysis + budget gate (max $(ANALYZE_BUDGET) issues)"
+	@echo "    make coverage    Tests + coverage threshold gate (min $(COVERAGE_MIN)%)"
+	@echo "    make icons-check Validate icon artifacts exist"
+	@echo ""
 	@echo "  Development:"
 	@echo "    make deps             Install dependencies (+ sync data centers)"
 	@echo "    make sync-datacenters Update Cloudflare data centers list"
 	@echo "    make gen              Generate code (Freezed, Retrofit)"
 	@echo "    make icons            Regenerate app icons and splash screens"
-	@echo "    make test        Run tests only"
-	@echo "    make analyze     Static analysis only"
-	@echo "    make clean       Clean build artifacts"
+	@echo "    make clean            Clean build artifacts"
+	@echo ""
+	@echo "  Release:"
+	@echo "    make release V=patch  Bump patch version, commit, tag, push"
+	@echo "    make release V=minor  Bump minor version, commit, tag, push"
+	@echo "    make release V=major  Bump major version, commit, tag, push"
 	@echo ""
 	@echo "  Linux Install:"
 	@echo "    make install     Install to ~/.local"

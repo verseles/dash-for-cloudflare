@@ -13,7 +13,7 @@ lib/
 │   ├── 🌐 api/                  # Cliente HTTP, Interceptors e Modelos Base
 │   ├── 🏗️ constants/            # Constantes globais do app
 │   ├── 🖥️ desktop/              # Suporte nativo (Window, Tray, Shortcuts)
-│   ├── 🪵 logging/              # Sistema de logs in-app (Híbrido)
+│   ├── 🪵 logging/              # Sistema de logs in-app (Híbrido + Token Sanitization)
 │   ├── 📱 platform/             # Detecção e abstração de plataforma
 │   ├── 📦 providers/            # Providers globais (Dio, DataCenters)
 │   ├── 🌐 pwa/                  # Suporte PWA (Update notifications)
@@ -27,6 +27,11 @@ lib/
 │   ├── 📄 pages/                # Cloudflare Pages (Projects, Deployments)
 │   └── 👷 workers/              # Cloudflare Workers (Scripts, Routes, Triggers)
 └── 🌍 l10n/                     # Internacionalização (en, pt, zh)
+
+tool/
+└── ci/                           # Scripts de quality gates para CI
+    ├── check_analyze_budget.sh   # Analyze issue budget enforcement
+    └── check_coverage.sh         # Coverage threshold enforcement
 ```
 
 ---
@@ -177,4 +182,4 @@ cat lib/core/router/app_router.dart
 
 ---
 
-_Última atualização: 2026-01-26_
+_Última atualização: 2026-02-15_

@@ -129,6 +129,20 @@ class LogService {
     _log(LogLevel.info, '$provider: $description', category: LogCategory.state);
   }
 
+  /// Token pattern for sanitization (40+ char alphanumeric strings typical of API tokens)
+  static final _tokenPattern = RegExp(r'(?:Bearer\s+|Authorization:\s*)?([A-Za-z0-9_-]{40,})', caseSensitive: false);
+
+  /// Sanitize sensitive data from log messages
+  String _sanitize(String text) {
+    return text.replaceAllMapped(_tokenPattern, (match) {
+      final token = match.group(1)!;
+      if (token.length >= 40) {
+        return '${token.substring(0, 4)}...[REDACTED]';
+      }
+      return match.group(0)!;
+    });
+  }
+
   /// Internal log method
   void _log(LogLevel level, String message, {String? details, LogCategory category = LogCategory.debug}) {
     // In release mode, skip debug logs
@@ -136,8 +150,8 @@ class LogService {
 
     final entry = LogEntry(
       level: level,
-      message: message,
-      details: details,
+      message: _sanitize(message),
+      details: details != null ? _sanitize(details) : null,
       category: category,
     );
 

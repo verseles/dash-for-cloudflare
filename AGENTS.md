@@ -39,10 +39,13 @@ Use SEMPRE comandos make. Eles suprimem logs de sucesso para economizar tokens.
 | `make linux`       | Build Linux release                      | ~10s  |
 | `make web`         | Build Web release                        | ~20s  |
 | `make test`        | Executar testes                          | ~10s  |
-| `make analyze`     | Análise estática                         | ~3s   |
+| `make analyze`     | Análise estática + budget gate (max 50)  | ~3s   |
+| `make coverage`    | Testes + threshold gate (min 25%)        | ~15s  |
+| `make icons-check` | Validar artefatos de ícones              | ~1s   |
 | `make deps`        | Instalar dependências                    | ~2s   |
 | `make gen`         | Gerar código (Freezed, Retrofit)         | ~5s   |
 | `make clean`       | Limpar artefatos de build                | ~2s   |
+| `make release V=`  | Bump versão, commit, tag, push           | ~5s   |
 | `make install`     | Instalar no Linux (~/.local)             | -     |
 | `make uninstall`   | Desinstalar do Linux                     | -     |
 
@@ -60,9 +63,22 @@ make android      # Build + upload para Telegram
 make linux        # Build Linux
 make web          # Build Web
 
+# Para builds específicas:
+make android      # Build + upload para Telegram
+make linux        # Build Linux
+make web          # Build Web
+
 # Após alterar dependências ou models:
 make deps         # Após alterar pubspec.yaml
 make gen          # Após alterar models Freezed/Retrofit
+
+# Qualidade:
+make coverage     # Testes com cobertura + threshold
+make icons-check  # Validar ícones
+
+# Release:
+make release V=patch  # Bump patch, commit, tag, push
+make release V=minor  # Bump minor, commit, tag, push
 ```
 
 ---

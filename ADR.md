@@ -861,7 +861,7 @@ darkTheme: useAmoled ? AppTheme.amoled : AppTheme.dark,
 
 ---
 
-_Última atualização: 2026-01-30 (adicionado ADR-034 para AMOLED Black Mode)_
+_Última atualização: 2026-02-15 (adicionados ADR-036 CI/CD Quality Gates, ADR-037 Token Sanitization)_
 
 ---
 
@@ -886,3 +886,77 @@ _Última atualização: 2026-01-30 (adicionado ADR-034 para AMOLED Black Mode)_
 - Logs em tempo real com baixa latência
 - Melhor UX com status de conexão e auto‑scroll
 - Maior complexidade de estado (sessão ativa + buffer + filtros)
+
+---
+
+## ADR-036: CI/CD com Quality Gates e Release Automatizado
+
+**Status**: Aceito
+**Data**: 2026-02-15
+
+**Contexto**: O pipeline de CI/CD anterior tinha testes e builds em workflows separados sem gates de qualidade objetivos. Cobertura de testes e issues do analyzer não eram verificados automaticamente, permitindo regressões silenciosas.
+
+**Decisão**: Reestruturar CI/CD em três workflows com quality gates quantitativos:
+
+1. **CI (`ci.yml`)**: Roda em todas as branches (push/PR):
+   - Verificação de código gerado commitado (`.g.dart`, `.freezed.dart`)
+   - Analyze budget gate (max 50 issues, via `tool/ci/check_analyze_budget.sh`)
+   - Coverage threshold gate (min 25%, via `tool/ci/check_coverage.sh`)
+   - Upload para Codecov com `codecov.yml` de configuração
+   - Artefatos de coverage e analyze para debugging
+
+2. **Build (`build.yml`)**: Roda em main (push/PR):
+   - Setup compartilhado com cache de código gerado
+   - Builds paralelos: Web (+ deploy CF Pages), Android (com signing)
+   - Linux e macOS disponíveis (desabilitados por ora)
+
+3. **Release (`release.yml`)**: Disparado por tags `v*` ou manual:
+   - Builds completos (Web, Android)
+   - Criação automática de GitHub Release com notes geradas
+   - APK assinado como artefato do release
+
+**Quality Gates locais**:
+- `make analyze`: Usa `check_analyze_budget.sh` (budget: 50)
+- `make coverage`: Usa `check_coverage.sh` (threshold: 25%)
+- `make release V=patch|minor|major`: Automação completa de versionamento
+
+**Consequência**:
+- Regressões de qualidade detectadas automaticamente
+- Budget controlado permite redução gradual de issues
+- Releases automatizados eliminam erros manuais de versionamento
+- Codecov fornece visibilidade de cobertura por PR
+
+---
+
+## ADR-037: Token Sanitization em Logs
+
+**Status**: Aceito
+**Data**: 2026-02-15
+
+**Contexto**: O `LogService` armazena logs que podem ser exportados (clipboard, arquivo). API tokens da Cloudflare (40+ caracteres) podem vazar nos logs via headers de request, mensagens de erro ou state changes.
+
+**Decisão**: Adicionar sanitização automática de tokens no `LogService._log()`:
+
+1. **Padrão Regex**: Detecta strings alfanuméricas de 40+ caracteres (padrão de API tokens Cloudflare).
+2. **Redação**: Substitui por `<4 primeiros chars>...[REDACTED]`.
+3. **Aplicação**: Sanitiza tanto `message` quanto `details` antes de armazenar/exportar.
+4. **LoggingInterceptor**: Removido log do header Authorization que expunha parcialmente o token.
+
+```dart
+static final _tokenPattern = RegExp(r'(?:Bearer\s+|Authorization:\s*)?([A-Za-z0-9_-]{40,})', caseSensitive: false);
+
+String _sanitize(String text) {
+  return text.replaceAllMapped(_tokenPattern, (match) {
+    final token = match.group(1)!;
+    if (token.length >= 40) {
+      return '${token.substring(0, 4)}...[REDACTED]';
+    }
+    return match.group(0)!;
+  });
+}
+```
+
+**Consequência**:
+- Tokens nunca aparecem em logs exportados
+- Logs continuam úteis para debug (4 chars identificam qual token)
+- Segurança por default (sanitização automática, não opt-in)

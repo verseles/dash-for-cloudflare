@@ -1,0 +1,5 @@
+tags:
+  slow:
+    # Tests that take significantly longer than average.
+  requires_network:
+    # Tests that depend on network access or external APIs.

@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FLUTTER_VERSION: '3.x'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Cache pub dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: pub-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Verify generated code is committed
+        run: |
+          if git status --porcelain | grep -E '\.(g|freezed)\.dart$' >/dev/null; then
+            echo "::error::Generated files changed. Run 'make gen' and commit the output."
+            git status --porcelain
+            exit 1
+          fi
+
+      - name: Analyze (with budget gate)
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings 2>&1 | tee /tmp/flutter_analyze.log
+
+      - name: Enforce analyze issue budget
+        run: bash tool/ci/check_analyze_budget.sh /tmp/flutter_analyze.log 50
+
+      - name: Test with coverage
+        run: flutter test --coverage
+
+      - name: Install lcov
+        run: |
+          if ! command -v lcov >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y lcov
+          fi
+
+      - name: Enforce coverage threshold
+        run: bash tool/ci/check_coverage.sh coverage/lcov.info 25
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.filtered.info,./coverage/lcov.info
+          fail_ci_if_error: false
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-lcov
+          path: |
+            coverage/lcov.info
+            coverage/lcov.filtered.info
+          retention-days: 7
+
+      - name: Upload analyze report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: analyze-log
+          path: /tmp/flutter_analyze.log
+          retention-days: 7

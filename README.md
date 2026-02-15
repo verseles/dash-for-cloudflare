@@ -92,10 +92,13 @@ make web         # Web release
 | `make linux`      | Build Linux release                            | ~10s   |
 | `make web`        | Build Web release                              | ~20s   |
 | `make test`       | Run tests                                      | ~10s   |
-| `make analyze`    | Static analysis                                | ~3s    |
+| `make analyze`    | Static analysis + budget gate (max 50 issues)  | ~3s    |
+| `make coverage`   | Tests + coverage threshold gate (min 25%)      | ~15s   |
+| `make icons-check`| Validate icon artifacts exist                  | ~1s    |
 | `make deps`       | Install dependencies                           | ~2s    |
 | `make gen`        | Generate code (Freezed, Retrofit)              | ~5s    |
 | `make clean`      | Clean build artifacts                          | ~2s    |
+| `make release V=` | Bump version, commit, tag, push                | ~5s    |
 | `make install`    | Install on Linux (~/.local)                    | -      |
 | `make uninstall`  | Uninstall from Linux                           | -      |
 
@@ -108,6 +111,15 @@ We adopt a **Test Pyramid** strategy to ensure code quality and stability:
 - **Integration Tests (`test/integration/`)**: Validate complete user flows (e.g., DNS Record creation, Pages Rollback) simulating the app structure with mocked network calls.
 
 Run all tests with: `make test` or `make check`.
+
+### Quality Gates
+
+| Gate | Tool | Threshold |
+|------|------|-----------|
+| Analyzer Budget | `make analyze` | Max 50 issues |
+| Coverage | `make coverage` | Min 25% |
+| Generated Code | CI only | `.g.dart`/`.freezed.dart` must be committed |
+| Icon Artifacts | `make icons-check` | All platform icons exist |
 
 ## CORS Strategy
 
