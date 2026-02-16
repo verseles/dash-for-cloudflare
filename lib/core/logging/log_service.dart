@@ -299,7 +299,8 @@ class LogService {
 
       // Also check total size
       int totalSize = 0;
-      final logFiles = <File>[];
+      // Store file and its metadata to avoid re-fetching
+      final logFiles = <(File, DateTime, int)>[];
 
       for (final entity in files) {
         if (entity is File && entity.path.endsWith('.log')) {
@@ -307,20 +308,21 @@ class LogService {
           if (stat.modified.isBefore(cutoff)) {
             await entity.delete();
           } else {
-            logFiles.add(entity);
-            totalSize += await entity.length();
+            // stat.size is available, no need for await entity.length()
+            logFiles.add((entity, stat.modified, stat.size));
+            totalSize += stat.size;
           }
         }
       }
 
       // If total exceeds 20MB, delete oldest files
       if (totalSize > 20 * 1024 * 1024) {
-        logFiles.sort(
-          (a, b) => a.statSync().modified.compareTo(b.statSync().modified),
-        );
-        for (final file in logFiles) {
+        // Sort by modified time (oldest first) using stored metadata
+        logFiles.sort((a, b) => a.$2.compareTo(b.$2));
+
+        for (final (file, _, size) in logFiles) {
           if (totalSize <= 10 * 1024 * 1024) break;
-          totalSize -= await file.length();
+          totalSize -= size;
           await file.delete();
         }
       }
