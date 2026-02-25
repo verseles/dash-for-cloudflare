@@ -1,7 +1,7 @@
 name: cf
 description: "Unofficial native dashboard for Cloudflare services"
 publish_to: 'none'
-version: 1.8.0+2
+version: 1.9.0+3
 
 environment:
   sdk: ^3.10.4
