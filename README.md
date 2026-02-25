@@ -62,7 +62,24 @@ Unofficial native dashboard for Cloudflare services. Built with Flutter for all 
 - **UI/UX:** Material 3 Design, Dark/Light mode, Responsive layout
 - **i18n:** Full support for English, Portuguese, and Chinese (中文)
 
-## Quick Start
+## Install
+
+**Linux / macOS:**
+
+```bash
+curl -fsSL install.cat/verseles/dash-for-cloudflare | sh
+```
+
+**Android:**
+
+Download the latest APK directly:
+[dash-for-cf-android-arm64.apk](https://github.com/verseles/dash-for-cloudflare/releases/latest/download/dash-for-cf-android-arm64.apk)
+
+**Web:** [cf.dash.ad](https://cf.dash.ad)
+
+---
+
+## Development Quick Start
 
 ```bash
 # Install dependencies and generate code
