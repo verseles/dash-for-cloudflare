@@ -133,10 +133,10 @@ jobs:
 
       - name: Setup Android signing
         env:
-          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
-          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           if [ -n "$KEYSTORE_BASE64" ]; then
             echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
@@ -198,7 +198,6 @@ jobs:
           retention-days: 7
 
   build-linux:
-    if: false  # DISABLED: Remove this line to re-enable
     needs: setup
     runs-on: ubuntu-latest
 
@@ -258,7 +257,6 @@ jobs:
           retention-days: 7
 
   build-macos:
-    if: false  # DISABLED: Remove this line to re-enable
     needs: setup
     runs-on: macos-latest
 
