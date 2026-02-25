@@ -26,9 +26,6 @@ COVERAGE_MIN = 25
 # Temp log file
 LOG = /tmp/dash-cf-build.log
 
-# Telegram upload config
-TDL_CHANNEL = VerselesBot
-TDL_TARGET = 6
 
 # ══════════════════════════════════════════════════════════════════════════════
 # Output control: TTY detection with explicit override
@@ -187,20 +184,8 @@ android:
 	@echo "  APK: $(APK_PATH)"
 	@ls -lh $(APK_PATH)
 	@echo ""
-	@if command -v tdl >/dev/null 2>&1; then \
-		echo "Uploading APK via tdl..."; \
-		CAPTION_TEXT="$${TDL_CAPTION:-$$(git log -1 --pretty=%s 2>/dev/null || echo DashCF-Android-build)}"; \
-		CAPTION_ESCAPED="$$(printf '%s' "$$CAPTION_TEXT" | sed 's/\\/\\\\/g; s/\"/\\"/g')"; \
-		CAPTION_EXPR="\"$$CAPTION_ESCAPED\""; \
-		if tdl up -c "$(TDL_CHANNEL)" -t "$(TDL_TARGET)" --caption="$$CAPTION_EXPR" --path=$(APK_PATH); then \
-			echo "✓ APK uploaded"; \
-		else \
-			echo "✗ APK upload failed"; \
-			exit 1; \
-		fi \
-	else \
-		echo "ℹ tdl not found - skipping upload"; \
-	fi
+	@CAPTION_TEXT="$${HEY_CAPTION:-$$(git log -1 --pretty=%s 2>/dev/null || echo DashCF-Android-build)}"; \
+	~/bin/hey -f "$(APK_PATH)" "$$CAPTION_TEXT"
 
 # Android x64 build (for emulator)
 android-x64:
@@ -324,7 +309,7 @@ help:
 	@echo "    make precommit   Full verification (check+builds) ~30s"
 	@echo ""
 	@echo "  Build:"
-	@echo "    make android     Build APK (arm64) + upload via tdl"
+	@echo "    make android     Build APK (arm64) + upload via hey"
 	@echo "    make android-x64 Build APK (x64 for emulator)"
 	@echo "    make linux       Build Linux release"
 	@echo "    make web         Build Web release"

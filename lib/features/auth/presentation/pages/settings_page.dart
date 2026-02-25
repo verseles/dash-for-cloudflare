@@ -14,6 +14,7 @@ import '../../../../core/api/api_config.dart';
 import '../../../../core/logging/log_provider.dart';
 import '../../../../core/providers/app_info_provider.dart';
 import '../../../../core/providers/data_centers_provider.dart';
+import '../../../../core/providers/update_provider.dart';
 import '../../../dns/providers/dns_records_provider.dart';
 import '../../../analytics/providers/analytics_provider.dart';
 
@@ -392,6 +393,12 @@ Required Cloudflare API Token Permissions:
             // Debug Card (only on non-web platforms)
             if (!kIsWeb) _buildDebugCard(context, l10n),
 
+            // Updates Card (only on non-web platforms)
+            if (!kIsWeb) ...[
+              const SizedBox(height: 16),
+              _buildUpdatesCard(context, l10n),
+            ],
+
             const SizedBox(height: 16),
 
             // Version info
@@ -400,6 +407,125 @@ Required Cloudflare API Token Permissions:
         ),
       ),
     );
+  }
+
+  Widget _buildUpdatesCard(BuildContext context, AppLocalizations l10n) {
+    final updateState = ref.watch(updateProvider);
+    final theme = Theme.of(context);
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Symbols.system_update,
+                  color: theme.colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text('Updates', style: theme.textTheme.titleMedium),
+              ],
+            ),
+            const SizedBox(height: 8),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Check for updates on open'),
+              value: updateState.checkOnOpen,
+              onChanged: (v) =>
+                  ref.read(updateProvider.notifier).setCheckOnOpen(v),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Check for updates'),
+              trailing: updateState.checking
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Symbols.refresh),
+              onTap: updateState.checking
+                  ? null
+                  : () => ref.read(updateProvider.notifier).checkForUpdate(),
+            ),
+            if (updateState.hasUpdate) ...[
+              const Divider(),
+              Text(
+                'v${updateState.result!.latestVersion} available',
+                style: theme.textTheme.titleSmall,
+              ),
+              if ((updateState.result!.releaseNotes ?? '').isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6, bottom: 8),
+                  child: Text(
+                    updateState.result!.releaseNotes!.length > 300
+                        ? '${updateState.result!.releaseNotes!.substring(0, 300)}…'
+                        : updateState.result!.releaseNotes!,
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ),
+              const SizedBox(height: 8),
+              _buildInstallControl(context, updateState),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInstallControl(BuildContext context, UpdateState updateState) {
+    switch (updateState.installState) {
+      case UpdateInstallState.downloading:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LinearProgressIndicator(value: updateState.installProgress),
+            const SizedBox(height: 6),
+            Text(
+              'Downloading… ${(updateState.installProgress * 100).toStringAsFixed(0)}%',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        );
+      case UpdateInstallState.installing:
+        return const Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+            SizedBox(width: 8),
+            Text('Installing…'),
+          ],
+        );
+      case UpdateInstallState.done:
+        return const Text('Restart the app to apply the update.');
+      default:
+        return Row(
+          children: [
+            FilledButton.icon(
+              icon: const Icon(Symbols.download, size: 18),
+              label: Text(
+                updateState.installState == UpdateInstallState.failed
+                    ? 'Retry install'
+                    : 'Install update',
+              ),
+              onPressed: () =>
+                  ref.read(updateProvider.notifier).startInstall(),
+            ),
+            const SizedBox(width: 8),
+            TextButton(
+              onPressed: () =>
+                  ref.read(updateProvider.notifier).dismissUpdate(),
+              child: const Text('Dismiss'),
+            ),
+          ],
+        );
+    }
   }
 
   Widget _buildVersionInfo(BuildContext context) {

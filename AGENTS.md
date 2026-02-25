@@ -34,7 +34,7 @@ Use SEMPRE comandos make. Eles suprimem logs de sucesso para economizar tokens.
 | ------------------ | ---------------------------------------- | ----- |
 | `make check`       | Validação rápida (deps+gen+analyze+test) | ~20s  |
 | `make precommit`   | Verificação completa (check+builds)      | ~30s  |
-| `make android`     | Build APK (arm64) + upload via tdl       | ~30s  |
+| `make android`     | Build APK (arm64) + upload via hey       | ~30s  |
 | `make android-x64` | Build APK (x64 para emulador)            | ~30s  |
 | `make linux`       | Build Linux release                      | ~10s  |
 | `make web`         | Build Web release                        | ~20s  |
@@ -95,7 +95,7 @@ make release V=minor  # Bump minor, commit, tag, push
 
 4. **Push só se já pedido na sessão.** Não faça push automaticamente, apenas se o usuário já pediu pelo menos uma vez na conversa atual.
 
-5. **`make android` após push bem-sucedido.** Envia APK via tdl para o celular do usuário testar, sempre faça esse e avise o usuário que já pode testar no celular.
+5. **`make android` após push bem-sucedido.** Envia APK via hey para o celular do usuário testar, sempre faça esse e avise o usuário que já pode testar no celular.
 
 6. **Se `make analyze` ou `make test` falhar, corrija TODOS os erros.** Não prossiga com erros pendentes.
 

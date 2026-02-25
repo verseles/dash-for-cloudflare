@@ -55,6 +55,9 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.8
 
+  # Open downloaded APK with system package installer
+  open_filex: ^4.6.0
+
   # PWA (Web only)
   pwa_install: ^0.0.4
   material_symbols_icons: ^4.2892.0
