@@ -91,9 +91,10 @@ void main() {
       );
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      
-      // Clear pending timers from ADR-024 tab preloading
-      await tester.pump(const Duration(milliseconds: 500));
+
+      // Clear pending timers from ADR-024 tab preloading and animations
+      await tester.pump(const Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
     });
   });
 }

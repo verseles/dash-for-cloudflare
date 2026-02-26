@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,7 +63,10 @@ class CloudflareErrorView extends StatelessWidget {
               isForbidden ? Symbols.lock : Symbols.error,
               size: 64,
               color: isForbidden ? Colors.orange : theme.colorScheme.error,
-            ),
+            )
+                .animate()
+                .fadeIn(duration: 400.ms)
+                .shake(hz: 3, duration: 400.ms, offset: const Offset(2, 0)),
             const SizedBox(height: 24),
             Text(
               isForbidden ? l10n.error_permissionsRequired : l10n.common_error,

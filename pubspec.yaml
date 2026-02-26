@@ -62,6 +62,9 @@ dependencies:
   pwa_install: ^0.0.4
   material_symbols_icons: ^4.2892.0
 
+  # Animations
+  flutter_animate: ^4.5.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -57,18 +58,26 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
     // Update polling based on current state
     projectsAsync.whenData((state) => _updatePolling(state.projects));
 
-    return projectsAsync.when(
-      skipLoadingOnRefresh: true,
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => CloudflareErrorView(
-        error: error,
-        onRetry: () => ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
-      ),
-      data: (state) => Column(
-        children: [
-          if (state.isRefreshing) const LinearProgressIndicator(minHeight: 2),
-          Expanded(child: _buildProjectsList(context, state, l10n)),
-        ],
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: projectsAsync.when(
+        skipLoadingOnRefresh: true,
+        loading: () => const Center(
+          key: ValueKey('loading'),
+          child: CircularProgressIndicator(),
+        ),
+        error: (error, stack) => CloudflareErrorView(
+          key: const ValueKey('error'),
+          error: error,
+          onRetry: () => ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
+        ),
+        data: (state) => Column(
+          key: const ValueKey('data'),
+          children: [
+            if (state.isRefreshing) const LinearProgressIndicator(minHeight: 2),
+            Expanded(child: _buildProjectsList(context, state, l10n)),
+          ],
+        ),
       ),
     );
   }
@@ -99,7 +108,15 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
         itemCount: state.projects.length,
         itemBuilder: (context, index) {
           final project = state.projects[index];
-          return _ProjectCard(project: project);
+          return _ProjectCard(project: project)
+              .animate()
+              .fadeIn(duration: 300.ms)
+              .slideY(
+                begin: 0.1,
+                duration: 300.ms,
+                curve: Curves.easeOutCubic,
+                delay: (50 * index.clamp(0, 10)).ms,
+              );
         },
       ),
     );

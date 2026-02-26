@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -149,11 +150,27 @@ Required Cloudflare API Token Permissions:
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) =>
             Center(child: Text('${l10n.common_error}: $error')),
-        data: (settings) => ListView(
+        data: (settings) {
+          // Build settings items and apply staggered animation
+          var cardIndex = 0;
+          Widget stagger(Widget child) {
+            final i = cardIndex++;
+            return child
+                .animate()
+                .fadeIn(duration: 300.ms)
+                .slideY(
+                  begin: 0.1,
+                  duration: 300.ms,
+                  curve: Curves.easeOutCubic,
+                  delay: (50 * i.clamp(0, 10)).ms,
+                );
+          }
+
+          return ListView(
           padding: const EdgeInsets.all(16),
           children: [
             // API Token Card
-            Card(
+            stagger(Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -253,12 +270,12 @@ Required Cloudflare API Token Permissions:
                   ],
                 ),
               ),
-            ),
+            )),
 
             const SizedBox(height: 16),
 
             // Theme Card
-            Card(
+            stagger(Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -319,12 +336,12 @@ Required Cloudflare API Token Permissions:
                   ],
                 ),
               ),
-            ),
+            )),
 
             const SizedBox(height: 16),
 
             // Language Card
-            Card(
+            stagger(Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -374,37 +391,38 @@ Required Cloudflare API Token Permissions:
                   ],
                 ),
               ),
-            ),
+            )),
 
             const SizedBox(height: 16),
 
             // Storage Card
-            _buildStorageCard(context, l10n),
+            stagger(_buildStorageCard(context, l10n)),
 
             const SizedBox(height: 16),
 
             // PWA Install Card (web only)
             if (kIsWeb && PWAInstall().installPromptEnabled)
-              _buildPwaInstallCard(context, l10n),
+              stagger(_buildPwaInstallCard(context, l10n)),
 
             if (kIsWeb && PWAInstall().installPromptEnabled)
               const SizedBox(height: 16),
 
             // Debug Card (only on non-web platforms)
-            if (!kIsWeb) _buildDebugCard(context, l10n),
+            if (!kIsWeb) stagger(_buildDebugCard(context, l10n)),
 
             // Updates Card (only on non-web platforms)
             if (!kIsWeb) ...[
               const SizedBox(height: 16),
-              _buildUpdatesCard(context, l10n),
+              stagger(_buildUpdatesCard(context, l10n)),
             ],
 
             const SizedBox(height: 16),
 
             // Version info
-            _buildVersionInfo(context),
+            stagger(_buildVersionInfo(context)),
           ],
-        ),
+        );
+        },
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../l10n/app_localizations.dart';
 
@@ -59,7 +60,10 @@ class EmptyState extends StatelessWidget {
           ],
         ),
       ),
-    );
+    )
+        .animate()
+        .fadeIn(duration: 400.ms)
+        .slideY(begin: 0.1, duration: 400.ms);
   }
 }
 
@@ -134,6 +138,9 @@ class EmptySearchState extends StatelessWidget {
           ],
         ),
       ),
-    );
+    )
+        .animate()
+        .fadeIn(duration: 400.ms)
+        .slideY(begin: 0.1, duration: 400.ms);
   }
 }

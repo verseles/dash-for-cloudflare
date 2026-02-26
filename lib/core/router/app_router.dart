@@ -166,21 +166,27 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: ':projectName',
                 name: AppRoutes.pagesProject,
-                builder: (context, state) {
+                pageBuilder: (context, state) {
                   final projectName = state.pathParameters['projectName']!;
-                  return PagesProjectPage(projectName: projectName);
+                  return _fadeSlideTransition(
+                    state,
+                    PagesProjectPage(projectName: projectName),
+                  );
                 },
                 routes: [
                   GoRoute(
                     path: 'deployment/:deploymentId',
                     name: AppRoutes.pagesDeployment,
-                    builder: (context, state) {
+                    pageBuilder: (context, state) {
                       final projectName = state.pathParameters['projectName']!;
                       final deploymentId =
                           state.pathParameters['deploymentId']!;
-                      return DeploymentDetailsPage(
-                        projectName: projectName,
-                        deploymentId: deploymentId,
+                      return _fadeSlideTransition(
+                        state,
+                        DeploymentDetailsPage(
+                          projectName: projectName,
+                          deploymentId: deploymentId,
+                        ),
                       );
                     },
                   ),
@@ -197,9 +203,12 @@ GoRouter appRouter(Ref ref) {
               GoRoute(
                 path: ':workerName',
                 name: AppRoutes.workerDetails,
-                builder: (context, state) {
+                pageBuilder: (context, state) {
                   final workerName = state.pathParameters['workerName']!;
-                  return WorkerDetailsPage(workerName: workerName);
+                  return _fadeSlideTransition(
+                    state,
+                    WorkerDetailsPage(workerName: workerName),
+                  );
                 },
               ),
             ],
@@ -222,4 +231,33 @@ GoRouter appRouter(Ref ref) {
   });
 
   return router;
+}
+
+/// Fade + slide-from-right transition for detail pages
+CustomTransitionPage<void> _fadeSlideTransition(
+  GoRouterState state,
+  Widget child,
+) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(milliseconds: 250),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+      );
+      return FadeTransition(
+        opacity: curved,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.05, 0),
+            end: Offset.zero,
+          ).animate(curved),
+          child: child,
+        ),
+      );
+    },
+  );
 }

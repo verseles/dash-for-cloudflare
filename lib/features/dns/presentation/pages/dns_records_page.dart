@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import '../../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,13 +48,17 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
       );
     }
 
-    return recordsAsync.when(
-      loading: () => _buildSkeletonList(),
-      error: (error, _) => CloudflareErrorView(
-        error: error,
-        onRetry: () => ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: recordsAsync.when(
+        loading: () => _buildSkeletonList(),
+        error: (error, _) => CloudflareErrorView(
+          key: const ValueKey('error'),
+          error: error,
+          onRetry: () => ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
+        ),
+        data: (state) => _buildContent(context, state, l10n),
       ),
-      data: (state) => _buildContent(context, state, l10n),
     );
   }
 
@@ -65,6 +70,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
     final filteredRecords = state.filteredRecords;
 
     return Scaffold(
+      key: const ValueKey('data'),
       body: Column(
         children: [
           // Filter chips
@@ -72,9 +78,12 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
 
           // Record list
           Expanded(
-            child: filteredRecords.isEmpty
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: filteredRecords.isEmpty
                 ? _buildEmptyState(state, l10n)
                 : RefreshIndicator(
+                    key: const ValueKey('list'),
                     onRefresh: () =>
                         ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
                     child: ListView.builder(
@@ -94,10 +103,19 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                           onDelete: () => _deleteRecord(record.id),
                           onProxyToggle: (value) =>
                               _toggleProxy(record.id, value),
-                        );
+                        )
+                            .animate()
+                            .fadeIn(duration: 300.ms)
+                            .slideY(
+                              begin: 0.1,
+                              duration: 300.ms,
+                              curve: Curves.easeOutCubic,
+                              delay: (50 * index.clamp(0, 10)).ms,
+                            );
                       },
                     ),
                   ),
+            ),
           ),
         ],
       ),
@@ -105,7 +123,15 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
         onPressed: () => _showEditDialog(null),
         tooltip: l10n.dns_addRecord,
         child: const Icon(Symbols.add),
-      ),
+      )
+          .animate()
+          .scale(
+            begin: const Offset(0, 0),
+            end: const Offset(1, 1),
+            duration: 400.ms,
+            delay: 200.ms,
+            curve: Curves.elasticOut,
+          ),
     );
   }
 
@@ -154,7 +180,8 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
 
           // Search toggle
           AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOutCubic,
             width: _isSearchExpanded ? 200 : 40,
             child: _isSearchExpanded
                 ? TextField(
@@ -199,6 +226,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
         state.activeFilter != 'All' || state.searchQuery.isNotEmpty;
 
     return Center(
+      key: const ValueKey('empty'),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -229,7 +257,11 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
   }
 
   Widget _buildSkeletonList() {
+    final skeletonColor = Theme.of(context).colorScheme.surfaceContainerHighest;
+    final skeletonColorLight = Theme.of(context).colorScheme.surfaceContainerHigh;
+
     return ListView.builder(
+      key: const ValueKey('loading'),
       padding: const EdgeInsets.all(16),
       itemCount: 5,
       itemBuilder: (context, index) => Card(
@@ -242,7 +274,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                 width: 48,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: Colors.grey[300],
+                  color: skeletonColor,
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -256,7 +288,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                       width: 150,
                       height: 16,
                       decoration: BoxDecoration(
-                        color: Colors.grey[300],
+                        color: skeletonColor,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -265,7 +297,7 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                       width: 100,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
+                        color: skeletonColorLight,
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
