@@ -54,6 +54,7 @@ _New features and improvements to be planned._
 - [x] Workers management (Feature 13)
 
 ### UX Improvements
+- [x] Smooth animations and modern UI effects (shimmer skeletons, staggered lists, state transitions, page transitions, micro-interactions) - Commit hash: 85155d1
 - [ ] Onboarding flow for new users
 - [ ] Quick actions from system tray
 - [ ] Notifications for zone status changes

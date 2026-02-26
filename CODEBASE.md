@@ -141,6 +141,12 @@ Gerenciamento completo de scripts Cloudflare Workers (account-level).
 *   **Layout:** `MainLayout` fornece a estrutura de Shell com Drawer e BottomNav persistente.
 *   **Persistence:** Rota atual persistida em `AppSettings` conforme **ADR-029**.
 *   **Widgets:** Componentes customizados como `CloudflareProxyToggle` e `SkeletonLoader`.
+*   **Animations** (`flutter_animate`):
+    *   **Shimmer Skeletons:** `SkeletonLoader` uses a `LinearGradient` sweep instead of opacity pulse.
+    *   **Staggered Lists:** List items in DNS Records, Pages, Workers, and Settings fade+slide in with a 50ms stagger per item (capped at 10).
+    *   **State Transitions:** `AnimatedSwitcher` cross-fades between loading/error/data states on all main list pages.
+    *   **Page Transitions:** Detail routes (Pages project, deployment, Worker details) use a fade+slide `CustomTransitionPage`.
+    *   **Micro-interactions:** `AnimatedContainer` on proxy toggle, `AnimatedOpacity` on loading overlay, entrance animations on `EmptyState` and `CloudflareErrorView`.
 
 ---
 
@@ -182,4 +188,4 @@ cat lib/core/router/app_router.dart
 
 ---
 
-_Última atualização: 2026-02-15_
+_Última atualização: 2026-02-25_
