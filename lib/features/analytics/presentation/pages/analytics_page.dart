@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+import '../../../../l10n/app_localizations.dart';
+
 class AnalyticsPage extends StatelessWidget {
   const AnalyticsPage({super.key, required this.navigationShell});
 
@@ -9,6 +11,8 @@ class AnalyticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
@@ -19,21 +23,21 @@ class AnalyticsPage extends StatelessWidget {
             initialLocation: index == navigationShell.currentIndex,
           );
         },
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Symbols.public, fill: 0),
-            selectedIcon: Icon(Symbols.public, fill: 1),
-            label: 'Web',
+            icon: const Icon(Symbols.public, fill: 0),
+            selectedIcon: const Icon(Symbols.public, fill: 1),
+            label: l10n.tabs_web,
           ),
           NavigationDestination(
-            icon: Icon(Symbols.security, fill: 0),
-            selectedIcon: Icon(Symbols.security, fill: 1),
-            label: 'Security',
+            icon: const Icon(Symbols.security, fill: 0),
+            selectedIcon: const Icon(Symbols.security, fill: 1),
+            label: l10n.tabs_security,
           ),
           NavigationDestination(
-            icon: Icon(Symbols.cached, fill: 0),
-            selectedIcon: Icon(Symbols.cached, fill: 1),
-            label: 'Cache',
+            icon: const Icon(Symbols.cached, fill: 0),
+            selectedIcon: const Icon(Symbols.cached, fill: 1),
+            label: l10n.tabs_cache,
           ),
         ],
       ),
