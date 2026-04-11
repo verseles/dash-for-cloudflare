@@ -80,41 +80,52 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
           Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: filteredRecords.isEmpty
-                ? _buildEmptyState(state, l10n)
-                : RefreshIndicator(
-                    key: const ValueKey('list'),
-                    onRefresh: () =>
-                        ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
+              child: RefreshIndicator(
+                key: const ValueKey('list-indicator'),
+                onRefresh: () =>
+                    ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
+                child: filteredRecords.isEmpty
+                    ? LayoutBuilder(
+                        builder: (context, constraints) => SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              minHeight: constraints.maxHeight,
+                            ),
+                            child: _buildEmptyState(state, l10n),
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        key: const ValueKey('list'),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        itemCount: filteredRecords.length,
+                        itemBuilder: (context, index) {
+                          final record = filteredRecords[index];
+                          return DnsRecordItem(
+                            record: record,
+                            isSaving: state.savingIds.contains(record.id),
+                            isNew: state.newIds.contains(record.id),
+                            isDeleting: state.deletingIds.contains(record.id),
+                            onTap: () => _showEditDialog(record),
+                            onDelete: () => _deleteRecord(record.id),
+                            onProxyToggle: (value) =>
+                                _toggleProxy(record.id, value),
+                          )
+                              .animate()
+                              .fadeIn(duration: 300.ms)
+                              .slideY(
+                                begin: 0.1,
+                                duration: 300.ms,
+                                curve: Curves.easeOutCubic,
+                                delay: (50 * index.clamp(0, 10)).ms,
+                              );
+                        },
                       ),
-                      itemCount: filteredRecords.length,
-                      itemBuilder: (context, index) {
-                        final record = filteredRecords[index];
-                        return DnsRecordItem(
-                          record: record,
-                          isSaving: state.savingIds.contains(record.id),
-                          isNew: state.newIds.contains(record.id),
-                          isDeleting: state.deletingIds.contains(record.id),
-                          onTap: () => _showEditDialog(record),
-                          onDelete: () => _deleteRecord(record.id),
-                          onProxyToggle: (value) =>
-                              _toggleProxy(record.id, value),
-                        )
-                            .animate()
-                            .fadeIn(duration: 300.ms)
-                            .slideY(
-                              begin: 0.1,
-                              duration: 300.ms,
-                              curve: Curves.easeOutCubic,
-                              delay: (50 * index.clamp(0, 10)).ms,
-                            );
-                      },
-                    ),
-                  ),
+              ),
             ),
           ),
         ],

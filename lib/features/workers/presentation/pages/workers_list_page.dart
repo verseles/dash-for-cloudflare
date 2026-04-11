@@ -53,13 +53,6 @@ class WorkersListPage extends ConsumerWidget {
                   onRetry: () => ref.read(workersNotifierProvider.notifier).refresh(),
                 ),
                 data: (state) {
-                  if (state.workers.isEmpty && !state.isRefreshing) {
-                    return KeyedSubtree(
-                      key: const ValueKey('empty'),
-                      child: _buildEmptyState(context, l10n),
-                    );
-                  }
-
                   return Column(
                     key: const ValueKey('data'),
                     children: [
@@ -68,24 +61,42 @@ class WorkersListPage extends ConsumerWidget {
                       Expanded(
                         child: RefreshIndicator(
                           onRefresh: () => ref.read(workersNotifierProvider.notifier).refresh(),
-                          child: filteredWorkersList.isEmpty && !state.isRefreshing
-                              ? Center(child: Text(l10n.emptyState_tryAdjustingSearch))
-                              : ListView.builder(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                  itemCount: filteredWorkersList.length,
-                                  itemBuilder: (context, index) {
-                                    final worker = filteredWorkersList[index];
-                                    return _WorkerCard(worker: worker)
-                                        .animate()
-                                        .fadeIn(duration: 300.ms)
-                                        .slideY(
-                                          begin: 0.1,
-                                          duration: 300.ms,
-                                          curve: Curves.easeOutCubic,
-                                          delay: (50 * index.clamp(0, 10)).ms,
-                                        );
-                                  },
-                                ),
+                          child: (state.workers.isEmpty && !state.isRefreshing)
+                              ? LayoutBuilder(
+                                  builder: (context, constraints) => SingleChildScrollView(
+                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    child: ConstrainedBox(
+                                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                                      child: _buildEmptyState(context, l10n),
+                                    ),
+                                  ),
+                                )
+                              : (filteredWorkersList.isEmpty && !state.isRefreshing)
+                                  ? LayoutBuilder(
+                                      builder: (context, constraints) => SingleChildScrollView(
+                                        physics: const AlwaysScrollableScrollPhysics(),
+                                        child: ConstrainedBox(
+                                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                                          child: Center(child: Text(l10n.emptyState_tryAdjustingSearch)),
+                                        ),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                      itemCount: filteredWorkersList.length,
+                                      itemBuilder: (context, index) {
+                                        final worker = filteredWorkersList[index];
+                                        return _WorkerCard(worker: worker)
+                                            .animate()
+                                            .fadeIn(duration: 300.ms)
+                                            .slideY(
+                                              begin: 0.1,
+                                              duration: 300.ms,
+                                              curve: Curves.easeOutCubic,
+                                              delay: (50 * index.clamp(0, 10)).ms,
+                                            );
+                                      },
+                                    ),
                         ),
                       ),
                     ],
