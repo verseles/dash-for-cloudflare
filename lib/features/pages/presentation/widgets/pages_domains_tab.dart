@@ -67,34 +67,40 @@ class PagesDomainsTab extends ConsumerWidget {
     List<PagesDomain> domains,
     AppLocalizations l10n,
   ) {
-    if (domains.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Symbols.language, size: 48, color: Colors.grey),
-            const SizedBox(height: 16),
-            Text(l10n.common_noData),
-          ],
-        ),
-      );
-    }
-
     return RefreshIndicator(
       onRefresh: () =>
           ref.read(pagesDomainsNotifierProvider(project.name).notifier).refresh(),
-      child: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: domains.length,
-        separatorBuilder: (context, index) => const SizedBox(height: 8),
-        itemBuilder: (context, index) {
-          final domain = domains[index];
-          return _DomainTile(
-            domain: domain,
-            projectName: project.name,
-          );
-        },
-      ),
+      child: domains.isEmpty
+          ? LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Symbols.language, size: 48, color: Colors.grey),
+                        const SizedBox(height: 16),
+                        Text(l10n.common_noData),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: domains.length,
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              itemBuilder: (context, index) {
+                final domain = domains[index];
+                return _DomainTile(
+                  domain: domain,
+                  projectName: project.name,
+                );
+              },
+            ),
     );
   }
 

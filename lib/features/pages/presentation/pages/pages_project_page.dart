@@ -309,34 +309,40 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
     List<PagesDeployment> deployments,
     AppLocalizations l10n,
   ) {
-    if (deployments.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Symbols.cloud_off, size: 48, color: Colors.grey),
-            const SizedBox(height: 16),
-            Text(l10n.pages_noDeployments),
-          ],
-        ),
-      );
-    }
-
     return RefreshIndicator(
       onRefresh: () => ref
           .read(pagesDeploymentsNotifierProvider(projectName).notifier)
           .refresh(),
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: deployments.length,
-        itemBuilder: (context, index) {
-          final deployment = deployments[index];
-          return _DeploymentTile(
-            deployment: deployment,
-            projectName: projectName,
-          );
-        },
-      ),
+      child: deployments.isEmpty
+          ? LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Symbols.cloud_off, size: 48, color: Colors.grey),
+                        const SizedBox(height: 16),
+                        Text(l10n.pages_noDeployments),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: deployments.length,
+              itemBuilder: (context, index) {
+                final deployment = deployments[index];
+                return _DeploymentTile(
+                  deployment: deployment,
+                  projectName: projectName,
+                );
+              },
+            ),
     );
   }
 }

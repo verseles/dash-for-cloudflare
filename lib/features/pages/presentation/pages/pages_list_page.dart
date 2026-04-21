@@ -87,38 +87,44 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
     PagesProjectsState state,
     AppLocalizations l10n,
   ) {
-    if (state.projects.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Symbols.electric_bolt, size: 64, color: Colors.grey),
-            const SizedBox(height: 16),
-            Text(l10n.pages_noProjects),
-          ],
-        ),
-      );
-    }
-
     return RefreshIndicator(
       onRefresh: () =>
           ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: state.projects.length,
-        itemBuilder: (context, index) {
-          final project = state.projects[index];
-          return _ProjectCard(project: project)
-              .animate()
-              .fadeIn(duration: 300.ms)
-              .slideY(
-                begin: 0.1,
-                duration: 300.ms,
-                curve: Curves.easeOutCubic,
-                delay: (50 * index.clamp(0, 10)).ms,
-              );
-        },
-      ),
+      child: state.projects.isEmpty
+          ? LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Symbols.electric_bolt, size: 64, color: Colors.grey),
+                        const SizedBox(height: 16),
+                        Text(l10n.pages_noProjects),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: state.projects.length,
+              itemBuilder: (context, index) {
+                final project = state.projects[index];
+                return _ProjectCard(project: project)
+                    .animate()
+                    .fadeIn(duration: 300.ms)
+                    .slideY(
+                      begin: 0.1,
+                      duration: 300.ms,
+                      curve: Curves.easeOutCubic,
+                      delay: (50 * index.clamp(0, 10)).ms,
+                    );
+              },
+            ),
     );
   }
 }
