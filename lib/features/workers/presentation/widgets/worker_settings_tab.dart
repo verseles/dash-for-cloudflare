@@ -278,12 +278,15 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
       'https://dash.cloudflare.com/$accountId/workers/services/view/${widget.worker.id}/builds',
     );
 
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context);
+
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).common_error)),
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.common_error)),
       );
     }
   }
@@ -660,6 +663,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
           FilledButton(
             onPressed: () async {
               if (controller.text.isEmpty) return;
+              final messenger = ScaffoldMessenger.of(context);
               Navigator.pop(context);
               final success = await ref.read(workerSettingsActionNotifierProvider.notifier).updateSecret(
                 scriptName: widget.worker.id,
@@ -667,7 +671,7 @@ class _WorkerSettingsTabState extends ConsumerState<WorkerSettingsTab> {
                 text: controller.text.trim(),
               );
               if (success && mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
+                messenger.showSnackBar(
                   SnackBar(content: Text(l10n.pages_settingsUpdated)),
                 );
               }
