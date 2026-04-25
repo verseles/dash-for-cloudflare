@@ -83,6 +83,7 @@ void main() {
         scriptsJson,
         (json) => (json as List).map((e) => Worker.fromJson(e)).toList(),
       );
+      when(() => mockPrefs.setString(any(), any())).thenAnswer((_) async => true);
       when(() => mockApi.getWorkersScripts(accountId))
           .thenAnswer((_) async => mockResponse);
 
