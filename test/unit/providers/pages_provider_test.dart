@@ -84,6 +84,7 @@ void main() {
         projectsJson,
         (json) => (json as List).map((e) => PagesProject.fromJson(e)).toList(),
       );
+      when(() => mockPrefs.setString(any(), any())).thenAnswer((_) async => true);
       when(() => mockApi.getPagesProjects(accountId, page: any(named: 'page')))
           .thenAnswer((_) async => mockResponse);
 
