@@ -11,9 +11,15 @@ class MockErrorInterceptorHandler extends Mock
 void main() {
   setUpAll(() {
     registerFallbackValue(RequestOptions(path: ''));
-    registerFallbackValue(Response<dynamic>(
-        requestOptions: RequestOptions(path: ''), statusCode: 200));
-    registerFallbackValue(DioException(requestOptions: RequestOptions(path: '')));
+    registerFallbackValue(
+      Response<dynamic>(
+        requestOptions: RequestOptions(path: ''),
+        statusCode: 200,
+      ),
+    );
+    registerFallbackValue(
+      DioException(requestOptions: RequestOptions(path: '')),
+    );
   });
 
   group('RetryInterceptor', () {
@@ -269,8 +275,11 @@ void main() {
     });
 
     test('stops retrying after maxRetries exhausted', () async {
-      final interceptor2 =
-          RetryInterceptor(dio: mockDio, baseDelayMs: 1, maxRetries: 2);
+      final interceptor2 = RetryInterceptor(
+        dio: mockDio,
+        baseDelayMs: 1,
+        maxRetries: 2,
+      );
       // Simulate already at max retries
       final opts = RequestOptions(path: '/test');
       opts.extra['retryCount'] = 2;
@@ -287,30 +296,32 @@ void main() {
       verify(() => handler.next(any())).called(1);
     });
 
-    test('propagates DioException when retry fails with DioException',
-        () async {
-      final error = DioException(
-        requestOptions: RequestOptions(path: '/test'),
-        response: Response(
+    test(
+      'propagates DioException when retry fails with DioException',
+      () async {
+        final error = DioException(
           requestOptions: RequestOptions(path: '/test'),
-          statusCode: 500,
-        ),
-      );
-      final handler = MockErrorInterceptorHandler();
+          response: Response(
+            requestOptions: RequestOptions(path: '/test'),
+            statusCode: 500,
+          ),
+        );
+        final handler = MockErrorInterceptorHandler();
 
-      when(() => mockDio.fetch<dynamic>(any())).thenThrow(
-        DioException(
-          requestOptions: RequestOptions(path: '/test'),
-          type: DioExceptionType.connectionError,
-        ),
-      );
+        when(() => mockDio.fetch<dynamic>(any())).thenThrow(
+          DioException(
+            requestOptions: RequestOptions(path: '/test'),
+            type: DioExceptionType.connectionError,
+          ),
+        );
 
-      await interceptor.onError(error, handler);
+        await interceptor.onError(error, handler);
 
-      verify(() => mockDio.fetch<dynamic>(any())).called(1);
-      verify(() => handler.next(any())).called(1);
-      verifyNever(() => handler.resolve(any()));
-    });
+        verify(() => mockDio.fetch<dynamic>(any())).called(1);
+        verify(() => handler.next(any())).called(1);
+        verifyNever(() => handler.resolve(any()));
+      },
+    );
 
     test('wraps non-DioException in DioException when retry fails', () async {
       final error = DioException(
@@ -322,14 +333,36 @@ void main() {
       );
       final handler = MockErrorInterceptorHandler();
 
-      when(() => mockDio.fetch<dynamic>(any()))
-          .thenThrow(Exception('unexpected'));
+      when(
+        () => mockDio.fetch<dynamic>(any()),
+      ).thenThrow(Exception('unexpected'));
 
       await interceptor.onError(error, handler);
 
       verify(() => mockDio.fetch<dynamic>(any())).called(1);
       verify(() => handler.next(any())).called(1);
       verifyNever(() => handler.resolve(any()));
+    });
+
+    test('does not crash when baseDelayMs is 0', () async {
+      final interceptorZero = RetryInterceptor(dio: mockDio, baseDelayMs: 0);
+      final error = DioException(
+        requestOptions: RequestOptions(path: '/test'),
+        type: DioExceptionType.connectionTimeout,
+      );
+      final handler = MockErrorInterceptorHandler();
+
+      when(() => mockDio.fetch<dynamic>(any())).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: '/test'),
+          statusCode: 200,
+        ),
+      );
+
+      await interceptorZero.onError(error, handler);
+
+      verify(() => mockDio.fetch<dynamic>(any())).called(1);
+      verify(() => handler.resolve(any())).called(1);
     });
 
     test('increments retryCount in request options', () async {
@@ -341,12 +374,8 @@ void main() {
       final handler = MockErrorInterceptorHandler();
 
       when(() => mockDio.fetch<dynamic>(any())).thenAnswer((invocation) async {
-        capturedOptions =
-            invocation.positionalArguments[0] as RequestOptions;
-        return Response(
-          requestOptions: capturedOptions!,
-          statusCode: 200,
-        );
+        capturedOptions = invocation.positionalArguments[0] as RequestOptions;
+        return Response(requestOptions: capturedOptions!, statusCode: 200);
       });
 
       await interceptor.onError(error, handler);

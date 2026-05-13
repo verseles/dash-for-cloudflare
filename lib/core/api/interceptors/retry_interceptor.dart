@@ -32,7 +32,8 @@ class RetryInterceptor extends Interceptor {
 
       log.warning(
         'Retrying ${err.requestOptions.method} ${err.requestOptions.path}',
-        details: 'Attempt ${retryCount + 1}/$maxRetries after ${delay}ms (status: $statusCode, type: ${err.type.name})',
+        details:
+            'Attempt ${retryCount + 1}/$maxRetries after ${delay}ms (status: $statusCode, type: ${err.type.name})',
       );
 
       await Future.delayed(Duration(milliseconds: delay));
@@ -60,7 +61,9 @@ class RetryInterceptor extends Interceptor {
           'Retry failed for ${err.requestOptions.method} ${err.requestOptions.path}',
           error: e,
         );
-        handler.next(DioException(requestOptions: err.requestOptions, error: e));
+        handler.next(
+          DioException(requestOptions: err.requestOptions, error: e),
+        );
         return;
       }
     }
@@ -107,7 +110,7 @@ class RetryInterceptor extends Interceptor {
 
     // Exponential backoff with jitter
     final exponentialDelay = baseDelayMs * pow(2, retryCount).toInt();
-    final jitter = Random().nextInt(baseDelayMs);
+    final jitter = baseDelayMs > 0 ? Random().nextInt(baseDelayMs) : 0;
     return exponentialDelay + jitter;
   }
 }
