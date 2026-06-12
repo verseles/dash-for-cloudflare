@@ -9,6 +9,8 @@ import '../../providers/pages_provider.dart';
 import '../../../../core/providers/resource_providers.dart';
 import '../../../../l10n/app_localizations.dart';
 
+enum _BindingType { kv, r2, d1 }
+
 class PagesSettingsTab extends ConsumerStatefulWidget {
   const PagesSettingsTab({super.key, required this.project});
 
@@ -694,6 +696,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
             setState(() => _kvBindings = updated);
             _save();
           },
+          _BindingType.kv,
           Symbols.database,
           ref.watch(kvNamespacesProvider).valueOrNull?.map((e) => DropdownMenuItem(value: e.id, child: Text(e.title))).toList() ?? [],
         ),
@@ -706,6 +709,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
             setState(() => _r2Bindings = updated);
             _save();
           },
+          _BindingType.r2,
           Symbols.folder_zip,
           ref.watch(r2BucketsProvider).valueOrNull?.map((e) => DropdownMenuItem(value: e.name, child: Text(e.name))).toList() ?? [],
         ),
@@ -718,6 +722,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
             setState(() => _d1Bindings = updated);
             _save();
           },
+          _BindingType.d1,
           Symbols.database_off,
           ref.watch(d1DatabasesProvider).valueOrNull?.map((e) => DropdownMenuItem(value: e.uuid, child: Text(e.name))).toList() ?? [],
         ),
@@ -730,6 +735,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
     String title,
     Map<String, PagesBinding> bindings,
     Function(Map<String, PagesBinding>) onChanged,
+    _BindingType bindingType,
     IconData icon,
     List<DropdownMenuItem<String>> availableItems,
   ) {
@@ -744,7 +750,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
           children: [
             Text(title, style: theme.textTheme.titleSmall),
             TextButton.icon(
-              onPressed: () => _showAddBindingDialog(context, title, bindings, onChanged, availableItems),
+              onPressed: () => _showAddBindingDialog(context, title, bindings, onChanged, bindingType, availableItems),
               icon: const Icon(Symbols.add, size: 18),
               label: Text(l10n.common_add),
             ),
@@ -783,6 +789,7 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
     String title,
     Map<String, PagesBinding> bindings,
     Function(Map<String, PagesBinding>) onChanged,
+    _BindingType bindingType,
     List<DropdownMenuItem<String>> availableItems,
   ) {
     final l10n = AppLocalizations.of(context);
@@ -819,11 +826,10 @@ class _PagesSettingsTabState extends ConsumerState<PagesSettingsTab> {
                 if (nameController.text.isEmpty || selectedId == null) return;
                 final newMap = Map<String, PagesBinding>.from(bindings);
                 
-                // Determine resource field based on title (hacky but works for now)
                 final binding = PagesBinding(
                   id: selectedId,
-                  namespaceId: title.contains('KV') ? selectedId : null,
-                  bucketName: title.contains('R2') ? selectedId : null,
+                  namespaceId: bindingType == _BindingType.kv ? selectedId : null,
+                  bucketName: bindingType == _BindingType.r2 ? selectedId : null,
                 );
                 
                 newMap[nameController.text.trim()] = binding;
