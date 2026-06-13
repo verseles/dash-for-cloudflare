@@ -1,7 +1,7 @@
 name: cf
 description: "Unofficial native dashboard for Cloudflare services"
 publish_to: 'none'
-version: 1.11.0+5
+version: 1.11.1+6
 
 environment:
   sdk: ^3.10.4
@@ -60,7 +60,7 @@ dependencies:
 
   # PWA (Web only)
   pwa_install: ^0.0.4
-  material_symbols_icons: ^4.2892.0
+  material_symbols_icons: ^4.2928.1
 
   # Animations
   flutter_animate: ^4.5.2
