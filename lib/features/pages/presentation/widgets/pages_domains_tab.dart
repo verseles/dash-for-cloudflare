@@ -6,6 +6,7 @@ import '../../domain/models/pages_project.dart';
 import '../../domain/models/pages_domain.dart';
 import '../../providers/pages_provider.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../../core/widgets/refreshable_empty_state.dart';
 
 class PagesDomainsTab extends ConsumerWidget {
   const PagesDomainsTab({super.key, required this.project});
@@ -71,21 +72,15 @@ class PagesDomainsTab extends ConsumerWidget {
       onRefresh: () =>
           ref.read(pagesDomainsNotifierProvider(project.name).notifier).refresh(),
       child: domains.isEmpty
-          ? LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Symbols.language, size: 48, color: Colors.grey),
-                        const SizedBox(height: 16),
-                        Text(l10n.common_noData),
-                      ],
-                    ),
-                  ),
+          ? RefreshableEmptyState(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Symbols.language, size: 48, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    Text(l10n.common_noData),
+                  ],
                 ),
               ),
             )
