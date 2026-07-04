@@ -13,6 +13,7 @@ import '../../domain/models/pages_deployment.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../../../../core/widgets/refreshable_empty_state.dart';
 
 /// Pages projects list screen with auto-refresh when builds are active
 class PagesListPage extends ConsumerStatefulWidget {
@@ -91,21 +92,15 @@ class _PagesListPageState extends ConsumerState<PagesListPage> {
       onRefresh: () =>
           ref.read(pagesProjectsNotifierProvider.notifier).refresh(),
       child: state.projects.isEmpty
-          ? LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Symbols.electric_bolt, size: 64, color: Colors.grey),
-                        const SizedBox(height: 16),
-                        Text(l10n.pages_noProjects),
-                      ],
-                    ),
-                  ),
+          ? RefreshableEmptyState(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Symbols.electric_bolt, size: 64, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    Text(l10n.pages_noProjects),
+                  ],
                 ),
               ),
             )

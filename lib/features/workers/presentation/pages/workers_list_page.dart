@@ -10,6 +10,7 @@ import '../../domain/models/worker.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../../../../core/widgets/refreshable_empty_state.dart';
 
 class WorkersListPage extends ConsumerWidget {
   const WorkersListPage({super.key});
@@ -62,24 +63,12 @@ class WorkersListPage extends ConsumerWidget {
                         child: RefreshIndicator(
                           onRefresh: () => ref.read(workersNotifierProvider.notifier).refresh(),
                           child: (state.workers.isEmpty && !state.isRefreshing)
-                              ? LayoutBuilder(
-                                  builder: (context, constraints) => SingleChildScrollView(
-                                    physics: const AlwaysScrollableScrollPhysics(),
-                                    child: ConstrainedBox(
-                                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                                      child: _buildEmptyState(context, l10n),
-                                    ),
-                                  ),
+                              ? RefreshableEmptyState(
+                                  child: _buildEmptyState(context, l10n),
                                 )
                               : (filteredWorkersList.isEmpty && !state.isRefreshing)
-                                  ? LayoutBuilder(
-                                      builder: (context, constraints) => SingleChildScrollView(
-                                        physics: const AlwaysScrollableScrollPhysics(),
-                                        child: ConstrainedBox(
-                                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                                          child: Center(child: Text(l10n.emptyState_tryAdjustingSearch)),
-                                        ),
-                                      ),
+                                  ? RefreshableEmptyState(
+                                      child: Center(child: Text(l10n.emptyState_tryAdjustingSearch)),
                                     )
                                   : ListView.builder(
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
