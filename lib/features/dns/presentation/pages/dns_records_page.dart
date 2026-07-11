@@ -10,6 +10,7 @@ import '../widgets/dns_record_item.dart';
 import '../widgets/dns_record_edit_dialog.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../../../../core/widgets/refreshable_empty_state.dart';
 
 /// DNS Records page with list and filters
 class DnsRecordsPage extends ConsumerStatefulWidget {
@@ -85,16 +86,8 @@ class _DnsRecordsPageState extends ConsumerState<DnsRecordsPage> {
                 onRefresh: () =>
                     ref.read(dnsRecordsNotifierProvider.notifier).refresh(),
                 child: filteredRecords.isEmpty
-                    ? LayoutBuilder(
-                        builder: (context, constraints) => SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              minHeight: constraints.maxHeight,
-                            ),
-                            child: _buildEmptyState(state, l10n),
-                          ),
-                        ),
+                    ? RefreshableEmptyState(
+                        child: _buildEmptyState(state, l10n),
                       )
                     : ListView.builder(
                         key: const ValueKey('list'),

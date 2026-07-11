@@ -14,6 +14,7 @@ import '../widgets/pages_settings_tab.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/widgets/error_view.dart';
+import '../../../../core/widgets/refreshable_empty_state.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 /// Pages project details page with deployments list and auto-refresh
@@ -314,21 +315,15 @@ class _PagesProjectPageState extends ConsumerState<PagesProjectPage> {
           .read(pagesDeploymentsNotifierProvider(projectName).notifier)
           .refresh(),
       child: deployments.isEmpty
-          ? LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Symbols.cloud_off, size: 48, color: Colors.grey),
-                        const SizedBox(height: 16),
-                        Text(l10n.pages_noDeployments),
-                      ],
-                    ),
-                  ),
+          ? RefreshableEmptyState(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Symbols.cloud_off, size: 48, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    Text(l10n.pages_noDeployments),
+                  ],
                 ),
               ),
             )
